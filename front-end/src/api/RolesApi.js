@@ -46,7 +46,7 @@ export class RolesApi {
      * @param {module:api/RolesApi~apiRolesGetCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}
      */
-    apiRolesGet(callback) {
+    apiRolesGet(jwt,callback) {
       
       let postBody = null;
 
@@ -56,9 +56,7 @@ export class RolesApi {
       let queryParams = {
         
       };
-      let headerParams = {
-        
-      };
+      let headerParams = jwt
       let formParams = {
         
       };
@@ -70,6 +68,32 @@ export class RolesApi {
 
       return this.apiClient.callApi(
         '/api/roles', 'GET',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+    apiRolesGetWithoutUser(jwt,callback) {
+      
+      let postBody = null;
+
+      let pathParams = {
+        
+      };
+      let queryParams = {
+        
+      };
+      let headerParams = jwt
+      let formParams = {
+        
+      };
+
+      let authNames = [];
+      let contentTypes = [];
+      let accepts = ['text/plain', 'application/json', 'text/json'];
+      let returnType = [Role];
+
+      return this.apiClient.callApi(
+        '/api/roles/withoutUser', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );

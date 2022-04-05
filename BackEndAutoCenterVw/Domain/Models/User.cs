@@ -34,9 +34,9 @@ namespace Domain.Models
         public string PhoneNumber { get; set; }
 
         public int RoleId { get; set; }
-
+        [JsonIgnore]
         public Employee Employee { get; set; }
-
+        [JsonIgnore]
         public Role Role { get; set; }
 
         [JsonIgnore]

@@ -2,6 +2,7 @@
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Persistence.Repositories
@@ -18,6 +19,13 @@ namespace Persistence.Repositories
         public async Task<IEnumerable<Role>> GetAll()
         {
             return await _context.Roles.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Role>> GetWithourUser()
+        {
+            return await _context.Roles
+                .Where(i=>i.RoleName!=Roles.USER.ToString())
+                .ToListAsync();
         }
     }
 }

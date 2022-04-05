@@ -92,8 +92,14 @@ namespace Services
             if (newUrlPhoto != null) item.UrlPhoto = newUrlPhoto;
             item.Password = user.Password;
             if (newPassword != null)
+            {
                 item.Password = HashPassword
-                    .HashPasswordUser(item.Password);
+                    .HashPasswordUser(newPassword);
+            }
+            else
+            {
+                item.Password=user.Password;
+            }
             item.Id = user.Id;
             item.Status = user.Status;
             item.RoleId = user.RoleId;

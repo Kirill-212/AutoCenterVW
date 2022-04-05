@@ -12,10 +12,10 @@
  * Do not edit the class manually.
  *
  */
-import {ApiClient} from "../ApiClient";
-import {GetEmployeeDto} from '../model/GetEmployeeDto';
-import {PostEmployeeDto} from '../model/PostEmployeeDto';
-import {PutEmployeeDto} from '../model/PutEmployeeDto';
+import { ApiClient } from "../ApiClient";
+import { GetEmployeeDto } from "../model/GetEmployeeDto";
+import { PostEmployeeDto } from "../model/PostEmployeeDto";
+import { PutEmployeeDto } from "../model/PutEmployeeDto";
 
 /**
 * Employees service.
@@ -23,8 +23,7 @@ import {PutEmployeeDto} from '../model/PutEmployeeDto';
 * @version v1
 */
 export class EmployeesApi {
-
-    /**
+  /**
     * Constructs a new EmployeesApi. 
     * @alias module:api/EmployeesApi
     * @class
@@ -32,11 +31,11 @@ export class EmployeesApi {
     * default to {@link module:ApiClient#instanc
     e} if unspecified.
     */
-    constructor(apiClient) {
-        this.apiClient = apiClient || ApiClient.instance;
-    }
+  constructor(apiClient) {
+    this.apiClient = apiClient || ApiClient.instance;
+  }
 
-    /**
+  /**
      * Callback function to receive the result of the apiEmployeesByUserEmailGet operation.
      * @callback moduleapi/EmployeesApi~apiEmployeesByUserEmailGetCallback
      * @param {String} error Error message, if any.
@@ -44,41 +43,44 @@ export class EmployeesApi {
      * @param {String} response The complete HTTP response.
      */
 
-    /**
+  /**
      * @param {Object} opts Optional parameters
      * @param {String} opts.email 
      * @param {module:api/EmployeesApi~apiEmployeesByUserEmailGetCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}
      */
-    apiEmployeesByUserEmailGet(opts, callback) {
-      opts = opts || {};
-      let postBody = null;
+  apiEmployeesByUserEmailGet(opts, callback) {
+    opts = opts || {};
+    let postBody = null;
 
-      let pathParams = {
-        
-      };
-      let queryParams = {
-        'email': opts['email']
-      };
-      let headerParams = {
-        
-      };
-      let formParams = {
-        
-      };
+    let pathParams = {};
+    let queryParams = {
+      email: opts["email"]
+    };
+    let headerParams = {};
+    let formParams = {};
 
-      let authNames = [];
-      let contentTypes = [];
-      let accepts = ['text/plain', 'application/json', 'text/json'];
-      let returnType = GetEmployeeDto;
+    let authNames = [];
+    let contentTypes = [];
+    let accepts = ["text/plain", "application/json", "text/json"];
+    let returnType = GetEmployeeDto;
 
-      return this.apiClient.callApi(
-        '/api/employees/byUser/email', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-    /**
+    return this.apiClient.callApi(
+      "/api/employees/byUser/email",
+      "GET",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+  /**
      * Callback function to receive the result of the apiEmployeesDelete operation.
      * @callback moduleapi/EmployeesApi~apiEmployeesDeleteCallback
      * @param {String} error Error message, if any.
@@ -86,40 +88,43 @@ export class EmployeesApi {
      * @param {String} response The complete HTTP response.
      */
 
-    /**
+  /**
      * @param {Object} opts Optional parameters
      * @param {String} opts.email 
      * @param {module:api/EmployeesApi~apiEmployeesDeleteCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    apiEmployeesDelete(opts, callback) {
-      opts = opts || {};
-      let postBody = null;
+  apiEmployeesDelete(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = null;
 
-      let pathParams = {
-        
-      };
-      let queryParams = {
-        'email': opts['email']
-      };
-      let headerParams = {
-        
-      };
-      let formParams = {
-        
-      };
+    let pathParams = {};
+    let queryParams = {
+      email: opts["email"]
+    };
+    let headerParams = jwt;
+    let formParams = {};
 
-      let authNames = [];
-      let contentTypes = [];
-      let accepts = [];
-      let returnType = null;
+    let authNames = [];
+    let contentTypes = [];
+    let accepts = [];
+    let returnType = null;
 
-      return this.apiClient.callApi(
-        '/api/employees', 'DELETE',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-    /**
+    return this.apiClient.callApi(
+      "/api/employees",
+      "DELETE",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+  /**
      * Callback function to receive the result of the apiEmployeesGet operation.
      * @callback moduleapi/EmployeesApi~apiEmployeesGetCallback
      * @param {String} error Error message, if any.
@@ -127,39 +132,39 @@ export class EmployeesApi {
      * @param {String} response The complete HTTP response.
      */
 
-    /**
+  /**
      * @param {module:api/EmployeesApi~apiEmployeesGetCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}
      */
-    apiEmployeesGet(callback) {
-      
-      let postBody = null;
+  apiEmployeesGet(jwt, callback) {
+    let postBody = null;
 
-      let pathParams = {
-        
-      };
-      let queryParams = {
-        
-      };
-      let headerParams = {
-        
-      };
-      let formParams = {
-        
-      };
+    let pathParams = {};
+    let queryParams = {};
+    let headerParams = jwt;
+    let formParams = {};
 
-      let authNames = [];
-      let contentTypes = [];
-      let accepts = ['text/plain', 'application/json', 'text/json'];
-      let returnType = [GetEmployeeDto];
+    let authNames = [];
+    let contentTypes = [];
+    let accepts = ["text/plain", "application/json", "text/json"];
+    let returnType = [GetEmployeeDto];
 
-      return this.apiClient.callApi(
-        '/api/employees', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-    /**
+    return this.apiClient.callApi(
+      "/api/employees",
+      "GET",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+  /**
      * Callback function to receive the result of the apiEmployeesIdGet operation.
      * @callback moduleapi/EmployeesApi~apiEmployeesIdGetCallback
      * @param {String} error Error message, if any.
@@ -167,44 +172,48 @@ export class EmployeesApi {
      * @param {String} response The complete HTTP response.
      */
 
-    /**
+  /**
      * @param {Number} id 
      * @param {module:api/EmployeesApi~apiEmployeesIdGetCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}
      */
-    apiEmployeesIdGet(id, callback) {
-      
-      let postBody = null;
-      // verify the required parameter 'id' is set
-      if (id === undefined || id === null) {
-        throw new Error("Missing the required parameter 'id' when calling apiEmployeesIdGet");
-      }
-
-      let pathParams = {
-        'id': id
-      };
-      let queryParams = {
-        
-      };
-      let headerParams = {
-        
-      };
-      let formParams = {
-        
-      };
-
-      let authNames = [];
-      let contentTypes = [];
-      let accepts = ['text/plain', 'application/json', 'text/json'];
-      let returnType = GetEmployeeDto;
-
-      return this.apiClient.callApi(
-        '/api/employees/{id}', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
+  apiEmployeesIdGet(id, callback) {
+    let postBody = null;
+    // verify the required parameter 'id' is set
+    if (id === undefined || id === null) {
+      throw new Error(
+        "Missing the required parameter 'id' when calling apiEmployeesIdGet"
       );
     }
-    /**
+
+    let pathParams = {
+      id: id
+    };
+    let queryParams = {};
+    let headerParams = {};
+    let formParams = {};
+
+    let authNames = [];
+    let contentTypes = [];
+    let accepts = ["text/plain", "application/json", "text/json"];
+    let returnType = GetEmployeeDto;
+
+    return this.apiClient.callApi(
+      "/api/employees/{id}",
+      "GET",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+  /**
      * Callback function to receive the result of the apiEmployeesPost operation.
      * @callback moduleapi/EmployeesApi~apiEmployeesPostCallback
      * @param {String} error Error message, if any.
@@ -212,40 +221,41 @@ export class EmployeesApi {
      * @param {String} response The complete HTTP response.
      */
 
-    /**
+  /**
      * @param {Object} opts Optional parameters
      * @param {module:model/PostEmployeeDto} opts.body 
      * @param {module:api/EmployeesApi~apiEmployeesPostCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    apiEmployeesPost(opts, callback) {
-      opts = opts || {};
-      let postBody = opts['body'];
+  apiEmployeesPost(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = opts["body"];
 
-      let pathParams = {
-        
-      };
-      let queryParams = {
-        
-      };
-      let headerParams = {
-        
-      };
-      let formParams = {
-        
-      };
+    let pathParams = {};
+    let queryParams = {};
+    let headerParams = jwt;
+    let formParams = {};
 
-      let authNames = [];
-      let contentTypes = ['application/json', 'text/json', 'application/_*+json'];
-      let accepts = [];
-      let returnType = null;
+    let authNames = [];
+    let contentTypes = ["application/json", "text/json", "application/_*+json"];
+    let accepts = [];
+    let returnType = null;
 
-      return this.apiClient.callApi(
-        '/api/employees', 'POST',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-    /**
+    return this.apiClient.callApi(
+      "/api/employees",
+      "POST",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+  /**
      * Callback function to receive the result of the apiEmployeesPut operation.
      * @callback moduleapi/EmployeesApi~apiEmployeesPutCallback
      * @param {String} error Error message, if any.
@@ -253,38 +263,38 @@ export class EmployeesApi {
      * @param {String} response The complete HTTP response.
      */
 
-    /**
+  /**
      * @param {Object} opts Optional parameters
      * @param {module:model/PutEmployeeDto} opts.body 
      * @param {module:api/EmployeesApi~apiEmployeesPutCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    apiEmployeesPut(opts, callback) {
-      opts = opts || {};
-      let postBody = opts['body'];
+  apiEmployeesPut(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = opts["body"];
 
-      let pathParams = {
-        
-      };
-      let queryParams = {
-        
-      };
-      let headerParams = {
-        
-      };
-      let formParams = {
-        
-      };
+    let pathParams = {};
+    let queryParams = {};
+    let headerParams = jwt;
+    let formParams = {};
 
-      let authNames = [];
-      let contentTypes = ['application/json', 'text/json', 'application/_*+json'];
-      let accepts = [];
-      let returnType = null;
+    let authNames = [];
+    let contentTypes = ["application/json", "text/json", "application/_*+json"];
+    let accepts = [];
+    let returnType = null;
 
-      return this.apiClient.callApi(
-        '/api/employees', 'PUT',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-
+    return this.apiClient.callApi(
+      "/api/employees",
+      "PUT",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
 }

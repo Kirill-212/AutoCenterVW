@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Contracts;
 using Domain.Models;
+using Domain.Pagination;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Services.Abstractions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -23,6 +25,28 @@ namespace Presentation.Controllers
             this._mapper = _mapper;
             _serviceManager = serviceManager;
         }
+
+        [HttpGet("paged")]
+        public IActionResult GetNewsPaged([FromQuery] PagedParameters ownerParameters)
+        {
+            var owners = _serviceManager.AsyncServiceNew.GetAllPaged();
+
+            var metadata = new
+            {
+                owners.TotalCount,
+                owners.PageSize,
+                owners.CurrentPage,
+                owners.TotalPages,
+                owners.HasNext,
+                owners.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
+
+            return Ok(owners);
+        }
+
 
         //  [Authorize(Roles = " ADMIN, EMPLOYEE, USER")]
         [HttpGet]

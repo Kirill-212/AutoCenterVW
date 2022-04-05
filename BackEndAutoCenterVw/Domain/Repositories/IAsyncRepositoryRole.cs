@@ -6,5 +6,7 @@ namespace Domain.Repositories
     public interface IAsyncRepositoryRole<T>
     {
         Task<IEnumerable<T>> GetAll();
+
+        Task<IEnumerable<T>> GetWithourUser();
     }
 }

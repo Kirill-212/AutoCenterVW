@@ -28,7 +28,7 @@ namespace Services
             User user = await unitOfWork.AsyncRepositoryUser.GetByEmail(email);
             if (user == null)
                 throw new UserEmailNotFound(email);
-            if (user.Status != Status.CREATED)
+            if (user.Status != Status.CREATED &&user.Status!=Status.ACTIVE)
                 throw new CheckUserStatus(user.Status.ToString());
             item.StartWorkDate = DateTime.Now;
             item.UserId = user.Id;

@@ -1,5 +1,4 @@
-﻿using Contracts;
-using Domain.Models;
+﻿using Domain.Models;
 using Domain.Models.CarEquipment;
 using Domain.Repositories;
 using Services.Abstractions;
@@ -30,6 +29,7 @@ namespace Services
         private readonly Lazy<IAsyncServiceVerifyUser<User>> _lazyAsyncServiceVerifyUser;
 
         public ServiceManager(
+           
             IUnitOfWork unitOfWork,
             IAsyncRepositoryCarEquipment<CarEquipment> carEquipment
             )
@@ -44,7 +44,7 @@ namespace Services
                 () => new AsyncServiceEmployee(unitOfWork)
                 );
             _lazyAsyncServiceNew = new Lazy<IAsyncServiceNew<New, Img>>(
-               () => new AsyncServiceNew(unitOfWork)
+               () => new AsyncServiceNew( unitOfWork)
                );
             _lazyAsyncServiceCar = new Lazy<IAsyncServiceCar<Car, ImgCar>>(
             () => new AsyncServiceCar(unitOfWork, carEquipment)

@@ -12,9 +12,9 @@
  * Do not edit the class manually.
  *
  */
-import {ApiClient} from '../ApiClient';
-import {ImgDto} from './ImgDto';
-import {PostNewDto} from './PostNewDto';
+import { ApiClient } from "../ApiClient";
+import { ImgDto } from "./ImgDto";
+import { PostNewDto } from "./PostNewDto";
 
 /**
  * The PostNewDtoNewWrapperDto model module.
@@ -30,7 +30,7 @@ export class PostNewDtoNewWrapperDto {
    * @param imgs {Array.<module:model/ImgDto>} 
    */
   constructor(_new, imgs) {
-    this._new = _new;
+    this.New = _new;
     this.imgs = imgs;
   }
 
@@ -44,10 +44,10 @@ export class PostNewDtoNewWrapperDto {
   static constructFromObject(data, obj) {
     if (data) {
       obj = obj || new PostNewDtoNewWrapperDto();
-      if (data.hasOwnProperty('new'))
-        obj._new = PostNewDto.constructFromObject(data['new']);
-      if (data.hasOwnProperty('imgs'))
-        obj.imgs = ApiClient.convertToType(data['imgs'], [ImgDto]);
+      if (data.hasOwnProperty("new"))
+        obj._new = PostNewDto.constructFromObject(data["new"]);
+      if (data.hasOwnProperty("imgs"))
+        obj.imgs = ApiClient.convertToType(data["imgs"], [ImgDto]);
     }
     return obj;
   }
@@ -56,10 +56,9 @@ export class PostNewDtoNewWrapperDto {
 /**
  * @member {module:model/PostNewDto} _new
  */
-PostNewDtoNewWrapperDto.prototype._new = undefined;
+PostNewDtoNewWrapperDto.prototype.New = undefined;
 
 /**
  * @member {Array.<module:model/ImgDto>} imgs
  */
 PostNewDtoNewWrapperDto.prototype.imgs = undefined;
-

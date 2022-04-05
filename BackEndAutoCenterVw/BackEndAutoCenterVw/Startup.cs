@@ -106,7 +106,8 @@ namespace BackEndAutoCenterVw
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BackEndAutoCenterVw", Version = "v1" });
             });
-
+   //         services.AddControllers().AddJsonOptions(x =>
+   //x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
             services.AddScoped<IServiceManager, ServiceManager>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IAsyncRepositoryCarEquipmentForm<CarEquipmentForm>>
@@ -146,6 +147,7 @@ namespace BackEndAutoCenterVw
             app.UseCors(
  options => options.WithOrigins("*").AllowAnyMethod().AllowAnyHeader()
  );
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

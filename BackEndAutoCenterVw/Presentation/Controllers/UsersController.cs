@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Contracts;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstractions;
 using System.Collections.Generic;
@@ -41,7 +42,7 @@ namespace Presentation.Controllers
                 );
         }
 
-        //  [Authorize(Roles = " ADMIN")]
+        [Authorize(Roles = "ADMIN")]
         [HttpGet]
         public async Task<List<GetUserDto>> GetAll()
         {
@@ -59,7 +60,7 @@ namespace Presentation.Controllers
                 );
         }
 
-        //[AllowAnonymous]
+        [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] PostUserDto item)
         {

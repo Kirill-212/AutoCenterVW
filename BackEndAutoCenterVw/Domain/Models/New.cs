@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Domain.Models
 {
@@ -18,6 +19,7 @@ namespace Domain.Models
         public int EmployeeId { get; set; }
 
         public Employee Employee { get; set; }
+
 
         public List<Img> Imgs { get; set; }
     }

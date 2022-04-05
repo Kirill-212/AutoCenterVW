@@ -24,5 +24,10 @@ namespace Services
         {
             return await unitOfWork.AsyncRepositoryRole.GetAll();
         }
+
+        public async Task<IEnumerable<Role>> GetWithoutUser(CancellationToken cancellationToken = default)
+        {
+            return await unitOfWork.AsyncRepositoryRole.GetWithourUser();
+        }
     }
 }

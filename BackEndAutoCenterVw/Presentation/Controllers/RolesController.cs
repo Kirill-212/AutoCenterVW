@@ -26,5 +26,11 @@ namespace Presentation.Controllers
         {
             return await _serviceManager.AsyncServiceRole.GetAll();
         }
+
+        [HttpGet("withoutUser")]
+        public async Task<IEnumerable<Role>> GetWithoutUser()
+        {
+            return await _serviceManager.AsyncServiceRole.GetWithoutUser();
+        }
     }
 }

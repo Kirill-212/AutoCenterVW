@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -27,5 +28,7 @@ namespace Services.Abstractions
             );
 
         Task<T> GetByTitile(string title, CancellationToken cancellationToken = default);
+
+        IQueryable<T> GetAllPaged();
     }
 }

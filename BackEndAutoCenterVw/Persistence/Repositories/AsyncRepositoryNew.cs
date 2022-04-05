@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Domain.Pagination;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -40,6 +41,15 @@ namespace Persistence.Repositories
                 .Include(i => i.Employee.User)
                 .Where(i => i.IsDeleted == false)
                 .FirstOrDefaultAsync(i => i.Id == id);
+        }
+
+        public IQueryable<New> GetPaged()
+        {
+            return _dbContext.News
+                .Include(i => i.Imgs)
+                 .Include(i => i.Employee.User)
+                .Where(i => i.IsDeleted == false)              
+                .AsQueryable();
         }
     }
 }

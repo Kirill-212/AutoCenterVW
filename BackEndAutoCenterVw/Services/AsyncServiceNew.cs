@@ -1,12 +1,12 @@
 ﻿using Domain.Exceptions;
 using Domain.Models;
 using Domain.Repositories;
-using Services.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
+using AutoMapper;
 
 namespace Services
 {
@@ -14,12 +14,16 @@ namespace Services
     {
         private readonly IUnitOfWork unitOfWork;
 
+
         public AsyncServiceNew(
            IUnitOfWork unitOfWork
             )
         {
+
             this.unitOfWork = unitOfWork;
         }
+
+
 
         public async Task Create(
             New item,
@@ -54,6 +58,11 @@ namespace Services
         public async Task<IEnumerable<New>> GetAll(CancellationToken cancellationToken = default)
         {
             return await unitOfWork.AsyncRepositoryNew.Get();
+        }
+
+        public IQueryable<New> GetAllPaged()
+        {
+            return unitOfWork.AsyncRepositoryNew.GetPaged();
         }
 
         public async Task<New> GetByTitile(
