@@ -1,0 +1,6 @@
+#BackgroundImage {
+    background-image:  url("https://mdn.mozillademos.org/files/11991/startransparent.gif"),
+                     url("https://mdn.mozillademos.org/files/7693/catfront.png");
+  background-color: transparent;
+   }
+   
