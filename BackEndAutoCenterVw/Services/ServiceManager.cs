@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Contracts;
+using Domain.Models;
 using Domain.Models.CarEquipment;
 using Domain.Repositories;
 using Services.Abstractions;
@@ -14,7 +15,7 @@ namespace Services
 
         private readonly Lazy<IAsyncServiceEmployee<Employee>> _lazyAsyncServiceEmployee;
 
-        private readonly Lazy<IAsyncServiceNew<New, Img>> _lazyAsyncServiceNew;
+        private readonly Lazy<IAsyncServiceNew<New, Img, GetNewDto>> _lazyAsyncServiceNew;
 
         private readonly Lazy<IAsyncServiceCar<Car, ImgCar>> _lazyAsyncServiceCar;
 
@@ -43,7 +44,7 @@ namespace Services
             _lazyAsyncServiceEmployee = new Lazy<IAsyncServiceEmployee<Employee>>(
                 () => new AsyncServiceEmployee(unitOfWork)
                 );
-            _lazyAsyncServiceNew = new Lazy<IAsyncServiceNew<New, Img>>(
+            _lazyAsyncServiceNew = new Lazy<IAsyncServiceNew<New, Img,GetNewDto>>(
                () => new AsyncServiceNew( unitOfWork)
                );
             _lazyAsyncServiceCar = new Lazy<IAsyncServiceCar<Car, ImgCar>>(
@@ -72,7 +73,7 @@ namespace Services
         public IAsyncServiceEmployee<Employee> AsyncServiceEmployee =>
             _lazyAsyncServiceEmployee.Value;
 
-        public IAsyncServiceNew<New, Img> AsyncServiceNew => _lazyAsyncServiceNew.Value;
+        public IAsyncServiceNew<New, Img, GetNewDto> AsyncServiceNew => _lazyAsyncServiceNew.Value;
 
         public IAsyncServiceCar<Car, ImgCar> AsyncServiceCar => _lazyAsyncServiceCar.Value;
 

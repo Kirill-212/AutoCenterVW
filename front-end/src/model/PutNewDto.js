@@ -27,9 +27,10 @@ export class PutNewDto {
    * @param title {String} 
    * @param description {String} 
    */
-  constructor(title, description) {
+  constructor(title,newTitle, description) {
     this.title = title;
     this.description = description;
+    this.newTitle=newTitle;
   }
 
   /**

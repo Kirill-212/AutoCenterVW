@@ -24,21 +24,27 @@ const PutUser = () => {
   async function submitUser(event) {
     event.preventDefault();
     let url;
-    console.log(user)
-   if(imgNew.length!==0){
-    if (!imgNew) {
-      setMessageError("Wrong file type!");
-      return;
-    }
-    if (img.type.split("/")[0] !== "image") {
-      setMessageError("Wrong file type!");
-    }
-    url = await ImgService.uploadImage(imgNew);
-    if (url == undefined) {
-      setMessageError("Error:upload img is not valid.");
-      return;
-    }}else{
-        url=null;
+    console.log(user);
+    if (imgNew.length !== 0) {
+      if (!imgNew) {
+        setMessageError("Wrong file type!");
+        return;
+      }
+      if (img.type.split("/")[0] !== "image") {
+        setMessageError("Wrong file type!");
+      }
+      url = await ImgService.uploadImage(imgNew);
+      if (url == undefined) {
+        setMessageError("Error:upload img is not valid.");
+        return;
+      }
+      if (url.height < 200 || url.width < 200) {
+        setMessageError("Error:size min 200x200:File name:" + imgNew.name);
+        return;
+      }
+      url = url.url;
+    } else {
+      url = null;
     }
     new UsersApi().apiUsersPut(
       GetJwtToken(),
@@ -52,8 +58,8 @@ const PutUser = () => {
           NewUrlPhoto: url,
           LastName: lastName,
           FirstName: firstName,
-          NewPassword: passwordNew.length===0?undefined:passwordNew,
-          NewEmail: emailNew.length===0?undefined:emailNew
+          NewPassword: passwordNew.length === 0 ? undefined : passwordNew,
+          NewEmail: emailNew.length === 0 ? undefined : emailNew
         }
       },
       CallbackRequest
@@ -255,7 +261,8 @@ const PutUser = () => {
             </div>
           </div>
           <div>
-            {redirect && <Navigate to={"/" + JSON.parse(user).roleName.toLowerCase()} />}
+            {redirect &&
+              <Navigate to={"/" + JSON.parse(user).roleName.toLowerCase()} />}
             <p>
               {MessageError}
             </p>

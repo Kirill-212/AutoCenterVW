@@ -4,10 +4,10 @@ function Header(props) {
   
 
   return (
-    <div className="row d-flex justify-content-between flex-row bg-dark text-white align-items-start">
-      <div className="col-4">{props.name}</div>
-      <div className="col-4 text-center">Auto Center VW</div>
-      <div className="col-4 text-right pt-2"><LogOut /></div>
+    <div className=" d-flex justify-content-between bg-dark text-white ">
+      <div className="col">{props.name}</div>
+      <div className="col text-center">Auto Center VW</div>
+      <div className="col text-right pt-2"><LogOut /></div>
     </div>
   );
 }

@@ -48,10 +48,12 @@ const PostEmployee = () => {
       } else {
         setMessageError(JSON.parse(error.message)["error"]);
       }
+    } else if (response.statusCode == 403) {
+      setMessageError("Forbidden");
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
-        setRedirect(true)
+      setRedirect(true);
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
@@ -62,7 +64,10 @@ const PostEmployee = () => {
   }
 
   async function GetUsersList() {
-    new UsersApi().apiUsersNotAddedToEmployeeGet(GetJwtToken(), CallbackRequest);
+    new UsersApi().apiUsersNotAddedToEmployeeGet(
+      GetJwtToken(),
+      CallbackRequest
+    );
   }
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
@@ -78,6 +83,8 @@ const PostEmployee = () => {
       } else {
         setMessageError(JSON.parse(error.message)["error"]);
       }
+    } else if (response.statusCode == 403) {
+      setMessageError("Forbidden");
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {

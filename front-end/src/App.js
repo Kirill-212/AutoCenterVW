@@ -13,6 +13,10 @@ import PostEmployee from "./Components/Employee/PostEmployee";
 import PutEmployee from "./Components/Employee/PutEmployee";
 import New from "./Components/New/New";
 import PostNew from "./Components/New/PostNew";
+import PutNew from "./Components/New/PutNew";
+import PostCar from "./Components/Car/PostCar";
+import PutCar from './Components/Car/PutCar';
+import Car from "./Components/Car/Car";
 function App() {
   const [user, setUser] = React.useState(undefined);
 
@@ -37,6 +41,10 @@ function App() {
             <Route path="employee/put" element={<PutEmployee />} />
             <Route path="new" element={<New />} />
             <Route path="new/post" element={<PostNew />} />
+            <Route path="new/put" element={<PutNew />} />
+            <Route path="car/post" element={<PostCar />} />
+            <Route path="car" element={<Car />} />
+            <Route path="car/put" element={<PutCar />} />
           </Route>
           <Route path="*" element={<h2>Resourse not found</h2>} />
         </Routes>

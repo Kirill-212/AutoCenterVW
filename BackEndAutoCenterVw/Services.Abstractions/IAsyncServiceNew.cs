@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using AutoMapper;
+using Contracts;
+using Domain.Pagination;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Services.Abstractions
 {
-    public interface IAsyncServiceNew<T, K>
+    public interface IAsyncServiceNew<T, K,C>
     {
         Task Create(
             T item,
@@ -29,6 +32,6 @@ namespace Services.Abstractions
 
         Task<T> GetByTitile(string title, CancellationToken cancellationToken = default);
 
-        IQueryable<T> GetAllPaged();
+        PagedList<T, C> GetAllPaged(PagedParameters item,IMapper mapper);
     }
 }

@@ -2,6 +2,7 @@
 using Contracts;
 using Domain.Models;
 using Domain.Pagination;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Services.Abstractions;
@@ -26,25 +27,23 @@ namespace Presentation.Controllers
             _serviceManager = serviceManager;
         }
 
+
+       // [Authorize(Roles = "USER")]
         [HttpGet("paged")]
-        public IActionResult GetNewsPaged([FromQuery] PagedParameters ownerParameters)
+        public GetPagedNewDto GetNewsPaged([FromQuery] PagedParameters pagedParameters)
         {
-            var owners = _serviceManager.AsyncServiceNew.GetAllPaged();
-
-            var metadata = new
+            var pageds = _serviceManager.AsyncServiceNew.GetAllPaged(pagedParameters,_mapper);
+            GetPagedNewDto getPagedNewDto = new()
             {
-                owners.TotalCount,
-                owners.PageSize,
-                owners.CurrentPage,
-                owners.TotalPages,
-                owners.HasNext,
-                owners.HasPrevious
+                GetNewDto = pageds,
+                TotalCount = pageds.TotalCount,
+                PageSize = pageds.PageSize,
+                CurrentPage = pageds.CurrentPage,
+                TotalPages = pageds.TotalPages,
+                HasNext = pageds.HasNext,
+                HasPrevious = pageds.HasPrevious
             };
-
-            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
-
-
-            return Ok(owners);
+         return getPagedNewDto;
         }
 
 

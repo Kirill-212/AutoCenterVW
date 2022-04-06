@@ -6,11 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
+using Services.Abstractions;
+using Contracts;
+using Domain.Pagination;
 using AutoMapper;
 
 namespace Services
 {
-    internal sealed class AsyncServiceNew : IAsyncServiceNew<New, Img>
+    internal sealed class AsyncServiceNew : IAsyncServiceNew<New, Img, GetNewDto>
     {
         private readonly IUnitOfWork unitOfWork;
 
@@ -60,9 +63,11 @@ namespace Services
             return await unitOfWork.AsyncRepositoryNew.Get();
         }
 
-        public IQueryable<New> GetAllPaged()
+        public PagedList<New, GetNewDto> GetAllPaged(PagedParameters item, IMapper mapper)
         {
-            return unitOfWork.AsyncRepositoryNew.GetPaged();
+            return PagedList<New, GetNewDto>.ToPagedList(unitOfWork.AsyncRepositoryNew.GetPaged().OrderBy(on => on.Created),
+         item.PageNumber,
+         item.PageSize, mapper);
         }
 
         public async Task<New> GetByTitile(

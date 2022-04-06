@@ -30,7 +30,7 @@ export class PutNewDtoNewWrapperDto {
    * @param imgs {Array.<module:model/ImgDto>} 
    */
   constructor(_new, imgs) {
-    this._new = _new;
+    this.New = _new;
     this.imgs = imgs;
   }
 

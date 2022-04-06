@@ -31,12 +31,15 @@ export class PutCarDto {
    * @param dateOfRealeseCar {Date} 
    * @param imgs {Array.<module:model/ImgDto>} 
    */
-  constructor(nameCarEquipment, cost, carMileage, dateOfRealeseCar, imgs) {
+  constructor(vin,newVIN,nameCarEquipment,sharePercentage, cost, carMileage, dateOfRealeseCar, imgs) {
     this.nameCarEquipment = nameCarEquipment;
     this.cost = cost;
     this.carMileage = carMileage;
     this.dateOfRealeseCar = dateOfRealeseCar;
     this.imgs = imgs;
+    this.vin=vin;
+    this.newVIN=newVIN;
+    this.sharePercentage=sharePercentage
   }
 
   /**

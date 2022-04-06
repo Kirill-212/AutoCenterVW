@@ -40,6 +40,11 @@ function Registration() {
       setMessageError("Error:upload img is not valid.");
       return;
     }
+    if ((url.height < 200) || (url.width < 200)) {
+      setMessageError("Error:size min 200x200:File name:"+img.name);
+      return;
+    }
+
     new UsersApi().apiUsersPost(
       {
         body: {
@@ -47,7 +52,7 @@ function Registration() {
           Email: email,
           DBay: dBay,
           Surname: surname,
-          UrlPhoto: url,
+          UrlPhoto: url.url,
           LastName: lastName,
           FirstName: firstName,
           Password: password

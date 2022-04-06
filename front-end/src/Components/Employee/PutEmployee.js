@@ -78,6 +78,8 @@ const PutEmployee = () => {
       } else {
         setMessageError(JSON.parse(error.message)["error"]);
       }
+    }else if(response.statusCode == 403){
+      setMessageError("Forbidden");
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {

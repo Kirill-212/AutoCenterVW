@@ -155,14 +155,17 @@ namespace Services
                     throw new CarEquipmentNotFound(nameCarEquipment);
                 car.IdCarEquipment = carEquipment.Id;
             }
-            Car carNewVin = await unitOfWork.AsyncRepositoryCar.GetByVin(newVin);
-            if (carNewVin != null)
+            if (newVin != null)
             {
-                throw new CarVinFound(newVin);
-            }
-            else
-            {
-                car.VIN = newVin;
+                Car carNewVin = await unitOfWork.AsyncRepositoryCar.GetByVin(newVin);
+                if (carNewVin != null)
+                {
+                    throw new CarVinFound(newVin);
+                }
+                else
+                {
+                    car.VIN = newVin;
+                }
             }
             var urlImgsForm = item.ImgsCar.Select(i => i.Url);
             var urlImgsDb = car.ImgsCar.Select(i => i.Url);
@@ -185,7 +188,6 @@ namespace Services
                 await unitOfWork.CompleteAsync();
             }
             car.DateOfRealeseCar = item.DateOfRealeseCar;
-            car.IdCarEquipment = item.IdCarEquipment;
             car.CarMileage = item.CarMileage;
             car.Cost = item.Cost;
             unitOfWork.AsyncRepositoryCar.Update(car);

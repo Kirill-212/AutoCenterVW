@@ -24,7 +24,7 @@ const PostNew = () => {
     setMessageError("");
     let urls = [];
     for (let i = 0; i < imgs.length; i++) {
-      console.log(imgs[i]);
+      console.log("New", imgs[i]);
       if (!imgs[i]) {
         setMessageError("Wrong file type!");
         return;
@@ -34,18 +34,19 @@ const PostNew = () => {
         return;
       }
       let url = await ImgService.uploadImage(imgs[i]);
-      urls.push(new ImgDto(url));
       if (url == undefined) {
         setMessageError("Error:upload img is not valid.");
         return;
       }
+      if (url.height !== 700 || url.width !== 1000) {
+        setMessageError(
+          "Error:size is valid 100x700:File name:" + imgs[i].name
+        );
+        return;
+      }
+
+      urls.push(new ImgDto(url.url));
     }
-    console.log({
-      body: new PostNewDtoNewWrapperDto(
-        new PostNewDto(title, description, JSON.parse(user).email),
-        urls
-      )
-    });
     new NewApi().apiNewsPost(
       GetJwtToken(),
       {
@@ -71,6 +72,8 @@ const PostNew = () => {
       } else {
         setMessageError(JSON.parse(error.message)["error"]);
       }
+    } else if (response.statusCode == 403) {
+      setMessageError("Forbidden");
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {

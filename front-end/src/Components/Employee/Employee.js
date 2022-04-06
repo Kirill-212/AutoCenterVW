@@ -79,7 +79,7 @@ const Employee = () => {
   }, []);
 
   return (
-    <div className="row mt-5">
+    <div className="row ">
       <div className="row">
         <h1 className="d-flex justify-content-center align-items-center ">
           Employee List
@@ -90,7 +90,7 @@ const Employee = () => {
           {MessageError}
         </p>
       </div>
-      <div className="row mt-5">
+      <div className="row">
         {viewList && <ListEmployee head={EmployeeListView()} rows={listEmployees} deleteEmployee={DeleteEmployee} />}
       </div>
     </div>

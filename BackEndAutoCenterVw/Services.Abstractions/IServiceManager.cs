@@ -12,7 +12,7 @@ namespace Services.Abstractions
 
         IAsyncServiceEmployee<Employee> AsyncServiceEmployee { get; }
 
-        IAsyncServiceNew<New, Img> AsyncServiceNew { get; }
+        IAsyncServiceNew<New, Img,GetNewDto> AsyncServiceNew { get; }
 
         IAsyncServiceCar<Car, ImgCar> AsyncServiceCar { get; }
 

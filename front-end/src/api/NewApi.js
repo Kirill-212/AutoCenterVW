@@ -49,7 +49,7 @@ export class NewApi {
      * @param {module:api/NewApi~apiNewsByTitleGetCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}
      */
-  apiNewsByTitleGet(opts, callback) {
+  apiNewsByTitleGet(jwt,opts, callback) {
     opts = opts || {};
     let postBody = null;
 
@@ -57,7 +57,7 @@ export class NewApi {
     let queryParams = {
       title: opts["title"]
     };
-    let headerParams = {};
+    let headerParams = jwt;
     let formParams = {};
 
     let authNames = [];
@@ -268,13 +268,13 @@ export class NewApi {
      * @param {module:model/PutNewDtoNewWrapperDto} opts.body 
      * @param {module:api/NewApi~apiNewsPutCallback} callback The callback function, accepting three arguments: error, data, response
      */
-  apiNewsPut(opts, callback) {
+  apiNewsPut(jwt,opts, callback) {
     opts = opts || {};
     let postBody = opts["body"];
 
     let pathParams = {};
     let queryParams = {};
-    let headerParams = {};
+    let headerParams = jwt;
     let formParams = {};
 
     let authNames = [];
@@ -297,4 +297,43 @@ export class NewApi {
       callback
     );
   }
+  /**
+     * @param {Object} opts Optional parameters
+     * @param {Number} opts.pageNumber 
+     * @param {Number} opts.pageSize 
+     * @param {module:api/NewApi~apiNewsPagedGetCallback} callback The callback function, accepting three arguments: error, data, response
+     */
+   apiNewsPagedGet(jwt,opts, callback) {
+    opts = opts || {};
+    let postBody = null;
+
+    let pathParams = {
+      
+    };
+    let queryParams = {
+      'PageNumber': opts['pageNumber'],'PageSize': opts['pageSize']
+    };
+    let headerParams = jwt;
+    let formParams = {
+      
+    };
+
+    let authNames = [];
+    let contentTypes = [];
+    let accepts = [];
+    let returnType = null;
+
+    return this.apiClient.callApi(
+      '/api/news/paged', 'GET',
+      pathParams, queryParams, headerParams, formParams, postBody,
+      authNames, contentTypes, accepts, returnType, callback
+    );
+  }
+  /**
+   * Callback function to receive the result of the apiNewsPost operation.
+   * @callback moduleapi/NewApi~apiNewsPostCallback
+   * @param {String} error Error message, if any.
+   * @param data This operation does not return a value.
+   * @param {String} response The complete HTTP response.
+   */
 }

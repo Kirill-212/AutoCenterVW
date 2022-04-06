@@ -18,5 +18,7 @@ namespace Contracts
         public string LastName { get; set; }
 
         public List<ImgDto> Imgs { get; set; }
+
+
     }
 }
