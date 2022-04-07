@@ -12,10 +12,10 @@
  * Do not edit the class manually.
  *
  */
-import {ApiClient} from "../ApiClient";
-import {ClientCar} from '../model/ClientCar';
-import {PostClientCarDto} from '../model/PostClientCarDto';
-import {PutClientCarDto} from '../model/PutClientCarDto';
+import { ApiClient } from "../ApiClient";
+import { ClientCar } from "../model/ClientCar";
+import { PostClientCarDto } from "../model/PostClientCarDto";
+import { PutClientCarDto } from "../model/PutClientCarDto";
 
 /**
 * ClientCars service.
@@ -23,8 +23,7 @@ import {PutClientCarDto} from '../model/PutClientCarDto';
 * @version v1
 */
 export class ClientCarsApi {
-
-    /**
+  /**
     * Constructs a new ClientCarsApi. 
     * @alias module:api/ClientCarsApi
     * @class
@@ -32,11 +31,42 @@ export class ClientCarsApi {
     * default to {@link module:ApiClient#instanc
     e} if unspecified.
     */
-    constructor(apiClient) {
-        this.apiClient = apiClient || ApiClient.instance;
-    }
+  constructor(apiClient) {
+    this.apiClient = apiClient || ApiClient.instance;
+  }
+  emailWithVinGet(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = null;
 
-    /**
+    let pathParams = {};
+    let queryParams = {
+      email: opts["email"],
+      vin: opts["vin"]
+    };
+    let headerParams = jwt;
+    let formParams = {};
+
+    let authNames = [];
+    let contentTypes = [];
+    let accepts = ["text/plain", "application/json", "text/json"];
+    let returnType = ClientCar;
+
+    return this.apiClient.callApi(
+      "/emailWithVin",
+      "GET",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+  /**
      * Callback function to receive the result of the apiClientcarsDelete operation.
      * @callback moduleapi/ClientCarsApi~apiClientcarsDeleteCallback
      * @param {String} error Error message, if any.
@@ -44,40 +74,43 @@ export class ClientCarsApi {
      * @param {String} response The complete HTTP response.
      */
 
-    /**
+  /**
      * @param {Object} opts Optional parameters
      * @param {String} opts.registerNumber 
      * @param {module:api/ClientCarsApi~apiClientcarsDeleteCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    apiClientcarsDelete(opts, callback) {
-      opts = opts || {};
-      let postBody = null;
+  apiClientcarsDelete(opts, callback) {
+    opts = opts || {};
+    let postBody = null;
 
-      let pathParams = {
-        
-      };
-      let queryParams = {
-        'registerNumber': opts['registerNumber']
-      };
-      let headerParams = {
-        
-      };
-      let formParams = {
-        
-      };
+    let pathParams = {};
+    let queryParams = {
+      registerNumber: opts["registerNumber"]
+    };
+    let headerParams = {};
+    let formParams = {};
 
-      let authNames = [];
-      let contentTypes = [];
-      let accepts = [];
-      let returnType = null;
+    let authNames = [];
+    let contentTypes = [];
+    let accepts = [];
+    let returnType = null;
 
-      return this.apiClient.callApi(
-        '/api/clientcars', 'DELETE',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-    /**
+    return this.apiClient.callApi(
+      "/api/clientcars",
+      "DELETE",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+  /**
      * Callback function to receive the result of the apiClientcarsGet operation.
      * @callback moduleapi/ClientCarsApi~apiClientcarsGetCallback
      * @param {String} error Error message, if any.
@@ -85,39 +118,39 @@ export class ClientCarsApi {
      * @param {String} response The complete HTTP response.
      */
 
-    /**
+  /**
      * @param {module:api/ClientCarsApi~apiClientcarsGetCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}
      */
-    apiClientcarsGet(callback) {
-      
-      let postBody = null;
+  apiClientcarsGet(jwt, callback) {
+    let postBody = null;
 
-      let pathParams = {
-        
-      };
-      let queryParams = {
-        
-      };
-      let headerParams = {
-        
-      };
-      let formParams = {
-        
-      };
+    let pathParams = {};
+    let queryParams = {};
+    let headerParams = jwt;
+    let formParams = {};
 
-      let authNames = [];
-      let contentTypes = [];
-      let accepts = ['text/plain', 'application/json', 'text/json'];
-      let returnType = [ClientCar];
+    let authNames = [];
+    let contentTypes = [];
+    let accepts = ["text/plain", "application/json", "text/json"];
+    let returnType = [ClientCar];
 
-      return this.apiClient.callApi(
-        '/api/clientcars', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-    /**
+    return this.apiClient.callApi(
+      "/api/clientcars",
+      "GET",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+  /**
      * Callback function to receive the result of the apiClientcarsIdGet operation.
      * @callback moduleapi/ClientCarsApi~apiClientcarsIdGetCallback
      * @param {String} error Error message, if any.
@@ -125,44 +158,48 @@ export class ClientCarsApi {
      * @param {String} response The complete HTTP response.
      */
 
-    /**
+  /**
      * @param {Number} id 
      * @param {module:api/ClientCarsApi~apiClientcarsIdGetCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}
      */
-    apiClientcarsIdGet(id, callback) {
-      
-      let postBody = null;
-      // verify the required parameter 'id' is set
-      if (id === undefined || id === null) {
-        throw new Error("Missing the required parameter 'id' when calling apiClientcarsIdGet");
-      }
-
-      let pathParams = {
-        'id': id
-      };
-      let queryParams = {
-        
-      };
-      let headerParams = {
-        
-      };
-      let formParams = {
-        
-      };
-
-      let authNames = [];
-      let contentTypes = [];
-      let accepts = ['text/plain', 'application/json', 'text/json'];
-      let returnType = ClientCar;
-
-      return this.apiClient.callApi(
-        '/api/clientcars/{id}', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
+  apiClientcarsIdGet(id, callback) {
+    let postBody = null;
+    // verify the required parameter 'id' is set
+    if (id === undefined || id === null) {
+      throw new Error(
+        "Missing the required parameter 'id' when calling apiClientcarsIdGet"
       );
     }
-    /**
+
+    let pathParams = {
+      id: id
+    };
+    let queryParams = {};
+    let headerParams = {};
+    let formParams = {};
+
+    let authNames = [];
+    let contentTypes = [];
+    let accepts = ["text/plain", "application/json", "text/json"];
+    let returnType = ClientCar;
+
+    return this.apiClient.callApi(
+      "/api/clientcars/{id}",
+      "GET",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+  /**
      * Callback function to receive the result of the apiClientcarsPost operation.
      * @callback moduleapi/ClientCarsApi~apiClientcarsPostCallback
      * @param {String} error Error message, if any.
@@ -170,40 +207,41 @@ export class ClientCarsApi {
      * @param {String} response The complete HTTP response.
      */
 
-    /**
+  /**
      * @param {Object} opts Optional parameters
      * @param {module:model/PostClientCarDto} opts.body 
      * @param {module:api/ClientCarsApi~apiClientcarsPostCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    apiClientcarsPost(opts, callback) {
-      opts = opts || {};
-      let postBody = opts['body'];
+  apiClientcarsPost(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = opts["body"];
 
-      let pathParams = {
-        
-      };
-      let queryParams = {
-        
-      };
-      let headerParams = {
-        
-      };
-      let formParams = {
-        
-      };
+    let pathParams = {};
+    let queryParams = {};
+    let headerParams = jwt;
+    let formParams = {};
 
-      let authNames = [];
-      let contentTypes = ['application/json', 'text/json', 'application/_*+json'];
-      let accepts = [];
-      let returnType = null;
+    let authNames = [];
+    let contentTypes = ["application/json", "text/json", "application/_*+json"];
+    let accepts = [];
+    let returnType = null;
 
-      return this.apiClient.callApi(
-        '/api/clientcars', 'POST',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-    /**
+    return this.apiClient.callApi(
+      "/api/clientcars",
+      "POST",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+  /**
      * Callback function to receive the result of the apiClientcarsPut operation.
      * @callback moduleapi/ClientCarsApi~apiClientcarsPutCallback
      * @param {String} error Error message, if any.
@@ -211,38 +249,69 @@ export class ClientCarsApi {
      * @param {String} response The complete HTTP response.
      */
 
-    /**
+  /**
      * @param {Object} opts Optional parameters
      * @param {module:model/PutClientCarDto} opts.body 
      * @param {module:api/ClientCarsApi~apiClientcarsPutCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    apiClientcarsPut(opts, callback) {
-      opts = opts || {};
-      let postBody = opts['body'];
+  apiClientcarsVinGet(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = null;
 
-      let pathParams = {
-        
-      };
-      let queryParams = {
-        
-      };
-      let headerParams = {
-        
-      };
-      let formParams = {
-        
-      };
+    let pathParams = {};
+    let queryParams = {
+      vin: opts["vin"]
+    };
+    let headerParams = jwt;
+    let formParams = {};
 
-      let authNames = [];
-      let contentTypes = ['application/json', 'text/json', 'application/_*+json'];
-      let accepts = [];
-      let returnType = null;
+    let authNames = [];
+    let contentTypes = [];
+    let accepts = ["text/plain", "application/json", "text/json"];
+    let returnType = ClientCar;
 
-      return this.apiClient.callApi(
-        '/api/clientcars', 'PUT',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
+    return this.apiClient.callApi(
+      "/api/clientcars/vin",
+      "GET",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+  apiClientcarsPut(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = opts["body"];
 
+    let pathParams = {};
+    let queryParams = {};
+    let headerParams = jwt;
+    let formParams = {};
+
+    let authNames = [];
+    let contentTypes = ["application/json", "text/json", "application/_*+json"];
+    let accepts = [];
+    let returnType = null;
+
+    return this.apiClient.callApi(
+      "/api/clientcars",
+      "PUT",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
 }

@@ -83,6 +83,11 @@ namespace Services
             return await unitOfWork.AsyncRepositoryCar.GetByVin(vin);
         }
 
+        public async Task<IEnumerable<Car>> GetCarActive()
+        {
+            return await unitOfWork.AsyncRepositoryCar.GetCarActive();
+        }
+
         public async Task<IEnumerable<Car>> GetCarByEmail(
             string email,
             CancellationToken cancellationToken = default

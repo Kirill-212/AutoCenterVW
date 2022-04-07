@@ -11,11 +11,10 @@ const User = () => {
   const [viewList, setViewList] = React.useState(false);
 
   async function GetUsersList() {
-    setViewList(false)
+    setViewList(false);
     new UsersApi().apiUsersGet(GetJwtToken(), CallbackRequest);
   }
   async function DeleteUser(e) {
-    console.log('email',e.currentTarget.value)
     new UsersApi().apiUsersDelete(
       GetJwtToken(),
       { email: e.currentTarget.value },
@@ -23,7 +22,6 @@ const User = () => {
     );
   }
   async function UpdateStatusUser(e) {
-    console.log('email',e.currentTarget.value)
     new UsersApi().apiUsersUpdateStatusPut(
       GetJwtToken(),
       { email: e.currentTarget.value },
@@ -45,6 +43,8 @@ const User = () => {
       } else {
         setMessageError(JSON.parse(error.message)["error"]);
       }
+    }else if (response.statusCode == 403) {
+      setMessageError("Forbidden");
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
@@ -68,10 +68,11 @@ const User = () => {
       } else {
         setMessageError(JSON.parse(error.message)["error"]);
       }
+    } else if (response.statusCode == 403) {
+      setMessageError("Forbidden");
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
-      // console.log(data);
       setListUsers(
         data.map(e => {
           return GetUserDto.constructFromObject(e);
@@ -88,19 +89,21 @@ const User = () => {
   }, []);
 
   return (
-    <div className="row mt-5">
-      <div className="row">
-        <h1 className="d-flex justify-content-center align-items-center ">
-          User List
-        </h1>
-      </div>
-      <div className="row">
-        <p>
-          {MessageError}
-        </p>
-      </div>
-      <div className="row mt-5">
-        {viewList && <UserItem head={UserListView()} rows={listUsers} deleteUser={DeleteUser} updateStatusUser={UpdateStatusUser}/>}
+    <div className="container-fruid">
+    <div className="row align-items-center">
+      <p className="text-reset text-white">
+        {MessageError}
+      </p>
+    </div>
+
+    <div className="row mt-5 pt-5 align-items-center">
+        {viewList &&
+          <UserItem
+            head={UserListView()}
+            rows={listUsers}
+            deleteUser={DeleteUser}
+            updateStatusUser={UpdateStatusUser}
+          />}
       </div>
     </div>
   );

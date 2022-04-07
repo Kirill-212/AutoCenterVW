@@ -1,42 +1,131 @@
-import React, { useEffect, useContext } from "react";
-import Context from "../../context";
+import React, { useContext, useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import { EmployeesApi } from "../../api/EmployeesApi";
-import { Role } from "../../model/Role";
-import { RolesApi } from "../../api/RolesApi";
-
+import {
+  CarEquipmentApi,
+  PostCarEquipmentDto,
+  CarEquipmentFormItemDto,
+  ValueCarEquipmentDto
+} from "../../ImportExportGenClient";
+import ImgService from "../../Services/ImgServices/ImgService";
+import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-
-const PutEmployee = () => {
+const PostCarEquipmentForm = () => {
   const { user } = useContext(Context);
-  const [address, setAddress] = React.useState("");
-  const [role, setRole] = React.useState("");
-  const [email, setEmail] = React.useState("");
+  const [name, setName] = React.useState("");
   const [MessageError, setMessageError] = React.useState("");
   const [redirect, setRedirect] = React.useState(false);
-  const [roleList, setRoleList] = React.useState([]);
   const [flag, setFlag] = React.useState(false);
+  const [carEquipmentList, setCarEquipmentList] = React.useState([]);
+  const [key, setKey] = React.useState([]);
+  const [carEquipment, setCarEquipment] = React.useState([]);
 
-  async function submitEmployee(event) {
-    event.preventDefault();
+  async function GetFormCarEquipment() {
     setMessageError("");
-    new EmployeesApi().apiEmployeesPut(
+    new CarEquipmentApi().apiCarequipmentsFormGet(
       GetJwtToken(),
-      {
-        body: {
-          Address: address,
-          Email: email,
-          RoleName: role
-        }
-      },
-      CallbackRequestPut
+      CallbackRequest
     );
   }
+  function CallbackRequest(error, data, response) {
+    if (response == undefined) {
+      setMessageError("Error:server is not available");
+    } else if (response.statusCode == 400) {
+      if (JSON.parse(error.message)["error"] == undefined) {
+        let errorResult = "";
+        let errorsJson = JSON.parse(error.message)["errors"];
+        for (let key in errorsJson) {
+          errorResult += key + " : " + errorsJson[key] + " | ";
+        }
+        setMessageError(errorResult);
+      } else {
+        setMessageError(JSON.parse(error.message)["error"]);
+      }
+    } else if (response.statusCode == 403) {
+      setMessageError("Forbidden");
+    } else if (response.statusCode == 401) {
+      setMessageError("Unauthorized");
+    } else if (response.statusCode === 200 || response.statusCode === 204) {
+      setCarEquipmentList(response.body);
+      setFlag(true);
+    } else if (response.statusCode > 400) {
+      setMessageError(JSON.parse(error.message)["error"]);
+    }
+  }
 
-  function CallbackRequestPut(error, data, response) {
+  function RenderRadioButton(input, name, nameEquipment) {
+    let returnButtons = [];
+
+    for (let j in input) {
+      returnButtons.push(
+        <div className="form-check">
+          <label>
+            Value: {input[j].value} Cost: {input[j].cost}
+            <input
+              className="form-check-input"
+              type="radio"
+              value={JSON.stringify({
+                name: name,
+                value: input[j].value,
+                cost: input[j].cost,
+                nameEquipment: nameEquipment
+              })}
+              name={name}
+            />
+          </label>
+        </div>
+      );
+    }
+    return returnButtons;
+  }
+
+  function RenderCarEquipment() {
+    let radioButtonsCarEuipment = [];
+    // console.log(carEquipmentList);
+    for (let i in carEquipmentList) {
+      //  console.log();
+      if (!key.includes(carEquipmentList[i].equipmentItems))
+        key.push(carEquipmentList[i].equipmentItems);
+      radioButtonsCarEuipment.push(
+        <div>
+          <label>
+            {carEquipmentList[i].name}
+          </label>
+          <div onChange={e => onChangeValue(e)}>
+            {RenderRadioButton(
+              carEquipmentList[i].equipmentItems,
+              i,
+              carEquipmentList[i].name
+            )}
+          </div>
+        </div>
+      );
+    }
+    return radioButtonsCarEuipment;
+  }
+
+  async function submitCarEquipment(event) {
+    event.preventDefault();
+    setMessageError("");
+    new CarEquipmentApi().apiCarequipmentsEquipmentPost(
+      GetJwtToken(),
+      {
+        body: new PostCarEquipmentDto(
+          name,
+          carEquipment.map(r => {
+            return new CarEquipmentFormItemDto(
+              r.nameEquipment,
+              new ValueCarEquipmentDto(r.value, r.cost)
+            );
+          })
+        )
+      },
+      CallbackRequestPost
+    );
+  }
+  function CallbackRequestPost(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
@@ -60,50 +149,30 @@ const PutEmployee = () => {
       setMessageError(JSON.parse(error.message)["error"]);
     }
   }
+  function onChangeValue(event) {
+    let valuePush = JSON.parse(event.target.value);
+    let arr = carEquipment.map(r => {
+      return r.name;
+    });
+    if (!arr.includes(valuePush.name)) {
+      carEquipment.push(valuePush);
+    } else {
+      for (let variablqe in carEquipment) {
+        if (carEquipment[variablqe].name === valuePush.name) {
+          carEquipment[variablqe] = valuePush;
+        }
+      }
+    }
+    console.log(carEquipment);
+  }
+
   const styles = {
     maxWidth: "700px",
     border: "none"
   };
 
-  async function GetRoleList() {
-    new RolesApi().apiRolesGetWithoutUser(GetJwtToken(), CallbackRequest);
-  }
-  function CallbackRequest(error, data, response) {
-    if (response == undefined) {
-      setMessageError("Error:server is not available");
-    } else if (response.statusCode == 400) {
-      if (JSON.parse(error.message)["error"] == undefined) {
-        let errorResult = "";
-        let errorsJson = JSON.parse(error.message)["errors"];
-        for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
-        }
-        setMessageError(errorResult);
-      } else {
-        setMessageError(JSON.parse(error.message)["error"]);
-      }
-    } else if (response.statusCode == 403) {
-      setMessageError("Forbidden");
-    } else if (response.statusCode == 401) {
-      setMessageError("Unauthorized");
-    } else if (response.statusCode === 200 || response.statusCode === 204) {
-      setRoleList(
-        data.map(e => {
-          return Role.constructFromObject(e);
-        })
-      );
-      setFlag(true);
-    } else if (response.statusCode > 400) {
-      setMessageError(JSON.parse(error.message)["error"]);
-    }
-  }
-
   useEffect(() => {
-    GetRoleList();
-    const query = new URLSearchParams(window.location.search);
-    setEmail(query.get("email"));
-    setAddress(query.get("address"));
-    setRole(query.get("roleName"));
+    GetFormCarEquipment();
   }, []);
 
   return (
@@ -112,61 +181,29 @@ const PutEmployee = () => {
       <Container fixed className="text-white">
         <Box sx={{ bgcolor: "black" }}>
           <div className="d-flex   justify-content-center align-items-center ">
-            <div className="  mt-5 pt-5  w-100" style={styles}>
+            <div className="p-4  w-100" style={styles}>
               <div className="row mt-5">
                 <h1 className="d-flex   justify-content-center align-items-center ">
-                  Put Employee
+                  Post car equipment
                 </h1>
               </div>
               <div className="container mt-5">
-                <form onSubmit={submitEmployee}>
+                <form onSubmit={submitCarEquipment}>
                   <div className="form-group mb-2 ">
-                    <label>Address:</label>
+                    <label>Name car equipment:</label>
                     <input
-                      value={address}
                       className="w-100 shadow-lg  bg-white rounded"
-                      onChange={e => setAddress(e.target.value)}
-                      name="address"
+                      onChange={e => setName(e.target.value)}
+                      name="name"
                       type="text"
-                      placeholder="Enter your address..."
+                      placeholder="Enter your name car equipment..."
                       required
                     />
                   </div>
+
                   <div className="form-group mb-2 ">
-                    <label>Role:</label>
-                    <select
-                      className="form-select"
-                      aria-label="Default select example"
-                      size="1"
-                      value={role}
-                      onChange={e => setRole(e.target.value)}
-                      required
-                    >
-                      <option value={role}>
-                        {role}
-                      </option>
-                      {flag &&
-                        roleList.map(element => {
-                          if (element.roleName !== role)
-                            return (
-                              <option value={element.roleName}>
-                                {element.roleName}
-                              </option>
-                            );
-                        })}
-                    </select>
-                  </div>
-                  <div className="form-group mb-2">
-                    <label>Email:</label>
-                    <input
-                      disabled
-                      value={email}
-                      className="w-100 shadow-lg  bg-white rounded"
-                      onChange={e => setEmail(e.target.value)}
-                      name="email"
-                      type="text"
-                      placeholder="Enter your email..."
-                    />
+                    <label>Car equipment:</label>
+                    {flag && RenderCarEquipment()}
                   </div>
                   <div className="d-flex justify-content-center form-outline mb-3">
                     <div className="flex-fill">
@@ -174,7 +211,7 @@ const PutEmployee = () => {
                         type="submit"
                         className="btn btn-secondary btn-rounded w-100 "
                       >
-                        Put
+                        Post
                       </button>
                     </div>
                   </div>
@@ -207,4 +244,4 @@ const PutEmployee = () => {
   );
 };
 
-export default PutEmployee;
+export default PostCarEquipmentForm;

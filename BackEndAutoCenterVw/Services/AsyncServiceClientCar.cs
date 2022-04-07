@@ -84,11 +84,22 @@ namespace Services
             return await unitOfWork.AsyncRepositoryClientCar.Get();
         }
 
+        public async Task<ClientCar> GetByEmailWithVin(string email, string vin, CancellationToken cancellationToken = default)
+        {
+            return await unitOfWork.
+                 AsyncRepositoryClientCar.GetCarByCarVinWithEmail(vin, email);
+        }
+
         public async Task<ClientCar> GetById(
             int id, CancellationToken cancellationToken = default
             )
         {
             return await unitOfWork.AsyncRepositoryClientCar.GetById(id);
+        }
+
+        public async Task<ClientCar> GetCarByVin(string vin)
+        {
+           return await unitOfWork.AsyncRepositoryClientCar.GetCarByVin(vin);
         }
 
         public async Task Remove(
@@ -178,15 +189,18 @@ namespace Services
                     throw new CarEquipmentNotFound(nameCarEquipment);
                 clientCar.Car.IdCarEquipment = carEquipment.Id;
             }
-            Car carNewVin =
-                await unitOfWork.AsyncRepositoryCar.GetByVin(newVin);
-            if (carNewVin != null)
+            if (newVin != null)
             {
-                throw new CarVinFound(newVin);
-            }
-            else
-            {
-                clientCar.Car.VIN = newVin;
+                Car carNewVin =
+                    await unitOfWork.AsyncRepositoryCar.GetByVin(newVin);
+                if (carNewVin != null)
+                {
+                    throw new CarVinFound(newVin);
+                }
+                else
+                {
+                    clientCar.Car.VIN = newVin;
+                }
             }
             var urlImgsForm = item.Car.ImgsCar.Select(i => i.Url);
             var urlImgsDb = clientCar.Car.ImgsCar.Select(i => i.Url);
@@ -209,7 +223,6 @@ namespace Services
                 await unitOfWork.CompleteAsync();
             }
             clientCar.Car.DateOfRealeseCar = item.Car.DateOfRealeseCar;
-            clientCar.Car.IdCarEquipment = item.Car.IdCarEquipment;
             clientCar.Car.CarMileage = item.Car.CarMileage;
             clientCar.Car.Cost = item.Car.Cost;
             unitOfWork.AsyncRepositoryCar.Update(clientCar.Car);

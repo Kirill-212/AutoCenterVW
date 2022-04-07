@@ -1,28 +1,27 @@
-import React, { useEffect } from "react";
-import { EmployeesApi } from "../../api/EmployeesApi";
+import React, { useContext, useEffect } from "react";
+import { Car, CarsApi, ClientCarsApi } from "../../ImportExportGenClient";
+import ClientCarListView from "../../SetListView/ClientCarListView";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
-import EmployeeListView from "../../SetListView/EmployeeListView";
-import ListEmployee from "./ListEmployee";
-import { GetEmployeeDto } from "../../model/GetEmployeeDto";
-const Employee = () => {
+import ListClientCars from "./ClientCarList";
+const ClientCars = () => {
   const [MessageError, setMessageError] = React.useState("");
-  const [listEmployees, setListEmployees] = React.useState([]);
+  const [listClientCars, setListClientCars] = React.useState([]);
   const [viewList, setViewList] = React.useState(false);
 
-  async function GetEmployeeList() {
+  async function GetClientCarList() {
     setViewList(false);
-    new EmployeesApi().apiEmployeesGet(GetJwtToken(), CallbackRequest);
+    new ClientCarsApi().apiClientcarsGet(GetJwtToken(), CallbackRequest);
   }
-  async function DeleteEmployee(e) {
+  async function DeleteClientCar(e) {
     console.log("email", e.currentTarget.value);
-    new EmployeesApi().apiEmployeesDelete(
+    new CarsApi().apiCarsDelete(
       GetJwtToken(),
-      { email: e.currentTarget.value },
-      CallbackRequestDelete
+      { vin: e.currentTarget.value },
+      CallbackRequestDeleteOrUpdate
     );
   }
 
-  function CallbackRequestDelete(error, data, response) {
+  function CallbackRequestDeleteOrUpdate(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
@@ -41,12 +40,44 @@ const Employee = () => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
-      GetEmployeeList();
+      GetClientCarList();
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
   }
+  async function UpdateClientCar(e) {
+    console.log("email", e.currentTarget.value);
+    new CarsApi().updateStatusGet(
+      GetJwtToken(),
+      { vin: e.currentTarget.value },
+      CallbackRequestDeleteOrUpdate
+    );
+  }
 
+  function CallbackRequestDeleteOrUpdate(error, data, response) {
+    if (response == undefined) {
+      setMessageError("Error:server is not available");
+    } else if (response.statusCode == 400) {
+      if (JSON.parse(error.message)["error"] == undefined) {
+        let errorResult = "";
+        let errorsJson = JSON.parse(error.message)["errors"];
+        for (let key in errorsJson) {
+          errorResult += key + " : " + errorsJson[key] + " | ";
+        }
+        setMessageError(errorResult);
+      } else {
+        setMessageError(JSON.parse(error.message)["error"]);
+      }
+    } else if (response.statusCode == 403) {
+      setMessageError("Forbidden");
+    } else if (response.statusCode == 401) {
+      setMessageError("Unauthorized");
+    } else if (response.statusCode === 200 || response.statusCode === 204) {
+      GetClientCarList();
+    } else if (response.statusCode > 400) {
+      setMessageError(JSON.parse(error.message)["error"]);
+    }
+  }
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -66,12 +97,7 @@ const Employee = () => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
-      console.log(data);
-      setListEmployees(
-        data.map(e => {
-          return GetEmployeeDto.constructFromObject(e);
-        })
-      );
+      setListClientCars(response.body);
       setViewList(true);
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
@@ -79,11 +105,11 @@ const Employee = () => {
   }
 
   useEffect(() => {
-    GetEmployeeList();
+    GetClientCarList();
   }, []);
 
   return (
-    <div className="container-fruid">
+    <div className="container-md">
       <div className="row align-items-center">
         <p className="text-reset text-white">
           {MessageError}
@@ -92,14 +118,15 @@ const Employee = () => {
 
       <div className="row mt-5 pt-5 align-items-center">
         {viewList &&
-          <ListEmployee
-            head={EmployeeListView()}
-            rows={listEmployees}
-            deleteEmployee={DeleteEmployee}
+          <ListClientCars
+            head={ClientCarListView()}
+            rows={listClientCars}
+            updateClientCar={UpdateClientCar}
+            deleteClientCar={DeleteClientCar}
           />}
       </div>
     </div>
   );
 };
 
-export default Employee;
+export default ClientCars;

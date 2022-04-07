@@ -28,9 +28,10 @@ export class PostClientCarDto {
    * @param postCarDto {module:model/PostCarDto} 
    * @param email {String} 
    */
-  constructor(postCarDto, email) {
+  constructor(registerNumber,postCarDto, email) {
     this.postCarDto = postCarDto;
     this.email = email;
+    this.registerNumber=registerNumber
   }
 
   /**

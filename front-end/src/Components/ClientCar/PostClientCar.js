@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import {
+  PostClientCarDto,
+  ClientCarsApi,
   PostCarDto,
-  CarsApi,
   ImgDto,
   CarEquipmentApi
 } from "../../ImportExportGenClient";
@@ -12,7 +13,7 @@ import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-const PostCar = () => {
+const PostClientCar = () => {
   const { user } = useContext(Context);
   const [nameCarEquipment, setNameCarEquipment] = React.useState("");
   const [cost, setCost] = React.useState(0);
@@ -23,6 +24,7 @@ const PostCar = () => {
   const [MessageError, setMessageError] = React.useState("");
   const [redirect, setRedirect] = React.useState(false);
   const [carEquipmentList, setCarEquipmentList] = React.useState([]);
+  const [registerNumber, setRegisterNumber] = React.useState("");
   const [flag, setFlag] = React.useState(false);
   const [imgs, setImgs] = React.useState([]);
 
@@ -87,17 +89,21 @@ const PostCar = () => {
 
       urls.push(new ImgDto(url.url));
     }
-    new CarsApi().apiCarsPost(
+    new ClientCarsApi().apiClientcarsPost(
       GetJwtToken(),
       {
-        body: new PostCarDto(
-          sharePercentage == 0 ? undefined : sharePercentage,
-          vin,
-          nameCarEquipment,
-          cost,
-          carMileage,
-          dateOfRealeseCar,
-          urls
+        body: new PostClientCarDto(
+          registerNumber.length == 0 ? undefined : registerNumber,
+          new PostCarDto(
+            sharePercentage == 0 ? undefined : sharePercentage,
+            vin,
+            nameCarEquipment,
+            cost,
+            carMileage,
+            dateOfRealeseCar,
+            urls
+          ),
+          JSON.parse(user).email
         )
       },
       CallbackRequestPost
@@ -145,7 +151,7 @@ const PostCar = () => {
             <div className="   mt-5 pt-5  w-100" style={styles}>
               <div className="row mt-5">
                 <h1 className="d-flex   justify-content-center align-items-center ">
-                  Post Car
+                  Post client car
                 </h1>
               </div>
               <div className="container mt-5">
@@ -209,6 +215,16 @@ const PostCar = () => {
                     />
                   </div>
                   <div className="form-group mb-2 ">
+                    <label>RegisterNumber:</label>
+                    <input
+                      className="w-100 shadow-lg  bg-white rounded"
+                      onChange={e => setRegisterNumber(e.target.value)}
+                      name="registerNumber"
+                      type="text"
+                      placeholder="If you don't want to add register number, leave the field blank...."
+                    />
+                  </div>
+                  <div className="form-group mb-2 ">
                     <label>Car equipment:</label>
                     <select
                       size="0"
@@ -260,7 +276,7 @@ const PostCar = () => {
                   </div>
                 </form>
               </div>
-              <div className="row  text-center">
+              <div className="row text-center">
                 <div className="col">
                   <a
                     className="text-reset text-white"
@@ -287,4 +303,4 @@ const PostCar = () => {
   );
 };
 
-export default PostCar;
+export default PostClientCar;

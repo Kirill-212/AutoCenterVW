@@ -9,8 +9,10 @@ namespace Contracts
 {
     public class CarEquipmentFormDto
     {
+        public string Name { get; set; }
+
         [Required(ErrorMessage = "Equipment items is required")]
 
-        public Dictionary<string, ValueCarEquipmentDto[]> EquipmentItems { get; set; }
+        public List<ValueCarEquipmentDto> EquipmentItems { get; set; }
     }
 }

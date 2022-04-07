@@ -120,5 +120,15 @@ namespace Persistence.Repositories
                 .Where(i => i.IsDeleted == false)
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<IEnumerable<Car>> GetCarActive()
+        {
+            return await _dbContext.Cars
+                .Include(i => i.ActionCar)
+                .Include(i => i.ClientCar.User)
+                .Where(u => u.IsActive==true)
+                .Where(i => i.IsDeleted == false)
+                .ToListAsync();
+        }
     }
 }

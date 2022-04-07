@@ -41,5 +41,7 @@ namespace Services.Abstractions
             );
 
         Task UpdateStatus(string vin, CancellationToken cancellationToken = default);
+
+        Task<IEnumerable<T>> GetCarActive();
     }
 }

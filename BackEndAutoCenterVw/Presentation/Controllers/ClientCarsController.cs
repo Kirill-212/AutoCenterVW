@@ -83,6 +83,12 @@ namespace Presentation.Controllers
             return await _serviceManager.AsyncServiceClientCar.GetById(id);
         }
 
+        [HttpGet("vin")]
+        public async Task<ActionResult<ClientCar>> GetByVin([FromQuery]string vin)
+        {
+            return await _serviceManager.AsyncServiceClientCar.GetCarByVin(vin);
+        }
+
         // [Authorize(Roles = "ADMIN, EMPLOYEE,USER")]
         [HttpDelete]
         public async Task<ActionResult> DeleteByRegisterNumber([FromQuery] string registerNumber)
@@ -90,6 +96,11 @@ namespace Presentation.Controllers
             await _serviceManager.AsyncServiceClientCar.Remove(registerNumber);
 
             return NoContent();
+        }
+
+        [HttpGet("/emailWithVin")]
+        public async Task<ActionResult<ClientCar>> GetByEmailWithVin([FromQuery] string email,string vin){
+            return await _serviceManager.AsyncServiceClientCar.GetByEmailWithVin(email, vin);
         }
     }
 }

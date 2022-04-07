@@ -129,24 +129,27 @@ export default function EnhancedTable(props) {
                         {row.getUserDto.roleName}
                       </TableCell>
                       <TableCell align="right">
-                        <button
-                          color="purple"
-                          size="sm"
-                          value={row.getUserDto.email}
-                          onClick={props.deleteEmployee}
-                        >
-                          <i className="fa fa-trash" aria-hidden="true " />
-                        </button>
-                        <a
-                          className="text-reset pl-1"
-                          href={`/admin/employee/put?email=${row.getUserDto
-                            .email}
+                        <div class="d-grid gap-2 d-md-block">
+                          <button
+                            class="btn btn-primary-sm btn-sm mr-1"
+                            color="purple"
+                            size="sm"
+                            value={row.getUserDto.email}
+                            onClick={props.deleteEmployee}
+                          >
+                            <i class="fas fa-trash" />
+                          </button>
+                          <a
+                            className="text-reset btn btn-primary-sm btn-sm mr-1"
+                            href={`/admin/employee/put?email=${row.getUserDto
+                              .email}
                           &address=${row.address}&roleName=${row.getUserDto
-                            .roleName}
+                              .roleName}
                           `}
-                        >
-                          <i className="fa fa-wrench" aria-hidden="true" />
-                        </a>
+                          >
+                            <i class="fa-solid fa-screwdriver-wrench" />
+                          </a>
+                        </div>
                       </TableCell>
                     </TableRow>
                   );

@@ -12,8 +12,8 @@
  * Do not edit the class manually.
  *
  */
-import {ApiClient} from '../ApiClient';
-import {PutCarDto} from './PutCarDto';
+import { ApiClient } from "../ApiClient";
+import { PutCarDto } from "./PutCarDto";
 
 /**
  * The PutClientCarDto model module.
@@ -29,10 +29,20 @@ export class PutClientCarDto {
    * @param email {String} 
    * @param changeRegisterNumber {Boolean} 
    */
-  constructor(putCarDto, email, changeRegisterNumber) {
+  constructor(
+    newEmail,
+    registerNumber,
+    newRegisterNumber,
+    putCarDto,
+    email,
+    changeRegisterNumber
+  ) {
     this.putCarDto = putCarDto;
     this.email = email;
     this.changeRegisterNumber = changeRegisterNumber;
+    this.newEmail = newEmail;
+    this.registerNumber = registerNumber;
+    this.newRegisterNumber = newRegisterNumber;
   }
 
   /**
@@ -45,18 +55,27 @@ export class PutClientCarDto {
   static constructFromObject(data, obj) {
     if (data) {
       obj = obj || new PutClientCarDto();
-      if (data.hasOwnProperty('putCarDto'))
-        obj.putCarDto = PutCarDto.constructFromObject(data['putCarDto']);
-      if (data.hasOwnProperty('email'))
-        obj.email = ApiClient.convertToType(data['email'], 'String');
-      if (data.hasOwnProperty('newEmail'))
-        obj.newEmail = ApiClient.convertToType(data['newEmail'], 'String');
-      if (data.hasOwnProperty('registerNumber'))
-        obj.registerNumber = ApiClient.convertToType(data['registerNumber'], 'String');
-      if (data.hasOwnProperty('newRegisterNumber'))
-        obj.newRegisterNumber = ApiClient.convertToType(data['newRegisterNumber'], 'String');
-      if (data.hasOwnProperty('changeRegisterNumber'))
-        obj.changeRegisterNumber = ApiClient.convertToType(data['changeRegisterNumber'], 'Boolean');
+      if (data.hasOwnProperty("putCarDto"))
+        obj.putCarDto = PutCarDto.constructFromObject(data["putCarDto"]);
+      if (data.hasOwnProperty("email"))
+        obj.email = ApiClient.convertToType(data["email"], "String");
+      if (data.hasOwnProperty("newEmail"))
+        obj.newEmail = ApiClient.convertToType(data["newEmail"], "String");
+      if (data.hasOwnProperty("registerNumber"))
+        obj.registerNumber = ApiClient.convertToType(
+          data["registerNumber"],
+          "String"
+        );
+      if (data.hasOwnProperty("newRegisterNumber"))
+        obj.newRegisterNumber = ApiClient.convertToType(
+          data["newRegisterNumber"],
+          "String"
+        );
+      if (data.hasOwnProperty("changeRegisterNumber"))
+        obj.changeRegisterNumber = ApiClient.convertToType(
+          data["changeRegisterNumber"],
+          "Boolean"
+        );
     }
     return obj;
   }
@@ -91,4 +110,3 @@ PutClientCarDto.prototype.newRegisterNumber = undefined;
  * @member {Boolean} changeRegisterNumber
  */
 PutClientCarDto.prototype.changeRegisterNumber = undefined;
-

@@ -7,6 +7,9 @@ import { RolesApi } from "../../api/RolesApi";
 import { UsersApi } from "../../api/UsersApi";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import { GetUserDto } from "../../model/GetUserDto";
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
 const PostEmployee = () => {
   const { user } = useContext(Context);
   const [address, setAddress] = React.useState("");
@@ -119,92 +122,101 @@ const PostEmployee = () => {
   }, []);
 
   return (
-    <div className="container-fluid  " id="BackgroundImage">
-      <div className="d-flex   justify-content-center align-items-center ">
-        <div className="    p-4  w-100 h-50" style={styles}>
-          <div className="row mt-5">
-            <h1 className="d-flex   justify-content-center align-items-center">
-              Post Employee
-            </h1>
-          </div>
-          <div className="row mt-5">
-            <form onSubmit={submitEmployee}>
-              <div className="form-group mb-2 ">
-                <label>Address:</label>
-                <input
-                  className="w-100 shadow-lg  bg-white rounded"
-                  onChange={e => setAddress(e.target.value)}
-                  name="address"
-                  type="text"
-                  placeholder="Enter your address..."
-                  required
-                />
+    <React.Fragment>
+      <CssBaseline />
+      <Container fixed className="text-white">
+        <Box sx={{ bgcolor: "black" }}>
+          <div className="d-flex   justify-content-center align-items-center ">
+            <div className="   p-4  w-100" style={styles}>
+              <div className="row mt-5">
+                <h1 className="d-flex   justify-content-center align-items-center">
+                  Post Employee
+                </h1>
               </div>
-              <div className="form-group mb-2 ">
-                <label>Role:</label>
-                <select
-                  className="form-select"
-                  aria-label="Default select example"
-                  size="0"
-                  onChange={e => setRole(e.target.value)}
-                  required
-                >
-                  <option value="" />
-                  {flag &&
-                    roleList.map(element => {
-                      return (
-                        <option value={element.roleName}>
-                          {element.roleName.replace("_", " ")}
-                        </option>
-                      );
-                    })}
-                </select>
+              <div className="container mt-5">
+                <form onSubmit={submitEmployee}>
+                  <div className="form-group mb-2 ">
+                    <label>Address:</label>
+                    <input
+                      className="w-100 shadow-lg  bg-white rounded"
+                      onChange={e => setAddress(e.target.value)}
+                      name="address"
+                      type="text"
+                      placeholder="Enter your address..."
+                      required
+                    />
+                  </div>
+                  <div className="form-group mb-2 ">
+                    <label>Role:</label>
+                    <select
+                      className="form-select"
+                      aria-label="Default select example"
+                      size="0"
+                      onChange={e => setRole(e.target.value)}
+                      required
+                    >
+                      <option value="" />
+                      {flag &&
+                        roleList.map(element => {
+                          return (
+                            <option value={element.roleName}>
+                              {element.roleName.replace("_", " ")}
+                            </option>
+                          );
+                        })}
+                    </select>
+                  </div>
+                  <div className="form-group mb-2 ">
+                    <label>Email:</label>
+                    <select
+                      className="form-select"
+                      aria-label="Default select example"
+                      size="1"
+                      onChange={e => setEmail(e.target.value)}
+                      required
+                    >
+                      <option value="" />
+                      {flag &&
+                        emailList.map(element =>
+                          <option value={element}>
+                            {element}
+                          </option>
+                        )}
+                    </select>
+                  </div>
+                  <div className="d-flex justify-content-center form-outline mb-3">
+                    <div className="flex-fill">
+                      <button
+                        type="submit"
+                        className="btn btn-secondary btn-rounded w-100 "
+                      >
+                        Put
+                      </button>
+                    </div>
+                  </div>
+                </form>
               </div>
-              <div className="form-group mb-2 ">
-                <label>Email:</label>
-                <select
-                  className="form-select"
-                  aria-label="Default select example"
-                  size="1"
-                  onChange={e => setEmail(e.target.value)}
-                  required
-                >
-                  <option value="" />
-                  {flag &&
-                    emailList.map(element =>
-                      <option value={element}>
-                        {element}
-                      </option>
-                    )}
-                </select>
-              </div>
-              <div className="d-flex justify-content-center form-outline mb-3">
-                <div className="flex-fill">
-                  <button
-                    type="submit"
-                    className="btn btn-secondary btn-rounded w-100 "
-                  >
-                    Put
-                  </button>
+              <div className="row text-center">
+                <div className="col">
+                  <a  className="text-reset text-white" href={"/" + JSON.parse(user).roleName.toLowerCase()}>
+                    Home
+                  </a>
                 </div>
               </div>
-            </form>
-          </div>
-          <div className="row ">
-            <div className="col">
-              <a href={"/" + JSON.parse(user).roleName.toLowerCase()}>Home</a>
+              <div>
+                {redirect &&
+                  <Navigate
+                    to={"/" + JSON.parse(user).roleName.toLowerCase()}
+                  />}
+                <p className="text-reset text-white">
+                  {MessageError}
+                </p>
+              </div>
             </div>
           </div>
-          <div>
-            {redirect &&
-              <Navigate to={"/" + JSON.parse(user).roleName.toLowerCase()} />}
-            <p>
-              {MessageError}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Container>
+    </React.Fragment>
   );
 };
 

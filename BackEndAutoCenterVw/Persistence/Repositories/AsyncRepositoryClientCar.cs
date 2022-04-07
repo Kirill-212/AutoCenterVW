@@ -57,5 +57,16 @@ namespace Persistence.Repositories
                   .Where(i => i.Car.IsDeleted == false)
                   .FirstOrDefaultAsync();
         }
+
+        public async Task<ClientCar> GetCarByVin(string vin)
+        {
+            return await _dbContext.ClientCars
+               .Include(i => i.Car.ActionCar)
+               .Include(i => i.User)
+               .Include(i => i.Car.ImgsCar)
+               .Where(i => i.Car.VIN == vin)
+               .Where(i => i.Car.IsDeleted == false)
+               .FirstOrDefaultAsync();
+        }
     }
 }

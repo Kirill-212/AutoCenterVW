@@ -7,7 +7,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-
 //import SearchBar from "material-ui-search-bar";
 import {
   EnhancedTableHead,
@@ -24,6 +23,7 @@ export default function EnhancedTable(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searched, setSearched] = React.useState("");
+
   const requestSearch = searchedVal => {
     const filteredRows = rows.filter(row => {
       return row.vin.toLowerCase().includes(searchedVal.toLowerCase());
@@ -49,6 +49,7 @@ export default function EnhancedTable(props) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
   console.log(rows);
@@ -113,33 +114,38 @@ export default function EnhancedTable(props) {
                         {row.actionCar === undefined && "None"}
                       </TableCell>
                       <TableCell align="right" className="text-center">
-                        {
+                        <div class="d-grid gap-2 d-md-block">
                           <button
-                            color="purple"
-                            size="sm"
+                            class="btn btn-primary-sm btn-sm mr-1"
                             value={row.vin}
                             onClick={props.deleteCar}
+                            type="button"
                           >
-                            <i className="fa-solid fa-user-minus" />
+                            <i class="fas fa-trash" />
                           </button>
-                        }
-                        <a
-                          className="text-reset pl-1"
-                          href={`/admin/car/put?vin=${row.vin}
-                          `}
-                        >
-                          <i className="fa fa-wrench" aria-hidden="true" />
-                        </a>
-                        {
                           <button
-                            color="purple"
-                            size="sm"
+                            class="btn btn-primary-sm btn-sm ml-1"
                             value={row.vin}
                             onClick={props.updateCar}
+                            type="button"
                           >
-                            <i className="fa-solid fa-user-minus" />
+                            <i class="fa-solid fa-sack-dollar" />
                           </button>
-                        }
+                          <a
+                            className="btn btn-primary-sm btn-sm ml-1 text-reset"
+                            href={`/admin/car/put?vin=${row.vin}
+                          `}
+                          >
+                            <i class="fa-solid fa-screwdriver-wrench" />
+                          </a>
+                          <a
+                            className="btn btn-primary-sm btn-sm ml-1 text-reset "
+                            href={`/admin/car/info?vin=${row.vin}
+                          `}
+                          >
+                            <i class="fa-solid fa-info" />
+                          </a>
+                        </div>
                       </TableCell>
                     </TableRow>
                   );

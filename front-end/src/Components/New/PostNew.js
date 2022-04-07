@@ -9,6 +9,9 @@ import {
 import ImgService from "../../Services/ImgServices/ImgService";
 import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
 const PostNew = () => {
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
@@ -40,7 +43,7 @@ const PostNew = () => {
       }
       if (url.height !== 700 || url.width !== 1000) {
         setMessageError(
-          "Error:size is valid 100x700:File name:" + imgs[i].name
+          "Error:size is valid 1000x700:File name:" + imgs[i].name
         );
         return;
       }
@@ -88,83 +91,98 @@ const PostNew = () => {
   };
 
   return (
-    <div className="container-fluid  " id="BackgroundImage">
-      <div className="d-flex   justify-content-center align-items-center ">
-        <div className="   p-4  w-100" style={styles}>
-          <div className="row mt-5">
-            <h1 className="d-flex   justify-content-center align-items-center ">
-              Post new
-            </h1>
-          </div>
-          <div className="row mt-5">
-            <form onSubmit={submitNew}>
-              <div className="form-group mb-2 ">
-                <label>Title</label>
-                <input
-                  className="w-100 shadow-lg  bg-white rounded"
-                  onChange={e => setTitle(e.target.value)}
-                  name="title"
-                  type="text"
-                  placeholder="Enter your title..."
-                  required
-                />
+    <React.Fragment>
+      <CssBaseline />
+      <Container fixed className="text-white">
+        <Box sx={{ bgcolor: "black" }}>
+          <div className="d-flex   justify-content-center align-items-center ">
+            <div className="   mt-5 pt-5  w-100" style={styles}>
+              <div className="row mt-5">
+                <h1 className="d-flex   justify-content-center align-items-center ">
+                  Post new
+                </h1>
               </div>
-              <div className="form-group mb-2 ">
-                <label>Description</label>
-                <input
-                  className="w-100 shadow-lg  bg-white rounded"
-                  onChange={e => setDescription(e.target.value)}
-                  name="description"
-                  type="text"
-                  placeholder="Enter your description..."
-                  required
-                />
+              <div className="container mt-5">
+                <form onSubmit={submitNew}>
+                  <div className="form-group mb-2 ">
+                    <label>Title:</label>
+                    <input
+                      className="w-100 shadow-lg  bg-white rounded"
+                      onChange={e => setTitle(e.target.value)}
+                      name="title"
+                      type="text"
+                      placeholder="Enter your title..."
+                      required
+                    />
+                  </div>
+                  <div className="form-group mb-2 ">
+                    <label>Description:</label>
+                    <input
+                      className="w-100 shadow-lg  bg-white rounded"
+                      onChange={e => setDescription(e.target.value)}
+                      name="description"
+                      type="text"
+                      placeholder="Enter your description..."
+                      required
+                    />
+                  </div>
+                  <div className="form-group mb-3">
+                    <label>Images profile:</label>
+                    <div className="custom-file">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={e => setImgs(e.target.files)}
+                        className="custom-file-input"
+                        id="inputGroupFile01"
+                        multiple
+                        required
+                      />
+                      <label
+                        className="custom-file-label"
+                        for="inputGroupFile01"
+                      >
+                        Choose file/files
+                      </label>
+                    </div>
+                  </div>
+                  <div className="d-flex justify-content-center form-outline mb-3 p-5">
+                    <div className="flex-fill">
+                      <button
+                        type="submit"
+                        className="btn btn-secondary btn-rounded w-100 "
+                      >
+                        Post
+                      </button>
+                    </div>
+                  </div>
+                </form>
               </div>
-              <div className="form-group mb-3">
-                <label>Images profile</label>
-                <div className="custom-file">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={e => setImgs(e.target.files)}
-                    className="custom-file-input"
-                    id="inputGroupFile01"
-                    multiple
-                    required
-                  />
-                  <label className="custom-file-label" for="inputGroupFile01">
-                    Choose file/files
-                  </label>
-                </div>
-              </div>
-              <div className="d-flex justify-content-center form-outline mb-3 p-5">
-                <div className="flex-fill">
-                  <button
-                    type="submit"
-                    className="btn btn-secondary btn-rounded w-100 "
+              <div />
+              <div className="row text-center">
+                <div className="col">
+                  <a
+                    className="text-reset text-white"
+                    href={"/" + JSON.parse(user).roleName.toLowerCase()}
                   >
-                    Post
-                  </button>
+                    Home
+                  </a>
                 </div>
               </div>
-            </form>
-          </div>
-          <div />
-          <div className="row ">
-            <div className="col">
-              <a href={"/" + JSON.parse(user).roleName.toLowerCase()}>Home</a>
+              <div>
+                {redirect &&
+                  <Navigate
+                    to={"/" + JSON.parse(user).roleName.toLowerCase()}
+                  />}
+                <p className="text-reset text-white">
+                  {MessageError}
+                </p>
+              </div>
             </div>
           </div>
-          <div>
-            {redirect &&
-              <Navigate to={"/" + JSON.parse(user).roleName.toLowerCase()} />}
-            <p>
-              {MessageError}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Container>
+    </React.Fragment>
   );
 };
 

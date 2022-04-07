@@ -170,48 +170,50 @@ export default function EnhancedTable(props) {
   };
 
   return (
-    <div >
-      <p>
+    <div className="container">
+      <p className="text-reset text-white">
         {MessageError}
       </p>
       {listNew.map(e => {
         // console.log(e);
         let flag = true;
         return (
-          <div className="row mt-5">
-            <div className="col" />
-            <div className="col" />
-            <div className="col" />
-            <div className="col">
-              <a
-                className="text-reset pl-1"
-                href={`/admin/new/put?title=${e.title}
-                          `}
-              >
-                <i className="fa fa-wrench" aria-hidden="true" />
-              </a>
-              <button
-                color="purple"
-                size="sm"
-                value={e.title}
-                onClick={DeleteNew}
-              >
-                <i className="fa fa-trash" aria-hidden="true " />
-              </button>
-              {e.title}
+          <div class="card mt-5 mb-5 text-white bg-black">
+            <div class="card-header">
+              <div className="row justify-content-center">
+                <div class="col ">
+                  <a
+                    className="text-reset btn btn-primary-sm btn-sm mr-1"
+                    href={`/admin/new/put?title=${e.title}`}
+                  >
+                    <i class="fa-solid fa-screwdriver-wrench" />
+                  </a>
+                  <button
+                    className="btn btn-primary-sm btn-sm mr-1"
+                    color="purple"
+                    size="sm"
+                    value={e.title}
+                    onClick={DeleteNew}
+                  >
+               <i class="fas fa-trash" />
+                  </button>
+                </div>
+                <div className="col text-center">
+                  <h2>
+                    {e.title}
+                  </h2>
+                </div>
+
+                <div className="col text-right">
+                  Created {getDate(e.createdDate)}
+                </div>
+              </div>
             </div>
-            <div className="col-3" />
-            <div className="col">
-              Created {getDate(e.createdDate)}
-            </div>
-            <div className="col" />
-            <div className="col" />
-            <div className="col" />
-            <div className="row">
+            <div class="card-body row ">
               <div className="col" />
               <div
                 id={"slider" + e.title}
-                className="col carousel slide carousel-fade carousel-dark row justify-content-center align-self-center p-2 w-100 border"
+                className="col carousel slide carousel-fade carousel-dark row justify-content-center align-self-center p-2 w-100 "
                 data-mdb-ride="carousel"
               >
                 <div className="carousel-inner">
@@ -271,18 +273,21 @@ export default function EnhancedTable(props) {
               </div>
               <div className="col" />
             </div>
-            <div className="row">
-              <div className="col" />
-              <div className="col" />
-              <div className="col">
-                Created {e.firstName} {e.lastName}
+            <div class="card-footer">
+              <div className="row">
+                <div className="col">
+                  <p>
+                    Created: {e.firstName} {e.lastName}
+                  </p>
+                </div>
+                <div className="col" />
+                <div className="col text-reght">
+                  <p>
+                    Description:
+                    {e.description}
+                  </p>
+                </div>
               </div>
-              <div className="col" />
-              <div className="col">
-                {e.description}
-              </div>
-              <div className="col" />
-              <div className="col" />
             </div>
           </div>
         );

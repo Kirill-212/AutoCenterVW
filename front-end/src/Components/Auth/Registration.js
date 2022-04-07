@@ -3,6 +3,9 @@ import "./Registration.css";
 import { UsersApi } from "../../api/UsersApi";
 import { Navigate } from "react-router-dom";
 import ImgService from "../../Services/ImgServices/ImgService";
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
 function Registration() {
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
@@ -40,8 +43,8 @@ function Registration() {
       setMessageError("Error:upload img is not valid.");
       return;
     }
-    if ((url.height < 200) || (url.width < 200)) {
-      setMessageError("Error:size min 200x200:File name:"+img.name);
+    if ((url.height !== 200) || (url.width !== 200)) {
+      setMessageError("Error:size  200x200:File name:"+img.name);
       return;
     }
 
@@ -75,6 +78,10 @@ function Registration() {
       } else {
         setMessageError(JSON.parse(error.message)["error"]);
       }
+    } else if (response.statusCode == 403) {
+      setMessageError("Forbidden");
+    } else if (response.statusCode == 401) {
+      setMessageError("Unauthorized");
     } else if (response.statusCode === 200||response.statusCode === 204) {
       setRedirectLogin(true);
     } else if (response.statusCode > 400) {
@@ -88,14 +95,18 @@ function Registration() {
   };
 
   return (
-    <div className="container-fluid  " id="BackgroundImage">
+    <React.Fragment>
+    <CssBaseline />
+    <Container fixed className="text-white">
+      <Box sx={{ bgcolor: "black" }}>
       <div className="d-flex   justify-content-center align-items-center ">
-        <div className="   p-4  w-100" style={styles}>
+        <div className="  mt-5 pt-5 w-100" style={styles}>
           <form onSubmit={submitUser}>
             <h1 className="d-flex   justify-content-center align-items-center ">
               Registration
             </h1>
-            <div className="form-group mb-2 ">
+            <div className="row">
+            <div className="col mb-2 ">
               <label>First name:</label>
               <input
                 className="w-100 shadow-lg  bg-white rounded"
@@ -106,7 +117,7 @@ function Registration() {
                 required
               />
             </div>
-            <div className="form-group mb-2">
+            <div className="col mb-2">
               <label>Last name:</label>
               <input
                 className="w-100 shadow-lg  bg-white rounded"
@@ -116,6 +127,7 @@ function Registration() {
                 placeholder="Enter your last name..."
                 required
               />
+            </div>
             </div>
             <div className="form-group mb-2">
               <label>Surname:</label>
@@ -163,7 +175,7 @@ function Registration() {
               />
             </div>
             <div className="form-group mb-2">
-              <label>Password</label>
+              <label>Password:</label>
               <input
                 className="w-100 shadow-lg  bg-white rounded"
                 onChange={e => setPassword(e.target.value)}
@@ -174,7 +186,7 @@ function Registration() {
               />
             </div>
             <div className="form-group mb-3">
-              <label>Image profile</label>
+              <label>Image profile:</label>
               <div className="custom-file">
                 <input
                   type="file"
@@ -185,7 +197,7 @@ function Registration() {
                   required
                 />
                 <label className="custom-file-label" for="inputGroupFile01">
-                  Choose file
+                  Choose file(200x200)
                 </label>
               </div>
             </div>
@@ -211,18 +223,20 @@ function Registration() {
           </form>
           <div className="row ">
             <div className="col">
-              <a href="/login"> Authorization</a>
+              <a href="/login" className="text-reset text-white"> Authorization</a>
             </div>
           </div>
           <div>
-            <p>
+            <p className="text-reset text-white">
               {MessageError}
             </p>
             {redirectLogin && <Navigate to="/login" />}
           </div>
         </div>
       </div>
-    </div>
+      </Box>
+      </Container>
+    </React.Fragment>
   );
 }
 

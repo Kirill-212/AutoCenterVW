@@ -10,6 +10,9 @@ import ImgService from "../../Services/ImgServices/ImgService";
 import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import { getDate } from "../ViewLists/SupportFunction";
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
 const PutCar = () => {
   const { user } = useContext(Context);
   const [nameCarEquipment, setNameCarEquipment] = React.useState("");
@@ -138,17 +141,17 @@ const PutCar = () => {
       }
     }
     console.log({
-        body: new PutCarDto(
-          vin,
-          vinNew.length === 0 ? undefined : vinNew,
-          nameCarEquipment,
-          sharePercentage == 0 ? undefined : sharePercentage,
-          cost,
-          carMileage,
-          dateOfRealeseCar,
-          urls
-        )
-      });
+      body: new PutCarDto(
+        vin,
+        vinNew.length === 0 ? undefined : vinNew,
+        nameCarEquipment,
+        sharePercentage == 0 ? undefined : sharePercentage,
+        cost,
+        carMileage,
+        dateOfRealeseCar,
+        urls
+      )
+    });
     new CarsApi().apiCarsPut(
       GetJwtToken(),
       {
@@ -292,153 +295,165 @@ const PutCar = () => {
   }
 
   return (
-    <div className="container-fluid  " id="BackgroundImage">
-      <div className="d-flex   justify-content-center align-items-center ">
-        <div className="   p-4  w-100" style={styles}>
-          <div className="row mt-5">
-            <h1 className="d-flex   justify-content-center align-items-center ">
-              Put Car
-            </h1>
-          </div>
-          <div className="row mt-5">
-            <form onSubmit={submitCar}>
-              <div className="form-group mb-2 ">
-                <label>VIN:</label>
-                <input
-                  disabled
-                  value={vin}
-                  className="w-100 shadow-lg  bg-white rounded"
-                  onChange={e => setVin(e.target.value)}
-                  name="vin"
-                  type="text"
-                  placeholder="Enter your VIN..."
-                />
+    <React.Fragment>
+      <CssBaseline />
+      <Container fixed className="text-white">
+        <Box sx={{ bgcolor: "black" }}>
+          <div className="d-flex   justify-content-center align-items-center ">
+            <div className="   mt-5 pt-5  w-100" style={styles}>
+              <div className="row mt-5">
+                <h1 className="d-flex   justify-content-center align-items-center ">
+                  Put Car
+                </h1>
               </div>
-              <div className="form-group mb-2 ">
-                <label>New VIN:</label>
-                <input
-                  disabled
-                  value={vinNew}
-                  className="w-100 shadow-lg  bg-white rounded"
-                  onChange={e => setVinNew(e.target.value)}
-                  name="vin"
-                  type="text"
-                  placeholder="If you don't want to change  vin, leave the field blank...."
-                />
+              <div className="container  mt-5">
+                <form onSubmit={submitCar}>
+                  <div className="form-group mb-2 ">
+                    <label>VIN:</label>
+                    <input
+                      disabled
+                      value={vin}
+                      className="w-100 shadow-lg  bg-white rounded"
+                      onChange={e => setVin(e.target.value)}
+                      name="vin"
+                      type="text"
+                      placeholder="Enter your VIN..."
+                    />
+                  </div>
+                  <div className="form-group mb-2 ">
+                    <label>New VIN:</label>
+                    <input
+                      disabled
+                      value={vinNew}
+                      className="w-100 shadow-lg  bg-white rounded"
+                      onChange={e => setVinNew(e.target.value)}
+                      name="vin"
+                      type="text"
+                      placeholder="If you don't want to change  vin, leave the field blank...."
+                    />
+                  </div>
+                  <div className="row">
+                    <div className="col mb-2 ">
+                      <label>Date of realese car:</label>
+                      <input
+                        value={dateOfRealeseCar}
+                        className="w-100 shadow-lg  bg-white rounded"
+                        onChange={e => setDateOfRealeseCar(e.target.value)}
+                        name="dateOfRealeseCar"
+                        type="date"
+                        placeholder="Enter your date of realese car..."
+                        required
+                      />
+                    </div>
+                    <div className="col mb-2 ">
+                      <label>Cost($):</label>
+                      <input
+                        value={cost}
+                        className="w-100 shadow-lg  bg-white rounded"
+                        onChange={e => setCost(e.target.value)}
+                        name="cost"
+                        type="number"
+                        placeholder="Enter your cost..."
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col mb-2 ">
+                      <label>Car mileage(km):</label>
+                      <input
+                        required
+                        value={carMileage}
+                        className="w-100 shadow-lg  bg-white rounded"
+                        onChange={e => setCarMileage(e.target.value)}
+                        name="carMileage"
+                        type="number"
+                        placeholder="Enter your car mileage..."
+                      />
+                    </div>
+                    <div className="col mb-2 ">
+                      <label>Share percentage(%):</label>
+                      <input
+                        value={sharePercentage}
+                        className="w-100 shadow-lg  bg-white rounded"
+                        onChange={e => setSharePercentage(e.target.value)}
+                        name="sharePercentage"
+                        type="number"
+                        placeholder="Enter your share percentage..."
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group mb-2 ">
+                    <label>Car equipment:</label>
+                    <select
+                      size="1"
+                      className="form-select "
+                      aria-label="Default select example"
+                      onChange={e => setNameCarEquipment(e.target.value)}
+                      required
+                    >
+                      {flag &&
+                        carEquipmentList.map(element => {
+                          return (
+                            <option value={element.name}>
+                              {element.name}
+                            </option>
+                          );
+                        })}
+                    </select>
+                  </div>
+                  <div className="form-group mb-2 ">
+                    <label>
+                      If you don't want to change img, leave the field blank....
+                    </label>
+                    <br />
+                    {imgsCar !== undefined && renderInput(imgsCar)}
+                  </div>
+                  <div>
+                    <button
+                      className="btn btn-dark btn-rounded"
+                      type="button"
+                      onClick={AddField}
+                    >
+                      Add input file
+                    </button>
+                  </div>
+                  <div className="d-flex justify-content-center form-outline mt-3">
+                    <div className="flex-fill">
+                      <button
+                        type="submit"
+                        className="btn btn-secondary btn-rounded  w-100 "
+                      >
+                        Put
+                      </button>
+                    </div>
+                  </div>
+                </form>
               </div>
-              <div className="row">
-                <div className="col mb-2 ">
-                  <label>Date of realese car:</label>
-                  <input
-                    value={dateOfRealeseCar}
-                    className="w-100 shadow-lg  bg-white rounded"
-                    onChange={e => setDateOfRealeseCar(e.target.value)}
-                    name="dateOfRealeseCar"
-                    type="date"
-                    placeholder="Enter your date of realese car..."
-                    required
-                  />
+              <div className="row text-center">
+                <div className="col">
+                  <a
+                    className="text-reset text-white"
+                    href={"/" + JSON.parse(user).roleName.toLowerCase()}
+                  >
+                    Home
+                  </a>
                 </div>
-                <div className="col mb-2 ">
-                  <label>Cost($):</label>
-                  <input
-                    value={cost}
-                    className="w-100 shadow-lg  bg-white rounded"
-                    onChange={e => setCost(e.target.value)}
-                    name="cost"
-                    type="number"
-                    placeholder="Enter your cost..."
-                    required
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="col mb-2 ">
-                  <label>Car mileage(km):</label>
-                  <input
-                    required
-                    value={carMileage}
-                    className="w-100 shadow-lg  bg-white rounded"
-                    onChange={e => setCarMileage(e.target.value)}
-                    name="carMileage"
-                    type="number"
-                    placeholder="Enter your car mileage..."
-                  />
-                </div>
-                <div className="col mb-2 ">
-                  <label>Share percentage(%):</label>
-                  <input
-                    value={sharePercentage}
-                    className="w-100 shadow-lg  bg-white rounded"
-                    onChange={e => setSharePercentage(e.target.value)}
-                    name="sharePercentage"
-                    type="number"
-                    placeholder="Enter your share percentage..."
-                  />
-                </div>
-              </div>
-              <div className="form-group mb-2 ">
-                <label>Car equipment:</label>
-                <select
-                  size="1"
-                  className="form-select "
-                  aria-label="Default select example"
-                  onChange={e => setNameCarEquipment(e.target.value)}
-                  required
-                >
-                  {flag &&
-                    carEquipmentList.map(element => {
-                      return (
-                        <option value={element.name}>
-                          {element.name}
-                        </option>
-                      );
-                    })}
-                </select>
-              </div>
-              <div className="form-group mb-2 ">
-                <label>
-                  If you don't want to change img, leave the field blank....
-                </label>
-                <br />
-                {imgsCar !== undefined && renderInput(imgsCar)}
               </div>
               <div>
-                <button
-                  className="btn btn-dark btn-rounded"
-                  type="button"
-                  onClick={AddField}
-                >
-                  Add input file
-                </button>
+                {redirect &&
+                  <Navigate
+                    to={"/" + JSON.parse(user).roleName.toLowerCase()}
+                  />}
+                <p className="text-reset text-white">
+                  {MessageError}
+                </p>
               </div>
-              <div className="d-flex justify-content-center form-outline mt-3">
-                <div className="flex-fill">
-                  <button
-                    type="submit"
-                    className="btn btn-secondary btn-rounded  w-100 "
-                  >
-                    Put
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div className="row ">
-            <div className="col">
-              <a href={"/" + JSON.parse(user).roleName.toLowerCase()}>Home</a>
             </div>
           </div>
-          <div>
-            {redirect &&
-              <Navigate to={"/" + JSON.parse(user).roleName.toLowerCase()} />}
-            <p>
-              {MessageError}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Container>
+    </React.Fragment>
   );
 };
 

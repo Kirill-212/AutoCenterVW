@@ -7,5 +7,8 @@ namespace Domain.Repositories
         Task<T> GetByRegisterNumber(string registerNumber);
 
         Task<T> GetCarByCarVinWithEmail(string vin, string email);
+
+        Task<T> GetCarByVin(string vin);
+
     }
 }

@@ -15,8 +15,16 @@ import New from "./Components/New/New";
 import PostNew from "./Components/New/PostNew";
 import PutNew from "./Components/New/PutNew";
 import PostCar from "./Components/Car/PostCar";
-import PutCar from './Components/Car/PutCar';
+import PutCar from "./Components/Car/PutCar";
 import Car from "./Components/Car/Car";
+import CarInfo from "./Components/Car/CarDetails";
+import PostClientCar from "./Components/ClientCar/PostClientCar";
+import ClientCar from "./Components/ClientCar/ClientCar";
+import PutClientCar from "./Components/ClientCar/PutClientCar";
+import ClientCarInfo from "./Components/ClientCar/ClientCarDetail";
+import PostCarEquipment from "./Components/CarEquipment/PostCarEquipment";
+import CarEquipment from "./Components/CarEquipment/CarEquipment";
+import PostCarEquipmentForm from "./Components/CarEquipmentForm/PostCarEquipmentForm";
 function App() {
   const [user, setUser] = React.useState(undefined);
 
@@ -45,6 +53,18 @@ function App() {
             <Route path="car/post" element={<PostCar />} />
             <Route path="car" element={<Car />} />
             <Route path="car/put" element={<PutCar />} />
+            <Route path="car/info" element={<CarInfo />} />
+            <Route path="clientcar/post" element={<PostClientCar />} />
+            <Route path="clientcar" element={<ClientCar />} />
+            <Route path="clientcar/put" element={<PutClientCar />} />
+            <Route path="clientcar/info" element={<ClientCarInfo />} />
+            <Route path="carequipment/post" element={<PostCarEquipment />} />
+            <Route path="carequipment" element={<CarEquipment />} />
+            <Route path="carequipment" element={<CarEquipment />} />
+            <Route
+              path="carequipmentform/post"
+              element={<PostCarEquipmentForm />}
+            />
           </Route>
           <Route path="*" element={<h2>Resourse not found</h2>} />
         </Routes>

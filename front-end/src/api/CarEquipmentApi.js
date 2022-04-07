@@ -95,7 +95,7 @@ export class CarEquipmentApi {
      * @param {String} opts.name 
      * @param {module:api/CarEquipmentApi~apiCarequipmentsEquipmentDeleteCallback} callback The callback function, accepting three arguments: error, data, response
      */
-  apiCarequipmentsEquipmentDelete(opts, callback) {
+  apiCarequipmentsEquipmentDelete(jwt,opts, callback) {
     opts = opts || {};
     let postBody = null;
 
@@ -103,7 +103,7 @@ export class CarEquipmentApi {
     let queryParams = {
       name: opts["name"]
     };
-    let headerParams = {};
+    let headerParams = jwt;
     let formParams = {};
 
     let authNames = [];
@@ -273,13 +273,13 @@ export class CarEquipmentApi {
      * @param {module:model/PostCarEquipmentDto} opts.body 
      * @param {module:api/CarEquipmentApi~apiCarequipmentsEquipmentPostCallback} callback The callback function, accepting three arguments: error, data, response
      */
-  apiCarequipmentsEquipmentPost(opts, callback) {
+  apiCarequipmentsEquipmentPost(jwt, opts, callback) {
     opts = opts || {};
     let postBody = opts["body"];
 
     let pathParams = {};
     let queryParams = {};
-    let headerParams = {};
+    let headerParams = jwt;
     let formParams = {};
 
     let authNames = [];
@@ -356,12 +356,12 @@ export class CarEquipmentApi {
      * @param {module:api/CarEquipmentApi~apiCarequipmentsFormGetCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}
      */
-  apiCarequipmentsFormGet(callback) {
+  apiCarequipmentsFormGet(jwt, callback) {
     let postBody = null;
 
     let pathParams = {};
     let queryParams = {};
-    let headerParams = {};
+    let headerParams = jwt;
     let formParams = {};
 
     let authNames = [];

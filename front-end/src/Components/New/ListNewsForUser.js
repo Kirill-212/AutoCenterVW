@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { GetNewDto, NewApi} from "../../ImportExportGenClient";
+import { GetNewDto, NewApi } from "../../ImportExportGenClient";
 import { GetPagedNewDto } from "../../model/GetPagedNewDto";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import { getDate } from "../ViewLists/SupportFunction";
@@ -7,7 +7,7 @@ export default function EnhancedTable(props) {
   const [listNew, setListNew] = React.useState([]);
   const [currentPages, setCurrentPages] = React.useState(1);
   const [totalPages, setTotalPages] = React.useState(0);
- 
+  const [blockFlag, setBlockFlag] = React.useState(false);
   const [load, setLoad] = React.useState(true);
   const [MessageError, setMessageError] = React.useState("");
   const [flag, setFlag] = React.useState(true);
@@ -26,16 +26,14 @@ export default function EnhancedTable(props) {
       } else {
         setMessageError(JSON.parse(error.message)["error"]);
       }
-    }else if (response.statusCode == 403) {
+    } else if (response.statusCode == 403) {
       setMessageError("Forbidden");
-    }
-     else if (response.statusCode == 401) {
+    } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       let rs = GetPagedNewDto.constructFromObject(response.body);
       setCurrentPages(rs.currentPage + 1);
       setTotalPages(rs.totalPages);
-
 
       let newss = GetPagedNewDto.constructFromObject(
         response.body
@@ -45,16 +43,55 @@ export default function EnhancedTable(props) {
       if (listNew.length == 0) {
         setListNew(newss);
       } else {
+        if (blockFlag) setListNew(newss);
         setListNew([...listNew, ...newss]);
       }
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    setBlockFlag(false);
+    setLoad(false);
+  }
+  function CallbackRequestBlock(error, data, response) {
+    if (response == undefined) {
+      setMessageError("Error:server is not available");
+    } else if (response.statusCode == 400) {
+      if (JSON.parse(error.message)["error"] == undefined) {
+        let errorResult = "";
+        let errorsJson = JSON.parse(error.message)["errors"];
+        for (let key in errorsJson) {
+          errorResult += key + " : " + errorsJson[key] + " | ";
+        }
+        setMessageError(errorResult);
+      } else {
+        setMessageError(JSON.parse(error.message)["error"]);
+      }
+    } else if (response.statusCode == 403) {
+      setMessageError("Forbidden");
+    } else if (response.statusCode == 401) {
+      setMessageError("Unauthorized");
+    } else if (response.statusCode === 200 || response.statusCode === 204) {
+      let rs = GetPagedNewDto.constructFromObject(response.body);
+      setCurrentPages(rs.currentPage + 1);
+      setTotalPages(rs.totalPages);
+
+      let newss = GetPagedNewDto.constructFromObject(
+        response.body
+      ).getNewDto.map(e => {
+        return GetNewDto.constructFromObject(e);
+      });
+
+      setListNew(newss);
+    } else if (response.statusCode > 400) {
+      setMessageError(JSON.parse(error.message)["error"]);
+    }
+    setBlockFlag(false);
     setLoad(false);
   }
 
   useEffect(
     () => {
+      console.log("load", currentPages, totalPages, load);
       if (load && (flag || (!flag && currentPages <= totalPages))) {
         new NewApi().apiNewsPagedGet(
           GetJwtToken(),
@@ -65,9 +102,19 @@ export default function EnhancedTable(props) {
           CallbackRequest
         );
         setFlag(false);
+      } else if (blockFlag) {
+        new NewApi().apiNewsPagedGet(
+          GetJwtToken(),
+          {
+            pageNumber: 1,
+            pageSize: 3
+          },
+          CallbackRequestBlock
+        );
+        setFlag(false);
       }
     },
-    [load]
+    [load, blockFlag]
   );
 
   useEffect(() => {
@@ -89,33 +136,34 @@ export default function EnhancedTable(props) {
   };
 
   return (
-    <div className="row">
-      <p>
+    <div className="container">
+      <p className="text-reset text-white">
         {MessageError}
       </p>
       {listNew.map(e => {
         // console.log(e);
         let flag = true;
         return (
-          <div className="row">
-            <div className="col" />
-            <div className="col" />
-            <div className="col" />
-            <div className="col">
-              {e.title}
+          <div class="card mt-5 mb-5 text-white bg-black">
+            <div class="card-header">
+              <div className="row justify-content-center">
+                <div class="col " />
+                <div className="col text-center">
+                  <h2>
+                    {e.title}
+                  </h2>
+                </div>
+
+                <div className="col text-right">
+                  Created {getDate(e.createdDate)}
+                </div>
+              </div>
             </div>
-            <div className="col" />
-            <div className="col">
-              Created {getDate(e.createdDate)}
-            </div>
-            <div className="col" />
-            <div className="col" />
-            <div className="col" />
-            <div className="row">
+            <div class="card-body row ">
               <div className="col" />
               <div
                 id={"slider" + e.title}
-                className="col carousel slide carousel-fade carousel-dark row justify-content-center align-self-center p-4 w-100 border"
+                className="col carousel slide carousel-fade carousel-dark row justify-content-center align-self-center p-2 w-100 "
                 data-mdb-ride="carousel"
               >
                 <div className="carousel-inner">
@@ -175,17 +223,21 @@ export default function EnhancedTable(props) {
               </div>
               <div className="col" />
             </div>
-            <div className="row">
-              <div className="col" />
-              <div className="col" />
-              <div className="col">
-                Created {e.firstName} {e.lastName}
+            <div class="card-footer">
+              <div className="row">
+                <div className="col">
+                  <p>
+                    Created: {e.firstName} {e.lastName}
+                  </p>
+                </div>
+                <div className="col" />
+                <div className="col text-reght">
+                  <p>
+                    Description:
+                    {e.description}
+                  </p>
+                </div>
               </div>
-              <div className="col">
-                {e.description}
-              </div>
-              <div className="col" />
-              <div className="col" />
             </div>
           </div>
         );

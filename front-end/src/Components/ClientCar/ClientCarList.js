@@ -24,10 +24,10 @@ export default function EnhancedTable(props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [searched, setSearched] = React.useState("");
-  console.log(props.rows);
+
   const requestSearch = searchedVal => {
     const filteredRows = rows.filter(row => {
-      return row.name.toLowerCase().includes(searchedVal.toLowerCase());
+      return row.vin.toLowerCase().includes(searchedVal.toLowerCase());
     });
     setRows(filteredRows);
   };
@@ -50,17 +50,18 @@ export default function EnhancedTable(props) {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
+  console.log(rows);
   return (
-    <Box sx={{ width: "90%" }}>
-      <Paper sx={{ width: "100%", p: 5 }}>
-        {/* <SearchBar
-           value={searched}
-          onChange={searchVal => requestSearch(searchVal)}
-          onCancelSearch={() => cancelSearch()}
-        /> */}
+    <Box sx={{ width: "100%" }} className="pt-5">
+      <Paper sx={{ p: 5 }}>
+        <input
+          type="text"
+          className="w-20 shadow-lg  bg-white rounded"
+          placeholder="Search"
+        />
         <TableContainer sx={{ maxHeight: 550 }}>
           <Table
             stickyHeader
@@ -93,65 +94,61 @@ export default function EnhancedTable(props) {
                         scope="row"
                         padding="none"
                       >
-                        <img
-                          src={row.urlPhoto}
-                          className="rounded-circle"
-                          width="200"
-                          height="200"
-                          alt="..."
-                        />
+                        {row.car.vin}
                       </TableCell>
                       <TableCell align="right" className="text-center">
-                        {row.firstName}
+                        {row.registerNumber !== null && row.registerNumber}
+                        {row.registerNumber === null && "None"}
                       </TableCell>
                       <TableCell align="right" className="text-center">
-                        {row.lastName}
+                        {getDate(row.car.dateOfRealeseCar)}
                       </TableCell>
                       <TableCell align="right" className="text-center">
-                        {getDate(row.dBay)}
+                        {row.car.isActive === true && "True"}
+                        {row.car.isActive !== true && "False"}
                       </TableCell>
                       <TableCell align="right" className="text-center">
-                        {row.status}
+                        {row.car.cost}
                       </TableCell>
                       <TableCell align="right" className="text-center">
-                        {row.email}
+                        {row.car.carMileage}
                       </TableCell>
                       <TableCell align="right" className="text-center">
-                        {row.phoneNumber}
+                        {row.car.actionCar !== null &&
+                          row.car.actionCar.sharePercentage}
+                        {row.car.actionCar === null && "None"}
                       </TableCell>
                       <TableCell align="right" className="text-center">
-                        {row.roleName}
-                      </TableCell>
-                      <TableCell align="right">
                         <div class="d-grid gap-2 d-md-block">
                           <button
-                            color="purple"
-                            size="sm"
                             class="btn btn-primary-sm btn-sm mr-1"
-                            value={row.email}
-                            onClick={props.deleteUser}
+                            value={row.car.vin}
+                            onClick={props.deleteClientCar}
+                            type="button"
                           >
-                            <i class="fa-regular fa-trash-can" />
+                            <i class="fas fa-trash" />
                           </button>
-                          {row.roleName === "USER" &&
-                            <button
-                              color="purple"
-                              size="sm"
-                              class="btn btn-primary-sm btn-sm mr-1"
-                              value={row.email}
-                              onClick={props.updateStatusUser}
-                            >
-                              <i class="fa-solid fa-check" />
-                            </button>}
-
-                          <a
-                            className="text-reset btn btn-primary-sm btn-sm ml-1"
-                            href={`/admin/user/put?firstName=${row.firstName}
-                          &lastName=${row.lastName}&surname=${row.surname}
-                          &email=${row.email}&phoneNumber=${row.phoneNumber}
-                          &dBay=${row.dBay}&urlPhoto=${row.urlPhoto}`}
+                          <button
+                            class="btn btn-primary-sm btn-sm ml-1"
+                            value={row.car.vin}
+                            onClick={props.updateClientCar}
+                            type="button"
                           >
-                            <i class="fa-solid fa-screwdriver-wrench" />
+                            <i class="fa-solid fa-sack-dollar" />
+                          </button>
+                          <a
+                            className="btn btn-primary-sm btn-sm ml-1 text-reset"
+                            href={`/admin/clientcar/put?vin=${row.car.vin}
+                          `}
+                          >
+                            <i className="fa fa-wrench" aria-hidden="true" />
+                          </a>
+                          <a
+                            className="btn btn-primary-sm btn-sm ml-1 text-reset "
+                            href={`/admin/clientcar/info?vin=${row.car.vin}
+                          `}
+                          >
+                            <i class="fa-solid fa-info" />
                           </a>
                         </div>
                       </TableCell>

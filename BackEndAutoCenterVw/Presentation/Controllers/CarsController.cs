@@ -32,6 +32,11 @@ namespace Presentation.Controllers
 
             return NoContent();
         }
+        [HttpGet("/active")]
+        public async Task<IEnumerable<Car>> GetCarActive()
+        {
+            return await _serviceManager.AsyncServiceCar.GetCarActive();           
+        }
 
         // [Authorize(Roles = " ADMIN, EMPLOYEE, USER")]
         [HttpGet("/ByEmail")]

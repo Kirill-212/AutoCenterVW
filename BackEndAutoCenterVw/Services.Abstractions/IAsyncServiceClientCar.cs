@@ -18,6 +18,8 @@ namespace Services.Abstractions
 
         Task<T> GetById(int id, CancellationToken cancellationToken = default);
 
+        Task<T> GetByEmailWithVin(string email,string vin, CancellationToken cancellationToken = default);
+
         Task Update(
             T item,
             int? sharePercentage,
@@ -29,6 +31,8 @@ namespace Services.Abstractions
             string newVin = null,
             CancellationToken cancellationToken = default
             );
+
+        Task<T> GetCarByVin(string vin);
 
         Task Remove(string registerNumber, CancellationToken cancellationToken = default);
     }

@@ -9,6 +9,9 @@ import {
 import ImgService from "../../Services/ImgServices/ImgService";
 import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
 const PutNew = () => {
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
@@ -75,8 +78,7 @@ const PutNew = () => {
         console.log(url);
         urls.push(new ImgDto(url.url));
       } else {
-        if(news[i].id!==undefined)
-        urls.push(new ImgDto(news[i].url));
+        if (news[i].id !== undefined) urls.push(new ImgDto(news[i].url));
       }
     }
     console.log({
@@ -185,7 +187,7 @@ const PutNew = () => {
                 </label>
               </div>
               <div className=" mt-2 ">
-                <img src={imgs[i].url} className="w-100 h-90"/>
+                <img src={imgs[i].url} className="w-100 h-90" />
               </div>
             </div>}
         </div>
@@ -205,94 +207,106 @@ const PutNew = () => {
   }, []);
 
   return (
-    <div className="container-fluid  " id="BackgroundImage">
-      <div className="d-flex   justify-content-center align-items-center ">
-        <div className="   p-4  w-100" style={styles}>
-          <div className="row mt-5">
-            <h1 className="d-flex   justify-content-center align-items-center ">
-              Put New
-            </h1>
-          </div>
-          <div className="row mt-1">
-            <form onSubmit={submitNew}>
-              <div className="form-group mb-2 ">
-                <label>Title:</label>
-                <input
-                  disabled
-                  value={title}
-                  className="w-100 shadow-lg  bg-white rounded"
-                  onChange={e => setTitle(e.target.value)}
-                  name="title"
-                  type="text"
-                  placeholder="Enter your title..."
-                />
+    <React.Fragment>
+      <CssBaseline />
+      <Container fixed className="text-white">
+        <Box sx={{ bgcolor: "black" }}>
+          <div className="d-flex   justify-content-center align-items-center ">
+            <div className="   mt-5 pt-5  w-100" style={styles}>
+              <div className="row mt-5">
+                <h1 className="d-flex   justify-content-center align-items-center ">
+                  Put New
+                </h1>
               </div>
-              <div className="form-group mb-2 ">
-                <label>New title</label>
-                <input
-                  value={titleNew}
-                  className="w-100 shadow-lg  bg-white rounded"
-                  onChange={e => setTitleNew(e.target.value)}
-                  name="title"
-                  type="text"
-                  placeholder="If you don't want to change your title, leave the field blank...."
-                />
+              <div className="container mt-1">
+                <form onSubmit={submitNew}>
+                  <div className="form-group mb-2 ">
+                    <label>Title:</label>
+                    <input
+                      disabled
+                      value={title}
+                      className="w-100 shadow-lg  bg-white rounded"
+                      onChange={e => setTitle(e.target.value)}
+                      name="title"
+                      type="text"
+                      placeholder="Enter your title..."
+                    />
+                  </div>
+                  <div className="form-group mb-2 ">
+                    <label>New title:</label>
+                    <input
+                      value={titleNew}
+                      className="w-100 shadow-lg  bg-white rounded"
+                      onChange={e => setTitleNew(e.target.value)}
+                      name="title"
+                      type="text"
+                      placeholder="If you don't want to change your title, leave the field blank...."
+                    />
+                  </div>
+                  <div className="form-group mb-2 ">
+                    <label>Description:</label>
+                    <input
+                      value={description}
+                      className="w-100 shadow-lg  bg-white rounded"
+                      onChange={e => setDescription(e.target.value)}
+                      name="description"
+                      type="text"
+                      placeholder="Enter your description..."
+                      required
+                    />
+                  </div>
+                  <div className="form-group mb-2 ">
+                    <label>
+                      If you don't want to change img, leave the field blank....
+                    </label>
+                    <br />
+                    {news !== undefined && renderInput(news)}
+                  </div>
+                  <div>
+                    <button
+                      className="btn btn-dark btn-rounded"
+                      type="button"
+                      onClick={AddField}
+                    >
+                      Add input file
+                    </button>
+                  </div>
+                  <div className="d-flex justify-content-center form-outline mb-3 p-5">
+                    <div className="flex-fill">
+                      <button
+                        type="submit"
+                        className="btn btn-secondary btn-rounded w-100 "
+                      >
+                        Put
+                      </button>
+                    </div>
+                  </div>
+                </form>
               </div>
-              <div className="form-group mb-2 ">
-                <label>Description:</label>
-                <input
-                  value={description}
-                  className="w-100 shadow-lg  bg-white rounded"
-                  onChange={e => setDescription(e.target.value)}
-                  name="description"
-                  type="text"
-                  placeholder="Enter your description..."
-                  required
-                />
-              </div>
-              <div className="form-group mb-2 ">
-                <label>
-                  If you don't want to change img, leave the field blank....
-                </label>
-                <br />
-                {news !== undefined && renderInput(news)}
-              </div>
-              <div>
-                <button
-                  className="btn btn-dark btn-rounded"
-                  type="button"
-                  onClick={AddField}
-                >
-                  Add input file
-                </button>
-              </div>
-              <div className="d-flex justify-content-center form-outline mb-3 p-5">
-                <div className="flex-fill">
-                  <button
-                    type="submit"
-                    className="btn btn-secondary btn-rounded w-100 "
+              <div className="row text-center">
+                <div className="col">
+                  <a
+                    className="text-reset text-white"
+                    href={"/" + JSON.parse(user).roleName.toLowerCase()}
                   >
-                    Put
-                  </button>
+                    Home
+                  </a>
                 </div>
               </div>
-            </form>
-          </div>
-          <div className="row ">
-            <div className="col">
-              <a href={"/" + JSON.parse(user).roleName.toLowerCase()}>Home</a>
+              <div>
+                {redirect &&
+                  <Navigate
+                    to={"/" + JSON.parse(user).roleName.toLowerCase()}
+                  />}
+                <p className="text-reset text-white">
+                  {MessageError}
+                </p>
+              </div>
             </div>
           </div>
-          <div>
-            {redirect &&
-              <Navigate to={"/" + JSON.parse(user).roleName.toLowerCase()} />}
-            <p>
-              {MessageError}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Container>
+    </React.Fragment>
   );
 };
 

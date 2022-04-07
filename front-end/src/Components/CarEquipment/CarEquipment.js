@@ -1,23 +1,25 @@
-import React, { useEffect } from "react";
-import { EmployeesApi } from "../../api/EmployeesApi";
+import React, { useContext, useEffect } from "react";
+import { CarEquipmentApi } from "../../ImportExportGenClient";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
-import EmployeeListView from "../../SetListView/EmployeeListView";
-import ListEmployee from "./ListEmployee";
-import { GetEmployeeDto } from "../../model/GetEmployeeDto";
-const Employee = () => {
+import ListCarEquipments from "./ListCarEquipment";
+
+const CarEquipments = () => {
   const [MessageError, setMessageError] = React.useState("");
-  const [listEmployees, setListEmployees] = React.useState([]);
+  const [listCarEquipments, setListCarEquipments] = React.useState([]);
   const [viewList, setViewList] = React.useState(false);
 
-  async function GetEmployeeList() {
+  async function GetCarEquipmentsList() {
     setViewList(false);
-    new EmployeesApi().apiEmployeesGet(GetJwtToken(), CallbackRequest);
-  }
-  async function DeleteEmployee(e) {
-    console.log("email", e.currentTarget.value);
-    new EmployeesApi().apiEmployeesDelete(
+    new CarEquipmentApi().apiCarequipmentsEquipmentGet(
       GetJwtToken(),
-      { email: e.currentTarget.value },
+      CallbackRequest
+    );
+  }
+  async function DeleteCarEquipments(e) {
+    e.preventDefault();
+    new CarEquipmentApi().apiCarequipmentsEquipmentDelete(
+      GetJwtToken(),
+      { name: e.currentTarget.value },
       CallbackRequestDelete
     );
   }
@@ -41,7 +43,7 @@ const Employee = () => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
-      GetEmployeeList();
+      GetCarEquipmentsList();
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
@@ -66,12 +68,7 @@ const Employee = () => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
-      console.log(data);
-      setListEmployees(
-        data.map(e => {
-          return GetEmployeeDto.constructFromObject(e);
-        })
-      );
+      setListCarEquipments(response.body);
       setViewList(true);
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
@@ -79,11 +76,11 @@ const Employee = () => {
   }
 
   useEffect(() => {
-    GetEmployeeList();
+    GetCarEquipmentsList();
   }, []);
 
   return (
-    <div className="container-fruid">
+    <div className="container-md">
       <div className="row align-items-center">
         <p className="text-reset text-white">
           {MessageError}
@@ -92,14 +89,13 @@ const Employee = () => {
 
       <div className="row mt-5 pt-5 align-items-center">
         {viewList &&
-          <ListEmployee
-            head={EmployeeListView()}
-            rows={listEmployees}
-            deleteEmployee={DeleteEmployee}
+          <ListCarEquipments
+            data={listCarEquipments}
+            deleteCarEquipment={DeleteCarEquipments}
           />}
       </div>
     </div>
   );
 };
 
-export default Employee;
+export default CarEquipments;
