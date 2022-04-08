@@ -184,7 +184,7 @@ export default function EnhancedTable(props) {
                 <div class="col ">
                   <a
                     className="text-reset btn btn-primary-sm btn-sm mr-1"
-                    href={`/admin/new/put?title=${e.title}`}
+                    href={`/new/put?title=${e.title}`}
                   >
                     <i class="fa-solid fa-screwdriver-wrench" />
                   </a>
@@ -195,7 +195,7 @@ export default function EnhancedTable(props) {
                     value={e.title}
                     onClick={DeleteNew}
                   >
-               <i class="fas fa-trash" />
+                    <i class="fas fa-trash" />
                   </button>
                 </div>
                 <div className="col text-center">

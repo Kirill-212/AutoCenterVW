@@ -180,21 +180,9 @@ const PutEmployee = () => {
                   </div>
                 </form>
               </div>
-              <div className="row text-center">
-                <div className="col">
-                  <a
-                    className="text-reset text-white"
-                    href={"/" + JSON.parse(user).roleName.toLowerCase()}
-                  >
-                    Home
-                  </a>
-                </div>
-              </div>
+             
               <div>
-                {redirect &&
-                  <Navigate
-                    to={"/" + JSON.parse(user).roleName.toLowerCase()}
-                  />}
+                {redirect && <Navigate to={"/home"} />}
                 <p className="text-reset text-white">
                   {MessageError}
                 </p>

@@ -150,7 +150,6 @@ const PostCarEquipment = () => {
     }
   }
   function onChangeValue(event) {
-    
     let valuePush = JSON.parse(event.target.value);
     let arr = carEquipment.map(r => {
       return r.name;
@@ -218,18 +217,9 @@ const PostCarEquipment = () => {
                   </div>
                 </form>
               </div>
-              <div className="row text-center">
-                <div className="col">
-                  <a className="text-reset text-white" href={"/" + JSON.parse(user).roleName.toLowerCase()}>
-                    Home
-                  </a>
-                </div>
-              </div>
+              
               <div>
-                {redirect &&
-                  <Navigate
-                    to={"/" + JSON.parse(user).roleName.toLowerCase()}
-                  />}
+                {redirect && <Navigate to={"/home"} />}
                 <p className="text-reset text-white">
                   {MessageError}
                 </p>

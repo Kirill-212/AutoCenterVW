@@ -141,8 +141,7 @@ export default function EnhancedTable(props) {
                           </button>
                           <a
                             className="text-reset btn btn-primary-sm btn-sm mr-1"
-                            href={`/admin/employee/put?email=${row.getUserDto
-                              .email}
+                            href={`/employee/put?email=${row.getUserDto.email}
                           &address=${row.address}&roleName=${row.getUserDto
                               .roleName}
                           `}

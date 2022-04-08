@@ -2,9 +2,9 @@ import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Context from "./context";
 import Authorization from "./Components/Auth/Authorization";
-import UserHeader from "./Components/Header/UserHeader";
-import AdminHeader from "./Components/Header/AdminHeader";
+import Header from "./Components/Header/Header";
 import Home from "./Components/Home";
+import Footer from "./Components/Footer";
 import Registration from "./Components/Auth/Registration";
 import User from "./Components/User/User";
 import PutUser from "./Components/User/PutUser";
@@ -25,6 +25,8 @@ import ClientCarInfo from "./Components/ClientCar/ClientCarDetail";
 import PostCarEquipment from "./Components/CarEquipment/PostCarEquipment";
 import CarEquipment from "./Components/CarEquipment/CarEquipment";
 import PostCarEquipmentForm from "./Components/CarEquipmentForm/PostCarEquipmentForm";
+import CarEquipmentForm from "./Components/CarEquipmentForm/CaEquipmentForm";
+import PutCarEquipmentForm from "./Components/CarEquipmentForm/PutCarEquipmentForm";
 function App() {
   const [user, setUser] = React.useState(undefined);
 
@@ -35,13 +37,12 @@ function App() {
   return (
     <Context.Provider value={{ user, setUser }}>
       <Router>
-        <Routes>
-          <Route exact path="/login" element={<Authorization />} />
-          <Route path="/" element={<Registration />} />
-          <Route path="/user" element={<UserHeader />}>
+        <Header />
+        <main role="main">
+          <Routes>
+            <Route exact path="/login" element={<Authorization />} />
+            <Route path="/" element={<Registration />} />
             <Route path="home" element={<Home />} />
-          </Route>
-          <Route path="/admin" element={<AdminHeader />}>
             <Route path="user" element={<User />} />
             <Route path="user/put" element={<PutUser />} />
             <Route path="employee" element={<Employee />} />
@@ -65,9 +66,16 @@ function App() {
               path="carequipmentform/post"
               element={<PostCarEquipmentForm />}
             />
-          </Route>
-          <Route path="*" element={<h2>Resourse not found</h2>} />
-        </Routes>
+            <Route
+              path="carequipmentform/put"
+              element={<PutCarEquipmentForm />}
+            />
+            <Route path="carequipmentform" element={<CarEquipmentForm />} />
+            <Route path="*" element={<h2>Resourse not found</h2>} />
+          </Routes>
+        </main>
+
+        <Footer />
       </Router>
     </Context.Provider>
   );

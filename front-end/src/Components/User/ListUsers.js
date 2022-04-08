@@ -146,7 +146,7 @@ export default function EnhancedTable(props) {
 
                           <a
                             className="text-reset btn btn-primary-sm btn-sm ml-1"
-                            href={`/admin/user/put?firstName=${row.firstName}
+                            href={`/user/put?firstName=${row.firstName}
                           &lastName=${row.lastName}&surname=${row.surname}
                           &email=${row.email}&phoneNumber=${row.phoneNumber}
                           &dBay=${row.dBay}&urlPhoto=${row.urlPhoto}`}

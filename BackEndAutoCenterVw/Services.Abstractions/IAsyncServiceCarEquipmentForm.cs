@@ -14,6 +14,8 @@ namespace Services.Abstractions
 
         T GetById(string id, CancellationToken cancellationToken = default);
 
+        T GetByName(string name, CancellationToken cancellationToken = default);
+
         Task Remove(string name, CancellationToken cancellationToken = default);
     }
 }

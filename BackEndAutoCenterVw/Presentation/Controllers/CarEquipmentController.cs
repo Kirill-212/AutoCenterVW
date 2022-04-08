@@ -83,6 +83,12 @@ namespace Presentation.Controllers
             return mapper.Map<CarEquipmentFormDto>(equipmentForm.GetById(id));
         }
 
+        [HttpGet("name")]
+        public ActionResult<CarEquipmentFormDto> GetByNameForm([FromQuery]string name)
+        {
+            return mapper.Map<CarEquipmentFormDto>(equipmentForm.GetByName(name));
+        }
+
         ////[Authorize(Roles = " ADMIN, EMPLOYEE,  USER")]
         [HttpGet("form")]
         public List<CarEquipmentFormDto> GetForm()

@@ -1,124 +1,30 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import { Navigate } from "react-router-dom";
 import {
   CarEquipmentApi,
-  PostCarEquipmentDto,
-  CarEquipmentFormItemDto,
+  PostCarEquipmentFormDto,
   ValueCarEquipmentDto
 } from "../../ImportExportGenClient";
-import ImgService from "../../Services/ImgServices/ImgService";
-import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 const PostCarEquipmentForm = () => {
-  const { user } = useContext(Context);
   const [name, setName] = React.useState("");
   const [MessageError, setMessageError] = React.useState("");
   const [redirect, setRedirect] = React.useState(false);
-  const [flag, setFlag] = React.useState(false);
-  const [carEquipmentList, setCarEquipmentList] = React.useState([]);
-  const [key, setKey] = React.useState([]);
   const [carEquipment, setCarEquipment] = React.useState([]);
-
-  async function GetFormCarEquipment() {
-    setMessageError("");
-    new CarEquipmentApi().apiCarequipmentsFormGet(
-      GetJwtToken(),
-      CallbackRequest
-    );
-  }
-  function CallbackRequest(error, data, response) {
-    if (response == undefined) {
-      setMessageError("Error:server is not available");
-    } else if (response.statusCode == 400) {
-      if (JSON.parse(error.message)["error"] == undefined) {
-        let errorResult = "";
-        let errorsJson = JSON.parse(error.message)["errors"];
-        for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
-        }
-        setMessageError(errorResult);
-      } else {
-        setMessageError(JSON.parse(error.message)["error"]);
-      }
-    } else if (response.statusCode == 403) {
-      setMessageError("Forbidden");
-    } else if (response.statusCode == 401) {
-      setMessageError("Unauthorized");
-    } else if (response.statusCode === 200 || response.statusCode === 204) {
-      setCarEquipmentList(response.body);
-      setFlag(true);
-    } else if (response.statusCode > 400) {
-      setMessageError(JSON.parse(error.message)["error"]);
-    }
-  }
-
-  function RenderRadioButton(input, name, nameEquipment) {
-    let returnButtons = [];
-
-    for (let j in input) {
-      returnButtons.push(
-        <div className="form-check">
-          <label>
-            Value: {input[j].value} Cost: {input[j].cost}
-            <input
-              className="form-check-input"
-              type="radio"
-              value={JSON.stringify({
-                name: name,
-                value: input[j].value,
-                cost: input[j].cost,
-                nameEquipment: nameEquipment
-              })}
-              name={name}
-            />
-          </label>
-        </div>
-      );
-    }
-    return returnButtons;
-  }
-
-  function RenderCarEquipment() {
-    let radioButtonsCarEuipment = [];
-    // console.log(carEquipmentList);
-    for (let i in carEquipmentList) {
-      //  console.log();
-      if (!key.includes(carEquipmentList[i].equipmentItems))
-        key.push(carEquipmentList[i].equipmentItems);
-      radioButtonsCarEuipment.push(
-        <div>
-          <label>
-            {carEquipmentList[i].name}
-          </label>
-          <div onChange={e => onChangeValue(e)}>
-            {RenderRadioButton(
-              carEquipmentList[i].equipmentItems,
-              i,
-              carEquipmentList[i].name
-            )}
-          </div>
-        </div>
-      );
-    }
-    return radioButtonsCarEuipment;
-  }
 
   async function submitCarEquipment(event) {
     event.preventDefault();
     setMessageError("");
-    new CarEquipmentApi().apiCarequipmentsEquipmentPost(
+    new CarEquipmentApi().apiCarequipmentsPost(
       GetJwtToken(),
       {
-        body: new PostCarEquipmentDto(
+        body: new PostCarEquipmentFormDto(
           name,
           carEquipment.map(r => {
-            return new CarEquipmentFormItemDto(
-              r.nameEquipment,
-              new ValueCarEquipmentDto(r.value, r.cost)
-            );
+            return new ValueCarEquipmentDto(r.value, r.cost);
           })
         )
       },
@@ -149,31 +55,60 @@ const PostCarEquipmentForm = () => {
       setMessageError(JSON.parse(error.message)["error"]);
     }
   }
-  function onChangeValue(event) {
-    let valuePush = JSON.parse(event.target.value);
-    let arr = carEquipment.map(r => {
-      return r.name;
-    });
-    if (!arr.includes(valuePush.name)) {
-      carEquipment.push(valuePush);
-    } else {
-      for (let variablqe in carEquipment) {
-        if (carEquipment[variablqe].name === valuePush.name) {
-          carEquipment[variablqe] = valuePush;
-        }
-      }
-    }
-    console.log(carEquipment);
-  }
 
   const styles = {
     maxWidth: "700px",
     border: "none"
   };
 
-  useEffect(() => {
-    GetFormCarEquipment();
-  }, []);
+  function AddField() {
+    setCarEquipment([...carEquipment, {}]);
+  }
+
+  function renderInput() {
+    let imgs = carEquipment;
+    let rows = [];
+    for (let i = 0; i < imgs.length; i++) {
+      rows.push(
+        <div className="row">
+          <div className="col">
+            <label>Value:</label>
+            <div className="custom-file">
+              <input
+                type="text"
+                onChange={e => Add(e.target.value, i, null)}
+                className="w-100 shadow-lg  bg-white rounded"
+                required
+                placeholder="Enter your value..."
+              />
+            </div>
+          </div>
+          <div className="col">
+            <label>Cost($):</label>
+            <div className="custom-file">
+              <input
+                type="number"
+                onChange={e => Add(null, i, e.target.value)}
+                className="w-100 shadow-lg  bg-white rounded"
+                required
+                placeholder="Enter your cost..."
+              />
+            </div>
+          </div>
+        </div>
+      );
+    }
+    return rows;
+  }
+
+  function Add(value = null, i, cost = null) {
+    if (value !== null) {
+      carEquipment[i].value = value;
+    } else if (cost !== null) {
+      carEquipment[i].cost = cost;
+    }
+    console.log(carEquipment);
+  }
 
   return (
     <React.Fragment>
@@ -184,13 +119,13 @@ const PostCarEquipmentForm = () => {
             <div className="p-4  w-100" style={styles}>
               <div className="row mt-5">
                 <h1 className="d-flex   justify-content-center align-items-center ">
-                  Post car equipment
+                  Post car equipment item
                 </h1>
               </div>
               <div className="container mt-5">
                 <form onSubmit={submitCarEquipment}>
                   <div className="form-group mb-2 ">
-                    <label>Name car equipment:</label>
+                    <label>Name:</label>
                     <input
                       className="w-100 shadow-lg  bg-white rounded"
                       onChange={e => setName(e.target.value)}
@@ -202,8 +137,17 @@ const PostCarEquipmentForm = () => {
                   </div>
 
                   <div className="form-group mb-2 ">
-                    <label>Car equipment:</label>
-                    {flag && RenderCarEquipment()}
+                    <label>Equipment items:</label>
+                    {carEquipment !== undefined && renderInput(carEquipment)}
+                  </div>
+                  <div>
+                    <button
+                      className="btn btn-dark btn-rounded m-2"
+                      type="button"
+                      onClick={AddField}
+                    >
+                      Add input files
+                    </button>
                   </div>
                   <div className="d-flex justify-content-center form-outline mb-3">
                     <div className="flex-fill">
@@ -217,21 +161,9 @@ const PostCarEquipmentForm = () => {
                   </div>
                 </form>
               </div>
-              <div className="row text-center">
-                <div className="col">
-                  <a
-                    className="text-reset text-white"
-                    href={"/" + JSON.parse(user).roleName.toLowerCase()}
-                  >
-                    Home
-                  </a>
-                </div>
-              </div>
+
               <div>
-                {redirect &&
-                  <Navigate
-                    to={"/" + JSON.parse(user).roleName.toLowerCase()}
-                  />}
+                {redirect && <Navigate to={"/home"} />}
                 <p className="text-reset text-white">
                   {MessageError}
                 </p>

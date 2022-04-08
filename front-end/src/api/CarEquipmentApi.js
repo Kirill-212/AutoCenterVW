@@ -51,7 +51,7 @@ export class CarEquipmentApi {
      * @param {String} opts.name 
      * @param {module:api/CarEquipmentApi~apiCarequipmentsDeleteCallback} callback The callback function, accepting three arguments: error, data, response
      */
-  apiCarequipmentsDelete(opts, callback) {
+  apiCarequipmentsNameGet(jwt, opts, callback) {
     opts = opts || {};
     let postBody = null;
 
@@ -59,7 +59,39 @@ export class CarEquipmentApi {
     let queryParams = {
       name: opts["name"]
     };
-    let headerParams = {};
+    let headerParams = jwt;
+    let formParams = {};
+
+    let authNames = [];
+    let contentTypes = [];
+    let accepts = ["text/plain", "application/json", "text/json"];
+    let returnType = CarEquipmentFormDto;
+
+    return this.apiClient.callApi(
+      "/api/carequipments/name",
+      "GET",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+
+  apiCarequipmentsDelete(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = null;
+
+    let pathParams = {};
+    let queryParams = {
+      name: opts["name"]
+    };
+    let headerParams = jwt;
     let formParams = {};
 
     let authNames = [];
@@ -95,7 +127,7 @@ export class CarEquipmentApi {
      * @param {String} opts.name 
      * @param {module:api/CarEquipmentApi~apiCarequipmentsEquipmentDeleteCallback} callback The callback function, accepting three arguments: error, data, response
      */
-  apiCarequipmentsEquipmentDelete(jwt,opts, callback) {
+  apiCarequipmentsEquipmentDelete(jwt, opts, callback) {
     opts = opts || {};
     let postBody = null;
 
@@ -446,13 +478,13 @@ export class CarEquipmentApi {
      * @param {module:model/PostCarEquipmentFormDto} opts.body 
      * @param {module:api/CarEquipmentApi~apiCarequipmentsPostCallback} callback The callback function, accepting three arguments: error, data, response
      */
-  apiCarequipmentsPost(opts, callback) {
+  apiCarequipmentsPost(jwt, opts, callback) {
     opts = opts || {};
     let postBody = opts["body"];
 
     let pathParams = {};
     let queryParams = {};
-    let headerParams = {};
+    let headerParams = jwt;
     let formParams = {};
 
     let authNames = [];
@@ -488,13 +520,13 @@ export class CarEquipmentApi {
      * @param {module:model/PutCarEquipmentFormDto} opts.body 
      * @param {module:api/CarEquipmentApi~apiCarequipmentsPutCallback} callback The callback function, accepting three arguments: error, data, response
      */
-  apiCarequipmentsPut(opts, callback) {
+  apiCarequipmentsPut(jwt, opts, callback) {
     opts = opts || {};
     let postBody = opts["body"];
 
     let pathParams = {};
     let queryParams = {};
-    let headerParams = {};
+    let headerParams = jwt;
     let formParams = {};
 
     let authNames = [];

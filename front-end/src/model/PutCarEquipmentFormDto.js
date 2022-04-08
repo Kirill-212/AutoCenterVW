@@ -12,8 +12,8 @@
  * Do not edit the class manually.
  *
  */
-import {ApiClient} from '../ApiClient';
-import {PutValueCarEquipmentDto} from './PutValueCarEquipmentDto';
+import { ApiClient } from "../ApiClient";
+import { PutValueCarEquipmentDto } from "./PutValueCarEquipmentDto";
 
 /**
  * The PutCarEquipmentFormDto model module.
@@ -28,8 +28,9 @@ export class PutCarEquipmentFormDto {
    * @param name {String} 
    * @param equipmentItems {Array.<module:model/PutValueCarEquipmentDto>} 
    */
-  constructor(name, equipmentItems) {
+  constructor(newName, name, equipmentItems) {
     this.name = name;
+    this.newName = newName;
     this.equipmentItems = equipmentItems;
   }
 
@@ -43,12 +44,14 @@ export class PutCarEquipmentFormDto {
   static constructFromObject(data, obj) {
     if (data) {
       obj = obj || new PutCarEquipmentFormDto();
-      if (data.hasOwnProperty('name'))
-        obj.name = ApiClient.convertToType(data['name'], 'String');
-      if (data.hasOwnProperty('newName'))
-        obj.newName = ApiClient.convertToType(data['newName'], 'String');
-      if (data.hasOwnProperty('equipmentItems'))
-        obj.equipmentItems = ApiClient.convertToType(data['equipmentItems'], [PutValueCarEquipmentDto]);
+      if (data.hasOwnProperty("name"))
+        obj.name = ApiClient.convertToType(data["name"], "String");
+      if (data.hasOwnProperty("newName"))
+        obj.newName = ApiClient.convertToType(data["newName"], "String");
+      if (data.hasOwnProperty("equipmentItems"))
+        obj.equipmentItems = ApiClient.convertToType(data["equipmentItems"], [
+          PutValueCarEquipmentDto
+        ]);
     }
     return obj;
   }
@@ -68,4 +71,3 @@ PutCarEquipmentFormDto.prototype.newName = undefined;
  * @member {Array.<module:model/PutValueCarEquipmentDto>} equipmentItems
  */
 PutCarEquipmentFormDto.prototype.equipmentItems = undefined;
-

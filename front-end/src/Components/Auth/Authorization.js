@@ -93,7 +93,7 @@ const Authorization = () => {
                   />
                 </div>
                 <div className="row d-flex justify-content-center form-outline mb-3">
-                <div className="col-5 flex-fill">
+                  <div className="col-5 flex-fill">
                     <button
                       type="submit"
                       className="btn btn-secondary btn-rounded w-100 "
@@ -124,7 +124,7 @@ const Authorization = () => {
               </div>
             </div>
           </div>
-          {redirect && <Navigate to={"/" + role} />}
+          {redirect && <Navigate to={"/home"} />}
         </Box>
       </Container>
     </React.Fragment>

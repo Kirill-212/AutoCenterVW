@@ -29,8 +29,7 @@ namespace Services
             item.Id = (asyncRepositoryCarEquipment.Get().Count() + 1).ToString();
             foreach (var i in item.EquipmentItems)
             {
-                if (item.EquipmentItems.Where(i => i.Value == i.Value)
-                    .Where(i => i.IsDeleted == false).Count() > 1)
+                if (item.EquipmentItems.Where(ie => ie.Value == i.Value).Where(ie => ie.IsDeleted == false).Count() !=1)
                     throw new CarEquipmentFormKeyEquipmentItemsError(i.Value);
                 if (i.Cost < 0 || string.IsNullOrEmpty(i.Value))
                 {
@@ -48,6 +47,11 @@ namespace Services
         public CarEquipmentForm GetById(string id, CancellationToken cancellationToken = default)
         {
             return asyncRepositoryCarEquipment.GetById(id, false);
+        }
+
+        public CarEquipmentForm GetByName(string name, CancellationToken cancellationToken = default)
+        {
+            return asyncRepositoryCarEquipment.GetByName(name);
         }
 
         public async Task Remove(string name, CancellationToken cancellationToken = default)
@@ -81,7 +85,8 @@ namespace Services
             item.Id = carEquipmentForm.Id;
             foreach (var i in item.EquipmentItems)
             {
-                if (item.EquipmentItems.Where(i => i.Value == i.Value).Where(i => i.IsDeleted == false).Count() > 1)
+                if(i.IsDeleted==true) continue;
+                if (item.EquipmentItems.Where(ie => ie.Value == i.Value).Where(e =>e.IsDeleted == false).Count() !=1)
                     throw new CarEquipmentFormKeyEquipmentItemsError(i.Value);
                 if (i.Cost < 0 || string.IsNullOrEmpty(i.Value))
                 {

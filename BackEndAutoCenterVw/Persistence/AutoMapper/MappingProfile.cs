@@ -40,6 +40,7 @@ namespace Persistence.AutoMapper
             CreateMap<ValueCarEquipment, ValueCarEquipmentDto>();
             CreateMap<ValueCarEquipmentDto, ValueCarEquipment>();
             CreateMap<PutValueCarEquipmentDto, ValueCarEquipment>();
+            CreateMap<PutValueCarEquipmentDto, ValueCarEquipmentDto>();
             CreateMap<PostCarEquipmentFormDto, CarEquipmentForm>()
                 .ForMember(dest => dest.EquipmentItems, opt => opt.MapFrom(src => src.EquipmentItems));
             CreateMap<PutCarEquipmentFormDto, CarEquipmentForm>()

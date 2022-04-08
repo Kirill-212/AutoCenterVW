@@ -292,15 +292,6 @@ const CarDetail = () => {
                 </h4>
                 {ViewCarEquipment()}
               </div>}
-
-            <div className="row  text-white text-center">
-              <a
-                className="text-reset text-white"
-                href={"/" + JSON.parse(user).roleName.toLowerCase()}
-              >
-                Home
-              </a>
-            </div>
           </div>
         </Box>
       </Container>

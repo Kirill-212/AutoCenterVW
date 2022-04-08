@@ -138,14 +138,14 @@ export default function EnhancedTable(props) {
                           </button>
                           <a
                             className="btn btn-primary-sm btn-sm ml-1 text-reset"
-                            href={`/admin/clientcar/put?vin=${row.car.vin}
+                            href={`/clientcar/put?vin=${row.car.vin}
                           `}
                           >
                             <i className="fa fa-wrench" aria-hidden="true" />
                           </a>
                           <a
                             className="btn btn-primary-sm btn-sm ml-1 text-reset "
-                            href={`/admin/clientcar/info?vin=${row.car.vin}
+                            href={`/clientcar/info?vin=${row.car.vin}
                           `}
                           >
                             <i class="fa-solid fa-info" />
