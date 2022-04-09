@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  *
  */
-import {ApiClient} from '../ApiClient';
+import { ApiClient } from "../ApiClient";
 
 /**
  * The PostOrderDto model module.
@@ -27,9 +27,11 @@ export class PostOrderDto {
    * @param emailBuyer {String} 
    * @param changeRegisterNumber {Boolean} 
    */
-  constructor(emailBuyer, changeRegisterNumber) {
+  constructor(emailOwner, emailBuyer, changeRegisterNumber,vin) {
+    this.emailOwner = emailOwner;
     this.emailBuyer = emailBuyer;
     this.changeRegisterNumber = changeRegisterNumber;
+    this.vin=vin;
   }
 
   /**
@@ -42,14 +44,17 @@ export class PostOrderDto {
   static constructFromObject(data, obj) {
     if (data) {
       obj = obj || new PostOrderDto();
-      if (data.hasOwnProperty('vin'))
-        obj.vin = ApiClient.convertToType(data['vin'], 'String');
-      if (data.hasOwnProperty('emailOwner'))
-        obj.emailOwner = ApiClient.convertToType(data['emailOwner'], 'String');
-      if (data.hasOwnProperty('emailBuyer'))
-        obj.emailBuyer = ApiClient.convertToType(data['emailBuyer'], 'String');
-      if (data.hasOwnProperty('changeRegisterNumber'))
-        obj.changeRegisterNumber = ApiClient.convertToType(data['changeRegisterNumber'], 'Boolean');
+      if (data.hasOwnProperty("vin"))
+        obj.vin = ApiClient.convertToType(data["vin"], "String");
+      if (data.hasOwnProperty("emailOwner"))
+        obj.emailOwner = ApiClient.convertToType(data["emailOwner"], "String");
+      if (data.hasOwnProperty("emailBuyer"))
+        obj.emailBuyer = ApiClient.convertToType(data["emailBuyer"], "String");
+      if (data.hasOwnProperty("changeRegisterNumber"))
+        obj.changeRegisterNumber = ApiClient.convertToType(
+          data["changeRegisterNumber"],
+          "Boolean"
+        );
     }
     return obj;
   }
@@ -74,4 +79,3 @@ PostOrderDto.prototype.emailBuyer = undefined;
  * @member {Boolean} changeRegisterNumber
  */
 PostOrderDto.prototype.changeRegisterNumber = undefined;
-

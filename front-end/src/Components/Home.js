@@ -1,9 +1,9 @@
 import React from "react";
-
+import Footer from "./Footer";
 function Home() {
   return (
-    <div className="d-flex justify-content-between  flex-row bg-dark text-white ">
-      <div class="container marketing">
+    <div className="d-flex justify-content-between  flex-column bg-dark text-white ">
+      <div class=" container marketing ">
         <div class="row">
           <div class="col-lg-4">
             <svg
@@ -149,6 +149,8 @@ function Home() {
 
         <hr class="featurette-divider" />
       </div>
+
+      <Footer />
     </div>
   );
 }

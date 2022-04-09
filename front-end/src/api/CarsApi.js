@@ -16,7 +16,7 @@ import { ApiClient } from "../ApiClient";
 import { Car } from "../model/Car";
 import { PostCarDto } from "../model/PostCarDto";
 import { PutCarDto } from "../model/PutCarDto";
-
+import { GetCarDto } from "../model/GetCarDto";
 /**
 * Cars service.
 * @module api/CarsApi
@@ -34,7 +34,34 @@ export class CarsApi {
   constructor(apiClient) {
     this.apiClient = apiClient || ApiClient.instance;
   }
+  activeGet(jwt, callback) {
+    let postBody = null;
 
+    let pathParams = {};
+    let queryParams = {};
+    let headerParams = jwt;
+    let formParams = {};
+
+    let authNames = [];
+    let contentTypes = [];
+    let accepts = ["text/plain", "application/json", "text/json"];
+    let returnType = [GetCarDto];
+
+    return this.apiClient.callApi(
+      "/active",
+      "GET",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
   /**
      * Callback function to receive the result of the apiCarsByVinGet operation.
      * @callback moduleapi/CarsApi~apiCarsByVinGetCallback

@@ -33,9 +33,9 @@ namespace Presentation.Controllers
             return NoContent();
         }
         [HttpGet("/active")]
-        public async Task<IEnumerable<Car>> GetCarActive()
+        public async Task<List<GetCarDto>> GetCarActive()
         {
-            return await _serviceManager.AsyncServiceCar.GetCarActive();           
+            return  _mapper.Map<List<GetCarDto>>(await _serviceManager.AsyncServiceCar.GetCarActive());           
         }
 
         // [Authorize(Roles = " ADMIN, EMPLOYEE, USER")]

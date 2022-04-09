@@ -52,22 +52,22 @@ function Footer() {
           >
             <i class="fab fa-github" />
           </a>
-          <a
-            class="text-reset btn-floating m-1"
-            href="/home"
-            role="button"
-          >
-             <i class="fa-solid fa-house" />
+          <a class="text-reset btn-floating m-1" href="/home" role="button">
+            <i class="fa-solid fa-house" />
           </a>
-          
         </section>
       </div>
 
       <div class="text-center p-3" id="footer">
         © 2022 Copyright:
         <a class="text-white" href="https://www.vw.com/en.html">
-           www.vw.com
-        </a><p class="float-end text-reset"><a className=" text-reset" href="#">Back to top</a></p>
+          www.vw.com
+        </a>
+        <p class="float-end text-reset">
+          <a className=" text-reset" href="#">
+            Back to top
+          </a>
+        </p>
       </div>
     </footer>
   );

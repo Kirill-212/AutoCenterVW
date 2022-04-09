@@ -125,7 +125,8 @@ namespace Persistence.Repositories
         {
             return await _dbContext.Cars
                 .Include(i => i.ActionCar)
-                .Include(i => i.ClientCar.User)
+                .Include(i=>i.ClientCar.User)
+                .Include(i=>i.ImgsCar)
                 .Where(u => u.IsActive==true)
                 .Where(i => i.IsDeleted == false)
                 .ToListAsync();

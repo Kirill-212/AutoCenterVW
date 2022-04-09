@@ -4,7 +4,7 @@ import Context from "./context";
 import Authorization from "./Components/Auth/Authorization";
 import Header from "./Components/Header/Header";
 import Home from "./Components/Home";
-import Footer from "./Components/Footer";
+
 import Registration from "./Components/Auth/Registration";
 import User from "./Components/User/User";
 import PutUser from "./Components/User/PutUser";
@@ -27,6 +27,9 @@ import CarEquipment from "./Components/CarEquipment/CarEquipment";
 import PostCarEquipmentForm from "./Components/CarEquipmentForm/PostCarEquipmentForm";
 import CarEquipmentForm from "./Components/CarEquipmentForm/CaEquipmentForm";
 import PutCarEquipmentForm from "./Components/CarEquipmentForm/PutCarEquipmentForm";
+import Order from "./Components/Order/Order";
+import PostOrder from "./Components/Order/PostOrder";
+import EmployeeOrder from "./Components/Order/EmployeeListOrder";
 function App() {
   const [user, setUser] = React.useState(undefined);
 
@@ -71,11 +74,12 @@ function App() {
               element={<PutCarEquipmentForm />}
             />
             <Route path="carequipmentform" element={<CarEquipmentForm />} />
+            <Route path="order" element={<Order />} />
+            <Route path="order/post" element={<PostOrder />} />
+            <Route path="order/employee" element={<EmployeeOrder />} />
             <Route path="*" element={<h2>Resourse not found</h2>} />
           </Routes>
         </main>
-
-        <Footer />
       </Router>
     </Context.Provider>
   );

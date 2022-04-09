@@ -14,10 +14,6 @@ body {
     display: table-row;
     /* Чтобы ряд занимал всё оставшееся пространство, так как табличная разметка не позволит ему вытолкнуть header и footer */
     height: 100%;
-    background: red;
   }
-  
-  footer {
-    background: black;
-  }
+
 

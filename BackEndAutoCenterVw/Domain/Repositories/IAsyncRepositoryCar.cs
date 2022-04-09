@@ -21,6 +21,8 @@ namespace Domain.Repositories
 
         Task<T> GetCarByVinAndEmailForOrder(string vin, string email);
 
+
         Task<IEnumerable<T>> GetCarActive();
+
     }
 }

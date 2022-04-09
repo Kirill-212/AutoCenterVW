@@ -11,9 +11,7 @@ import {
 import ImgService from "../../Services/ImgServices/ImgService";
 import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
-import CssBaseline from "@mui/material/CssBaseline";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
+
 import { getDate } from "../ViewLists/SupportFunction";
 const PutClientCar = () => {
   const { user } = useContext(Context);
@@ -342,11 +340,6 @@ const PutClientCar = () => {
     return rows;
   }
 
-  const styles = {
-    maxWidth: "700px",
-    border: "none"
-  };
-
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     GetCarByVin(query.get("vin"));
@@ -355,240 +348,227 @@ const PutClientCar = () => {
   function SetValueChangeRegisterNumber(event) {
     setChangeRegiterNumber(event.target.value);
   }
-
+  let style = { width: "30rem" };
   return (
-    <React.Fragment>
-      <CssBaseline />
-      <Container fixed className="text-white">
-        <Box sx={{ bgcolor: "black" }}>
-          <div className="d-flex   justify-content-center align-items-center ">
-            <div className="   p-4  w-100" style={styles}>
-              <div className="row mt-5">
-                <h1 className="d-flex   justify-content-center align-items-center ">
-                  Put client car
-                </h1>
+    <div className="d-flex   justify-content-center w-40  align-items-center ">
+      <div className=" p-4   bg-dark text-white h-100 ">
+        <div className="row mt-5">
+          <h1 className="d-flex   justify-content-center align-items-center ">
+            Put client car
+          </h1>
+        </div>
+        <div className="container mt-5 pt-5">
+          <form onSubmit={submitCar}>
+            <div className="row">
+              <div className="col mb-2 ">
+                <label>VIN:</label>
+                <input
+                  className="w-100 shadow-lg  bg-white rounded"
+                  onChange={e => setVin(e.target.value)}
+                  value={vin}
+                  name="vin"
+                  type="text"
+                  placeholder="Enter your VIN..."
+                  disabled
+                />
               </div>
-              <div className="container mt-5">
-                <form onSubmit={submitCar}>
-                  <div className="row">
-                    <div className="col mb-2 ">
-                      <label>VIN:</label>
-                      <input
-                        className="w-100 shadow-lg  bg-white rounded"
-                        onChange={e => setVin(e.target.value)}
-                        value={vin}
-                        name="vin"
-                        type="text"
-                        placeholder="Enter your VIN..."
-                        disabled
-                      />
-                    </div>
-                    <div className="col mb-2 ">
-                      <label>Date of realese car:</label>
-                      <input
-                        className="w-100 shadow-lg  bg-white rounded"
-                        value={dateOfRealeseCar}
-                        onChange={e => setDateOfRealeseCar(e.target.value)}
-                        name="dateOfRealeseCar"
-                        type="date"
-                        placeholder="Enter your date of realese car..."
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col mb-2 ">
-                      <label>Cost($):</label>
-                      <input
-                        className="w-100 shadow-lg  bg-white rounded"
-                        onChange={e => setCost(e.target.value)}
-                        value={cost}
-                        name="cost"
-                        type="number"
-                        placeholder="Enter your cost..."
-                        required
-                      />
-                    </div>
-                    <div className="col mb-2 ">
-                      <label>Car mileage(km):</label>
-                      <input
-                        className="w-100 shadow-lg  bg-white rounded"
-                        onChange={e => setCarMileage(e.target.value)}
-                        name="carMileage"
-                        type="number"
-                        value={carMileage}
-                        placeholder="Enter your car mileage..."
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className="form-group mb-2 ">
-                    <label>Share percentage(%):</label>
-                    <input
-                      className="w-100 shadow-lg  bg-white rounded"
-                      onChange={e => setSharePercentage(e.target.value)}
-                      name="sharePercentage"
-                      value={sharePercentage}
-                      type="number"
-                      placeholder="Enter your share percentage..."
-                    />
-                  </div>
-                  <div className="row">
-                    <div className="col mb-2 ">
-                      <label>Register number:</label>
-                      <input
-                        className="w-100 shadow-lg  bg-white rounded"
-                        onChange={e => setRegisterNumber(e.target.value)}
-                        name="registerNumber"
-                        type="text"
-                        value={registerNumber}
-                        placeholder="Your register number...."
-                        disabled
-                      />
-                    </div>
-                    <div className="col mb-2 ">
-                      <label>Change register number ?</label>
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          name="flexRadioDefault"
-                          id="flexRadioDefault1"
-                          checked={changeRegiterNumber == "1" ? true : false}
-                          onChange={e => SetValueChangeRegisterNumber(e)}
-                          value="1"
-                        />
-                        <label
-                          className="form-check-label"
-                          for="flexRadioDefault1"
-                        >
-                          True
-                        </label>
-                      </div>
-                      <div className="form-check">
-                        <input
-                          className="form-check-input"
-                          type="radio"
-                          name="flexRadioDefault"
-                          id="flexRadioDefault2"
-                          checked={changeRegiterNumber == "0" ? true : false}
-                          onChange={e => SetValueChangeRegisterNumber(e)}
-                          value="0"
-                        />
-                        <label
-                          className="form-check-label"
-                          for="flexRadioDefault2"
-                        >
-                          False
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="form-group mb-2 ">
-                    <label>New register number:</label>
-                    <input
-                      className="w-100 shadow-lg  bg-white rounded"
-                      onChange={e => setRegisterNumberNew(e.target.value)}
-                      name="registerNumber"
-                      type="text"
-                      placeholder="If you don't want to change  register number, leave the field blank...."
-                    />
-                  </div>
-                  <div className="row">
-                    <div className="col mb-2 ">
-                      <label>Car equipment:</label>
-                      <select
-                        size="1"
-                        className="form-select "
-                        aria-label="Default select example"
-                        onChange={e => setNameCarEquipment(e.target.value)}
-                      >
-                        <option value="">
-                          {nameCarEquipment}
-                        </option>
-                        {flag &&
-                          carEquipmentList.map(element => {
-                            if (nameCarEquipment !== element.name)
-                              return (
-                                <option value={element.name}>
-                                  {element.name}
-                                </option>
-                              );
-                          })}
-                      </select>
-                    </div>
-                    <div className="col mb-2 ">
-                      <label>New owner:</label>
-                      <select
-                        size="1"
-                        className="form-select "
-                        aria-label="Default select example"
-                        placeholder="xxx"
-                        onChange={e => setEmailNew(e.target.value)}
-                      >
-                        <option value="" />
-                        {flag &&
-                          userList.map(element => {
-                            if (JSON.parse(user).email !== element.email)
-                              return (
-                                <option value={element.email}>
-                                  {element.email}
-                                </option>
-                              );
-                          })}
-                      </select>
-                    </div>
-                  </div>
-                  <div className="form-group mb-2 ">
-                    <label>New VIN:</label>
-                    <input
-                      className="w-100 shadow-lg  bg-white rounded"
-                      onChange={e => setVinNew(e.target.value)}
-                      name="vin"
-                      type="text"
-                      placeholder="If you don't want to change vin, leave the field blank...."
-                    />
-                  </div>
-                  <div className="form-group mb-2 ">
-                    <label>
-                      If you don't want to change img, leave the field blank....
-                    </label>
-                    <br />
-                    {imgsCar !== undefined && renderInput(imgsCar)}
-                  </div>
-                  <div>
-                    <button
-                      className="btn btn-dark btn-rounded"
-                      type="button"
-                      onClick={AddField}
-                    >
-                      Add input file
-                    </button>
-                  </div>
-                  <div className="d-flex mt-2 justify-content-center form-outline mb-3">
-                    <div className="flex-fill">
-                      <button
-                        type="submit"
-                        className="btn btn-secondary btn-rounded w-100 "
-                      >
-                        Put
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-              
-              <div>
-                {redirect && <Navigate to={"/home"} />}
-                <p className="text-reset text-white">
-                  {MessageError}
-                </p>
+              <div className="col mb-2 ">
+                <label>Date of realese car:</label>
+                <input
+                  className="w-100 shadow-lg  bg-white rounded"
+                  value={dateOfRealeseCar}
+                  onChange={e => setDateOfRealeseCar(e.target.value)}
+                  name="dateOfRealeseCar"
+                  type="date"
+                  placeholder="Enter your date of realese car..."
+                  required
+                />
               </div>
             </div>
+            <div className="row">
+              <div className="col mb-2 ">
+                <label>Cost($):</label>
+                <input
+                  className="w-100 shadow-lg  bg-white rounded"
+                  onChange={e => setCost(e.target.value)}
+                  value={cost}
+                  name="cost"
+                  type="number"
+                  placeholder="Enter your cost..."
+                  required
+                />
+              </div>
+              <div className="col mb-2 ">
+                <label>Car mileage(km):</label>
+                <input
+                  className="w-100 shadow-lg  bg-white rounded"
+                  onChange={e => setCarMileage(e.target.value)}
+                  name="carMileage"
+                  type="number"
+                  value={carMileage}
+                  placeholder="Enter your car mileage..."
+                  required
+                />
+              </div>
+            </div>
+            <div className="form-group mb-2 ">
+              <label>Share percentage(%):</label>
+              <input
+                className="w-100 shadow-lg  bg-white rounded"
+                onChange={e => setSharePercentage(e.target.value)}
+                name="sharePercentage"
+                value={sharePercentage}
+                type="number"
+                placeholder="Enter your share percentage..."
+              />
+            </div>
+            <div className="row">
+              <div className="col mb-2 ">
+                <label>Register number:</label>
+                <input
+                  className="w-100 shadow-lg  bg-white rounded"
+                  onChange={e => setRegisterNumber(e.target.value)}
+                  name="registerNumber"
+                  type="text"
+                  value={registerNumber}
+                  placeholder="Your register number...."
+                  disabled
+                />
+              </div>
+              <div className="col mb-2 ">
+                <label>Change register number ?</label>
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="flexRadioDefault"
+                    id="flexRadioDefault1"
+                    checked={changeRegiterNumber == "1" ? true : false}
+                    onChange={e => SetValueChangeRegisterNumber(e)}
+                    value="1"
+                  />
+                  <label className="form-check-label" for="flexRadioDefault1">
+                    True
+                  </label>
+                </div>
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="flexRadioDefault"
+                    id="flexRadioDefault2"
+                    checked={changeRegiterNumber == "0" ? true : false}
+                    onChange={e => SetValueChangeRegisterNumber(e)}
+                    value="0"
+                  />
+                  <label className="form-check-label" for="flexRadioDefault2">
+                    False
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div className="form-group mb-2 ">
+              <label>New register number:</label>
+              <input
+                className="w-100 shadow-lg  bg-white rounded"
+                onChange={e => setRegisterNumberNew(e.target.value)}
+                name="registerNumber"
+                type="text"
+                placeholder="If you don't want to change  register number, leave the field blank...."
+              />
+            </div>
+            <div className="row">
+              <div className="col mb-2 ">
+                <label>Car equipment:</label>
+                <select
+                  size="1"
+                  className="form-select "
+                  aria-label="Default select example"
+                  onChange={e => setNameCarEquipment(e.target.value)}
+                >
+                  <option value="">
+                    {nameCarEquipment}
+                  </option>
+                  {flag &&
+                    carEquipmentList.map(element => {
+                      if (nameCarEquipment !== element.name)
+                        return (
+                          <option value={element.name}>
+                            {element.name}
+                          </option>
+                        );
+                    })}
+                </select>
+              </div>
+              <div className="col mb-2 ">
+                <label>New owner:</label>
+                <select
+                  size="1"
+                  className="form-select "
+                  aria-label="Default select example"
+                  placeholder="xxx"
+                  onChange={e => setEmailNew(e.target.value)}
+                >
+                  <option value="" />
+                  {flag &&
+                    userList.map(element => {
+                      if (JSON.parse(user).email !== element.email)
+                        return (
+                          <option value={element.email}>
+                            {element.email}
+                          </option>
+                        );
+                    })}
+                </select>
+              </div>
+            </div>
+            <div className="form-group mb-2 ">
+              <label>New VIN:</label>
+              <input
+                className="w-100 shadow-lg  bg-white rounded"
+                onChange={e => setVinNew(e.target.value)}
+                name="vin"
+                type="text"
+                placeholder="If you don't want to change vin, leave the field blank...."
+              />
+            </div>
+            <div className="form-group mb-2 ">
+              <label>
+                If you don't want to change img, leave the field blank....
+              </label>
+              <br />
+              {imgsCar !== undefined && renderInput(imgsCar)}
+            </div>
+            <div>
+              <button
+                className="btn btn-dark btn-rounded"
+                type="button"
+                onClick={AddField}
+              >
+                Add input file
+              </button>
+            </div>
+            <div className="d-flex mt-2 justify-content-center form-outline mb-3">
+              <div className="flex-fill">
+                <button
+                  type="submit"
+                  className="btn btn-secondary btn-rounded w-100 "
+                >
+                  Put
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div>
+          {redirect && <Navigate to={"/home"} />}
+          <div style={style} class="text-wrap  text-reset text-white">
+            {MessageError}
           </div>
-        </Box>
-      </Container>
-    </React.Fragment>
+        </div>
+      </div>
+    </div>
   );
 };
 

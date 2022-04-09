@@ -41,9 +41,8 @@ namespace Services
             }
             else
             {
-                if (await unitOfWork.AsyncRepositoryUser.GetActiveUserByEmail(emailOwner) == null)
-                    throw new UserStatusIsNotValid(emailOwner);
-                car = await unitOfWork.AsyncRepositoryCar.GetCarByVinAndEmailForOrder(vin, emailOwner);
+               
+                car = await unitOfWork.AsyncRepositoryCar.GetCarByVinForOrder(vin);
                 if (car == null || car.IsActive == false)
                     throw new CarVinWithEmailFound(vin, emailOwner, "not found or status car is not active");
             }

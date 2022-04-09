@@ -93,11 +93,6 @@ const PutUser = () => {
     }
   }
 
-  const styles = {
-    maxWidth: "700px",
-    border: "none"
-  };
-
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     setFirstName(query.get("firstName"));
@@ -108,179 +103,169 @@ const PutUser = () => {
     setPhoneNumber(query.get("phoneNumber"));
     setImg(query.get("urlPhoto"));
   }, []);
-
+  let style = { width: "30rem" };
   return (
-    <React.Fragment>
-      <CssBaseline />
-      <Container fixed className="text-white">
-        <Box sx={{ bgcolor: "black" }}>
-          <div className="d-flex   justify-content-center align-items-center ">
-            <div className="    mt-2   w-100" style={styles}>
-              <div className="row mt-2">
-                <h1 className="d-flex   justify-content-center align-items-center ">
-                  Put user
-                </h1>
+    <div className="d-flex   justify-content-center align-items-center ">
+      <div className="p-4  bg-dark text-white w-50">
+        <div className="row mt-2">
+          <h1 className="d-flex   justify-content-center align-items-center ">
+            Put user
+          </h1>
+        </div>
+        <div className="container   mt-5">
+          <form onSubmit={submitUser} >
+            <div className="row">
+              <div className="col mb-2 ">
+                <label>First name:</label>
+                <input
+                  className="w-100 shadow-lg  bg-white rounded"
+                  onChange={e => setFirstName(e.target.value)}
+                  value={firstName}
+                  name="firstName"
+                  type="text"
+                  placeholder="Enter your first name..."
+                  required
+                />
               </div>
-              <div className="container  mt-2">
-                <form onSubmit={submitUser}>
-                  <div className="row">
-                    <div className="col mb-2 ">
-                      <label>First name:</label>
-                      <input
-                        className="w-100 shadow-lg  bg-white rounded"
-                        onChange={e => setFirstName(e.target.value)}
-                        value={firstName}
-                        name="firstName"
-                        type="text"
-                        placeholder="Enter your first name..."
-                        required
-                      />
-                    </div>
-                    <div className="col mb-2">
-                      <label>Last name:</label>
-                      <input
-                        className="w-100 shadow-lg  bg-white rounded"
-                        onChange={e => setLastName(e.target.value)}
-                        value={lastName}
-                        name="lastName"
-                        type="text"
-                        placeholder="Enter your last name..."
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col mb-1">
-                      <label>Surname:</label>
-                      <input
-                        className="w-100 shadow-lg  bg-white rounded"
-                        onChange={e => setSurname(e.target.value)}
-                        value={surname}
-                        name="surname"
-                        type="text"
-                        placeholder="Enter your surname..."
-                        required
-                      />
-                    </div>
-                    <div className="col mb-1">
-                      <label>Phone number:</label>
-                      <input
-                        className="w-100 shadow-lg  bg-white rounded"
-                        type="text"
-                        value={phoneNumber}
-                        name="phoneNumber"
-                        placeholder="Example 375297699506"
-                        onChange={e => setPhoneNumber(e.target.value)}
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col mb-2">
-                      <label>Old email:</label>
-                      <input
-                        className="w-100 shadow-lg  bg-white rounded"
-                        onChange={e => setEmail(e.target.value)}
-                        value={email}
-                        name="email"
-                        type="text"
-                        placeholder="Enter your email..."
-                        required
-                        disabled
-                      />
-                    </div>
-                    <div className="col mb-2">
-                      <label>Birthday:</label>
-                      <input
-                        aria-label="Default select example"
-                        className="shadow-lg  bg-white rounded ml-1 w-100"
-                        type="date"
-                        name="dBay"
-                        value={dBay}
-                        onChange={e => setDBay(e.target.value)}
-                        placeholder="Enter your birthday.."
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div className="form-group mb-2">
-                    <label>New email:</label>
-                    <input
-                      className="w-100 shadow-lg  bg-white rounded"
-                      onChange={e => setEmailNew(e.target.value)}
-                      name="email"
-                      type="text"
-                      placeholder="If you don't want to change your email address, leave the field blank...."
-                    />
-                  </div>
-                  <div className="form-group mb-2">
-                    <label>New Password:</label>
-                    <input
-                      className="w-100 shadow-lg  bg-white rounded"
-                      onChange={e => setPasswordNew(e.target.value)}
-                      name="password"
-                      type="password"
-                      placeholder="If you don't want to change your password, leave the field blank..."
-                    />
-                  </div>
-                  <div className="row mb-2">
-                    <div className="col">
-                      <label>Old image profile:</label>
-                      <img
-                        src={img}
-                        className="rounded-circle"
-                        width="200"
-                        height="200"
-                        alt="Your old image profile"
-                      />
-                    </div>
-                    <div className="col ">
-                      <label>New image profile</label>
-                      <div className="custom-file ">
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={e => setImgNew(e.target.files[0])}
-                          className="custom-file-input h-100"
-                          id="inputGroupFile01"
-                        />
-                        <label
-                          className="custom-file-label"
-                          for="inputGroupFile01"
-                        >
-                          Choose file
-                        </label>
-                      </div>
-                      <label className="mt-2">
-                        If you don't want to change your image profile, leave
-                        the field blank
-                      </label>
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-center form-outline mb-3">
-                    <div className="flex-fill">
-                      <button
-                        type="submit"
-                        className="btn btn-secondary btn-rounded  w-100 "
-                      >
-                        Put
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-              
-              <div>
-                {redirect && <Navigate to={"/home"} />}
-                <p className="text-reset text-white">
-                  {MessageError}
-                </p>
+              <div className="col mb-2">
+                <label>Last name:</label>
+                <input
+                  className="w-100 shadow-lg  bg-white rounded"
+                  onChange={e => setLastName(e.target.value)}
+                  value={lastName}
+                  name="lastName"
+                  type="text"
+                  placeholder="Enter your last name..."
+                  required
+                />
               </div>
             </div>
+            <div className="row">
+              <div className="col mb-1">
+                <label>Surname:</label>
+                <input
+                  className="w-100 shadow-lg  bg-white rounded"
+                  onChange={e => setSurname(e.target.value)}
+                  value={surname}
+                  name="surname"
+                  type="text"
+                  placeholder="Enter your surname..."
+                  required
+                />
+              </div>
+              <div className="col mb-1">
+                <label>Phone number:</label>
+                <input
+                  className="w-100 shadow-lg  bg-white rounded"
+                  type="text"
+                  value={phoneNumber}
+                  name="phoneNumber"
+                  placeholder="Example 375297699506"
+                  onChange={e => setPhoneNumber(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col mb-2">
+                <label>Old email:</label>
+                <input
+                  className="w-100 shadow-lg  bg-white rounded"
+                  onChange={e => setEmail(e.target.value)}
+                  value={email}
+                  name="email"
+                  type="text"
+                  placeholder="Enter your email..."
+                  required
+                  disabled
+                />
+              </div>
+              <div className="col mb-2">
+                <label>Birthday:</label>
+                <input
+                  aria-label="Default select example"
+                  className="shadow-lg  bg-white rounded ml-1 w-100"
+                  type="date"
+                  name="dBay"
+                  value={dBay}
+                  onChange={e => setDBay(e.target.value)}
+                  placeholder="Enter your birthday.."
+                  required
+                />
+              </div>
+            </div>
+            <div className="form-group mb-2">
+              <label>New email:</label>
+              <input
+                className="w-100 shadow-lg  bg-white rounded"
+                onChange={e => setEmailNew(e.target.value)}
+                name="email"
+                type="text"
+                placeholder="If you don't want to change your email address, leave the field blank...."
+              />
+            </div>
+            <div className="form-group mb-2">
+              <label>New Password:</label>
+              <input
+                className="w-100 shadow-lg  bg-white rounded"
+                onChange={e => setPasswordNew(e.target.value)}
+                name="password"
+                type="password"
+                placeholder="If you don't want to change your password, leave the field blank..."
+              />
+            </div>
+            <div className="row mb-2">
+              <div className="col">
+                <label>Old image profile:</label>
+                <img
+                  src={img}
+                  className="rounded-circle"
+                  width="200"
+                  height="200"
+                  alt="Your old image profile"
+                />
+              </div>
+              <div className="col ">
+                <label>New image profile</label>
+                <div className="custom-file ">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={e => setImgNew(e.target.files[0])}
+                    className="custom-file-input h-100"
+                    id="inputGroupFile01"
+                  />
+                  <label className="custom-file-label" for="inputGroupFile01">
+                    Choose file
+                  </label>
+                </div>
+                <label className="mt-2">
+                  If you don't want to change your image profile, leave the
+                  field blank
+                </label>
+              </div>
+            </div>
+            <div className="d-flex justify-content-center form-outline mb-3">
+              <div className="flex-fill">
+                <button
+                  type="submit"
+                  className="btn btn-secondary btn-rounded  w-100 "
+                >
+                  Put
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div>
+          {redirect && <Navigate to={"/home"} />}
+          <div style={style} class="text-wrap  text-reset text-white">
+            {MessageError}
           </div>
-        </Box>
-      </Container>
-    </React.Fragment>
+        </div>
+      </div>
+    </div>
   );
 };
 

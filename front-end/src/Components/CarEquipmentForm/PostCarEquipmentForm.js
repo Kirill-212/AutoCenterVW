@@ -6,9 +6,7 @@ import {
   ValueCarEquipmentDto
 } from "../../ImportExportGenClient";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
-import CssBaseline from "@mui/material/CssBaseline";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
+
 const PostCarEquipmentForm = () => {
   const [name, setName] = React.useState("");
   const [MessageError, setMessageError] = React.useState("");
@@ -55,11 +53,6 @@ const PostCarEquipmentForm = () => {
       setMessageError(JSON.parse(error.message)["error"]);
     }
   }
-
-  const styles = {
-    maxWidth: "700px",
-    border: "none"
-  };
 
   function AddField() {
     setCarEquipment([...carEquipment, {}]);
@@ -109,70 +102,63 @@ const PostCarEquipmentForm = () => {
     }
     console.log(carEquipment);
   }
-
+  let style = { width: "30rem" };
   return (
-    <React.Fragment>
-      <CssBaseline />
-      <Container fixed className="text-white">
-        <Box sx={{ bgcolor: "black" }}>
-          <div className="d-flex   justify-content-center align-items-center ">
-            <div className="p-4  w-100" style={styles}>
-              <div className="row mt-5">
-                <h1 className="d-flex   justify-content-center align-items-center ">
-                  Post car equipment item
-                </h1>
-              </div>
-              <div className="container mt-5">
-                <form onSubmit={submitCarEquipment}>
-                  <div className="form-group mb-2 ">
-                    <label>Name:</label>
-                    <input
-                      className="w-100 shadow-lg  bg-white rounded"
-                      onChange={e => setName(e.target.value)}
-                      name="name"
-                      type="text"
-                      placeholder="Enter your name car equipment..."
-                      required
-                    />
-                  </div>
+    <div className="d-flex   justify-content-center w-40 h-100 align-items-center ">
+      <div className="p-4  bg-dark text-white h-100">
+        <div className="row mt-5">
+          <h1 className="d-flex   justify-content-center align-items-center ">
+            Post car equipment item
+          </h1>
+        </div>
+        <div className="container mt-5 pt-5">
+          <form onSubmit={submitCarEquipment}>
+            <div className="form-group mb-2 ">
+              <label>Name:</label>
+              <input
+                className="w-100 shadow-lg  bg-white rounded"
+                onChange={e => setName(e.target.value)}
+                name="name"
+                type="text"
+                placeholder="Enter your name car equipment..."
+                required
+              />
+            </div>
 
-                  <div className="form-group mb-2 ">
-                    <label>Equipment items:</label>
-                    {carEquipment !== undefined && renderInput(carEquipment)}
-                  </div>
-                  <div>
-                    <button
-                      className="btn btn-dark btn-rounded m-2"
-                      type="button"
-                      onClick={AddField}
-                    >
-                      Add input files
-                    </button>
-                  </div>
-                  <div className="d-flex justify-content-center form-outline mb-3">
-                    <div className="flex-fill">
-                      <button
-                        type="submit"
-                        className="btn btn-secondary btn-rounded w-100 "
-                      >
-                        Post
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-
-              <div>
-                {redirect && <Navigate to={"/home"} />}
-                <p className="text-reset text-white">
-                  {MessageError}
-                </p>
+            <div className="form-group mb-2 ">
+              <label>Equipment items:</label>
+              {carEquipment !== undefined && renderInput(carEquipment)}
+            </div>
+            <div>
+              <button
+                className="btn btn-dark btn-rounded m-2"
+                type="button"
+                onClick={AddField}
+              >
+                Add input files
+              </button>
+            </div>
+            <div className="d-flex justify-content-center form-outline mb-3">
+              <div className="flex-fill">
+                <button
+                  type="submit"
+                  className="btn btn-secondary btn-rounded w-100 "
+                >
+                  Post
+                </button>
               </div>
             </div>
+          </form>
+        </div>
+
+        <div>
+          {redirect && <Navigate to={"/home"} />}
+          <div style={style} class="text-wrap  text-reset text-white">
+            {MessageError}
           </div>
-        </Box>
-      </Container>
-    </React.Fragment>
+        </div>
+      </div>
+    </div>
   );
 };
 

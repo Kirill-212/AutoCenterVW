@@ -9,9 +9,7 @@ import {
 import ImgService from "../../Services/ImgServices/ImgService";
 import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
-import CssBaseline from "@mui/material/CssBaseline";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
+
 const PutNew = () => {
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
@@ -195,106 +193,95 @@ const PutNew = () => {
     }
     return rows;
   }
-  const styles = {
-    maxWidth: "700px",
-    border: "none"
-  };
 
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     GetNew(query.get("title"));
     setTitle(query.get("title"));
   }, []);
-
+  let style = { width: "30rem" };
   return (
-    <React.Fragment>
-      <CssBaseline />
-      <Container fixed className="text-white">
-        <Box sx={{ bgcolor: "black" }}>
-          <div className="d-flex   justify-content-center align-items-center ">
-            <div className="   mt-5 pt-5  w-100" style={styles}>
-              <div className="row mt-5">
-                <h1 className="d-flex   justify-content-center align-items-center ">
-                  Put New
-                </h1>
-              </div>
-              <div className="container mt-1">
-                <form onSubmit={submitNew}>
-                  <div className="form-group mb-2 ">
-                    <label>Title:</label>
-                    <input
-                      disabled
-                      value={title}
-                      className="w-100 shadow-lg  bg-white rounded"
-                      onChange={e => setTitle(e.target.value)}
-                      name="title"
-                      type="text"
-                      placeholder="Enter your title..."
-                    />
-                  </div>
-                  <div className="form-group mb-2 ">
-                    <label>New title:</label>
-                    <input
-                      value={titleNew}
-                      className="w-100 shadow-lg  bg-white rounded"
-                      onChange={e => setTitleNew(e.target.value)}
-                      name="title"
-                      type="text"
-                      placeholder="If you don't want to change your title, leave the field blank...."
-                    />
-                  </div>
-                  <div className="form-group mb-2 ">
-                    <label>Description:</label>
-                    <input
-                      value={description}
-                      className="w-100 shadow-lg  bg-white rounded"
-                      onChange={e => setDescription(e.target.value)}
-                      name="description"
-                      type="text"
-                      placeholder="Enter your description..."
-                      required
-                    />
-                  </div>
-                  <div className="form-group mb-2 ">
-                    <label>
-                      If you don't want to change img, leave the field blank....
-                    </label>
-                    <br />
-                    {news !== undefined && renderInput(news)}
-                  </div>
-                  <div>
-                    <button
-                      className="btn btn-dark btn-rounded"
-                      type="button"
-                      onClick={AddField}
-                    >
-                      Add input file
-                    </button>
-                  </div>
-                  <div className="d-flex justify-content-center form-outline mb-3 p-5">
-                    <div className="flex-fill">
-                      <button
-                        type="submit"
-                        className="btn btn-secondary btn-rounded w-100 "
-                      >
-                        Put
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-              
-              <div>
-                {redirect && <Navigate to={"/home"} />}
-                <p className="text-reset text-white">
-                  {MessageError}
-                </p>
+    <div className="d-flex   justify-content-center align-items-center ">
+      <div className="p-4  bg-dark text-white w-40">
+        <div className="row mt-5">
+          <h1 className="d-flex   justify-content-center align-items-center ">
+            Put new
+          </h1>
+        </div>
+        <div className="container mt-5">
+          <form onSubmit={submitNew}>
+            <div className="form-group mb-2 ">
+              <label>Title:</label>
+              <input
+                disabled
+                value={title}
+                className="w-100 shadow-lg  bg-white rounded"
+                onChange={e => setTitle(e.target.value)}
+                name="title"
+                type="text"
+                placeholder="Enter your title..."
+              />
+            </div>
+            <div className="form-group mb-2 ">
+              <label>New title:</label>
+              <input
+                value={titleNew}
+                className="w-100 shadow-lg  bg-white rounded"
+                onChange={e => setTitleNew(e.target.value)}
+                name="title"
+                type="text"
+                placeholder="If you don't want to change your title, leave the field blank...."
+              />
+            </div>
+            <div className="form-group mb-2 ">
+              <label>Description:</label>
+              <input
+                value={description}
+                className="w-100 shadow-lg  bg-white rounded"
+                onChange={e => setDescription(e.target.value)}
+                name="description"
+                type="text"
+                placeholder="Enter your description..."
+                required
+              />
+            </div>
+            <div className="form-group mb-2 ">
+              <label>
+                If you don't want to change img, leave the field blank....
+              </label>
+              <br />
+              {news !== undefined && renderInput(news)}
+            </div>
+            <div>
+              <button
+                className="btn btn-dark btn-rounded"
+                type="button"
+                onClick={AddField}
+              >
+                Add input file
+              </button>
+            </div>
+            <div className="d-flex justify-content-center form-outline mb-3 p-5">
+              <div className="flex-fill">
+                <button
+                  type="submit"
+                  className="btn btn-secondary btn-rounded w-100 "
+                >
+                  Put
+                </button>
               </div>
             </div>
+          </form>
+        </div>
+
+        <div>
+          {redirect && <Navigate to={"/home"} />}
+          <div style={style} class="text-wrap  text-reset text-white">
+            {MessageError}
           </div>
-        </Box>
-      </Container>
-    </React.Fragment>
+        </div>
+      </div>
+    </div>
   );
 };
 

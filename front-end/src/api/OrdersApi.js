@@ -12,10 +12,10 @@
  * Do not edit the class manually.
  *
  */
-import {ApiClient} from "../ApiClient";
-import {Order} from '../model/Order';
-import {PostOrderDto} from '../model/PostOrderDto';
-import {UpdateStateOrderDto} from '../model/UpdateStateOrderDto';
+import { ApiClient } from "../ApiClient";
+import { Order } from "../model/Order";
+import { PostOrderDto } from "../model/PostOrderDto";
+import { UpdateStateOrderDto } from "../model/UpdateStateOrderDto";
 
 /**
 * Orders service.
@@ -23,8 +23,7 @@ import {UpdateStateOrderDto} from '../model/UpdateStateOrderDto';
 * @version v1
 */
 export class OrdersApi {
-
-    /**
+  /**
     * Constructs a new OrdersApi. 
     * @alias module:api/OrdersApi
     * @class
@@ -32,11 +31,11 @@ export class OrdersApi {
     * default to {@link module:ApiClient#instanc
     e} if unspecified.
     */
-    constructor(apiClient) {
-        this.apiClient = apiClient || ApiClient.instance;
-    }
+  constructor(apiClient) {
+    this.apiClient = apiClient || ApiClient.instance;
+  }
 
-    /**
+  /**
      * Callback function to receive the result of the apiOrdersBuyerGet operation.
      * @callback moduleapi/OrdersApi~apiOrdersBuyerGetCallback
      * @param {String} error Error message, if any.
@@ -44,41 +43,44 @@ export class OrdersApi {
      * @param {String} response The complete HTTP response.
      */
 
-    /**
+  /**
      * @param {Object} opts Optional parameters
      * @param {String} opts.email 
      * @param {module:api/OrdersApi~apiOrdersBuyerGetCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}
      */
-    apiOrdersBuyerGet(opts, callback) {
-      opts = opts || {};
-      let postBody = null;
+  apiOrdersBuyerGet(opts, callback) {
+    opts = opts || {};
+    let postBody = null;
 
-      let pathParams = {
-        
-      };
-      let queryParams = {
-        'email': opts['email']
-      };
-      let headerParams = {
-        
-      };
-      let formParams = {
-        
-      };
+    let pathParams = {};
+    let queryParams = {
+      email: opts["email"]
+    };
+    let headerParams = {};
+    let formParams = {};
 
-      let authNames = [];
-      let contentTypes = [];
-      let accepts = ['text/plain', 'application/json', 'text/json'];
-      let returnType = [Order];
+    let authNames = [];
+    let contentTypes = [];
+    let accepts = ["text/plain", "application/json", "text/json"];
+    let returnType = [Order];
 
-      return this.apiClient.callApi(
-        '/api/orders/buyer', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-    /**
+    return this.apiClient.callApi(
+      "/api/orders/buyer",
+      "GET",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+  /**
      * Callback function to receive the result of the apiOrdersCancelPut operation.
      * @callback moduleapi/OrdersApi~apiOrdersCancelPutCallback
      * @param {String} error Error message, if any.
@@ -86,40 +88,41 @@ export class OrdersApi {
      * @param {String} response The complete HTTP response.
      */
 
-    /**
+  /**
      * @param {Object} opts Optional parameters
      * @param {module:model/UpdateStateOrderDto} opts.body 
      * @param {module:api/OrdersApi~apiOrdersCancelPutCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    apiOrdersCancelPut(opts, callback) {
-      opts = opts || {};
-      let postBody = opts['body'];
+  apiOrdersCancelPut(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = opts["body"];
 
-      let pathParams = {
-        
-      };
-      let queryParams = {
-        
-      };
-      let headerParams = {
-        
-      };
-      let formParams = {
-        
-      };
+    let pathParams = {};
+    let queryParams = {};
+    let headerParams = jwt;
+    let formParams = {};
 
-      let authNames = [];
-      let contentTypes = ['application/json', 'text/json', 'application/_*+json'];
-      let accepts = [];
-      let returnType = null;
+    let authNames = [];
+    let contentTypes = ["application/json", "text/json", "application/_*+json"];
+    let accepts = [];
+    let returnType = null;
 
-      return this.apiClient.callApi(
-        '/api/orders/cancel', 'PUT',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-    /**
+    return this.apiClient.callApi(
+      "/api/orders/cancel",
+      "PUT",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+  /**
      * Callback function to receive the result of the apiOrdersConfirmPut operation.
      * @callback moduleapi/OrdersApi~apiOrdersConfirmPutCallback
      * @param {String} error Error message, if any.
@@ -127,40 +130,41 @@ export class OrdersApi {
      * @param {String} response The complete HTTP response.
      */
 
-    /**
+  /**
      * @param {Object} opts Optional parameters
      * @param {module:model/UpdateStateOrderDto} opts.body 
      * @param {module:api/OrdersApi~apiOrdersConfirmPutCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    apiOrdersConfirmPut(opts, callback) {
-      opts = opts || {};
-      let postBody = opts['body'];
+  apiOrdersConfirmPut(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = opts["body"];
 
-      let pathParams = {
-        
-      };
-      let queryParams = {
-        
-      };
-      let headerParams = {
-        
-      };
-      let formParams = {
-        
-      };
+    let pathParams = {};
+    let queryParams = {};
+    let headerParams = jwt;
+    let formParams = {};
 
-      let authNames = [];
-      let contentTypes = ['application/json', 'text/json', 'application/_*+json'];
-      let accepts = [];
-      let returnType = null;
+    let authNames = [];
+    let contentTypes = ["application/json", "text/json", "application/_*+json"];
+    let accepts = [];
+    let returnType = null;
 
-      return this.apiClient.callApi(
-        '/api/orders/confirm', 'PUT',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-    /**
+    return this.apiClient.callApi(
+      "/api/orders/confirm",
+      "PUT",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+  /**
      * Callback function to receive the result of the apiOrdersEmployeeGet operation.
      * @callback moduleapi/OrdersApi~apiOrdersEmployeeGetCallback
      * @param {String} error Error message, if any.
@@ -168,39 +172,39 @@ export class OrdersApi {
      * @param {String} response The complete HTTP response.
      */
 
-    /**
+  /**
      * @param {module:api/OrdersApi~apiOrdersEmployeeGetCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}
      */
-    apiOrdersEmployeeGet(callback) {
-      
-      let postBody = null;
+  apiOrdersEmployeeGet(jwt, callback) {
+    let postBody = null;
 
-      let pathParams = {
-        
-      };
-      let queryParams = {
-        
-      };
-      let headerParams = {
-        
-      };
-      let formParams = {
-        
-      };
+    let pathParams = {};
+    let queryParams = {};
+    let headerParams = jwt;
+    let formParams = {};
 
-      let authNames = [];
-      let contentTypes = [];
-      let accepts = ['text/plain', 'application/json', 'text/json'];
-      let returnType = [Order];
+    let authNames = [];
+    let contentTypes = [];
+    let accepts = ["text/plain", "application/json", "text/json"];
+    let returnType = [Order];
 
-      return this.apiClient.callApi(
-        '/api/orders/employee', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-    /**
+    return this.apiClient.callApi(
+      "/api/orders/employee",
+      "GET",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+  /**
      * Callback function to receive the result of the apiOrdersPaidPut operation.
      * @callback moduleapi/OrdersApi~apiOrdersPaidPutCallback
      * @param {String} error Error message, if any.
@@ -208,40 +212,41 @@ export class OrdersApi {
      * @param {String} response The complete HTTP response.
      */
 
-    /**
+  /**
      * @param {Object} opts Optional parameters
      * @param {module:model/UpdateStateOrderDto} opts.body 
      * @param {module:api/OrdersApi~apiOrdersPaidPutCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    apiOrdersPaidPut(opts, callback) {
-      opts = opts || {};
-      let postBody = opts['body'];
+  apiOrdersPaidPut(opts, callback) {
+    opts = opts || {};
+    let postBody = opts["body"];
 
-      let pathParams = {
-        
-      };
-      let queryParams = {
-        
-      };
-      let headerParams = {
-        
-      };
-      let formParams = {
-        
-      };
+    let pathParams = {};
+    let queryParams = {};
+    let headerParams = {};
+    let formParams = {};
 
-      let authNames = [];
-      let contentTypes = ['application/json', 'text/json', 'application/_*+json'];
-      let accepts = [];
-      let returnType = null;
+    let authNames = [];
+    let contentTypes = ["application/json", "text/json", "application/_*+json"];
+    let accepts = [];
+    let returnType = null;
 
-      return this.apiClient.callApi(
-        '/api/orders/paid', 'PUT',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-    /**
+    return this.apiClient.callApi(
+      "/api/orders/paid",
+      "PUT",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+  /**
      * Callback function to receive the result of the apiOrdersPost operation.
      * @callback moduleapi/OrdersApi~apiOrdersPostCallback
      * @param {String} error Error message, if any.
@@ -249,40 +254,41 @@ export class OrdersApi {
      * @param {String} response The complete HTTP response.
      */
 
-    /**
+  /**
      * @param {Object} opts Optional parameters
      * @param {module:model/PostOrderDto} opts.body 
      * @param {module:api/OrdersApi~apiOrdersPostCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    apiOrdersPost(opts, callback) {
-      opts = opts || {};
-      let postBody = opts['body'];
+  apiOrdersPost(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = opts["body"];
 
-      let pathParams = {
-        
-      };
-      let queryParams = {
-        
-      };
-      let headerParams = {
-        
-      };
-      let formParams = {
-        
-      };
+    let pathParams = {};
+    let queryParams = {};
+    let headerParams = jwt;
+    let formParams = {};
 
-      let authNames = [];
-      let contentTypes = ['application/json', 'text/json', 'application/_*+json'];
-      let accepts = [];
-      let returnType = null;
+    let authNames = [];
+    let contentTypes = ["application/json", "text/json", "application/_*+json"];
+    let accepts = [];
+    let returnType = null;
 
-      return this.apiClient.callApi(
-        '/api/orders', 'POST',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-    /**
+    return this.apiClient.callApi(
+      "/api/orders",
+      "POST",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+  /**
      * Callback function to receive the result of the apiOrdersUserGet operation.
      * @callback moduleapi/OrdersApi~apiOrdersUserGetCallback
      * @param {String} error Error message, if any.
@@ -290,39 +296,41 @@ export class OrdersApi {
      * @param {String} response The complete HTTP response.
      */
 
-    /**
+  /**
      * @param {Object} opts Optional parameters
      * @param {String} opts.email 
      * @param {module:api/OrdersApi~apiOrdersUserGetCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}
      */
-    apiOrdersUserGet(opts, callback) {
-      opts = opts || {};
-      let postBody = null;
+  apiOrdersUserGet(opts, callback) {
+    opts = opts || {};
+    let postBody = null;
 
-      let pathParams = {
-        
-      };
-      let queryParams = {
-        'email': opts['email']
-      };
-      let headerParams = {
-        
-      };
-      let formParams = {
-        
-      };
+    let pathParams = {};
+    let queryParams = {
+      email: opts["email"]
+    };
+    let headerParams = {};
+    let formParams = {};
 
-      let authNames = [];
-      let contentTypes = [];
-      let accepts = ['text/plain', 'application/json', 'text/json'];
-      let returnType = [Order];
+    let authNames = [];
+    let contentTypes = [];
+    let accepts = ["text/plain", "application/json", "text/json"];
+    let returnType = [Order];
 
-      return this.apiClient.callApi(
-        '/api/orders/user', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-
+    return this.apiClient.callApi(
+      "/api/orders/user",
+      "GET",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
 }
