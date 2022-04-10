@@ -114,21 +114,23 @@ const Cars = () => {
   }, []);
 
   return (
-    <div className="container-md">
+    <div className="container">
       <div className="row align-items-center">
         <p className="text-reset text-white">
           {MessageError}
         </p>
       </div>
 
-      <div className="row mt-5 pt-5 align-items-center">
-        {viewList &&
-          <ListCars
-            head={CarListView()}
-            rows={listCars}
-            updateCar={UpdateCar}
-            deleteCar={DeleteCar}
-          />}
+      <div className="row pt-5 mt-5 align-items-center">
+        <div className="col-12 mt-5 pt-5  align-items-center">
+          {viewList &&
+            <ListCars
+              head={CarListView()}
+              rows={listCars}
+              updateCar={UpdateCar}
+              deleteCar={DeleteCar}
+            />}
+        </div>
       </div>
     </div>
   );

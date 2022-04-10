@@ -152,150 +152,137 @@ const CarDetail = () => {
   }, []);
   let fl = true;
   return (
-    <React.Fragment>
-      <CssBaseline />
-      <Container fixed className="text-white">
-        <Box sx={{ bgcolor: "black" }}>
-          <div className="row">
-            <p className="text-reset text-white">
-              {MessageError}
-            </p>
-          </div>
-          <div className=" row">
-            <div className="col" />
-            <div
-              id="slider"
-              className="col carousel slide carousel-fade carousel-dark justify-content-center align-self-center p-5 w-100 "
-              data-mdb-ride="carousel"
-            >
-              <div className="carousel-inner">
-                {flag &&
-                  detailCar.imgsCar.map(e => {
-                    if (fl) {
-                      fl = !fl;
-                      return (
-                        <div className="carousel-item active ">
-                          <img
-                            src={e.url}
-                            alt="..."
-                            width="800"
-                            heigth="600"
-                            className=""
-                          />
-                        </div>
-                      );
-                    } else {
-                      return (
-                        <div className="carousel-item">
-                          <img
-                            src={e.url}
-                            alt="..."
-                            width="800"
-                            heigth="600"
-                            className=""
-                          />
-                        </div>
-                      );
-                    }
-                  })}
-              </div>
-              <button
-                className="carousel-control-prev pt-5 pl-5 mt-5"
-                type="button"
-                data-mdb-target="#slider"
-                data-mdb-slide="prev"
-              >
-                <span
-                  className="carousel-control-prev-icon"
-                  aria-hidden="true"
-                />
-                <span className="visually-hidden">Previous</span>
-              </button>
-              <button
-                className="carousel-control-next pt-5 pr-5 mt-5"
-                type="button"
-                data-mdb-target="#slider"
-                data-mdb-slide="next"
-              >
-                <span
-                  className="carousel-control-next-icon"
-                  aria-hidden="true"
-                />
-                <span className="visually-hidden">Next</span>
-              </button>
-            </div>
-            <div className="col" />
+    <div className="container-md w-50 bg-dark text-white opacity-90">
+      <div className="row align-items-center">
+        <p className="text-reset text-white">
+          {MessageError}
+        </p>
+      </div>
+      <div className="row mt-5 pt-5 align-items-center ">
+        <div className="col" />
+        <div
+          id="slider"
+          className="col carousel slide carousel-fade carousel-dark justify-content-center align-self-center p-5 w-100 "
+          data-mdb-ride="carousel"
+        >
+          <div className="carousel-inner">
             {flag &&
-              <div className="card-body row">
-                <h4 className="card-title text-center">
-                  Information about car
-                </h4>
-                <div className="row m-3">
-                  <div className="col-2">
-                    <i className="fa-solid fa-angle-right text white mr-2" />
-                    Vin
-                  </div>
-                  <div className="col-10 text-left text white">
-                    {detailCar.vin}
-                  </div>
-                </div>
-                <div className="row m-3">
-                  <div className="col-2">
-                    <i className="fa-solid fa-angle-right text white mr-2" />
-                    Car mileage(km)
-                  </div>
-                  <div className="col-10 text-left text white">
-                    {detailCar.carMileage}
-                  </div>
-                </div>
-                <div className="row m-3">
-                  <div className="col-2">
-                    <i className="fa-solid fa-angle-right text white mr-2" />
-                    Cost($)
-                  </div>
-                  <div className="col-10 text-left text white">
-                    {detailCar.cost}
-                  </div>
-                </div>
-                <div className="row m-3">
-                  <div className="col-2">
-                    <i className="fa-solid fa-angle-right text white mr-2" />
-                    Date of realese car
-                  </div>
-                  <div className="col-10 text-left text white">
-                    {getDate(detailCar.dateOfRealeseCar)}
-                  </div>
-                </div>
-                <div className="row m-3">
-                  <div className="col-2">
-                    <i className="fa-solid fa-angle-right text white mr-2" />
-                    For sale
-                  </div>
-                  <div className="col-10 text-left text white">
-                    {detailCar.isActive === true && "True"}
-                    {detailCar.isActive !== true && "False"}
-                  </div>
-                </div>
-                <div className="row m-3">
-                  <div className="col-2">
-                    <i className="fa-solid fa-angle-right text white mr-2" />
-                    Share percentage
-                  </div>
-                  <div className="col-10 text-left text white">
-                    {detailCar.actionCar !== null &&
-                      detailCar.actionCar.sharePercentage}
-                    {detailCar.actionCar === null && "None"}
-                  </div>
-                </div>
-                <h4 className="card-title text-center">
-                  Information about equipment
-                </h4>
-                {ViewCarEquipment()}
-              </div>}
+              detailCar.imgsCar.map(e => {
+                if (fl) {
+                  fl = !fl;
+                  return (
+                    <div className="carousel-item active ">
+                      <img
+                        src={e.url}
+                        alt="..."
+                        width="800"
+                        heigth="600"
+                        className="opacity-100"
+                      />
+                    </div>
+                  );
+                } else {
+                  return (
+                    <div className="carousel-item">
+                      <img
+                        src={e.url}
+                        alt="..."
+                        width="800"
+                        heigth="600"
+                        className="opacity-100"
+                      />
+                    </div>
+                  );
+                }
+              })}
           </div>
-        </Box>
-      </Container>
-    </React.Fragment>
+          <button
+            className="carousel-control-prev pt-5 pl-5 mt-5"
+            type="button"
+            data-mdb-target="#slider"
+            data-mdb-slide="prev"
+          >
+            <span className="carousel-control-prev-icon" aria-hidden="true" />
+            <span className="visually-hidden">Previous</span>
+          </button>
+          <button
+            className="carousel-control-next pt-5 pr-5 mt-5"
+            type="button"
+            data-mdb-target="#slider"
+            data-mdb-slide="next"
+          >
+            <span className="carousel-control-next-icon" aria-hidden="true" />
+            <span className="visually-hidden">Next</span>
+          </button>
+        </div>
+        <div className="col" />
+        {flag &&
+          <div className="card-body row w-50 ">
+            <h4 className="card-title text-center">Information about car</h4>
+            <div className="row m-3">
+              <div className="col-2">
+                <i className="fa-solid fa-angle-right text white mr-2" />
+                Vin
+              </div>
+              <div className="col-10 text-left text white">
+                {detailCar.vin}
+              </div>
+            </div>
+            <div className="row m-3">
+              <div className="col-2">
+                <i className="fa-solid fa-angle-right text white mr-2" />
+                Car mileage(km)
+              </div>
+              <div className="col-10 text-left text white">
+                {detailCar.carMileage}
+              </div>
+            </div>
+            <div className="row m-3">
+              <div className="col-2">
+                <i className="fa-solid fa-angle-right text white mr-2" />
+                Cost($)
+              </div>
+              <div className="col-10 text-left text white">
+                {detailCar.cost}
+              </div>
+            </div>
+            <div className="row m-3">
+              <div className="col-2">
+                <i className="fa-solid fa-angle-right text white mr-2" />
+                Date of realese car
+              </div>
+              <div className="col-10 text-left text white">
+                {getDate(detailCar.dateOfRealeseCar)}
+              </div>
+            </div>
+            <div className="row m-3">
+              <div className="col-2">
+                <i className="fa-solid fa-angle-right text white mr-2" />
+                For sale
+              </div>
+              <div className="col-10 text-left text white">
+                {detailCar.isActive === true && "True"}
+                {detailCar.isActive !== true && "False"}
+              </div>
+            </div>
+            <div className="row m-3">
+              <div className="col-2">
+                <i className="fa-solid fa-angle-right text white mr-2" />
+                Share percentage
+              </div>
+              <div className="col-10 text-left text white">
+                {detailCar.actionCar !== null &&
+                  detailCar.actionCar.sharePercentage}
+                {detailCar.actionCar === null && "None"}
+              </div>
+            </div>
+            <h4 className="card-title text-center">
+              Information about equipment
+            </h4>
+            {ViewCarEquipment()}
+          </div>}
+      </div>
+    </div>
   );
 };
 

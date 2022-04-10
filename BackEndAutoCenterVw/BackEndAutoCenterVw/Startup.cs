@@ -1,5 +1,8 @@
+using BackEndAutoCenterVw.HttpClientBasic;
 using BackEndAutoCenterVw.Middlewares;
+using Contracts;
 using Domain.Auth;
+using Domain.HttpClent;
 using Domain.Models.CarEquipment;
 using Domain.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -126,6 +129,7 @@ namespace BackEndAutoCenterVw
                 IAsyncServiceCarEquipment<CarEquipment>,
                 AsyncServiceCarEquipment>
                 ();
+            services.AddScoped<IAsynHttpClient<PayDataDto>, AsyncHttpClientBasic>(x=> new (Configuration.GetSection("CheckPayService").Value));
             services.AddTransient<ExceptionHandlingMiddleware>();
         }
 

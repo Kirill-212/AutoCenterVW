@@ -27,6 +27,60 @@ function Header() {
                 data-mdb-toggle="dropdown"
                 aria-expanded="false"
               >
+                <strong>Cars</strong>
+              </a>
+              <ul
+                class="dropdown-menu dropdown-menu-end"
+                aria-labelledby="navbarDropdownMenuLink"
+              >
+                <li>
+                  <a class="dropdown-item" href="/car/post">
+                    Post
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/car">
+                    Managed List
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown mt-1  ">
+              <a
+                class="nav-link dropdown-toggle hidden-arrow"
+                href="#"
+                id="navbarDropdownMenuLink"
+                role="button"
+                data-mdb-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <strong>News</strong>
+              </a>
+              <ul
+                class="dropdown-menu dropdown-menu-end"
+                aria-labelledby="navbarDropdownMenuLink"
+              >
+                <li>
+                  <a class="dropdown-item" href="/new/post">
+                    Post
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="/new">
+                    Managed List
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown mt-1  ">
+              <a
+                class="nav-link dropdown-toggle hidden-arrow"
+                href="#"
+                id="navbarDropdownMenuLink"
+                role="button"
+                data-mdb-toggle="dropdown"
+                aria-expanded="false"
+              >
                 <strong>Employee</strong>
               </a>
               <ul

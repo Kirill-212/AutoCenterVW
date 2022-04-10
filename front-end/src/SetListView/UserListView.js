@@ -52,6 +52,7 @@ export default function UserListView() {
       label: "Options",
       id: "options",
       numeric: false,
+      sortable: false,
       disablePadding: false
     }
   ];

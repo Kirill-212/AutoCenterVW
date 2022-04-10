@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Domain.Repositories
@@ -23,6 +24,8 @@ namespace Domain.Repositories
 
 
         Task<IEnumerable<T>> GetCarActive();
+
+        IQueryable<T> GetPaged();
 
     }
 }

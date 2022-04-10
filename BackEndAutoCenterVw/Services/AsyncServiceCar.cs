@@ -1,6 +1,9 @@
-﻿using Domain.Exceptions;
+﻿using AutoMapper;
+using Contracts;
+using Domain.Exceptions;
 using Domain.Models;
 using Domain.Models.CarEquipment;
+using Domain.Pagination;
 using Domain.Repositories;
 using Services.Abstractions;
 using System;
@@ -12,7 +15,7 @@ using System.Threading.Tasks;
 namespace Services
 {
     internal sealed class AsyncServiceCar :
-        IAsyncServiceCar<Car, ImgCar>
+        IAsyncServiceCar<Car, ImgCar,GetCarDto>
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IAsyncRepositoryCarEquipment<CarEquipment> asyncRepositoryCarEquipment;
@@ -73,6 +76,13 @@ namespace Services
             return await unitOfWork.AsyncRepositoryCar.Get();
         }
 
+        public PagedList<Car, GetCarDto> GetAllPaged(PagedParameters item, IMapper mapper)
+        {
+            return PagedList<Car, GetCarDto>.ToPagedList(unitOfWork.AsyncRepositoryCar.GetPaged().OrderBy(on => on.Id),
+        item.PageNumber,
+        item.PageSize, mapper);
+        }
+       
         public async Task<Car> GetById(int id, CancellationToken cancellationToken = default)
         {
             return await unitOfWork.AsyncRepositoryCar.GetById(id);
@@ -95,6 +105,8 @@ namespace Services
         {
             return await unitOfWork.AsyncRepositoryCar.GetCarByEmail(email);
         }
+
+
 
         public async Task<IEnumerable<Car>> GetCarForUser(CancellationToken cancellationToken = default)
         {

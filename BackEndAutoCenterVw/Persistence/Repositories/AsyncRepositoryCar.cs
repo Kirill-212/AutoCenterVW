@@ -104,7 +104,6 @@ namespace Persistence.Repositories
             return await _dbContext.Cars
                 .Include(i => i.ActionCar)
                 .Include(i => i.ClientCar.User)
-                .Where(i => i.ClientCar == null)
                 .Where(u => u.VIN == vin)
                 .Where(i => i.IsDeleted == false)
                 .FirstOrDefaultAsync();
@@ -130,6 +129,27 @@ namespace Persistence.Repositories
                 .Where(u => u.IsActive==true)
                 .Where(i => i.IsDeleted == false)
                 .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Car>> GetCarForTestDrive()
+        {
+            return await _dbContext.Cars
+                .Include(i => i.ClientCar.User)
+                .Where(i=>i.ClientCar==null)
+                .Where(u => u.IsActive == false)
+                .Where(i => i.IsDeleted == false)
+                .ToListAsync();
+        }
+
+        public IQueryable<Car> GetPaged()
+        {
+            return _dbContext.Cars
+                .Include(i => i.ActionCar)
+                .Include(i => i.ClientCar.User)
+                .Include(i => i.ImgsCar)
+                .Where(i=>!(i.ClientCar!=null&&i.IsActive==false))
+                .Where(i => i.IsDeleted == false)
+                .AsQueryable();
         }
     }
 }

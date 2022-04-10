@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Contracts;
 using Domain.Models;
+using Domain.Pagination;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstractions;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace Presentation.Controllers
         [HttpGet("/active")]
         public async Task<List<GetCarDto>> GetCarActive()
         {
-            return  _mapper.Map<List<GetCarDto>>(await _serviceManager.AsyncServiceCar.GetCarActive());           
+            return _mapper.Map<List<GetCarDto>>(await _serviceManager.AsyncServiceCar.GetCarActive());
         }
 
         // [Authorize(Roles = " ADMIN, EMPLOYEE, USER")]
@@ -59,11 +60,29 @@ namespace Presentation.Controllers
             return await _serviceManager.AsyncServiceCar.GetCarForUser();
         }
 
+        [HttpGet("paged")]
+        public GetPagedCarDto GetCarsPaged([FromQuery] PagedParameters pagedParameters)
+        {
+            var pageds = _serviceManager.AsyncServiceCar.GetAllPaged(pagedParameters, _mapper);
+            GetPagedCarDto getPagedNewDto = new()
+            {
+                GetCarDto = pageds,
+                TotalCount = pageds.TotalCount,
+                PageSize = pageds.PageSize,
+                CurrentPage = pageds.CurrentPage,
+                TotalPages = pageds.TotalPages,
+                HasNext = pageds.HasNext,
+                HasPrevious = pageds.HasPrevious
+            };
+            return getPagedNewDto;
+        }
+
+
         //[Authorize(Roles = " ADMIN, EMPLOYEE,  USER")]
         [HttpGet]
-        public async Task<IEnumerable<Car>> GetAll()
+        public async Task<List<GetCarDto>> GetAll()
         {
-            return await _serviceManager.AsyncServiceCar.GetAll();
+            return _mapper.Map<List<GetCarDto>>(await _serviceManager.AsyncServiceCar.GetAll());
         }
 
         //   [Authorize(Roles = " ADMIN, EMPLOYEE")]

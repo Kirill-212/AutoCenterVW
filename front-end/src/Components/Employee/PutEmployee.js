@@ -99,7 +99,8 @@ const PutEmployee = () => {
   }, []);
   let style = { width: "30rem" };
   return (
-    <div className="d-flex   justify-content-center w-40 h-100 align-items-center ">
+    <div className="opacity-90">
+    <div className="d-flex   justify-content-center w-40  align-items-center ">
       <div className=" p-4   bg-dark text-white h-100 ">
         <div className="row mt-5">
           <h1 className="d-flex   justify-content-center align-items-center ">
@@ -176,6 +177,7 @@ const PutEmployee = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

@@ -83,20 +83,22 @@ const Employee = () => {
   }, []);
 
   return (
-    <div className="container-fruid">
+    <div className="container">
       <div className="row align-items-center">
         <p className="text-reset text-white">
           {MessageError}
         </p>
       </div>
 
-      <div className="row mt-5 pt-5 align-items-center">
-        {viewList &&
-          <ListEmployee
-            head={EmployeeListView()}
-            rows={listEmployees}
-            deleteEmployee={DeleteEmployee}
-          />}
+      <div className="row align-items-center">
+        <div className="col-12 mt-5 pt-5  align-items-center">
+          {viewList &&
+            <ListEmployee
+              head={EmployeeListView()}
+              rows={listEmployees}
+              deleteEmployee={DeleteEmployee}
+            />}
+        </div>
       </div>
     </div>
   );

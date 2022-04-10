@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import ListNews from "./ListNews";
-
+import Footer from "../Footer";
 const New = () => {
   const [MessageError, setMessageError] = React.useState("");
 
@@ -14,6 +14,9 @@ const New = () => {
 
       <div className="row mt-5 pt-5 align-items-center">
         <ListNews />
+      </div>
+      <div className="row">
+        <Footer />
       </div>
     </div>
   );

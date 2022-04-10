@@ -12,9 +12,9 @@
  * Do not edit the class manually.
  *
  */
-import {ApiClient} from "../ApiClient";
-import {TestDrive} from '../model/TestDrive';
-import {TestDriveDto} from '../model/TestDriveDto';
+import { ApiClient } from "../ApiClient";
+import { TestDrive } from "../model/TestDrive";
+import { TestDriveDto } from "../model/TestDriveDto";
 
 /**
 * TestDrives service.
@@ -22,8 +22,7 @@ import {TestDriveDto} from '../model/TestDriveDto';
 * @version v1
 */
 export class TestDrivesApi {
-
-    /**
+  /**
     * Constructs a new TestDrivesApi. 
     * @alias module:api/TestDrivesApi
     * @class
@@ -31,11 +30,11 @@ export class TestDrivesApi {
     * default to {@link module:ApiClient#instanc
     e} if unspecified.
     */
-    constructor(apiClient) {
-        this.apiClient = apiClient || ApiClient.instance;
-    }
+  constructor(apiClient) {
+    this.apiClient = apiClient || ApiClient.instance;
+  }
 
-    /**
+  /**
      * Callback function to receive the result of the apiTestdrivesCancelPut operation.
      * @callback moduleapi/TestDrivesApi~apiTestdrivesCancelPutCallback
      * @param {String} error Error message, if any.
@@ -43,40 +42,41 @@ export class TestDrivesApi {
      * @param {String} response The complete HTTP response.
      */
 
-    /**
+  /**
      * @param {Object} opts Optional parameters
      * @param {module:model/TestDriveDto} opts.body 
      * @param {module:api/TestDrivesApi~apiTestdrivesCancelPutCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    apiTestdrivesCancelPut(opts, callback) {
-      opts = opts || {};
-      let postBody = opts['body'];
+  apiTestdrivesCancelPut(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = opts["body"];
 
-      let pathParams = {
-        
-      };
-      let queryParams = {
-        
-      };
-      let headerParams = {
-        
-      };
-      let formParams = {
-        
-      };
+    let pathParams = {};
+    let queryParams = {};
+    let headerParams = jwt;
+    let formParams = {};
 
-      let authNames = [];
-      let contentTypes = ['application/json', 'text/json', 'application/_*+json'];
-      let accepts = [];
-      let returnType = null;
+    let authNames = [];
+    let contentTypes = ["application/json", "text/json", "application/_*+json"];
+    let accepts = [];
+    let returnType = null;
 
-      return this.apiClient.callApi(
-        '/api/testdrives/cancel', 'PUT',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-    /**
+    return this.apiClient.callApi(
+      "/api/testdrives/cancel",
+      "PUT",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+  /**
      * Callback function to receive the result of the apiTestdrivesConfirmPut operation.
      * @callback moduleapi/TestDrivesApi~apiTestdrivesConfirmPutCallback
      * @param {String} error Error message, if any.
@@ -84,40 +84,41 @@ export class TestDrivesApi {
      * @param {String} response The complete HTTP response.
      */
 
-    /**
+  /**
      * @param {Object} opts Optional parameters
      * @param {module:model/TestDriveDto} opts.body 
      * @param {module:api/TestDrivesApi~apiTestdrivesConfirmPutCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    apiTestdrivesConfirmPut(opts, callback) {
-      opts = opts || {};
-      let postBody = opts['body'];
+  apiTestdrivesConfirmPut(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = opts["body"];
 
-      let pathParams = {
-        
-      };
-      let queryParams = {
-        
-      };
-      let headerParams = {
-        
-      };
-      let formParams = {
-        
-      };
+    let pathParams = {};
+    let queryParams = {};
+    let headerParams = jwt;
+    let formParams = {};
 
-      let authNames = [];
-      let contentTypes = ['application/json', 'text/json', 'application/_*+json'];
-      let accepts = [];
-      let returnType = null;
+    let authNames = [];
+    let contentTypes = ["application/json", "text/json", "application/_*+json"];
+    let accepts = [];
+    let returnType = null;
 
-      return this.apiClient.callApi(
-        '/api/testdrives/confirm', 'PUT',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-    /**
+    return this.apiClient.callApi(
+      "/api/testdrives/confirm",
+      "PUT",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+  /**
      * Callback function to receive the result of the apiTestdrivesEmployeeGet operation.
      * @callback moduleapi/TestDrivesApi~apiTestdrivesEmployeeGetCallback
      * @param {String} error Error message, if any.
@@ -125,39 +126,39 @@ export class TestDrivesApi {
      * @param {String} response The complete HTTP response.
      */
 
-    /**
+  /**
      * @param {module:api/TestDrivesApi~apiTestdrivesEmployeeGetCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}
      */
-    apiTestdrivesEmployeeGet(callback) {
-      
-      let postBody = null;
+  apiTestdrivesEmployeeGet(jwt, callback) {
+    let postBody = null;
 
-      let pathParams = {
-        
-      };
-      let queryParams = {
-        
-      };
-      let headerParams = {
-        
-      };
-      let formParams = {
-        
-      };
+    let pathParams = {};
+    let queryParams = {};
+    let headerParams = jwt;
+    let formParams = {};
 
-      let authNames = [];
-      let contentTypes = [];
-      let accepts = ['text/plain', 'application/json', 'text/json'];
-      let returnType = [TestDrive];
+    let authNames = [];
+    let contentTypes = [];
+    let accepts = ["text/plain", "application/json", "text/json"];
+    let returnType = [TestDrive];
 
-      return this.apiClient.callApi(
-        '/api/testdrives/employee', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-    /**
+    return this.apiClient.callApi(
+      "/api/testdrives/employee",
+      "GET",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+  /**
      * Callback function to receive the result of the apiTestdrivesPost operation.
      * @callback moduleapi/TestDrivesApi~apiTestdrivesPostCallback
      * @param {String} error Error message, if any.
@@ -165,40 +166,41 @@ export class TestDrivesApi {
      * @param {String} response The complete HTTP response.
      */
 
-    /**
+  /**
      * @param {Object} opts Optional parameters
      * @param {module:model/TestDriveDto} opts.body 
      * @param {module:api/TestDrivesApi~apiTestdrivesPostCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    apiTestdrivesPost(opts, callback) {
-      opts = opts || {};
-      let postBody = opts['body'];
+  apiTestdrivesPost(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = opts["body"];
 
-      let pathParams = {
-        
-      };
-      let queryParams = {
-        
-      };
-      let headerParams = {
-        
-      };
-      let formParams = {
-        
-      };
+    let pathParams = {};
+    let queryParams = {};
+    let headerParams = jwt;
+    let formParams = {};
 
-      let authNames = [];
-      let contentTypes = ['application/json', 'text/json', 'application/_*+json'];
-      let accepts = [];
-      let returnType = null;
+    let authNames = [];
+    let contentTypes = ["application/json", "text/json", "application/_*+json"];
+    let accepts = [];
+    let returnType = null;
 
-      return this.apiClient.callApi(
-        '/api/testdrives', 'POST',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-    /**
+    return this.apiClient.callApi(
+      "/api/testdrives",
+      "POST",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+  /**
      * Callback function to receive the result of the apiTestdrivesUserGet operation.
      * @callback moduleapi/TestDrivesApi~apiTestdrivesUserGetCallback
      * @param {String} error Error message, if any.
@@ -206,39 +208,41 @@ export class TestDrivesApi {
      * @param {String} response The complete HTTP response.
      */
 
-    /**
+  /**
      * @param {Object} opts Optional parameters
      * @param {String} opts.email 
      * @param {module:api/TestDrivesApi~apiTestdrivesUserGetCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}
      */
-    apiTestdrivesUserGet(opts, callback) {
-      opts = opts || {};
-      let postBody = null;
+  apiTestdrivesUserGet(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = null;
 
-      let pathParams = {
-        
-      };
-      let queryParams = {
-        'email': opts['email']
-      };
-      let headerParams = {
-        
-      };
-      let formParams = {
-        
-      };
+    let pathParams = {};
+    let queryParams = {
+      email: opts["email"]
+    };
+    let headerParams = jwt;
+    let formParams = {};
 
-      let authNames = [];
-      let contentTypes = [];
-      let accepts = ['text/plain', 'application/json', 'text/json'];
-      let returnType = [TestDrive];
+    let authNames = [];
+    let contentTypes = [];
+    let accepts = ["text/plain", "application/json", "text/json"];
+    let returnType = [TestDrive];
 
-      return this.apiClient.callApi(
-        '/api/testdrives/user', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-
+    return this.apiClient.callApi(
+      "/api/testdrives/user",
+      "GET",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
 }

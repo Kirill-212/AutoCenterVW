@@ -1,4 +1,6 @@
-﻿using Domain.Exceptions;
+﻿using Contracts;
+using Domain.Exceptions;
+using Domain.HttpClent;
 using Domain.Models;
 using Domain.Models.CarEquipment;
 using Domain.Repositories;
@@ -15,12 +17,15 @@ namespace Services
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IAsyncRepositoryCarEquipment<CarEquipment> asyncRepositoryCarEquipment;
+        private readonly IAsynHttpClient<PayDataDto> asynHttpClient;
 
         public AsyncServiceOrder(
            IUnitOfWork unitOfWork,
-           IAsyncRepositoryCarEquipment<CarEquipment> asyncRepositoryCarEquipment
+           IAsyncRepositoryCarEquipment<CarEquipment> asyncRepositoryCarEquipment,
+           IAsynHttpClient<PayDataDto> asynHttpClient
             )
         {
+            this.asynHttpClient = asynHttpClient;
             this.asyncRepositoryCarEquipment = asyncRepositoryCarEquipment;
             this.unitOfWork = unitOfWork;
         }
@@ -41,7 +46,7 @@ namespace Services
             }
             else
             {
-               
+
                 car = await unitOfWork.AsyncRepositoryCar.GetCarByVinForOrder(vin);
                 if (car == null || car.IsActive == false)
                     throw new CarVinWithEmailFound(vin, emailOwner, "not found or status car is not active");
@@ -157,6 +162,11 @@ namespace Services
             string vin,
             string emailBuyer,
             decimal totalCost,
+            string cardNumber,
+            int month,
+            int year,
+            int cvc,
+                      string carOwnerName,
             CancellationToken cancellationToken = default
             )
         {
@@ -180,6 +190,51 @@ namespace Services
             if (order != null && order.State != State.CONFIRM)
                 throw new OrderErrorUpdateState(order.State.ToString());
             order.State = State.PAID;
+            order.DateOfBuyCar = DateTime.Now;
+            PayDataDto payData = new()
+            {
+                CardNumber = cardNumber,
+                Month = month,
+                Year = year,
+                CVC = cvc,
+                CardOwnerName = carOwnerName,
+                TotalCost = totalCost
+            };
+            if (!(await asynHttpClient.Post(payData)))
+            {
+                throw new PayError();
+            }
+            ClientCar clientCar = await unitOfWork.AsyncRepositoryClientCar
+                .GetCarByVin(vin);
+            if (clientCar == null)
+            {
+                clientCar = new()
+                {
+                    RegisterNumber = null,
+                    UserId = user.Id,
+                    CarId = car.Id,
+                };
+                await unitOfWork.AsyncRepositoryClientCar.Create(clientCar);
+
+            }
+            else
+            {
+                if (order.ChangeRegisterNumber)
+                {
+                    clientCar.RegisterNumber = null;
+                    clientCar.UserId = user.Id;
+
+                }
+                else
+                {
+                    clientCar.UserId = user.Id;
+                }
+                unitOfWork.AsyncRepositoryClientCar.Update(clientCar);
+
+            }
+
+            car.IsActive=!car.IsActive;
+            unitOfWork.AsyncRepositoryCar.Update(car);
             unitOfWork.AsyncRepositoryOrder.Update(order);
             await unitOfWork.CompleteAsync();
         }

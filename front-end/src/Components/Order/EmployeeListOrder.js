@@ -1,5 +1,8 @@
 import React, { useContext, useEffect } from "react";
-import { CarsApi, OrdersApi, PostOrderDto } from "../../ImportExportGenClient";
+import {
+  OrdersApi,
+  UpdateStateOrderDto
+} from "../../ImportExportGenClient";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -11,10 +14,9 @@ import { getDate } from "../ViewLists/SupportFunction";
 const EmployeeListOrder = props => {
   const { user } = useContext(Context);
   const [MessageError, setMessageError] = React.useState("");
-  const [expanded, setExpanded] = React.useState(false);
   const [listCars, setListCars] = React.useState([]);
   const [viewList, setViewList] = React.useState(false);
-  async function GetCarList() {
+  async function GetOrderList() {
     setViewList(false);
     new OrdersApi().apiOrdersEmployeeGet(GetJwtToken(), CallbackRequest);
   }
@@ -45,14 +47,35 @@ const EmployeeListOrder = props => {
       setMessageError(JSON.parse(error.message)["error"]);
     }
   }
-  async function UpdateStateConfirm() {
-    setViewList(false);
-   // new OrdersApi().apiOrdersConfirmPut(GetJwtToken(), CallbackRequestUpdate);
-  }
 
-  async function UpdateStateCancel() {
-    setViewList(false);
-  //  new OrdersApi(). apiOrdersCancelPut(GetJwtToken(), CallbackRequestUpdate);
+  function UpdateState(value, e) {
+    console.log(value, e);
+    let valueOrder = JSON.parse(value);
+    if (valueOrder.state === "CANCEL") {
+      new OrdersApi().apiOrdersCancelPut(
+        GetJwtToken(),
+        {
+          body: new UpdateStateOrderDto(
+            valueOrder.vin,
+            valueOrder.email,
+            valueOrder.totalCost
+          )
+        },
+        CallbackRequestUpdate
+      );
+    } else {
+      new OrdersApi().apiOrdersConfirmPut(
+        GetJwtToken(),
+        {
+          body: new UpdateStateOrderDto(
+            valueOrder.vin,
+            valueOrder.email,
+            valueOrder.totalCost
+          )
+        },
+        CallbackRequestUpdate
+      );
+    }
   }
 
   function CallbackRequestUpdate(error, data, response) {
@@ -74,15 +97,12 @@ const EmployeeListOrder = props => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
-      GetCarList();
+      GetOrderList();
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
   }
 
-  const handleChange = panel => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
   function CheckState(value) {
     if (value === 0) {
       return "PENDING";
@@ -95,7 +115,7 @@ const EmployeeListOrder = props => {
     }
   }
   useEffect(() => {
-    GetCarList();
+    GetOrderList();
   }, []);
   return (
     <div className="container-md">
@@ -108,16 +128,14 @@ const EmployeeListOrder = props => {
       <div className="row mt-5 pt-5 align-items-center">
         {viewList &&
           listCars.map(r => {
+            console.log("r", r);
             if (
               r.user.email === listCars[0].user.email &&
               r.car.vin === listCars[0].car.vin &&
               r.totalCost === listCars[0].totalCost
             )
               return (
-                <Accordion
-                  expanded={expanded === "panel1"}
-                  onChange={handleChange("panel1")}
-                >
+                <Accordion>
                   <AccordionSummary
                     aria-controls="panel1d-content"
                     id="panel1d-header"
@@ -131,7 +149,7 @@ const EmployeeListOrder = props => {
                         </div>
                         <div className="col">
                           <p>
-                            Total cost(<i class="fa-solid fa-dollar-sign" />):{" "}
+                            Total cost(<i class="fa-solid fa-dollar-sign" />):
                             {r.totalCost}
                           </p>
                         </div>
@@ -151,7 +169,7 @@ const EmployeeListOrder = props => {
                           <div className="row">
                             <div className="col text-right">State</div>
                             <div className="col-1 text-center">
-                              {" "}<i class="fa-solid fa-arrow-right" />
+                              <i class="fa-solid fa-arrow-right" />
                             </div>
                             <div className="col text-left">
                               {CheckState(r.state)}
@@ -162,7 +180,7 @@ const EmployeeListOrder = props => {
                               Change register number
                             </div>
                             <div className="col-1 text-center">
-                              {" "}<i class="fa-solid fa-arrow-right" />
+                              <i class="fa-solid fa-arrow-right" />
                             </div>
                             <div className="col text-left">
                               {r.changeRegisterNumber === false
@@ -178,7 +196,7 @@ const EmployeeListOrder = props => {
                           <div className="row">
                             <div className="col text-right">First name</div>
                             <div className="col-1 text-center">
-                              {" "}<i class="fa-solid fa-arrow-right" />
+                              <i class="fa-solid fa-arrow-right" />
                             </div>
                             <div className="col text-left">
                               {r.user.firstName}
@@ -187,7 +205,7 @@ const EmployeeListOrder = props => {
                           <div className="row">
                             <div className="col text-right">Last name</div>
                             <div className="col-1 text-center">
-                              {" "}<i class="fa-solid fa-arrow-right" />
+                              <i class="fa-solid fa-arrow-right" />
                             </div>
                             <div className="col text-left">
                               {r.user.lastName}
@@ -196,7 +214,7 @@ const EmployeeListOrder = props => {
                           <div className="row">
                             <div className="col text-right">Surname</div>
                             <div className="col-1 text-center">
-                              {" "}<i class="fa-solid fa-arrow-right" />
+                              <i class="fa-solid fa-arrow-right" />
                             </div>
                             <div className="col text-left">
                               {r.user.surname}
@@ -205,7 +223,7 @@ const EmployeeListOrder = props => {
                           <div className="row">
                             <div className="col text-right">Phone number</div>
                             <div className="col-1 text-center">
-                              {" "}<i class="fa-solid fa-arrow-right" />
+                              <i class="fa-solid fa-arrow-right" />
                             </div>
                             <div className="col text-left">
                               {r.user.phoneNumber}
@@ -221,7 +239,7 @@ const EmployeeListOrder = props => {
                               Car mileage(km)
                             </div>
                             <div className="col-1 text-center">
-                              {" "}<i class="fa-solid fa-arrow-right" />
+                              <i class="fa-solid fa-arrow-right" />
                             </div>
                             <div className="col text-left">
                               {r.car.carMileage}
@@ -251,7 +269,46 @@ const EmployeeListOrder = props => {
                           </div>
                           <div className="row d-flex flex-column">
                             <div className="col text-center">
-                              <h4> Option </h4>
+                              <h4>Options </h4>
+                            </div>
+                          </div>
+                          <div className="row ">
+                            <div className="col text-right">
+                              {CheckState(r.state) !== "CONFIRM" &&
+                                <button
+                                  class="btn btn-primary-sm btn-sm ml-1"
+                                  onClick={e =>
+                                    UpdateState(
+                                      JSON.stringify({
+                                        vin: r.car.vin,
+                                        email: r.user.email,
+                                        totalCost: r.totalCost,
+                                        state: "CONFIRM"
+                                      }),
+                                      e
+                                    )}
+                                  type="button"
+                                >
+                                  <i class="fa-regular fa-circle-check" />
+                                </button>}
+                            </div>
+                            <div className="col">
+                              <button
+                                class="btn btn-primary-sm btn-sm ml-1"
+                                onClick={e =>
+                                  UpdateState(
+                                    JSON.stringify({
+                                      vin: r.car.vin,
+                                      email: r.user.email,
+                                      totalCost: r.totalCost,
+                                      state: "CANCEL"
+                                    }),
+                                    e
+                                  )}
+                                type="button"
+                              >
+                                <i class="fa-solid fa-ban" />
+                              </button>
                             </div>
                           </div>
                         </div>
@@ -261,13 +318,12 @@ const EmployeeListOrder = props => {
                 </Accordion>
               );
             return (
-              <Accordion
-                expanded={expanded === r.user.email + r.car.vin + r.totalCost}
-                onChange={handleChange(r.user.email + r.car.vin + r.totalCost)}
-              >
+              <Accordion>
                 <AccordionSummary
-                  aria-controls="panel1d-content"
-                  id="panel1d-header"
+                  aria-controls={
+                    r.user.email + r.car.vin + r.totalCost + "d-content"
+                  }
+                  id={r.user.email + r.car.vin + r.totalCost + "d-header"}
                 >
                   <div className="row">
                     <div className="col">
@@ -289,25 +345,154 @@ const EmployeeListOrder = props => {
                 </AccordionSummary>
                 <AccordionDetails>
                   <Typography>
-                    {/* <div className="row d-grid gap-2 d-md-block">
-                    <div className="col">
-                      <button
-                        class="btn btn-primary-sm btn-sm m-2 "
-                        value={r.name}
-                        onClick={props.deleteCarEquipmentForm}
-                        type="button"
-                      >
-                        <i class="fas fa-trash" />
-                      </button>
-                      <a
-                        className="btn btn-primary-sm btn-sm m-2 text-reset"
-                        href={`/carequipmentform/put?name=${r.name}
-                          `}
-                      >
-                        <i class="fa-solid fa-screwdriver-wrench" />
-                      </a>
+                    <div class="card">
+                      <h5 class="card-header">Information about order</h5>
+                      <div class="card-body">
+                        <div className="row">
+                          <div className="col text-right">State</div>
+                          <div className="col-1 text-center">
+                            <i class="fa-solid fa-arrow-right" />
+                          </div>
+                          <div className="col text-left">
+                            {CheckState(r.state)}
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col text-right">
+                            Change register number
+                          </div>
+                          <div className="col-1 text-center">
+                            <i class="fa-solid fa-arrow-right" />
+                          </div>
+                          <div className="col text-left">
+                            {r.changeRegisterNumber === false
+                              ? "False"
+                              : "True"}
+                          </div>
+                        </div>
+                        <div className="row d-flex flex-column">
+                          <div className="col text-center">
+                            <h4> Information about buyer </h4>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col text-right">First name</div>
+                          <div className="col-1 text-center">
+                            <i class="fa-solid fa-arrow-right" />
+                          </div>
+                          <div className="col text-left">
+                            {r.user.firstName}
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col text-right">Last name</div>
+                          <div className="col-1 text-center">
+                            <i class="fa-solid fa-arrow-right" />
+                          </div>
+                          <div className="col text-left">
+                            {r.user.lastName}
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col text-right">Surname</div>
+                          <div className="col-1 text-center">
+                            <i class="fa-solid fa-arrow-right" />
+                          </div>
+                          <div className="col text-left">
+                            {r.user.surname}
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col text-right">Phone number</div>
+                          <div className="col-1 text-center">
+                            <i class="fa-solid fa-arrow-right" />
+                          </div>
+                          <div className="col text-left">
+                            {r.user.phoneNumber}
+                          </div>
+                        </div>
+                        <div className="row d-flex flex-column">
+                          <div className="col text-center">
+                            <h4> Information about car </h4>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col text-right">Car mileage(km)</div>
+                          <div className="col-1 text-center">
+                            <i class="fa-solid fa-arrow-right" />
+                          </div>
+                          <div className="col text-left">
+                            {r.car.carMileage}
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col text-right">
+                            Cost(<i class="fa-solid fa-dollar-sign" />)
+                          </div>
+                          <div className="col-1 text-center">
+                            <i class="fa-solid fa-arrow-right" />
+                          </div>
+                          <div className="col text-left">
+                            {r.car.cost}
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col text-right">
+                            Date of realese car
+                          </div>
+                          <div className="col-1 text-center">
+                            <i class="fa-solid fa-arrow-right" />
+                          </div>
+                          <div className="col text-left">
+                            {getDate(r.car.dateOfRealeseCar)}
+                          </div>
+                        </div>
+                        <div className="row d-flex flex-column">
+                          <div className="col text-center">
+                            <h4>Options </h4>
+                          </div>
+                        </div>
+                        <div className="row ">
+                          <div className="col text-right">
+                            {CheckState(r.state) !== "CONFIRM" &&
+                              <button
+                                class="btn btn-primary-sm btn-sm ml-1"
+                                onClick={e =>
+                                  UpdateState(
+                                    JSON.stringify({
+                                      vin: r.car.vin,
+                                      email: r.user.email,
+                                      totalCost: r.totalCost,
+                                      state: "CONFIRM"
+                                    }),
+                                    e
+                                  )}
+                                type="button"
+                              >
+                                <i class="fa-regular fa-circle-check" />
+                              </button>}
+                          </div>
+                          <div className="col">
+                            <button
+                              class="btn btn-primary-sm btn-sm ml-1"
+                              onClick={e =>
+                                UpdateState(
+                                  JSON.stringify({
+                                    vin: r.car.vin,
+                                    email: r.user.email,
+                                    totalCost: r.totalCost,
+                                    state: "CANCEL"
+                                  }),
+                                  e
+                                )}
+                              type="button"
+                            >
+                              <i class="fa-solid fa-ban" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div> */}
                   </Typography>
                 </AccordionDetails>
               </Accordion>

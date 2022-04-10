@@ -1,4 +1,5 @@
 ﻿using Contracts;
+using Domain.HttpClent;
 using Domain.Models;
 using Domain.Models.CarEquipment;
 using Domain.Repositories;
@@ -17,7 +18,7 @@ namespace Services
 
         private readonly Lazy<IAsyncServiceNew<New, Img, GetNewDto>> _lazyAsyncServiceNew;
 
-        private readonly Lazy<IAsyncServiceCar<Car, ImgCar>> _lazyAsyncServiceCar;
+        private readonly Lazy<IAsyncServiceCar<Car, ImgCar,GetCarDto>> _lazyAsyncServiceCar;
 
         private readonly Lazy<IAsyncServiceClientCar<ClientCar>> _lazyAsyncServiceClientCar;
 
@@ -32,7 +33,8 @@ namespace Services
         public ServiceManager(
            
             IUnitOfWork unitOfWork,
-            IAsyncRepositoryCarEquipment<CarEquipment> carEquipment
+            IAsyncRepositoryCarEquipment<CarEquipment> carEquipment,
+            IAsynHttpClient<PayDataDto> asynHttpClient
             )
         {
             _lazyAsyncServiceUser = new Lazy<IAsyncServiceUser<User>>(
@@ -47,14 +49,14 @@ namespace Services
             _lazyAsyncServiceNew = new Lazy<IAsyncServiceNew<New, Img,GetNewDto>>(
                () => new AsyncServiceNew( unitOfWork)
                );
-            _lazyAsyncServiceCar = new Lazy<IAsyncServiceCar<Car, ImgCar>>(
+            _lazyAsyncServiceCar = new Lazy<IAsyncServiceCar<Car, ImgCar, GetCarDto>>(
             () => new AsyncServiceCar(unitOfWork, carEquipment)
             );
             _lazyAsyncServiceClientCar = new Lazy<IAsyncServiceClientCar<ClientCar>>(
             () => new AsyncServiceClientCar(unitOfWork, carEquipment)
             );
             _lazyAsyncServiceOrder = new Lazy<IAsyncServiceOrder<Order>>(
-            () => new AsyncServiceOrder(unitOfWork, carEquipment)
+            () => new AsyncServiceOrder(unitOfWork, carEquipment,asynHttpClient)
             );
             _lazyAsyncServiceTestDrive = new Lazy<IAsyncServiceTestDrive<TestDrive>>(
                 () => new AsyncServiceTestDrive(unitOfWork)
@@ -75,7 +77,7 @@ namespace Services
 
         public IAsyncServiceNew<New, Img, GetNewDto> AsyncServiceNew => _lazyAsyncServiceNew.Value;
 
-        public IAsyncServiceCar<Car, ImgCar> AsyncServiceCar => _lazyAsyncServiceCar.Value;
+        public IAsyncServiceCar<Car, ImgCar, GetCarDto> AsyncServiceCar => _lazyAsyncServiceCar.Value;
 
         public IAsyncServiceClientCar<ClientCar> AsyncServiceClientCar =>
             _lazyAsyncServiceClientCar.Value;

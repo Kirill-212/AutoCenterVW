@@ -31,6 +31,8 @@ namespace Persistence.Repositories
         public async Task<IEnumerable<TestDrive>> GetForEmployee()
         {
             return await _dbContext.TestDrives
+                .Include(i=>i.User)
+                .Include(i => i.Car)
                 .Where(i => i.stateTestDrive != StateTestDrive.CANCEL)
                 .ToListAsync();
         }
@@ -38,6 +40,8 @@ namespace Persistence.Repositories
         public async Task<IEnumerable<TestDrive>> GetForUser(string email)
         {
             return await _dbContext.TestDrives
+                 .Include(i => i.User)
+                .Include(i => i.Car)
                  .Where(i => i.User.Email == email)
                   .Where(i => i.stateTestDrive != StateTestDrive.CANCEL)
                  .ToListAsync();

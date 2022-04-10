@@ -86,72 +86,74 @@ const PostNew = () => {
   let style = { width: "30rem" };
 
   return (
-    <div className="d-flex   justify-content-center w-40 h-100 align-items-center ">
-      <div className="p-4  bg-dark text-white h-100">
-        <div className="row mt-5">
-          <h1 className="d-flex   justify-content-center align-items-center ">
-            Post new
-          </h1>
-        </div>
-        <div className="container mt-5 pt-5">
-          <form onSubmit={submitNew}>
-            <div className="form-group mb-2 ">
-              <label>Title:</label>
-              <input
-                className="w-100 shadow-lg  bg-white rounded"
-                onChange={e => setTitle(e.target.value)}
-                name="title"
-                type="text"
-                placeholder="Enter your title..."
-                required
-              />
-            </div>
-            <div className="form-group mb-2 ">
-              <label>Description:</label>
-              <input
-                className="w-100 shadow-lg  bg-white rounded"
-                onChange={e => setDescription(e.target.value)}
-                name="description"
-                type="text"
-                placeholder="Enter your description..."
-                required
-              />
-            </div>
-            <div className="form-group mb-3">
-              <label>Images profile:</label>
-              <div className="custom-file">
+    <div className="opacity-90">
+      <div className="d-flex   justify-content-center w-40  align-items-center ">
+        <div className="p-4  bg-dark text-white h-100">
+          <div className="row mt-5">
+            <h1 className="d-flex   justify-content-center align-items-center ">
+              Post new
+            </h1>
+          </div>
+          <div className="container mt-5 pt-5">
+            <form onSubmit={submitNew}>
+              <div className="form-group mb-2 ">
+                <label>Title:</label>
                 <input
-                  type="file"
-                  accept="image/*"
-                  onChange={e => setImgs(e.target.files)}
-                  className="custom-file-input"
-                  id="inputGroupFile01"
-                  multiple
+                  className="w-100 shadow-lg  bg-white rounded"
+                  onChange={e => setTitle(e.target.value)}
+                  name="title"
+                  type="text"
+                  placeholder="Enter your title..."
                   required
                 />
-                <label className="custom-file-label" for="inputGroupFile01">
-                  Choose file/files
-                </label>
               </div>
-            </div>
-            <div className="d-flex justify-content-center form-outline mb-3 p-5">
-              <div className="flex-fill">
-                <button
-                  type="submit"
-                  className="btn btn-secondary btn-rounded w-100 "
-                >
-                  Post
-                </button>
+              <div className="form-group mb-2 ">
+                <label>Description:</label>
+                <input
+                  className="w-100 shadow-lg  bg-white rounded"
+                  onChange={e => setDescription(e.target.value)}
+                  name="description"
+                  type="text"
+                  placeholder="Enter your description..."
+                  required
+                />
               </div>
-            </div>
-          </form>
-        </div>
-        <div />
+              <div className="form-group mb-3">
+                <label>Images profile:</label>
+                <div className="custom-file">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={e => setImgs(e.target.files)}
+                    className="custom-file-input"
+                    id="inputGroupFile01"
+                    multiple
+                    required
+                  />
+                  <label className="custom-file-label" for="inputGroupFile01">
+                    Choose file/files
+                  </label>
+                </div>
+              </div>
+              <div className="d-flex justify-content-center form-outline mb-3 p-5">
+                <div className="flex-fill">
+                  <button
+                    type="submit"
+                    className="btn btn-secondary btn-rounded w-100 "
+                  >
+                    Post
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div />
 
-        <div>
-          {redirect && <Navigate to={"/home"} />}
-          <div style={style} class="text-wrap  text-reset text-white">
-            {MessageError}
+          <div>
+            {redirect && <Navigate to={"/home"} />}
+            <div style={style} class="text-wrap  text-reset text-white">
+              {MessageError}
+            </div>
           </div>
         </div>
       </div>

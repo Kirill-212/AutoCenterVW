@@ -201,6 +201,7 @@ const PutNew = () => {
   }, []);
   let style = { width: "30rem" };
   return (
+    <div className="opacity-90">
     <div className="d-flex   justify-content-center align-items-center ">
       <div className="p-4  bg-dark text-white w-40">
         <div className="row mt-5">
@@ -281,6 +282,7 @@ const PutNew = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

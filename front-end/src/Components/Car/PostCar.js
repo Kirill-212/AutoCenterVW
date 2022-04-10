@@ -132,127 +132,129 @@ const PostCar = () => {
   let style = { width: "30rem" };
 
   return (
-    <div className="d-flex   justify-content-center w-40 h-100 align-items-center ">
-      <div className="p-4  bg-dark text-white h-100">
-        <div className="row mt-5">
-          <h1 className="d-flex   justify-content-center align-items-center ">
-            Post car
-          </h1>
-        </div>
-        <div className="container mt-5 pt-5">
-          <form onSubmit={submitCar}>
-            <div className="row">
-              <div className="col mb-2 ">
-                <label>VIN:</label>
-                <input
-                  className="w-100 shadow-lg  bg-white rounded"
-                  onChange={e => setVin(e.target.value)}
-                  name="vin"
-                  type="text"
-                  placeholder="Enter your VIN..."
-                  required
-                />
+    <div className="opacity-90">
+      <div className="d-flex   justify-content-center w-40 align-items-center ">
+        <div className="p-4  bg-dark text-white h-100">
+          <div className="row mt-5">
+            <h1 className="d-flex   justify-content-center align-items-center ">
+              Post car
+            </h1>
+          </div>
+          <div className="container mt-5 pt-5">
+            <form onSubmit={submitCar}>
+              <div className="row">
+                <div className="col mb-2 ">
+                  <label>VIN:</label>
+                  <input
+                    className="w-100 shadow-lg  bg-white rounded"
+                    onChange={e => setVin(e.target.value)}
+                    name="vin"
+                    type="text"
+                    placeholder="Enter your VIN..."
+                    required
+                  />
+                </div>
+                <div className="col mb-2 ">
+                  <label>Date of realese car:</label>
+                  <input
+                    className="w-100 shadow-lg  bg-white rounded"
+                    onChange={e => setDateOfRealeseCar(e.target.value)}
+                    name="dateOfRealeseCar"
+                    type="date"
+                    placeholder="Enter your date of realese car..."
+                    required
+                  />
+                </div>
               </div>
-              <div className="col mb-2 ">
-                <label>Date of realese car:</label>
-                <input
-                  className="w-100 shadow-lg  bg-white rounded"
-                  onChange={e => setDateOfRealeseCar(e.target.value)}
-                  name="dateOfRealeseCar"
-                  type="date"
-                  placeholder="Enter your date of realese car..."
-                  required
-                />
+              <div className="row">
+                <div className="col mb-2 ">
+                  <label>Cost($):</label>
+                  <input
+                    className="w-100 shadow-lg  bg-white rounded"
+                    onChange={e => setCost(e.target.value)}
+                    name="cost"
+                    type="number"
+                    placeholder="Enter your cost..."
+                    required
+                  />
+                </div>
+                <div className="col mb-2 ">
+                  <label>Car mileage(km):</label>
+                  <input
+                    className="w-100 shadow-lg  bg-white rounded"
+                    onChange={e => setCarMileage(e.target.value)}
+                    name="carMileage"
+                    type="number"
+                    placeholder="Enter your car mileage..."
+                    required
+                  />
+                </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="col mb-2 ">
-                <label>Cost($):</label>
+              <div className="form-group mb-2 ">
+                <label>Share percentage(%):</label>
                 <input
                   className="w-100 shadow-lg  bg-white rounded"
-                  onChange={e => setCost(e.target.value)}
-                  name="cost"
+                  onChange={e => setSharePercentage(e.target.value)}
+                  name="sharePercentage"
                   type="number"
-                  placeholder="Enter your cost..."
-                  required
+                  placeholder="Enter your share percentage..."
                 />
               </div>
-              <div className="col mb-2 ">
-                <label>Car mileage(km):</label>
-                <input
-                  className="w-100 shadow-lg  bg-white rounded"
-                  onChange={e => setCarMileage(e.target.value)}
-                  name="carMileage"
-                  type="number"
-                  placeholder="Enter your car mileage..."
+              <div className="form-group mb-2 ">
+                <label>Car equipment:</label>
+                <select
+                  size="0"
+                  className="form-select "
+                  aria-label="Default select example"
+                  onChange={e => setNameCarEquipment(e.target.value)}
                   required
-                />
-              </div>
-            </div>
-            <div className="form-group mb-2 ">
-              <label>Share percentage(%):</label>
-              <input
-                className="w-100 shadow-lg  bg-white rounded"
-                onChange={e => setSharePercentage(e.target.value)}
-                name="sharePercentage"
-                type="number"
-                placeholder="Enter your share percentage..."
-              />
-            </div>
-            <div className="form-group mb-2 ">
-              <label>Car equipment:</label>
-              <select
-                size="0"
-                className="form-select "
-                aria-label="Default select example"
-                onChange={e => setNameCarEquipment(e.target.value)}
-                required
-              >
-                <option value="" />
-                {flag &&
-                  carEquipmentList.map(element => {
-                    return (
-                      <option value={element.name}>
-                        {element.name}
-                      </option>
-                    );
-                  })}
-              </select>
-            </div>
-            <div className="form-group mb-3">
-              <label>Car images(800x600):</label>
-              <div className="custom-file">
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={e => setImgs(e.target.files)}
-                  className="custom-file-input"
-                  id="inputGroupFile01"
-                  multiple
-                  required
-                />
-                <label className="custom-file-label" for="inputGroupFile01">
-                  Choose file/files
-                </label>
-              </div>
-            </div>
-            <div className="d-flex justify-content-center form-outline mb-3">
-              <div className="flex-fill">
-                <button
-                  type="submit"
-                  className="btn btn-secondary btn-rounded w-100 "
                 >
-                  Post
-                </button>
+                  <option value="" />
+                  {flag &&
+                    carEquipmentList.map(element => {
+                      return (
+                        <option value={element.name}>
+                          {element.name}
+                        </option>
+                      );
+                    })}
+                </select>
               </div>
-            </div>
-          </form>
-        </div>
+              <div className="form-group mb-3">
+                <label>Car images(800x600):</label>
+                <div className="custom-file">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={e => setImgs(e.target.files)}
+                    className="custom-file-input"
+                    id="inputGroupFile01"
+                    multiple
+                    required
+                  />
+                  <label className="custom-file-label" for="inputGroupFile01">
+                    Choose file/files
+                  </label>
+                </div>
+              </div>
+              <div className="d-flex justify-content-center form-outline mb-3">
+                <div className="flex-fill">
+                  <button
+                    type="submit"
+                    className="btn btn-secondary btn-rounded w-100 "
+                  >
+                    Post
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
 
-        <div>
-          {redirect && <Navigate to={"/home"} />}
-          <div style={style} class="text-wrap  text-reset text-white">
-            {MessageError}
+          <div>
+            {redirect && <Navigate to={"/home"} />}
+            <div style={style} class="text-wrap  text-reset text-white">
+              {MessageError}
+            </div>
           </div>
         </div>
       </div>

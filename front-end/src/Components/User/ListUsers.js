@@ -1,5 +1,4 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -54,131 +53,130 @@ export default function EnhancedTable(props) {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   return (
-    <Box sx={{ width: "90%" }}>
-      <Paper sx={{ width: "100%", p: 5 }}>
-        {/* <SearchBar
+    <Paper sx={{ width: "100%", overflow: "hidden" }}>
+      {/* <SearchBar
            value={searched}
           onChange={searchVal => requestSearch(searchVal)}
           onCancelSearch={() => cancelSearch()}
         /> */}
-        <TableContainer sx={{ maxHeight: 550 }}>
-          <Table
-            stickyHeader
-            aria-label="sticky table"
-            sx={{ minWidth: 750 }}
-            // aria-labelledby="tableTitle"
-            size="medium"
-          >
-            <EnhancedTableHead
-              headCells={props.head}
-              order={order}
-              orderBy={orderBy}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-            />
-            <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const labelId = `enhanced-table-checkbox-${index}`;
+      <TableContainer sx={{ maxHeight: 500 }}>
+        <Table
+          stickyHeader
+          aria-label="sticky table"
+          sx={{ minWidth: 600 }}
+          // aria-labelledby="tableTitle"
+          size="medium"
+        >
+          <EnhancedTableHead
+            headCells={props.head}
+            order={order}
+            orderBy={orderBy}
+            onRequestSort={handleRequestSort}
+            rowCount={rows.length}
+          />
+          <TableBody>
+            {stableSort(rows, getComparator(order, orderBy))
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row, index) => {
+                const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
-                    <TableRow
-                      hover
-                      className="justify-content-center form-outline"
+                return (
+                  <TableRow
+                    hover
+                    className="justify-content-center form-outline"
+                  >
+                    <TableCell
+                      component="th"
+                      id={labelId}
+                      scope="row"
+                      padding="none"
                     >
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                        <img
-                          src={row.urlPhoto}
-                          className="rounded-circle"
-                          width="200"
-                          height="200"
-                          alt="..."
-                        />
-                      </TableCell>
-                      <TableCell align="right" className="text-center">
-                        {row.firstName}
-                      </TableCell>
-                      <TableCell align="right" className="text-center">
-                        {row.lastName}
-                      </TableCell>
-                      <TableCell align="right" className="text-center">
-                        {getDate(row.dBay)}
-                      </TableCell>
-                      <TableCell align="right" className="text-center">
-                        {row.status}
-                      </TableCell>
-                      <TableCell align="right" className="text-center">
-                        {row.email}
-                      </TableCell>
-                      <TableCell align="right" className="text-center">
-                        {row.phoneNumber}
-                      </TableCell>
-                      <TableCell align="right" className="text-center">
-                        {row.roleName}
-                      </TableCell>
-                      <TableCell align="right">
-                        <div class="d-grid gap-2 d-md-block">
+                      <img
+                        src={row.urlPhoto}
+                        className="rounded-circle"
+                        width="200"
+                        height="200"
+                        alt="..."
+                      />
+                    </TableCell>
+                    <TableCell align="right" className="text-center">
+                      {row.firstName}
+                    </TableCell>
+                    <TableCell align="right" className="text-center">
+                      {row.lastName}
+                    </TableCell>
+                    <TableCell align="right" className="text-center">
+                      {getDate(row.dBay)}
+                    </TableCell>
+                    <TableCell align="right" className="text-center">
+                      {row.status}
+                    </TableCell>
+                    <TableCell align="right" className="text-center">
+                      {row.email}
+                    </TableCell>
+                    <TableCell align="right" className="text-center">
+                      {row.phoneNumber}
+                    </TableCell>
+                    <TableCell align="right" className="text-center">
+                      {row.roleName}
+                    </TableCell>
+                    <TableCell align="right">
+                      <div class="d-grid gap-2 d-md-block">
+                        <button
+                          color="purple"
+                          size="sm"
+                          class="btn btn-primary-sm btn-sm m-2"
+                          value={row.email}
+                          onClick={props.deleteUser}
+                        >
+                          <i class="fa-regular fa-trash-can" />
+                        </button>
+                        {row.roleName === "USER" &&
                           <button
                             color="purple"
                             size="sm"
-                            class="btn btn-primary-sm btn-sm mr-1"
+                            class="btn btn-primary-sm btn-sm m-2"
                             value={row.email}
-                            onClick={props.deleteUser}
+                            onClick={props.updateStatusUser}
                           >
-                            <i class="fa-regular fa-trash-can" />
-                          </button>
-                          {row.roleName === "USER" &&
-                            <button
-                              color="purple"
-                              size="sm"
-                              class="btn btn-primary-sm btn-sm mr-1"
-                              value={row.email}
-                              onClick={props.updateStatusUser}
-                            >
-                              <i class="fa-solid fa-check" />
-                            </button>}
+                            <i class="fa-solid fa-check" />
+                          </button>}
 
-                          <a
-                            className="text-reset btn btn-primary-sm btn-sm ml-1"
-                            href={`/user/put?firstName=${row.firstName}
+                        <a
+                          size="sm"
+                          className="text-reset btn btn-primary-sm btn-sm m-2"
+                          href={`/user/put?firstName=${row.firstName}
                           &lastName=${row.lastName}&surname=${row.surname}
                           &email=${row.email}&phoneNumber=${row.phoneNumber}
                           &dBay=${row.dBay}&urlPhoto=${row.urlPhoto}`}
-                          >
-                            <i class="fa-solid fa-screwdriver-wrench" />
-                          </a>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 &&
-                <TableRow
-                  style={{
-                    height: 23 * emptyRows
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </Paper>
-    </Box>
+                        >
+                          <i class="fa-solid fa-screwdriver-wrench" />
+                        </a>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            {emptyRows > 0 &&
+              <TableRow
+                style={{
+                  height: 23 * emptyRows
+                }}
+              >
+                <TableCell colSpan={6} />
+              </TableRow>}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+    </Paper>
   );
 }

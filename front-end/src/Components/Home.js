@@ -6,75 +6,47 @@ function Home() {
       <div class=" container marketing ">
         <div class="row">
           <div class="col-lg-4">
-            <svg
-              class="bd-placeholder-img rounded-circle"
-              width="140"
-              height="140"
-              xmlns="http://www.w3.org/2000/svg"
-              role="img"
-              aria-label="Placeholder: 140x140"
-              preserveAspectRatio="xMidYMid slice"
-              focusable="false"
-            >
-              <title>Placeholder</title>
-              <rect width="100%" height="100%" fill="#777" />
-              <text x="50%" y="50%" fill="#777" dy=".3em">
-                140x140
-              </text>
-            </svg>
+            <img
+              src="https://res.cloudinary.com/courseaspcore/image/upload/v1649621875/pngegg_4_meireb.png"
+              width={200}
+              height={200}
+            />
 
-            <h2>Heading</h2>
+            <h2>Škoda Auto</h2>
             <p>
-              Some representative placeholder content for the three columns of
-              text below the carousel. This is the first column.
+              Skoda a. s. is the largest car manufacturer in the Czech Republic,
+              headquartered in Mladá Boleslav. In fact, it is the successor of
+              the Laurin & Klement company, which was founded in 1895 and became
+              part of the Akciová společnost, dříve Škodovy závody industrial
+              conglomerate in 1925.
             </p>
           </div>
           <div class="col-lg-4">
-            <svg
-              class="bd-placeholder-img rounded-circle"
-              width="140"
-              height="140"
-              xmlns="http://www.w3.org/2000/svg"
-              role="img"
-              aria-label="Placeholder: 140x140"
-              preserveAspectRatio="xMidYMid slice"
-              focusable="false"
-            >
-              <title>Placeholder</title>
-              <rect width="100%" height="100%" fill="#777" />
-              <text x="50%" y="50%" fill="#777" dy=".3em">
-                140x140
-              </text>
-            </svg>
+            <img
+              src="https://res.cloudinary.com/courseaspcore/image/upload/v1649621874/pngegg_6_guktxz.png"
+              width={200}
+              height={200}
+            />
 
-            <h2>Heading</h2>
+            <h2>SEAT</h2>
             <p>
-              Another exciting bit of representative placeholder content. This
-              time, we've moved on to the second column.
+              SEAT S.A. - Spanish automotive company; part of the Volkswagen
+              Group. The headquarters is located in Barcelona, Spain.
             </p>
           </div>
           <div class="col-lg-4">
-            <svg
-              class="bd-placeholder-img rounded-circle"
-              width="140"
-              height="140"
-              xmlns="http://www.w3.org/2000/svg"
-              role="img"
-              aria-label="Placeholder: 140x140"
-              preserveAspectRatio="xMidYMid slice"
-              focusable="false"
-            >
-              <title>Placeholder</title>
-              <rect width="100%" height="100%" fill="#777" />
-              <text x="50%" y="50%" fill="#777" dy=".3em">
-                140x140
-              </text>
-            </svg>
+            <img
+              src="https://res.cloudinary.com/courseaspcore/image/upload/v1649621875/pngegg_5_vr56pl.png"
+              width={200}
+              height={200}
+            />
 
-            <h2>Heading</h2>
+            <h2>Bugatti Automobiles</h2>
             <p>
-              And lastly this, the third column of representative placeholder
-              content.
+              Bugatti Automobiles S.A.S. is a French automotive company
+              specializing in the production of luxury cars under the Bugatti
+              brand. The headquarters - the family estate of Chateau Saint-Jean
+              - and production are located in the Alsatian city of Molsem
             </p>
           </div>
         </div>
@@ -83,13 +55,13 @@ function Home() {
 
         <div class="row featurette">
           <div class="col-md-7">
-            <h2 class="featurette-heading">
-              First featurette heading.{" "}
-              <span class="text-muted">It’ll blow your mind.</span>
-            </h2>
+            <h2 class="featurette-heading">Lamborghini</h2>
             <p class="lead">
-              Some great placeholder content for the first featurette here.
-              Imagine some exciting prose here.
+              Automobili Lamborghini S.p.A. - Italian company, manufacturer of
+              expensive sports cars under the Lamborghini brand. Located in the
+              commune of Sant'Agata Bolognese, near Bologna. The company was
+              founded in 1963 by Ferruccio Lamborghini, at that time he was
+              already the founder of a large tractor manufacturing company.
             </p>
           </div>
           <div class="col-md-5">
@@ -105,14 +77,11 @@ function Home() {
 
         <div class="row featurette">
           <div class="col-md-7 order-md-2">
-            <h2 class="featurette-heading">
-              Oh yeah, it’s that good.{" "}
-              <span class="text-muted">See for yourself.</span>
-            </h2>
+            <h2 class="featurette-heading">Porshe</h2>
             <p class="lead">
-              Another featurette? Of course. More placeholder content here to
-              give you an idea of how this layout would work with some actual
-              real-world content in place.
+              Porsche AG is a German manufacturer of cars and sunglasses founded
+              by designer Ferdinand Porsche in 1931. The headquarters and main
+              plant are located in Stuttgart, Germany.
             </p>
           </div>
           <div class="col-md-5 order-md-1">
@@ -128,14 +97,13 @@ function Home() {
 
         <div class="row featurette">
           <div class="col-md-7">
-            <h2 class="featurette-heading">
-              And lastly, this one. <span class="text-muted">Checkmate.</span>
-            </h2>
+            <h2 class="featurette-heading">Audi</h2>
             <p class="lead">
-              And yes, this is the last block of representative placeholder
-              content. Again, not really intended to be actually read, simply
-              here to give you a better view of what this would look like with
-              some actual content. Your content.
+              Audi AG is a German automotive company within the Volkswagen
+              Group, specializing in the production of cars under the Audi
+              brand. The headquarters is located in the city of Ingolstadt. The
+              motto is Vorsprung durch Technik. The volume of production in 2016
+              amounted to about 1,903,259 vehicles.
             </p>
           </div>
           <div class="col-md-5">

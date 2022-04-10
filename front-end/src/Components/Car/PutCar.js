@@ -290,142 +290,144 @@ const PutCar = () => {
   }
   let style = { width: "30rem" };
   return (
-    <div className="d-flex   justify-content-center w-40 align-items-center ">
-      <div className="p-4  bg-dark text-white h-100">
-        <div className="row mt-5">
-          <h1 className="d-flex   justify-content-center align-items-center ">
-            Post car
-          </h1>
-        </div>
-        <div className="container mt-5 pt-5">
-          <form onSubmit={submitCar}>
-            <div className="form-group mb-2 ">
-              <label>VIN:</label>
-              <input
-                disabled
-                value={vin}
-                className="w-100 shadow-lg  bg-white rounded"
-                onChange={e => setVin(e.target.value)}
-                name="vin"
-                type="text"
-                placeholder="Enter your VIN..."
-              />
-            </div>
-            <div className="form-group mb-2 ">
-              <label>New VIN:</label>
-              <input
-                disabled
-                value={vinNew}
-                className="w-100 shadow-lg  bg-white rounded"
-                onChange={e => setVinNew(e.target.value)}
-                name="vin"
-                type="text"
-                placeholder="If you don't want to change  vin, leave the field blank...."
-              />
-            </div>
-            <div className="row">
-              <div className="col mb-2 ">
-                <label>Date of realese car:</label>
+    <div className="opacity-90">
+      <div className="d-flex   justify-content-center w-40 align-items-center ">
+        <div className="p-4 w-50 bg-dark text-white h-100">
+          <div className="row mt-5">
+            <h1 className="d-flex   justify-content-center align-items-center ">
+              Put car
+            </h1>
+          </div>
+          <div className="container mt-3">
+            <form onSubmit={submitCar}>
+              <div className="form-group mb-2 ">
+                <label>VIN:</label>
                 <input
-                  value={dateOfRealeseCar}
+                  disabled
+                  value={vin}
                   className="w-100 shadow-lg  bg-white rounded"
-                  onChange={e => setDateOfRealeseCar(e.target.value)}
-                  name="dateOfRealeseCar"
-                  type="date"
-                  placeholder="Enter your date of realese car..."
+                  onChange={e => setVin(e.target.value)}
+                  name="vin"
+                  type="text"
+                  placeholder="Enter your VIN..."
+                />
+              </div>
+              <div className="form-group mb-2 ">
+                <label>New VIN:</label>
+                <input
+                  disabled
+                  value={vinNew}
+                  className="w-100 shadow-lg  bg-white rounded"
+                  onChange={e => setVinNew(e.target.value)}
+                  name="vin"
+                  type="text"
+                  placeholder="If you don't want to change  vin, leave the field blank...."
+                />
+              </div>
+              <div className="row">
+                <div className="col mb-2 ">
+                  <label>Date of realese car:</label>
+                  <input
+                    value={dateOfRealeseCar}
+                    className="w-100 shadow-lg  bg-white rounded"
+                    onChange={e => setDateOfRealeseCar(e.target.value)}
+                    name="dateOfRealeseCar"
+                    type="date"
+                    placeholder="Enter your date of realese car..."
+                    required
+                  />
+                </div>
+                <div className="col mb-2 ">
+                  <label>Cost($):</label>
+                  <input
+                    value={cost}
+                    className="w-100 shadow-lg  bg-white rounded"
+                    onChange={e => setCost(e.target.value)}
+                    name="cost"
+                    type="number"
+                    placeholder="Enter your cost..."
+                    required
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col mb-2 ">
+                  <label>Car mileage(km):</label>
+                  <input
+                    required
+                    value={carMileage}
+                    className="w-100 shadow-lg  bg-white rounded"
+                    onChange={e => setCarMileage(e.target.value)}
+                    name="carMileage"
+                    type="number"
+                    placeholder="Enter your car mileage..."
+                  />
+                </div>
+                <div className="col mb-2 ">
+                  <label>Share percentage(%):</label>
+                  <input
+                    value={sharePercentage}
+                    className="w-100 shadow-lg  bg-white rounded"
+                    onChange={e => setSharePercentage(e.target.value)}
+                    name="sharePercentage"
+                    type="number"
+                    placeholder="Enter your share percentage..."
+                  />
+                </div>
+              </div>
+              <div className="form-group mb-2 ">
+                <label>Car equipment:</label>
+                <select
+                  size="1"
+                  className="form-select "
+                  aria-label="Default select example"
+                  onChange={e => setNameCarEquipment(e.target.value)}
                   required
-                />
-              </div>
-              <div className="col mb-2 ">
-                <label>Cost($):</label>
-                <input
-                  value={cost}
-                  className="w-100 shadow-lg  bg-white rounded"
-                  onChange={e => setCost(e.target.value)}
-                  name="cost"
-                  type="number"
-                  placeholder="Enter your cost..."
-                  required
-                />
-              </div>
-            </div>
-            <div className="row">
-              <div className="col mb-2 ">
-                <label>Car mileage(km):</label>
-                <input
-                  required
-                  value={carMileage}
-                  className="w-100 shadow-lg  bg-white rounded"
-                  onChange={e => setCarMileage(e.target.value)}
-                  name="carMileage"
-                  type="number"
-                  placeholder="Enter your car mileage..."
-                />
-              </div>
-              <div className="col mb-2 ">
-                <label>Share percentage(%):</label>
-                <input
-                  value={sharePercentage}
-                  className="w-100 shadow-lg  bg-white rounded"
-                  onChange={e => setSharePercentage(e.target.value)}
-                  name="sharePercentage"
-                  type="number"
-                  placeholder="Enter your share percentage..."
-                />
-              </div>
-            </div>
-            <div className="form-group mb-2 ">
-              <label>Car equipment:</label>
-              <select
-                size="1"
-                className="form-select "
-                aria-label="Default select example"
-                onChange={e => setNameCarEquipment(e.target.value)}
-                required
-              >
-                {flag &&
-                  carEquipmentList.map(element => {
-                    return (
-                      <option value={element.name}>
-                        {element.name}
-                      </option>
-                    );
-                  })}
-              </select>
-            </div>
-            <div className="form-group mb-2 ">
-              <label>
-                If you don't want to change img, leave the field blank....
-              </label>
-              <br />
-              {imgsCar !== undefined && renderInput(imgsCar)}
-            </div>
-            <div>
-              <button
-                className="btn btn-dark btn-rounded"
-                type="button"
-                onClick={AddField}
-              >
-                Add input file
-              </button>
-            </div>
-            <div className="d-flex justify-content-center form-outline mt-3">
-              <div className="flex-fill">
-                <button
-                  type="submit"
-                  className="btn btn-secondary btn-rounded  w-100 "
                 >
-                  Put
+                  {flag &&
+                    carEquipmentList.map(element => {
+                      return (
+                        <option value={element.name}>
+                          {element.name}
+                        </option>
+                      );
+                    })}
+                </select>
+              </div>
+              <div className="form-group mb-2 ">
+                <label>
+                  If you don't want to change img, leave the field blank....
+                </label>
+                <br />
+                {imgsCar !== undefined && renderInput(imgsCar)}
+              </div>
+              <div>
+                <button
+                  className="btn btn-dark btn-rounded"
+                  type="button"
+                  onClick={AddField}
+                >
+                  Add input file
                 </button>
               </div>
-            </div>
-          </form>
-        </div>
+              <div className="d-flex justify-content-center form-outline mt-3">
+                <div className="flex-fill">
+                  <button
+                    type="submit"
+                    className="btn btn-secondary btn-rounded  w-100 "
+                  >
+                    Put
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
 
-        <div>
-          {redirect && <Navigate to={"/home"} />}
-          <div style={style} class="text-wrap  text-reset text-white">
-            {MessageError}
+          <div>
+            {redirect && <Navigate to={"/home"} />}
+            <div style={style} class="text-wrap  text-reset text-white">
+              {MessageError}
+            </div>
           </div>
         </div>
       </div>

@@ -17,6 +17,7 @@ import { Car } from "../model/Car";
 import { PostCarDto } from "../model/PostCarDto";
 import { PutCarDto } from "../model/PutCarDto";
 import { GetCarDto } from "../model/GetCarDto";
+import { GetPagedCarDto } from "../model/GetPagedCarDto";
 /**
 * Cars service.
 * @module api/CarsApi
@@ -34,6 +35,40 @@ export class CarsApi {
   constructor(apiClient) {
     this.apiClient = apiClient || ApiClient.instance;
   }
+
+  apiCarsPagedGet(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = null;
+
+    let pathParams = {};
+    let queryParams = {
+      PageNumber: opts["pageNumber"],
+      PageSize: opts["pageSize"]
+    };
+    let headerParams = jwt;
+    let formParams = {};
+
+    let authNames = [];
+    let contentTypes = [];
+    let accepts = ["text/plain", "application/json", "text/json"];
+    let returnType = GetPagedCarDto;
+
+    return this.apiClient.callApi(
+      "/api/cars/paged",
+      "GET",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+
   activeGet(jwt, callback) {
     let postBody = null;
 
@@ -163,18 +198,18 @@ export class CarsApi {
      * @param {module:api/CarsApi~apiCarsGetCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}
      */
-  apiCarsGet(callback) {
+  apiCarsGet(jwt, callback) {
     let postBody = null;
 
     let pathParams = {};
     let queryParams = {};
-    let headerParams = {};
+    let headerParams = jwt;
     let formParams = {};
 
     let authNames = [];
     let contentTypes = [];
     let accepts = ["text/plain", "application/json", "text/json"];
-    let returnType = [Car];
+    let returnType = [GetCarDto];
 
     return this.apiClient.callApi(
       "/api/cars",

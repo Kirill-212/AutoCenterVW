@@ -53,9 +53,12 @@ namespace Persistence.AutoMapper
             CreateMap<PutCarEquipmentDto, CarEquipment>()
                .ForMember(dest => dest.Equipments, opt => opt.MapFrom(src => src.Equipments));
 
-            CreateMap<Car,GetCarDto>()
+            CreateMap<Car, GetCarDto>()
                  .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.ClientCar.User))
                  .ForMember(dest => dest.Car, opt => opt.MapFrom(src => src));
+            CreateMap<Order, GetOrderBuyerDto>()
+     .ForMember(dest => dest.Order, opt => opt.MapFrom(src => src))
+     .ForMember(dest => dest.ClientCar, opt => opt.MapFrom(src => src.Car.ClientCar));
         }
     }
 }

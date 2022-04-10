@@ -1,7 +1,6 @@
 import React from "react";
 import { AuthApi } from "../../api/AuthApi";
 import { Navigate } from "react-router-dom";
-import Footer from "../Footer";
 const Authorization = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -54,7 +53,7 @@ const Authorization = () => {
 
   let style = { width: "30rem" };
   return (
-    <div>
+    <div className="opacity-90">
       <div className="d-flex   justify-content-center w-40  align-items-center ">
         <div className=" p-4   bg-dark text-white h-100 ">
           <div className="row mt-5">

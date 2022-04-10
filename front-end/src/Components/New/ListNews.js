@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { GetNewDto, NewApi } from "../../ImportExportGenClient";
 import { GetPagedNewDto } from "../../model/GetPagedNewDto";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import { getDate } from "../ViewLists/SupportFunction";
+import Context from "../../context";
 export default function EnhancedTable(props) {
+  const { user } = useContext(Context);
   const [listNew, setListNew] = React.useState([]);
   const [currentPages, setCurrentPages] = React.useState(1);
   const [totalPages, setTotalPages] = React.useState(0);
@@ -181,23 +183,25 @@ export default function EnhancedTable(props) {
           <div class="card mt-5 mb-5 text-white bg-black">
             <div class="card-header">
               <div className="row justify-content-center">
-                <div class="col ">
-                  <a
-                    className="text-reset btn btn-primary-sm btn-sm mr-1"
-                    href={`/new/put?title=${e.title}`}
-                  >
-                    <i class="fa-solid fa-screwdriver-wrench" />
-                  </a>
-                  <button
-                    className="btn btn-primary-sm btn-sm mr-1"
-                    color="purple"
-                    size="sm"
-                    value={e.title}
-                    onClick={DeleteNew}
-                  >
-                    <i class="fas fa-trash" />
-                  </button>
-                </div>
+                {JSON.parse(user).roleName === "ADMIN" &&
+                  <div class="col ">
+                    <a
+                      className="text-reset btn btn-primary-sm btn-sm mr-1"
+                      href={`/new/put?title=${e.title}`}
+                    >
+                      <i class="fa-solid fa-screwdriver-wrench" />
+                    </a>
+                    <button
+                      className="btn btn-primary-sm btn-sm mr-1"
+                      color="purple"
+                      size="sm"
+                      value={e.title}
+                      onClick={DeleteNew}
+                    >
+                      <i class="fas fa-trash" />
+                    </button>
+                  </div>}
+                {JSON.parse(user).roleName !== "ADMIN" && <div class="col " />}
                 <div className="col text-center">
                   <h2>
                     {e.title}

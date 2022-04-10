@@ -44,6 +44,11 @@ namespace Services.Abstractions
             string vin,
             string emailBuyer,
             decimal totalCost,
+            string cardNumber,
+            int month,
+            int year,
+            int cvc,
+          string carOwnerName,
             CancellationToken cancellationToken = default
             );
     }

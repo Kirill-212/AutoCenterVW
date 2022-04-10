@@ -39,6 +39,7 @@ namespace Persistence.Repositories
             return await _dbContext.Orders
                             .Include(i => i.Car)
                             .Include(i => i.User)
+                            .Include(i=>i.Car.ClientCar.User)
                             .Where(i => i.Car.IsDeleted == false)
                             .Where(i => i.State != State.CANCEL)
                             .Where(i => i.State != State.PAID)

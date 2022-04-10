@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  *
  */
-import {ApiClient} from '../ApiClient';
+import { ApiClient } from "../ApiClient";
 
 /**
  * The UpdateStateOrderDto model module.
@@ -27,8 +27,9 @@ export class UpdateStateOrderDto {
    * @param vin {String} 
    * @param emailBuyer {String} 
    */
-  constructor(vin, emailBuyer) {
+  constructor(vin, emailBuyer, totalCost) {
     this.vin = vin;
+    this.totalCost = totalCost;
     this.emailBuyer = emailBuyer;
   }
 
@@ -42,12 +43,12 @@ export class UpdateStateOrderDto {
   static constructFromObject(data, obj) {
     if (data) {
       obj = obj || new UpdateStateOrderDto();
-      if (data.hasOwnProperty('vin'))
-        obj.vin = ApiClient.convertToType(data['vin'], 'String');
-      if (data.hasOwnProperty('emailBuyer'))
-        obj.emailBuyer = ApiClient.convertToType(data['emailBuyer'], 'String');
-      if (data.hasOwnProperty('totalCost'))
-        obj.totalCost = ApiClient.convertToType(data['totalCost'], 'Number');
+      if (data.hasOwnProperty("vin"))
+        obj.vin = ApiClient.convertToType(data["vin"], "String");
+      if (data.hasOwnProperty("emailBuyer"))
+        obj.emailBuyer = ApiClient.convertToType(data["emailBuyer"], "String");
+      if (data.hasOwnProperty("totalCost"))
+        obj.totalCost = ApiClient.convertToType(data["totalCost"], "Number");
     }
     return obj;
   }
@@ -67,4 +68,3 @@ UpdateStateOrderDto.prototype.emailBuyer = undefined;
  * @member {Number} totalCost
  */
 UpdateStateOrderDto.prototype.totalCost = undefined;
-

@@ -16,7 +16,7 @@ import { ApiClient } from "../ApiClient";
 import { Order } from "../model/Order";
 import { PostOrderDto } from "../model/PostOrderDto";
 import { UpdateStateOrderDto } from "../model/UpdateStateOrderDto";
-
+import { GetOrderBuyerDto } from "../model/GetOrderBuyerDto";
 /**
 * Orders service.
 * @module api/OrdersApi
@@ -49,7 +49,7 @@ export class OrdersApi {
      * @param {module:api/OrdersApi~apiOrdersBuyerGetCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}
      */
-  apiOrdersBuyerGet(opts, callback) {
+  apiOrdersBuyerGet(jwt, opts, callback) {
     opts = opts || {};
     let postBody = null;
 
@@ -57,13 +57,13 @@ export class OrdersApi {
     let queryParams = {
       email: opts["email"]
     };
-    let headerParams = {};
+    let headerParams = jwt;
     let formParams = {};
 
     let authNames = [];
     let contentTypes = [];
     let accepts = ["text/plain", "application/json", "text/json"];
-    let returnType = [Order];
+    let returnType = [GetOrderBuyerDto];
 
     return this.apiClient.callApi(
       "/api/orders/buyer",
@@ -217,13 +217,13 @@ export class OrdersApi {
      * @param {module:model/UpdateStateOrderDto} opts.body 
      * @param {module:api/OrdersApi~apiOrdersPaidPutCallback} callback The callback function, accepting three arguments: error, data, response
      */
-  apiOrdersPaidPut(opts, callback) {
+  apiOrdersPaidPut(jwt, opts, callback) {
     opts = opts || {};
     let postBody = opts["body"];
 
     let pathParams = {};
     let queryParams = {};
-    let headerParams = {};
+    let headerParams = jwt;
     let formParams = {};
 
     let authNames = [];
@@ -302,7 +302,7 @@ export class OrdersApi {
      * @param {module:api/OrdersApi~apiOrdersUserGetCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}
      */
-  apiOrdersUserGet(opts, callback) {
+  apiOrdersUserGet(jwt, opts, callback) {
     opts = opts || {};
     let postBody = null;
 
@@ -310,7 +310,7 @@ export class OrdersApi {
     let queryParams = {
       email: opts["email"]
     };
-    let headerParams = {};
+    let headerParams = jwt;
     let formParams = {};
 
     let authNames = [];

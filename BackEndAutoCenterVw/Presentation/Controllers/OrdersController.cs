@@ -81,14 +81,19 @@ namespace Presentation.Controllers
         }
 
         [HttpPut("paid")]
-        public async Task<ActionResult> UpdateStateForPaid([FromBody] UpdateStateOrderDto item)
+        public async Task<ActionResult> UpdateStateForPaid([FromBody] UpdateStateOrderForPaidDto item)
         {
             if (ModelState.IsValid)
             {
                 await _serviceManager.AsyncServiceOrder.UpdateStateForPaid(
                     item.VIN,
                     item.EmailBuyer,
-                    item.TotalCost
+                    item.TotalCost,
+                    item.CardNumber,
+                    item.Month,
+                    item.Year,
+                    item.CVC,
+                  item.CardOwnerName
                     );
 
                 return NoContent();
@@ -106,9 +111,9 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("buyer")]
-        public async Task<IEnumerable<Order>> GetForBuyer([FromQuery] string email)
+        public async Task<List<GetOrderBuyerDto>> GetForBuyer([FromQuery] string email)
         {
-            return await _serviceManager.AsyncServiceOrder.GetForBuyer(email);
+            return _mapper.Map<List<GetOrderBuyerDto>>( await _serviceManager.AsyncServiceOrder.GetForBuyer(email));
         }
 
 

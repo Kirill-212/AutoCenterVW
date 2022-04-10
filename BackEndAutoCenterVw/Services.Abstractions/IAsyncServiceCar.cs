@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using AutoMapper;
+using Domain.Pagination;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Services.Abstractions
 {
-    public interface IAsyncServiceCar<T, K>
+    public interface IAsyncServiceCar<T, K,C>
     {
         Task Create(
             T item,
@@ -43,5 +45,7 @@ namespace Services.Abstractions
         Task UpdateStatus(string vin, CancellationToken cancellationToken = default);
 
         Task<IEnumerable<T>> GetCarActive();
+
+        PagedList<T, C> GetAllPaged(PagedParameters item, IMapper mapper);
     }
 }
