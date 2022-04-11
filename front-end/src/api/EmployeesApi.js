@@ -34,7 +34,34 @@ export class EmployeesApi {
   constructor(apiClient) {
     this.apiClient = apiClient || ApiClient.instance;
   }
+  apiEmployeesCarrepairGet(jwt, callback) {
+    let postBody = null;
 
+    let pathParams = {};
+    let queryParams = {};
+    let headerParams = jwt;
+    let formParams = {};
+
+    let authNames = [];
+    let contentTypes = [];
+    let accepts = ["text/plain", "application/json", "text/json"];
+    let returnType = [GetEmployeeDto];
+
+    return this.apiClient.callApi(
+      "/api/employees/carrepair",
+      "GET",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
   /**
      * Callback function to receive the result of the apiEmployeesByUserEmailGet operation.
      * @callback moduleapi/EmployeesApi~apiEmployeesByUserEmailGetCallback

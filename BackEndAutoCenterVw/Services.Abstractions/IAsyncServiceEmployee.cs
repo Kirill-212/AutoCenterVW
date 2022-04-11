@@ -30,5 +30,7 @@ namespace Services.Abstractions
             string email,
             CancellationToken cancellationToken = default
             );
+
+        Task<IEnumerable<T>> GetCarPeraitEmp();
     }
 }

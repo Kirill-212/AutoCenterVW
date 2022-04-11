@@ -42,6 +42,14 @@ namespace Presentation.Controllers
                 );
         }
 
+        [HttpGet("carrepair")]
+        public async Task<List<GetEmployeeDto>> GetCarRepairEmp()
+        {
+            return _mapper.Map<List<GetEmployeeDto>>(
+                await _serviceManager.AsyncServiceEmployee.GetCarPeraitEmp()
+                );
+        }
+
         //   [Authorize(Roles = " ADMIN")]
         [HttpGet("{id}")]
         public async Task<GetEmployeeDto> GetbyId(int id)

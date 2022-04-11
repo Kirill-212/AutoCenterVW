@@ -4,17 +4,26 @@ import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import { GetUserDto } from "../../model/GetUserDto";
 import UserListView from "../../SetListView/UserListView";
 import UserItem from "./ListUsers";
-
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 const User = () => {
   const [MessageError, setMessageError] = React.useState("");
   const [listUsers, setListUsers] = React.useState([]);
   const [viewList, setViewList] = React.useState(false);
-
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleToggle = () => {
+    setOpen(!open);
+  };
   async function GetUsersList() {
+    handleToggle();
     setViewList(false);
     new UsersApi().apiUsersGet(GetJwtToken(), CallbackRequest);
   }
   async function DeleteUser(e) {
+    handleToggle();
     new UsersApi().apiUsersDelete(
       GetJwtToken(),
       { email: e.currentTarget.value },
@@ -22,6 +31,7 @@ const User = () => {
     );
   }
   async function UpdateStatusUser(e) {
+    handleToggle();
     new UsersApi().apiUsersUpdateStatusPut(
       GetJwtToken(),
       { email: e.currentTarget.value },
@@ -52,6 +62,7 @@ const User = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
 
   function CallbackRequest(error, data, response) {
@@ -82,6 +93,7 @@ const User = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
 
   useEffect(() => {
@@ -92,6 +104,13 @@ const User = () => {
     <div className="container">
       <div className="row align-items-center">
         <p className="text-reset text-white">
+          <Backdrop
+            sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
+            open={open}
+            onClick={handleClose}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
           {MessageError}
         </p>
       </div>
@@ -102,6 +121,7 @@ const User = () => {
               head={UserListView()}
               rows={listUsers}
               deleteUser={DeleteUser}
+              getUsersList={GetUsersList}
               updateStatusUser={UpdateStatusUser}
             />}
         </div>

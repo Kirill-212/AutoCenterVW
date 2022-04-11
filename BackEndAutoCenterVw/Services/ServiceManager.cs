@@ -1,8 +1,10 @@
 ﻿using Contracts;
 using Domain.HttpClent;
+using Domain.MailSettings;
 using Domain.Models;
 using Domain.Models.CarEquipment;
 using Domain.Repositories;
+using Microsoft.Extensions.Options;
 using Services.Abstractions;
 using System;
 
@@ -30,11 +32,14 @@ namespace Services
 
         private readonly Lazy<IAsyncServiceVerifyUser<User>> _lazyAsyncServiceVerifyUser;
 
+        private readonly Lazy<IMailService> _lazyAsyncMailService;
+
         public ServiceManager(
            
             IUnitOfWork unitOfWork,
             IAsyncRepositoryCarEquipment<CarEquipment> carEquipment,
-            IAsynHttpClient<PayDataDto> asynHttpClient
+            IAsynHttpClient<PayDataDto> asynHttpClient,
+            IOptions<MailSetting> mailSettings
             )
         {
             _lazyAsyncServiceUser = new Lazy<IAsyncServiceUser<User>>(
@@ -67,6 +72,9 @@ namespace Services
             _lazyAsyncServiceVerifyUser = new Lazy<IAsyncServiceVerifyUser<User>>(
                 () => new AsyncServiceVerifyUser(unitOfWork)
                 );
+            _lazyAsyncMailService = new Lazy<IMailService>(
+                () => new AsyncMailService(mailSettings)
+                );
         }
         public IAsyncServiceUser<User> AsyncServiceUser => _lazyAsyncServiceUser.Value;
 
@@ -92,5 +100,7 @@ namespace Services
 
         public IAsyncServiceVerifyUser<User> AsyncServiceVerifyUser =>
             _lazyAsyncServiceVerifyUser.Value;
+        public IMailService AsyncMailService =>
+            _lazyAsyncMailService.Value;
     }
 }

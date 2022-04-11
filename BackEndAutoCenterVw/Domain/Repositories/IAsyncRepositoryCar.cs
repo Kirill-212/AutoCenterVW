@@ -27,5 +27,7 @@ namespace Domain.Repositories
 
         IQueryable<T> GetPaged();
 
+        IQueryable<T> GetByEmailPaged(string email);
+
     }
 }

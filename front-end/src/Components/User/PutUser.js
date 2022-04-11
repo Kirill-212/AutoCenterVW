@@ -5,9 +5,8 @@ import { Navigate } from "react-router-dom";
 import { getDate } from "../ViewLists/SupportFunction";
 import ImgService from "../../Services/ImgServices/ImgService";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
-import CssBaseline from "@mui/material/CssBaseline";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 const PutUser = () => {
   const { user } = useContext(Context);
   const [firstName, setFirstName] = React.useState("");
@@ -22,26 +21,37 @@ const PutUser = () => {
   const [phoneNumber, setPhoneNumber] = React.useState("");
   const [MessageError, setMessageError] = React.useState("");
   const [redirect, setredirect] = React.useState(false);
-
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleToggle = () => {
+    setOpen(!open);
+  };
   async function submitUser(event) {
+    handleToggle();
     event.preventDefault();
     let url;
-    console.log(user);
     if (imgNew.length !== 0) {
       if (!imgNew) {
         setMessageError("Wrong file type!");
+        handleClose();
         return;
       }
       if (img.type.split("/")[0] !== "image") {
         setMessageError("Wrong file type!");
+        handleClose();
+        return;
       }
       url = await ImgService.uploadImage(imgNew);
       if (url == undefined) {
         setMessageError("Error:upload img is not valid.");
+        handleClose();
         return;
       }
       if (url.height !== 200 || url.width !== 200) {
         setMessageError("Error:size min 200x200:File name:" + imgNew.name);
+        handleClose();
         return;
       }
       url = url.url;
@@ -91,6 +101,7 @@ const PutUser = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
 
   useEffect(() => {
@@ -105,7 +116,7 @@ const PutUser = () => {
   }, []);
   let style = { width: "30rem" };
   return (
-    <div className="opacity-90  d-flex   justify-content-center w-20  align-items-center ">
+    <div className="  d-flex   justify-content-center w-20  align-items-center ">
       <div className="d-flex  justify-content-center  align-items-center ">
         <div className="p-4 w-50 h-100 bg-dark text-white ">
           <div className="row mt-2">
@@ -220,7 +231,7 @@ const PutUser = () => {
                   <label>Old image profile:</label>
                   <img
                     src={img}
-                    className="rounded-circle "
+                    className="rounded-circle"
                     width="200"
                     height="200"
                     alt="Your old image profile"
@@ -262,6 +273,13 @@ const PutUser = () => {
           <div>
             {redirect && <Navigate to={"/home"} />}
             <div style={style} class="text-wrap  text-reset text-white">
+              <Backdrop
+                sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
+                open={open}
+                onClick={handleClose}
+              >
+                <CircularProgress color="inherit" />
+              </Backdrop>
               {MessageError}
             </div>
           </div>

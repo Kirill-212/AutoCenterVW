@@ -151,5 +151,17 @@ namespace Persistence.Repositories
                 .Where(i => i.IsDeleted == false)
                 .AsQueryable();
         }
+
+        public IQueryable<Car> GetByEmailPaged(string email)
+        {
+            return _dbContext.Cars
+               .Include(i => i.ActionCar)
+                .Include(i => i.ClientCar.User)
+                .Include(i => i.ImgsCar)
+                .Where(i => i.ClientCar.User.Status != Status.DELETED)
+                .Where(u => u.ClientCar.User.Email == email)
+                .Where(i => i.IsDeleted == false)
+               .AsQueryable();
+        }
     }
 }

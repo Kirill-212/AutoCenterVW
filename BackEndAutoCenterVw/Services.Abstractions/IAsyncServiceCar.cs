@@ -47,5 +47,6 @@ namespace Services.Abstractions
         Task<IEnumerable<T>> GetCarActive();
 
         PagedList<T, C> GetAllPaged(PagedParameters item, IMapper mapper);
+        PagedList<T, C> GetByEmailPaged(PagedParameters item, string email, IMapper mapper);
     }
 }

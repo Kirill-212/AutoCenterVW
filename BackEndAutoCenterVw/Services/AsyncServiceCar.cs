@@ -98,12 +98,11 @@ namespace Services
             return await unitOfWork.AsyncRepositoryCar.GetCarActive();
         }
 
-        public async Task<IEnumerable<Car>> GetCarByEmail(
-            string email,
-            CancellationToken cancellationToken = default
-            )
+        public PagedList<Car, GetCarDto> GetByEmailPaged(PagedParameters item, string email, IMapper mapper)
         {
-            return await unitOfWork.AsyncRepositoryCar.GetCarByEmail(email);
+            return PagedList<Car, GetCarDto>.ToPagedList(unitOfWork.AsyncRepositoryCar.GetByEmailPaged(email).OrderBy(on => on.Id),
+        item.PageNumber,
+        item.PageSize, mapper);
         }
 
 
@@ -219,6 +218,11 @@ namespace Services
             car.IsActive = !car.IsActive;
             unitOfWork.AsyncRepositoryCar.Update(car);
             await unitOfWork.CompleteAsync();
+        }
+
+        public async Task<IEnumerable<Car>> GetCarByEmail(string email, CancellationToken cancellationToken = default)
+        {
+            return await unitOfWork.AsyncRepositoryCar.GetCarByEmail(email);
         }
     }
 }

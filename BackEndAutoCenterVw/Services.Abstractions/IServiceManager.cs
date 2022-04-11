@@ -12,7 +12,7 @@ namespace Services.Abstractions
 
         IAsyncServiceEmployee<Employee> AsyncServiceEmployee { get; }
 
-        IAsyncServiceNew<New, Img,GetNewDto> AsyncServiceNew { get; }
+        IAsyncServiceNew<New, Img, GetNewDto> AsyncServiceNew { get; }
 
         IAsyncServiceCar<Car, ImgCar, GetCarDto> AsyncServiceCar { get; }
 
@@ -25,5 +25,7 @@ namespace Services.Abstractions
         IAsyncServiceCarRepair<CarRepair> AsyncServiceCarRepair { get; }
 
         IAsyncServiceVerifyUser<User> AsyncServiceVerifyUser { get; }
+
+        IMailService AsyncMailService { get; }
     }
 }

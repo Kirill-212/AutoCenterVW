@@ -108,18 +108,27 @@ namespace Presentation.Controllers
             }
         }
 
-        [HttpGet("user")]
-        public async Task<IEnumerable<CarRepair>> GetForUser([FromQuery] string email)
+        [HttpPost("sendNotification")]
+        public async Task<ActionResult> SendNotification(
+           [FromQuery] string email
+           )
         {
-            return await _serviceManager.AsyncServiceCarRepair.GetForUser(email);
+            await _serviceManager.AsyncMailService.SendEmailAsync(email);
+            return Ok();
+        }
+
+        [HttpGet("user")]
+        public async Task<List<GetCarRepairDto>> GetForUser([FromQuery] string email)
+        {
+            return _mapper.Map<List<GetCarRepairDto>>(await _serviceManager.AsyncServiceCarRepair.GetForUser(email));
         }
 
 
 
         [HttpGet("employee")]
-        public async Task<IEnumerable<CarRepair>> GetForEmployee([FromQuery] string email)
+        public async Task<List<GetCarRepairDto>> GetForEmployee([FromQuery] string email)
         {
-            return await _serviceManager.AsyncServiceCarRepair.GetForEmployee(email);
+            return _mapper.Map<List<GetCarRepairDto>>(await _serviceManager.AsyncServiceCarRepair.GetForEmployee(email));
         }
     }
 }

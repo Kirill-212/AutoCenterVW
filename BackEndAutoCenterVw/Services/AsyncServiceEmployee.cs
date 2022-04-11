@@ -64,6 +64,11 @@ namespace Services
             return await unitOfWork.AsyncRepositoryEmployee.Get();
         }
 
+        public async Task<IEnumerable<Employee>> GetCarPeraitEmp()
+        {
+            return await unitOfWork.AsyncRepositoryEmployee.GetCarRepairEmp();
+        }
+
         public async Task Remove(string email,
             CancellationToken cancellationToken = default
             )

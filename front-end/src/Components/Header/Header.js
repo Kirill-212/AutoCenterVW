@@ -99,28 +99,29 @@ function Header() {
                 </li>
               </ul>
             </li>
-            <li class="nav-item dropdown mt-1  ">
-              <a
-                class="nav-link dropdown-toggle hidden-arrow"
-                href="#"
-                id="navbarDropdownMenuLink"
-                role="button"
-                data-mdb-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <strong>User</strong>
-              </a>
-              <ul
-                class="dropdown-menu dropdown-menu-end"
-                aria-labelledby="navbarDropdownMenuLink"
-              >
-                <li>
-                  <a class="dropdown-item" href="user">
-                    List
-                  </a>
-                </li>
-              </ul>
-            </li>
+            {JSON.parse(user).roleName === "ADMIN" &&
+              <li class="nav-item dropdown mt-1  ">
+                <a
+                  class="nav-link dropdown-toggle hidden-arrow"
+                  href="#"
+                  id="navbarDropdownMenuLink"
+                  role="button"
+                  data-mdb-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <strong>User</strong>
+                </a>
+                <ul
+                  class="dropdown-menu dropdown-menu-end"
+                  aria-labelledby="navbarDropdownMenuLink"
+                >
+                  <li>
+                    <a class="dropdown-item" href="/user">
+                      List
+                    </a>
+                  </li>
+                </ul>
+              </li>}
 
             <li class="nav-item mt-1  ">
               <a

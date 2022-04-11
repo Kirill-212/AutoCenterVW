@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Domain.Repositories
 {
@@ -7,5 +8,7 @@ namespace Domain.Repositories
         Task<T> FindByIdUser(int id);
 
         Task<T> FindByUserEmail(string email);
+
+        Task<IEnumerable<T>> GetCarRepairEmp();
     }
 }

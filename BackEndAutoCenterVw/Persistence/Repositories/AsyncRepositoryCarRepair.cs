@@ -40,6 +40,8 @@ namespace Persistence.Repositories
         public async Task<IEnumerable<CarRepair>> GetForEmployee(string email)
         {
             return await _dbContext.CarRepairs
+                 .Include(i => i.Employee.User)
+                .Include(i=>i.Car.ClientCar.User)
                 .Where(i => i.Employee.User.Email == email)
                 .Where(i => i.StateCarRepair != StateCarRepair.CANCEL)
                 .Where(i => i.StateCarRepair != StateCarRepair.ENDWORK)
@@ -49,6 +51,8 @@ namespace Persistence.Repositories
         public async Task<IEnumerable<CarRepair>> GetForUser(string email)
         {
             return await _dbContext.CarRepairs
+                 .Include(i => i.Employee.User)
+                .Include(i => i.Car.ClientCar.User)
                 .Where(i => i.Car.ClientCar.User.Email == email)
                 .Where(i => i.StateCarRepair != StateCarRepair.CANCEL)
                 .Where(i => i.StateCarRepair != StateCarRepair.ENDWORK)

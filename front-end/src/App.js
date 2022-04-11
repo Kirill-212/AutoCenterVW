@@ -36,6 +36,11 @@ import TestDrive from "./Components/TestDrive/CarList";
 import PostTestDrive from "./Components/TestDrive/PostTestDrive";
 import EmployeeTestDrive from "./Components/TestDrive/EmployeeListTestDrive";
 import UserTestDrive from "./Components/TestDrive/UserListTestDrive";
+import ClientCarListForUser from "./Components/ClientCar/ClientCarForUser";
+import PostService from "./Components/Service/PostService";
+import EmployeeServce from "./Components/Service/EmployeeService";
+import StartService from "./Components/Service/StartWorkService";
+import UserService from "./Components/Service/UserService";
 function App() {
   const [user, setUser] = React.useState(undefined);
 
@@ -47,7 +52,7 @@ function App() {
     <Context.Provider value={{ user, setUser }}>
       <Router>
         <Header />
-        <main  id="bgImg" role="main">
+        <main id="bgImg" role="main">
           <Routes>
             <Route exact path="/login" element={<Authorization />} />
             <Route path="/" element={<Registration />} />
@@ -89,6 +94,11 @@ function App() {
             <Route path="testdrive/post" element={<PostTestDrive />} />
             <Route path="testdrive/employee" element={<EmployeeTestDrive />} />
             <Route path="testdrive/user" element={<UserTestDrive />} />
+            <Route path="clientcar/user" element={<ClientCarListForUser />} />
+            <Route path="service/post" element={<PostService />} />
+            <Route path="service/employee" element={<EmployeeServce />} />
+            <Route path="service/start" element={<StartService />} />
+            <Route path="service/user" element={<UserService />} />
             <Route path="*" element={<h2>Resourse not found</h2>} />
           </Routes>
         </main>

@@ -1,20 +1,28 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Car, CarsApi } from "../../ImportExportGenClient";
-import Context from "../../context";
 import CarListView from "../../SetListView/CarListView";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import ListCars from "./CarList";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 const Cars = () => {
   const [MessageError, setMessageError] = React.useState("");
   const [listCars, setListCars] = React.useState([]);
   const [viewList, setViewList] = React.useState(false);
-
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleToggle = () => {
+    setOpen(!open);
+  };
   async function GetCarList() {
+    handleToggle();
     setViewList(false);
     new CarsApi().apiCarsWithoutClientCarGet(GetJwtToken(), CallbackRequest);
   }
   async function DeleteCar(e) {
-    console.log("email", e.currentTarget.value);
+    handleToggle();
     new CarsApi().apiCarsDelete(
       GetJwtToken(),
       { vin: e.currentTarget.value },
@@ -45,9 +53,10 @@ const Cars = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
   async function UpdateCar(e) {
-    console.log("email", e.currentTarget.value);
+    handleToggle();
     new CarsApi().updateStatusGet(
       GetJwtToken(),
       { vin: e.currentTarget.value },
@@ -78,6 +87,7 @@ const Cars = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
@@ -107,6 +117,7 @@ const Cars = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
 
   useEffect(() => {
@@ -118,6 +129,13 @@ const Cars = () => {
       <div className="row align-items-center">
         <p className="text-reset text-white">
           {MessageError}
+          <Backdrop
+            sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
+            open={open}
+            onClick={handleClose}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
         </p>
       </div>
 

@@ -46,6 +46,22 @@ namespace Presentation.Controllers
             return await _serviceManager.AsyncServiceCar.GetCarByEmail(email);
         }
 
+        [HttpGet("/email/paged")]
+        public GetPagedCarDto GetCarsPagedByEmail([FromQuery] PagedParameters pagedParameters,string email)
+        {
+            var pageds = _serviceManager.AsyncServiceCar.GetByEmailPaged(pagedParameters,email, _mapper);
+            GetPagedCarDto getPagedNewDto = new()
+            {
+                GetCarDto = pageds,
+                TotalCount = pageds.TotalCount,
+                PageSize = pageds.PageSize,
+                CurrentPage = pageds.CurrentPage,
+                TotalPages = pageds.TotalPages,
+                HasNext = pageds.HasNext,
+                HasPrevious = pageds.HasPrevious
+            };
+            return getPagedNewDto;
+        }
         // [Authorize(Roles = " ADMIN, EMPLOYEE, USER")]
         //[HttpGet("/ByVinNotAddedEmp")]
         //public async Task<Car> GetByVinNotAddedEmp([FromQuery] string vin)
@@ -77,6 +93,22 @@ namespace Presentation.Controllers
             return getPagedNewDto;
         }
 
+        [HttpGet("email/paged")]
+        public GetPagedCarDto GetCarsPaged([FromQuery] PagedParameters pagedParameters,string email)
+        {
+            var pageds = _serviceManager.AsyncServiceCar.GetAllPaged(pagedParameters, _mapper);
+            GetPagedCarDto getPagedNewDto = new()
+            {
+                GetCarDto = pageds,
+                TotalCount = pageds.TotalCount,
+                PageSize = pageds.PageSize,
+                CurrentPage = pageds.CurrentPage,
+                TotalPages = pageds.TotalPages,
+                HasNext = pageds.HasNext,
+                HasPrevious = pageds.HasPrevious
+            };
+            return getPagedNewDto;
+        }
 
         //[Authorize(Roles = " ADMIN, EMPLOYEE,  USER")]
         [HttpGet]

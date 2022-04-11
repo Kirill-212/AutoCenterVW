@@ -484,6 +484,40 @@ export class CarsApi {
       callback
     );
   }
+
+  emailPagedGet(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = null;
+
+    let pathParams = {};
+    let queryParams = {
+      PageNumber: opts["pageNumber"],
+      PageSize: opts["pageSize"],
+      email: opts["email"]
+    };
+    let headerParams = jwt;
+    let formParams = {};
+
+    let authNames = [];
+    let contentTypes = [];
+    let accepts = ["text/plain", "application/json", "text/json"];
+    let returnType = GetPagedCarDto;
+
+    return this.apiClient.callApi(
+      "/email/paged",
+      "GET",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
   /**
      * Callback function to receive the result of the updateStatusGet operation.
      * @callback moduleapi/CarsApi~updateStatusGetCallback

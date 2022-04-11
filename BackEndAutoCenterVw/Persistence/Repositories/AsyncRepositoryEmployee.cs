@@ -41,5 +41,14 @@ namespace Persistence.Repositories
                 .Where(u => u.User.Email == email)
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<IEnumerable<Employee>> GetCarRepairEmp()
+        {
+            return await _dbContext.Employees
+               .Include(i => i.User.Role)
+               .Where(i=>i.User.Role.Id==(int)Roles.SERVICE_EMPLOYEE)
+               .Where(i => i.User.Status != Status.DELETED)
+               .ToListAsync();
+        }
     }
 }

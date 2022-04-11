@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  *
  */
-import {ApiClient} from '../ApiClient';
+import { ApiClient } from "../ApiClient";
 
 /**
  * The UpdateStateCarRepairForStartWorkDto model module.
@@ -27,9 +27,11 @@ export class UpdateStateCarRepairForStartWorkDto {
    * @param emailEmployee {String} 
    * @param vin {String} 
    */
-  constructor(emailEmployee, vin) {
+  constructor(emailEmployee, vin, startWork, endWork) {
     this.emailEmployee = emailEmployee;
     this.vin = vin;
+    this.startWork = startWork;
+    this.endWork = endWork;
   }
 
   /**
@@ -42,14 +44,17 @@ export class UpdateStateCarRepairForStartWorkDto {
   static constructFromObject(data, obj) {
     if (data) {
       obj = obj || new UpdateStateCarRepairForStartWorkDto();
-      if (data.hasOwnProperty('emailEmployee'))
-        obj.emailEmployee = ApiClient.convertToType(data['emailEmployee'], 'String');
-      if (data.hasOwnProperty('vin'))
-        obj.vin = ApiClient.convertToType(data['vin'], 'String');
-      if (data.hasOwnProperty('startWork'))
-        obj.startWork = ApiClient.convertToType(data['startWork'], 'Date');
-      if (data.hasOwnProperty('endWork'))
-        obj.endWork = ApiClient.convertToType(data['endWork'], 'Date');
+      if (data.hasOwnProperty("emailEmployee"))
+        obj.emailEmployee = ApiClient.convertToType(
+          data["emailEmployee"],
+          "String"
+        );
+      if (data.hasOwnProperty("vin"))
+        obj.vin = ApiClient.convertToType(data["vin"], "String");
+      if (data.hasOwnProperty("startWork"))
+        obj.startWork = ApiClient.convertToType(data["startWork"], "Date");
+      if (data.hasOwnProperty("endWork"))
+        obj.endWork = ApiClient.convertToType(data["endWork"], "Date");
     }
     return obj;
   }
@@ -74,4 +79,3 @@ UpdateStateCarRepairForStartWorkDto.prototype.startWork = undefined;
  * @member {Date} endWork
  */
 UpdateStateCarRepairForStartWorkDto.prototype.endWork = undefined;
-
