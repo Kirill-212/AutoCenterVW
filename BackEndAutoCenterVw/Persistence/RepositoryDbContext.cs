@@ -35,7 +35,6 @@ namespace Persistence
             Database.EnsureCreated();
         }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Order>().Property(u => u.TotalCost).HasColumnType("money");

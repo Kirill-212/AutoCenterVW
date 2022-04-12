@@ -36,7 +36,6 @@ namespace Services.Abstractions
 
         Task<IEnumerable<T>> GetCarForUser(CancellationToken cancellationToken = default);
 
-
         Task<IEnumerable<T>> GetCarByEmail(
             string email,
             CancellationToken cancellationToken = default

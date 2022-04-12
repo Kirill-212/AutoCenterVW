@@ -4,7 +4,7 @@ namespace Contracts
 {
     public class ImgDto
     {
-        [Required]
+        [Required(ErrorMessage = "Error: url is required.")]
         public string Url { get; set; }
     }
 }

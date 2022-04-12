@@ -23,6 +23,17 @@ namespace Persistence.Repositories
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Order>> GetByEmail(string email)
+        {
+            return await _dbContext.Orders
+                   .Include(i => i.User)
+                   .AsNoTracking()
+                   .Where(i => i.State != State.CANCEL)
+                   .Where(i => i.State != State.PAID)
+                   .Where(i => i.User.Email == email)
+                   .ToListAsync();
+        }
+
         public async Task<Order> GetByOrderParams(Order item)
         {
             return await _dbContext.Orders
@@ -34,17 +45,28 @@ namespace Persistence.Repositories
                     .FirstOrDefaultAsync();
         }
 
+        public async Task<IEnumerable<Order>> GetByVin(string vin)
+        {
+            return await _dbContext.Orders
+                   .Include(i => i.Car)
+                    .AsNoTracking()
+                    .Where(i => i.State != State.CANCEL)
+                    .Where(i => i.State != State.PAID)
+                    .Where(i => i.Car.VIN == vin)
+                    .ToListAsync();
+        }
+
         public async Task<IEnumerable<Order>> GetForBuyer(string email)
         {
             return await _dbContext.Orders
-                            .Include(i => i.Car)
-                            .Include(i => i.User)
-                            .Include(i=>i.Car.ClientCar.User)
-                            .Where(i => i.Car.IsDeleted == false)
-                            .Where(i => i.State != State.CANCEL)
-                            .Where(i => i.State != State.PAID)
-                            .Where(i => i.User.Email == email)
-                            .ToListAsync();
+                   .Include(i => i.Car)
+                   .Include(i => i.User)
+                   .Include(i => i.Car.ClientCar.User)
+                   .Where(i => i.Car.IsDeleted == false)
+                   .Where(i => i.State != State.CANCEL)
+                   .Where(i => i.State != State.PAID)
+                   .Where(i => i.User.Email == email)
+                   .ToListAsync();
         }
 
         public async Task<IEnumerable<Order>> GetForEmployee()
@@ -69,6 +91,12 @@ namespace Persistence.Repositories
                     .Where(i => i.State != State.PAID)
                     .Where(i => i.Car.ClientCar.User.Email == email)
                     .ToListAsync();
+        }
+
+        public void UpdateRange(IEnumerable<Order> items)
+        {
+            foreach (var i in items)
+                _dbContext.Entry(i).State = EntityState.Modified;
         }
     }
 }

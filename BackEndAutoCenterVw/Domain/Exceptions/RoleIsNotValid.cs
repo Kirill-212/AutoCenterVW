@@ -3,7 +3,7 @@
     public class RoleIsNotValid : BadRequestException
     {
         public RoleIsNotValid()
-            : base("Input role is not valid")
+            : base("Error: Input role is not valid.")
         {
         }
     }

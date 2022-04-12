@@ -1,5 +1,4 @@
 ﻿using Domain.Models;
-using Domain.Pagination;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -47,7 +46,7 @@ namespace Persistence.Repositories
         {
             return _dbContext.News
                 .Include(i => i.Imgs)
-                 .Include(i => i.Employee.User)
+                .Include(i => i.Employee.User)
                 .Where(i => i.IsDeleted == false)              
                 .AsQueryable();
         }

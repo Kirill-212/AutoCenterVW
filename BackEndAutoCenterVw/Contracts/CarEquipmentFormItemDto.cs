@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Contracts
 {
-   public class CarEquipmentFormItemDto
+    public class CarEquipmentFormItemDto
     {
-        [Required]
+        [Required(ErrorMessage = "Error: car equipment form name is required.")]
         public string Name { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Error: equipment item is required.")]
         public ValueCarEquipmentDto EquipmentItem { get; set; }
 
     }

@@ -10,13 +10,13 @@ namespace Domain.CustomValidationAttribute
             {
                 if (value.ToString().Length == 17)
                     return true;
-                ErrorMessage = "Error:Value VIN  is not correct.Example: XW8ZZZ5NZAG123456(17)";
+                ErrorMessage = "Error:Value VIN  is not correct.Example: XW8ZZZ5NZAG123456(17).";
 
                 return false;
             }
             else
             {
-                ErrorMessage = "Error:Value VIN  is not correct.Example: XW8ZZZ5NZAG123456(17)";
+                ErrorMessage = "Error:Value VIN  is not correct.Example: XW8ZZZ5NZAG123456(17).";
 
                 return false;
 

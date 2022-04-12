@@ -7,19 +7,19 @@ namespace Contracts
     {
         [StringLength(40,
            MinimumLength = 3,
-           ErrorMessage = "Title length must be between 3 and 10 characters"
+           ErrorMessage = "Error: title length must be between 3 and 40 characters."
            )]
-        [Required]
+        [Required(ErrorMessage = "Error: title is required.")]
         public string Title { get; set; }
         
         [CheckNewTitle]
         public string NewTitle { get; set; }
 
-        [StringLength(50,
+        [StringLength(100,
             MinimumLength = 13,
-            ErrorMessage = "Description length must be between 13 and 50 characters"
+            ErrorMessage = "Error: description length must be between 13 and 100 characters."
             )]
-        [Required]
+        [Required(ErrorMessage = "Error: description is required.")]
         public string Description { get; set; }
     }
 }

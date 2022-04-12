@@ -5,10 +5,10 @@ namespace Contracts
 {
     public class PutClientCarDto
     {
-        [Required]
+        [Required(ErrorMessage = "Error: put car dto is required.")]
         public PutCarDto PutCarDto { get; set; }
 
-        [Required(ErrorMessage = "Email is required")]
+        [Required(ErrorMessage = "Error: email is required.")]
         public string Email { get; set; }
 
         [CheckNewEmail]
@@ -20,7 +20,7 @@ namespace Contracts
         [CheckRegisterNumber]
         public string NewRegisterNumber { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Error: change register number is required.")]
         public bool ChangeRegisterNumber { get; set; }
     }
 }

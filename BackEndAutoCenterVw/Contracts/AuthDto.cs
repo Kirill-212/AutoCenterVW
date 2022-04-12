@@ -4,10 +4,10 @@ namespace Contracts
 {
     public class AuthDto
     {
-        [Required]
+        [Required(ErrorMessage = "Error: email is required.")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Error: password is required.")]
         public string Password { get; set; }
     }
 }

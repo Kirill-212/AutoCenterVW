@@ -18,8 +18,6 @@ namespace BackEndAutoCenterVw.HttpClientBasic
             httpClient = new HttpClient();
         }
 
-       
-
         public async Task<bool> Post(PayDataDto item)
         {
             var response = await httpClient.PostAsync(

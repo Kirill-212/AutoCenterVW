@@ -12,11 +12,12 @@ namespace Services
     internal sealed class AsyncServiceUser : IAsyncServiceUser<User>
     {
         private readonly IUnitOfWork unitOfWork;
-
+      
         public AsyncServiceUser(
-          IUnitOfWork unitOfWork
-            )
+          IUnitOfWork unitOfWork)
+            
         {
+          
             this.unitOfWork = unitOfWork;
         }
 
@@ -68,10 +69,51 @@ namespace Services
             User user = await unitOfWork.AsyncRepositoryUser.GetByEmail(email);
             if (user == null) throw new UserEmailNotFound(email);
             user.Status = Status.DELETED;
+            
+            IEnumerable<Car> cars = await unitOfWork.AsyncRepositoryCar.GetByEmail(email);
+            foreach (var i in cars)
+               await RemoveCar(i.VIN);
+            IEnumerable<Order>  orders =await unitOfWork.AsyncRepositoryOrder.GetByEmail(email);
+            IEnumerable<TestDrive> testDrives = await unitOfWork.AsyncRepositoryTestDrive.GetByEmail(email);
+            IEnumerable<CarRepair> carRepairs=await unitOfWork.AsyncRepositoryCarRepair.GetByEmail(email);
+            foreach (var i in orders)
+                i.State = State.CANCEL;
+            foreach (var i in testDrives)
+               i.stateTestDrive=StateTestDrive.CANCEL;
+            foreach (var i in carRepairs)
+               i.StateCarRepair=StateCarRepair.CANCEL;
             unitOfWork.AsyncRepositoryUser.Update(user);
+            unitOfWork.AsyncRepositoryOrder.UpdateRange(orders);
+            unitOfWork.AsyncRepositoryTestDrive.UpdateRange(testDrives);
+            unitOfWork.AsyncRepositoryCarRepair.UpdateRange(carRepairs);
             await unitOfWork.CompleteAsync();
         }
 
+        public async Task RemoveCar(
+            string vin,
+            CancellationToken cancellationToken = default
+            )
+        {
+            Car car = await unitOfWork.AsyncRepositoryCar.GetByVin(vin);
+            if (car == null)
+                throw new CarVinFound(vin, "not found");
+            car.IsDeleted = true;
+            unitOfWork.AsyncRepositoryCar.Update(car);
+            IEnumerable<TestDrive> testDrives = await unitOfWork.AsyncRepositoryTestDrive.GetByVin(vin);
+            foreach (var i in testDrives)
+                i.stateTestDrive = StateTestDrive.CANCEL;
+            IEnumerable<CarRepair> carRepairs = await unitOfWork.AsyncRepositoryCarRepair.GetByVin(vin);
+            foreach (var i in carRepairs)
+                i.StateCarRepair = StateCarRepair.CANCEL;
+            IEnumerable<Order> order = await unitOfWork.AsyncRepositoryOrder.GetByVin(vin);
+            foreach (var i in order)
+                i.State = State.CANCEL;
+            unitOfWork.AsyncRepositoryOrder.UpdateRange(order);
+            unitOfWork.AsyncRepositoryTestDrive.UpdateRange(testDrives);
+            unitOfWork.AsyncRepositoryCarRepair.UpdateRange(carRepairs);
+            unitOfWork.AsyncRepositoryCar.Update(car);
+            await unitOfWork.CompleteAsync();
+        }
         public async Task Update(
             User item,
             string newUrlPhoto = null
@@ -113,7 +155,7 @@ namespace Services
         {
             User user = await unitOfWork.AsyncRepositoryUser.GetByEmail(email);
             if (user == null) throw new UserEmailNotFound(email);
-            if (user.Role.Id != (int)Roles.USER) throw new CheckRoleUser(Roles.USER.ToString());
+            if (user.Role.Id != (int)Roles.USER) throw new RoleUserPutError(Roles.USER.ToString());
             user.Status = user.Status == Status.ACTIVE ? Status.CREATED : Status.ACTIVE;
             unitOfWork.AsyncRepositoryUser.Update(user);
             await unitOfWork.CompleteAsync();

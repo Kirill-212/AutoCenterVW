@@ -84,7 +84,7 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("name")]
-        public ActionResult<CarEquipmentFormDto> GetByNameForm([FromQuery]string name)
+        public ActionResult<CarEquipmentFormDto> GetByNameForm([FromQuery] string name)
         {
             return mapper.Map<CarEquipmentFormDto>(equipmentForm.GetByName(name));
         }
@@ -148,7 +148,6 @@ namespace Presentation.Controllers
         {
             return equipment.GetByName(name);
         }
-
 
         //[Authorize(Roles = " ADMIN, EMPLOYEE")]
         [HttpGet("equipment/{id}")]

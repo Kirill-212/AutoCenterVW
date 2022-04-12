@@ -47,9 +47,9 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("/email/paged")]
-        public GetPagedCarDto GetCarsPagedByEmail([FromQuery] PagedParameters pagedParameters,string email)
+        public GetPagedCarDto GetCarsPagedByEmail([FromQuery] PagedParameters pagedParameters, string email)
         {
-            var pageds = _serviceManager.AsyncServiceCar.GetByEmailPaged(pagedParameters,email, _mapper);
+            var pageds = _serviceManager.AsyncServiceCar.GetByEmailPaged(pagedParameters, email, _mapper);
             GetPagedCarDto getPagedNewDto = new()
             {
                 GetCarDto = pageds,
@@ -94,7 +94,7 @@ namespace Presentation.Controllers
         }
 
         [HttpGet("email/paged")]
-        public GetPagedCarDto GetCarsPaged([FromQuery] PagedParameters pagedParameters,string email)
+        public GetPagedCarDto GetCarsPaged([FromQuery] PagedParameters pagedParameters, string email)
         {
             var pageds = _serviceManager.AsyncServiceCar.GetAllPaged(pagedParameters, _mapper);
             GetPagedCarDto getPagedNewDto = new()

@@ -24,7 +24,7 @@ namespace Persistence.Repositories
         public async Task<IEnumerable<Role>> GetWithourUser()
         {
             return await _context.Roles
-                .Where(i=>i.RoleName!=Roles.USER.ToString())
+                .Where(i => i.RoleName != Roles.USER.ToString())
                 .ToListAsync();
         }
     }

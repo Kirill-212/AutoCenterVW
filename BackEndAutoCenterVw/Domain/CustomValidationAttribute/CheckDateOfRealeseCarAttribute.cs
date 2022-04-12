@@ -16,7 +16,7 @@ namespace Domain.CustomValidationAttribute
                 }
                 else
                 {
-                    ErrorMessage = $"Date of realese can not valid. Valid value is  {DateTime.Now}  to {DateTime.Now.AddYears(-20)}";
+                    ErrorMessage = $"Error: Date of realese can not valid. Valid value is  {DateTime.Now}  to {DateTime.Now.AddYears(-20)}.";
 
                     return false;
                 }

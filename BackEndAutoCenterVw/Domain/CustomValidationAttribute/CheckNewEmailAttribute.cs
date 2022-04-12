@@ -12,7 +12,7 @@ namespace Domain.CustomValidationAttribute
             {
                 MatchCollection matches = regex.Matches(value.ToString());
                 if (matches.Count == 1) return true;
-                ErrorMessage = $"New email is not valid  {value}";
+                ErrorMessage = $"Error: New email is not valid  {value}.";
 
                 return false;
             }

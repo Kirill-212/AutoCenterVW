@@ -28,10 +28,31 @@ namespace Persistence.Repositories
                   .FirstOrDefaultAsync();
         }
 
+        public async Task<IEnumerable<TestDrive>> GetByEmail(string email)
+        {
+            return await _dbContext.TestDrives
+                .Include(i => i.User)
+                .AsNoTracking()
+                .Where(i => i.User.Email == email)
+                 .Where(i => i.stateTestDrive != StateTestDrive.CANCEL)
+                .ToListAsync()
+               ;
+        }
+
+        public async Task<IEnumerable<TestDrive>> GetByVin(string vin)
+        {
+            return await _dbContext.TestDrives
+                .Include(i => i.Car)
+                    .AsNoTracking()
+              .Where(i => i.Car.VIN == vin)
+               .Where(i => i.stateTestDrive != StateTestDrive.CANCEL)
+               .ToListAsync();
+        }
+
         public async Task<IEnumerable<TestDrive>> GetForEmployee()
         {
             return await _dbContext.TestDrives
-                .Include(i=>i.User)
+                .Include(i => i.User)
                 .Include(i => i.Car)
                 .Where(i => i.stateTestDrive != StateTestDrive.CANCEL)
                 .ToListAsync();
@@ -45,6 +66,12 @@ namespace Persistence.Repositories
                  .Where(i => i.User.Email == email)
                   .Where(i => i.stateTestDrive != StateTestDrive.CANCEL)
                  .ToListAsync();
+        }
+
+        public void UpdateRange(IEnumerable<TestDrive> items)
+        {
+            foreach (var i in items)
+                _dbContext.Entry(i).State = EntityState.Modified;
         }
     }
 }

@@ -4,30 +4,30 @@ namespace Contracts
 {
     public class UpdateStateOrderForPaidDto
     {
-        [Required]
+        [Required(ErrorMessage = "Error: vin is required.")]
         public string VIN { get; set; }
 
-        [Required(ErrorMessage = "Buyer email is required")]
+        [Required(ErrorMessage = "Error: buyer email is required.")]
         public string EmailBuyer { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Error: total cost is required.")]
         public decimal TotalCost { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Error: card number is required.")]
         public string CardNumber { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Error: month is required.")]
 
         public int Month { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Error:year is required.")]
         public int Year { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Error: cvc is required.")]
 
         public int CVC { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Error: card owner name is required.")]
 
         public string CardOwnerName { get; set; }
 

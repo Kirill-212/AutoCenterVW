@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Contracts;
-using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstractions;
 using System.Collections.Generic;
@@ -122,8 +121,6 @@ namespace Presentation.Controllers
         {
             return _mapper.Map<List<GetCarRepairDto>>(await _serviceManager.AsyncServiceCarRepair.GetForUser(email));
         }
-
-
 
         [HttpGet("employee")]
         public async Task<List<GetCarRepairDto>> GetForEmployee([FromQuery] string email)

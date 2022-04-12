@@ -29,7 +29,7 @@ namespace Services
             if (user == null)
                 throw new UserEmailNotFound(email);
             if (user.Status != Status.CREATED &&user.Status!=Status.ACTIVE)
-                throw new CheckUserStatus(user.Status.ToString());
+                throw new UserStatusNotValid(user.Status.ToString());
             item.StartWorkDate = DateTime.Now;
             item.UserId = user.Id;
             user.Status = Status.ACTIVE;
@@ -101,7 +101,7 @@ namespace Services
             if (user.RoleId == (int)Roles.USER)
                 throw new ErrorRoleEmployee();
             if (user.Status != Status.ACTIVE)
-                throw new CheckUserStatus(user.Status.ToString());
+                throw new UserStatusNotValid(user.Status.ToString());
             Roles role = (Roles)Enum.Parse(typeof(Roles), roleName);
             if (role == Roles.USER)
                 throw new RoleIsNotValid();

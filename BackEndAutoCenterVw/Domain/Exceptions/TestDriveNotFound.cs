@@ -3,7 +3,7 @@
     public class TestDriveNotFound : BadRequestException
     {
         public TestDriveNotFound()
-            : base($"Test drive not found")
+            : base($"Error: Test drive not found.")
         {
         }
     }

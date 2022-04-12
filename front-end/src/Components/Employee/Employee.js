@@ -4,6 +4,7 @@ import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import EmployeeListView from "../../SetListView/EmployeeListView";
 import ListEmployee from "./ListEmployee";
 import { GetEmployeeDto } from "../../model/GetEmployeeDto";
+import { UsersApi } from "../../ImportExportGenClient";
 const Employee = () => {
   const [MessageError, setMessageError] = React.useState("");
   const [listEmployees, setListEmployees] = React.useState([]);
@@ -15,7 +16,7 @@ const Employee = () => {
   }
   async function DeleteEmployee(e) {
     console.log("email", e.currentTarget.value);
-    new EmployeesApi().apiEmployeesDelete(
+    new UsersApi().apiUsersDelete(
       GetJwtToken(),
       { email: e.currentTarget.value },
       CallbackRequestDelete

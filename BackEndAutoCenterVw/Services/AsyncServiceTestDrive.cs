@@ -30,7 +30,8 @@ namespace Services
             DateTime dateStart, CancellationToken cancellationToken = default)
         {
             User user = await unitOfWork.AsyncRepositoryUser.GetActiveUserByEmail(email);
-            if (user == null) throw new UserStatusIsNotValidOrUserNotFound(email);
+            if (user == null) 
+                throw new UserStatusIsNotValidOrUserNotFound(email);
             Car car = await unitOfWork.AsyncRepositoryCar.GetByVin(vin);
             if (car == null || car.IsActive == true || car.ClientCar != null)
                 throw new TestDriveCarError(vin);
@@ -45,7 +46,8 @@ namespace Services
 
             TestDrive checkTestDrive =
                 await unitOfWork.AsyncRepositoryTestDrive.GetByCarRepairParams(testDrive);
-            if (checkTestDrive != null) throw new TestDriveFoundError(vin);
+            if (checkTestDrive != null) 
+                throw new TestDriveFoundError(vin);
             await unitOfWork.AsyncRepositoryTestDrive.Create(testDrive);
             await unitOfWork.CompleteAsync();
         }
@@ -104,8 +106,8 @@ namespace Services
             )
         {
             User user = await unitOfWork.AsyncRepositoryUser.GetActiveUserByEmail(email);
-            if (user == null) throw new UserStatusIsNotValidOrUserNotFound(email);
-
+            if (user == null)
+                throw new UserStatusIsNotValidOrUserNotFound(email);
             Car car = await unitOfWork.AsyncRepositoryCar.GetByVin(vin);
             if (car == null || car.IsActive == true || car.ClientCar != null)
                 throw new TestDriveCarError(vin);
@@ -116,10 +118,10 @@ namespace Services
                 Time = time,
                 DateStart = dateStart,
             };
-
             TestDrive checkTestDrive =
                 await unitOfWork.AsyncRepositoryTestDrive.GetByCarRepairParams(testDrive);
-            if (checkTestDrive == null) throw new TestDriveNotFound();
+            if (checkTestDrive == null) 
+                throw new TestDriveNotFound();
             checkTestDrive.stateTestDrive = StateTestDrive.CONFIRM;
             unitOfWork.AsyncRepositoryTestDrive.Update(checkTestDrive);
             await unitOfWork.CompleteAsync();

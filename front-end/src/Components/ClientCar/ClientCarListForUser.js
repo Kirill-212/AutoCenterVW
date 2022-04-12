@@ -25,6 +25,14 @@ export default function EnhancedTable(props) {
     );
   }
 
+  async function DeleteClientCar(e) {
+    new CarsApi().apiCarsDelete(
+      GetJwtToken(),
+      { vin: e.currentTarget.value },
+      CallbackReq
+    );
+  }
+
   function CallbackReq(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -207,11 +215,21 @@ export default function EnhancedTable(props) {
                         href={`/service/post?vin=${e.car.vin}
                           `}
                       >
-                       <i class="fa-solid fa-screwdriver-wrench"></i>
+                        <i class="fa-solid fa-screwdriver-wrench" />
                       </a>
                     </div>}
                   <div className="col-1">
                     {" "}<button
+                      class="btn btn-primary-sm btn-sm mr-1"
+                      value={e.car.vin}
+                      onClick={DeleteClientCar}
+                      type="button"
+                    >
+                      <i class="fas fa-trash" />
+                    </button>
+                  </div>
+                  <div className="col-1">
+                    <button
                       class="btn btn-primary-sm btn-sm ml-1"
                       value={e.car.vin}
                       onClick={UpdateCar}

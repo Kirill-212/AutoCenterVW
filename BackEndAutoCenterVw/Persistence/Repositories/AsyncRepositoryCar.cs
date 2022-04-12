@@ -40,6 +40,7 @@ namespace Persistence.Repositories
         public async Task<Car> GetByVin(string vin)
         {
             return await _dbContext.Cars
+                .AsNoTracking()
                 .Include(i => i.ActionCar)
                 .Include(i => i.ClientCar.User)
                 .Include(i => i.ImgsCar)
@@ -124,9 +125,9 @@ namespace Persistence.Repositories
         {
             return await _dbContext.Cars
                 .Include(i => i.ActionCar)
-                .Include(i=>i.ClientCar.User)
-                .Include(i=>i.ImgsCar)
-                .Where(u => u.IsActive==true)
+                .Include(i => i.ClientCar.User)
+                .Include(i => i.ImgsCar)
+                .Where(u => u.IsActive == true)
                 .Where(i => i.IsDeleted == false)
                 .ToListAsync();
         }
@@ -135,7 +136,7 @@ namespace Persistence.Repositories
         {
             return await _dbContext.Cars
                 .Include(i => i.ClientCar.User)
-                .Where(i=>i.ClientCar==null)
+                .Where(i => i.ClientCar == null)
                 .Where(u => u.IsActive == false)
                 .Where(i => i.IsDeleted == false)
                 .ToListAsync();
@@ -147,7 +148,7 @@ namespace Persistence.Repositories
                 .Include(i => i.ActionCar)
                 .Include(i => i.ClientCar.User)
                 .Include(i => i.ImgsCar)
-                .Where(i=>!(i.ClientCar!=null&&i.IsActive==false))
+                .Where(i => !(i.ClientCar != null && i.IsActive == false))
                 .Where(i => i.IsDeleted == false)
                 .AsQueryable();
         }
@@ -162,6 +163,22 @@ namespace Persistence.Repositories
                 .Where(u => u.ClientCar.User.Email == email)
                 .Where(i => i.IsDeleted == false)
                .AsQueryable();
+        }
+
+        public void UpdateRange(IEnumerable<Car> items)
+        {
+            foreach (var i in items)
+                _dbContext.Entry(i).State = EntityState.Modified;
+        }
+
+        public async Task<IEnumerable<Car>> GetByEmail(string email)
+        {
+            return await _dbContext.Cars
+               .Include(i => i.ClientCar.User)
+               .AsNoTracking()
+               .Where(u => u.ClientCar.User.Email == email)
+               .Where(i => i.IsDeleted == false)
+               .ToListAsync();
         }
     }
 }

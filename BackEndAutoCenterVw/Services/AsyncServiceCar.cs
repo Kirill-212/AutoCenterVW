@@ -22,6 +22,7 @@ namespace Services
         public AsyncServiceCar(
            IUnitOfWork unitOfWork,
             IAsyncRepositoryCarEquipment<CarEquipment> asyncRepositoryCarEquipment
+            
             )
         {
             this.asyncRepositoryCarEquipment = asyncRepositoryCarEquipment;
@@ -126,6 +127,19 @@ namespace Services
             if (car == null)
                 throw new CarVinFound(vin, "not found");
             car.IsDeleted = true;
+            unitOfWork.AsyncRepositoryCar.Update(car);
+            IEnumerable<TestDrive> testDrives =await unitOfWork.AsyncRepositoryTestDrive.GetByVin(vin);
+            foreach (var i in testDrives)
+                i.stateTestDrive = StateTestDrive.CANCEL;
+            IEnumerable<CarRepair> carRepairs = await unitOfWork.AsyncRepositoryCarRepair.GetByVin(vin);
+            foreach (var i in carRepairs)
+                i.StateCarRepair = StateCarRepair.CANCEL;
+            IEnumerable<Order> order = await unitOfWork.AsyncRepositoryOrder.GetByVin(vin);
+            foreach (var i in order)
+                i.State = State.CANCEL;
+            unitOfWork.AsyncRepositoryOrder.UpdateRange(order);
+            unitOfWork.AsyncRepositoryTestDrive.UpdateRange(testDrives);
+             unitOfWork.AsyncRepositoryCarRepair.UpdateRange(carRepairs);
             unitOfWork.AsyncRepositoryCar.Update(car);
             await unitOfWork.CompleteAsync();
         }

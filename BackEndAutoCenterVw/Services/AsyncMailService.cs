@@ -4,10 +4,6 @@ using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using Services.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Services
@@ -28,7 +24,7 @@ namespace Services
             emailSend.Subject ="Auto center vw";
             var builder = new BodyBuilder
             {
-                HtmlBody = "<h4>The car has been repaired. Pick up your car.</h4>"
+                HtmlBody = "<h4>The car has been repaired. Pick up your car.<p>Please call the call center for further instructions.</p></h4>"
             };
             emailSend.Body = builder.ToMessageBody();
             using var smtp = new SmtpClient();

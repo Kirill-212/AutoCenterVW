@@ -44,12 +44,12 @@ namespace BackEndAutoCenterVw
             string account = configurationSection.GetSection("Account").Value;
             string key = configurationSection.GetSection("Key").Value;
             Microsoft.Azure.Cosmos.CosmosClient client = new(account, key);
-            AsyncRepositoryCarEquipmentForm asyncRepositoryCarEquipmentForm = new (
+            AsyncRepositoryCarEquipmentForm asyncRepositoryCarEquipmentForm = new(
                 client,
                 databaseName,
                 containerName
                 );
-            Microsoft.Azure.Cosmos.DatabaseResponse database = 
+            Microsoft.Azure.Cosmos.DatabaseResponse database =
                 await client.CreateDatabaseIfNotExistsAsync(databaseName);
             await database.Database.CreateContainerIfNotExistsAsync(containerName, "/id");
             return asyncRepositoryCarEquipmentForm;
@@ -110,8 +110,6 @@ namespace BackEndAutoCenterVw
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BackEndAutoCenterVw", Version = "v1" });
             });
-   //         services.AddControllers().AddJsonOptions(x =>
-   //x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
             services.AddScoped<IServiceManager, ServiceManager>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IAsyncRepositoryCarEquipmentForm<CarEquipmentForm>>
@@ -119,7 +117,7 @@ namespace BackEndAutoCenterVw
                     Configuration.GetSection("CosmosDb")).GetAwaiter().GetResult()
                     );
             services.AddScoped<
-                IAsyncServiceCarEquipmentForm<CarEquipmentForm>, 
+                IAsyncServiceCarEquipmentForm<CarEquipmentForm>,
                 AsyncServiceCarEquipmentForm>
                 ();
             services.AddSingleton<IAsyncRepositoryCarEquipment<CarEquipment>>
@@ -131,7 +129,8 @@ namespace BackEndAutoCenterVw
                 AsyncServiceCarEquipment>
                 ();
             services.Configure<MailSetting>(Configuration.GetSection("MailSettings"));
-            services.AddScoped<IAsynHttpClient<PayDataDto>, AsyncHttpClientBasic>(x=> new (Configuration.GetSection("CheckPayService").Value));
+            services.AddScoped<IAsynHttpClient<PayDataDto>, AsyncHttpClientBasic>(
+                x => new(Configuration.GetSection("CheckPayService").Value));
             services.AddTransient<ExceptionHandlingMiddleware>();
         }
 
@@ -151,8 +150,8 @@ namespace BackEndAutoCenterVw
 
             app.UseRouting();
             app.UseCors(
- options => options.WithOrigins("*").AllowAnyMethod().AllowAnyHeader()
- );
+             options => options.WithOrigins("*").AllowAnyMethod().AllowAnyHeader()
+             );
             app.UseAuthentication();
             app.UseAuthorization();
 

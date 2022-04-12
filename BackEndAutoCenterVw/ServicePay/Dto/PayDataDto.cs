@@ -18,11 +18,9 @@ namespace ServicePay.Dto
         public int Year { get; set; }
 
         [Required]
-
         public int CVC { get; set; }
 
         [Required]
-
         public string CardOwnerName { get; set; }
     }
 }

@@ -113,9 +113,8 @@ namespace Presentation.Controllers
         [HttpGet("buyer")]
         public async Task<List<GetOrderBuyerDto>> GetForBuyer([FromQuery] string email)
         {
-            return _mapper.Map<List<GetOrderBuyerDto>>( await _serviceManager.AsyncServiceOrder.GetForBuyer(email));
+            return _mapper.Map<List<GetOrderBuyerDto>>(await _serviceManager.AsyncServiceOrder.GetForBuyer(email));
         }
-
 
         [HttpGet("employee")]
         public async Task<IEnumerable<Order>> GetForEmployee()

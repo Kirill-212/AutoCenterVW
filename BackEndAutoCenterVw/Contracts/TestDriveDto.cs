@@ -6,18 +6,18 @@ namespace Contracts
 {
     public class TestDriveDto
     {
-        [Required]
+        [Required(ErrorMessage = "Error: date start is required.")]
         [CheckDateWork]
         public DateTime DateStart { get; set; }
 
         [CheckTestDriveTime]
-        [Required]
+        [Required(ErrorMessage = "Error: time is required.")]
         public int Time { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Error: email is required.")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Error: vin is required.")]
         public string Vin { get; set; }
     }
 }

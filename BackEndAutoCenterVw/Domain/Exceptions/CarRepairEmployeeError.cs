@@ -3,7 +3,7 @@
     public class CarRepairEmployeeError : BadRequestException
     {
         public CarRepairEmployeeError(string email)
-             : base($"Employee with this email not found {email}")
+             : base($"Error: Employee with this email not found {email}.")
         {
         }
     }

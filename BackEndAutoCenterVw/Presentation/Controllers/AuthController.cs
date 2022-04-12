@@ -7,9 +7,7 @@ using Services.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Presentation.Controllers
@@ -19,7 +17,6 @@ namespace Presentation.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IServiceManager _serviceManager;
-
 
         public AuthController(
             IServiceManager serviceManager
@@ -34,9 +31,8 @@ namespace Presentation.Controllers
 
             if (ModelState.IsValid)
             {
-               User user= await _serviceManager.AsyncServiceVerifyUser
-                    .VerifyUser(authDto.Password,authDto.Email);
-                
+                User user = await _serviceManager.AsyncServiceVerifyUser
+                     .VerifyUser(authDto.Password, authDto.Email);
 
                 var claims = new List<Claim>
             {
@@ -54,9 +50,11 @@ namespace Presentation.Controllers
                         notBefore: now,
                         claims: claimsIdentity.Claims,
                         expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
-                        signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+                        signingCredentials: new SigningCredentials(
+                            AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
                 var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-                return Ok(new JwtDto() { AccessToken=encodedJwt,Email=user.Email,RoleName=user.Role.RoleName});
+
+                return Ok(new JwtDto() { AccessToken = encodedJwt, Email = user.Email, RoleName = user.Role.RoleName });
             }
             else
             {

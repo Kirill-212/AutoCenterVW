@@ -5,10 +5,10 @@ namespace Contracts
 {
     public class NewWrapperDto<T>
     {
-        [Required]
+        [Required(ErrorMessage = "Error: new is required.")]
         public T New { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Error: img/imgs is required.")]
         public List<ImgDto> Imgs { get; set; }
     }
 }

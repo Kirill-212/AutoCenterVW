@@ -3,7 +3,7 @@
     public class TestDriveFoundError : BadRequestException
     {
         public TestDriveFoundError(string vin)
-            : base($"Test drive car is found {vin}")
+            : base($"Error: Test drive with this car found {vin}.")
         {
         }
     }

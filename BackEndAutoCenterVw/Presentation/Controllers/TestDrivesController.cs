@@ -92,8 +92,6 @@ namespace Presentation.Controllers
             return await _serviceManager.AsyncServiceTestDrive.GetForUser(email);
         }
 
-
-
         [HttpGet("employee")]
         public async Task<IEnumerable<TestDrive>> GetForEmployee()
         {

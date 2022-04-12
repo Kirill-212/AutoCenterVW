@@ -110,6 +110,18 @@ namespace Services
             ClientCar clientCar = await unitOfWork.AsyncRepositoryClientCar.GetByRegisterNumber(registerNumber);
             if (clientCar == null) throw new ClientCarRegisterNumberFound(registerNumber, "not found");
             clientCar.Car.IsDeleted = true;
+            IEnumerable<TestDrive> testDrives = await unitOfWork.AsyncRepositoryTestDrive.GetByVin(clientCar.Car.VIN);
+            foreach (var i in testDrives)
+                i.stateTestDrive = StateTestDrive.CANCEL;
+            IEnumerable<CarRepair> carRepairs = await unitOfWork.AsyncRepositoryCarRepair.GetByVin(clientCar.Car.VIN);
+            foreach (var i in carRepairs)
+                i.StateCarRepair = StateCarRepair.CANCEL;
+            IEnumerable<Order> order = await unitOfWork.AsyncRepositoryOrder.GetByVin(clientCar.Car.VIN);
+            foreach (var i in order)
+                i.State = State.CANCEL;
+            unitOfWork.AsyncRepositoryOrder.UpdateRange(order);
+            unitOfWork.AsyncRepositoryTestDrive.UpdateRange(testDrives);
+            unitOfWork.AsyncRepositoryCarRepair.UpdateRange(carRepairs);
             unitOfWork.AsyncRepositoryCar.Update(clientCar.Car);
             await unitOfWork.CompleteAsync();
         }

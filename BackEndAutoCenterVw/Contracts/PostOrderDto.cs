@@ -10,10 +10,10 @@ namespace Contracts
 
         public string EmailOwner { get; set; }
 
-        [Required(ErrorMessage = "Buyer email is required")]
+        [Required(ErrorMessage = "Error: buyer email is required.")]
         public string EmailBuyer { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Error: change register number is required.")]
         public bool ChangeRegisterNumber { get; set; }
     }
 }

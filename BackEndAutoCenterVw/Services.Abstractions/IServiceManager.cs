@@ -1,6 +1,5 @@
 ﻿using Contracts;
 using Domain.Models;
-using Domain.Pagination;
 
 namespace Services.Abstractions
 {

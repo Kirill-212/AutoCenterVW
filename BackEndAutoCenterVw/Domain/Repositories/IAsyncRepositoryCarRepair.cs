@@ -12,5 +12,11 @@ namespace Domain.Repositories
         Task<IEnumerable<T>> GetForEmployee(string email);
 
         Task<IEnumerable<T>> GetCarRepairForEmployee(int idEmployee);
+
+        void UpdateRange(IEnumerable<T> items);
+
+        Task<IEnumerable<T>> GetByVin(string vin);
+
+        Task<IEnumerable<T>> GetByEmail(string email);
     }
 }

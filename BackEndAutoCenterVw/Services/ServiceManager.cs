@@ -20,7 +20,7 @@ namespace Services
 
         private readonly Lazy<IAsyncServiceNew<New, Img, GetNewDto>> _lazyAsyncServiceNew;
 
-        private readonly Lazy<IAsyncServiceCar<Car, ImgCar,GetCarDto>> _lazyAsyncServiceCar;
+        private readonly Lazy<IAsyncServiceCar<Car, ImgCar, GetCarDto>> _lazyAsyncServiceCar;
 
         private readonly Lazy<IAsyncServiceClientCar<ClientCar>> _lazyAsyncServiceClientCar;
 
@@ -35,7 +35,7 @@ namespace Services
         private readonly Lazy<IMailService> _lazyAsyncMailService;
 
         public ServiceManager(
-           
+
             IUnitOfWork unitOfWork,
             IAsyncRepositoryCarEquipment<CarEquipment> carEquipment,
             IAsynHttpClient<PayDataDto> asynHttpClient,
@@ -51,18 +51,18 @@ namespace Services
             _lazyAsyncServiceEmployee = new Lazy<IAsyncServiceEmployee<Employee>>(
                 () => new AsyncServiceEmployee(unitOfWork)
                 );
-            _lazyAsyncServiceNew = new Lazy<IAsyncServiceNew<New, Img,GetNewDto>>(
-               () => new AsyncServiceNew( unitOfWork)
+            _lazyAsyncServiceNew = new Lazy<IAsyncServiceNew<New, Img, GetNewDto>>(
+               () => new AsyncServiceNew(unitOfWork)
                );
             _lazyAsyncServiceCar = new Lazy<IAsyncServiceCar<Car, ImgCar, GetCarDto>>(
-            () => new AsyncServiceCar(unitOfWork, carEquipment)
-            );
+                () => new AsyncServiceCar(unitOfWork, carEquipment)
+                );
             _lazyAsyncServiceClientCar = new Lazy<IAsyncServiceClientCar<ClientCar>>(
-            () => new AsyncServiceClientCar(unitOfWork, carEquipment)
-            );
+                () => new AsyncServiceClientCar(unitOfWork, carEquipment)
+                );
             _lazyAsyncServiceOrder = new Lazy<IAsyncServiceOrder<Order>>(
-            () => new AsyncServiceOrder(unitOfWork, carEquipment,asynHttpClient)
-            );
+                () => new AsyncServiceOrder(unitOfWork, carEquipment, asynHttpClient)
+                );
             _lazyAsyncServiceTestDrive = new Lazy<IAsyncServiceTestDrive<TestDrive>>(
                 () => new AsyncServiceTestDrive(unitOfWork)
                 );

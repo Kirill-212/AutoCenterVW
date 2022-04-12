@@ -1,25 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Contracts
 {
     public class PostCarRepairDto
     {
-        [Required]
+        [Required(ErrorMessage = "Error: description is required.")]
         [StringLength(100,
             MinimumLength = 3,
-            ErrorMessage = "Description length must be between 3 and 100 characters"
+            ErrorMessage = "Error: description length must be between 3 and 100 characters."
             )]
         public string Description { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Error: vin is required.")]
         public string Vin { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Error: email is required.")]
         public string Email { get; set; }
     }
 }

@@ -8,9 +8,9 @@ namespace Domain.CustomValidationAttribute
         {
             if (value != null)
             {
-                if (value.ToString().Length > 0)
+                if (value.ToString().Length == 17)
                     return true;
-                ErrorMessage = "Check your new VIN";
+                ErrorMessage = "Error:Value VIN  is not correct.Example: XW8ZZZ5NZAG123456(17).";
 
                 return false;
             }

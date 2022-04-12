@@ -6,10 +6,10 @@ namespace Contracts
 {
     public class UpdateStateCarRepairForStartWorkDto
     {
-        [Required]
+        [Required(ErrorMessage = "Error: email employee is required.")]
         public string EmailEmployee { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Error: vin is required.")]
         public string Vin { get; set; }
 
         [CheckDateWork]

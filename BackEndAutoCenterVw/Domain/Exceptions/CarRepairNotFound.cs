@@ -3,7 +3,7 @@
     public class CarRepairNotFound : BadRequestException
     {
         public CarRepairNotFound()
-            : base("Error car repair not found")
+            : base("Error: car repair not found.")
         {
         }
     }

@@ -16,7 +16,7 @@ namespace Domain.CustomValidationAttribute
                 {
                     return true;
                 }
-                ErrorMessage = $"Role is not valid  {value}";
+                ErrorMessage = $"Error: Role is not valid  {value}.";
 
                 return false;
             }

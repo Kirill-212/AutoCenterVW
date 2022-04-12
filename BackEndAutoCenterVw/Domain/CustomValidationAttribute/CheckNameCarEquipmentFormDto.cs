@@ -9,7 +9,7 @@ namespace Domain.CustomValidationAttribute
             if (value != null)
             {
                 if (value.ToString().Length >= 3 || value.ToString().Length <= 50) return true;
-                ErrorMessage = $"New name is not valid  {value}   [3,50]";
+                ErrorMessage = $"Error: New name is not valid  {value}   [3,50].";
 
                 return false;
             }

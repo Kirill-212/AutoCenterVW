@@ -3,7 +3,7 @@
     public class UserEmailNotFound : NotFoundException
     {
         public UserEmailNotFound(string email)
-            : base($"This emaul is not found {email}")
+            : base($"Error: This email is not found {email}.")
         {
         }
     }

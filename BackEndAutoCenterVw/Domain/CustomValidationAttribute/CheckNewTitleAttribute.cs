@@ -8,8 +8,8 @@ namespace Domain.CustomValidationAttribute
         {
             if (value != null)
             {
-                if (value.ToString().Length > 3 && value.ToString().Length < 40) return true;
-                ErrorMessage = $"Your title is not valid lenght  {value}";
+                if (value.ToString().Length >= 3 && value.ToString().Length <= 40) return true;
+                ErrorMessage = $"Error: Your title is not valid lenght  {value}[3,40].";
 
                 return false;
             }

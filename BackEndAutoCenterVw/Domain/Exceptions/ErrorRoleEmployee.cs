@@ -3,7 +3,7 @@
     public class ErrorRoleEmployee : BadRequestException
     {
         public ErrorRoleEmployee()
-            : base("You cannot change this user if the user has the wrong role")
+            : base("Error: You cannot change this user if the user has the wrong role.")
         {
         }
     }

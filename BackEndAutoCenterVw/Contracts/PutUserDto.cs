@@ -6,34 +6,33 @@ namespace Contracts
 {
     public class PutUserDto
     {
-        [Required(ErrorMessage = "First Name is required")]
+        [Required(ErrorMessage = "Error: first Name is required.")]
         [StringLength(50,
             MinimumLength = 3,
-            ErrorMessage = "String length must be between 3 and 50 characters"
+            ErrorMessage = "Error: first name string length must be between 3 and 50 characters."
             )]
         public string FirstName { get; set; }
 
-        [Required(ErrorMessage = "Last Name is required")]
+        [Required(ErrorMessage = "Error: last Name is required.")]
         [StringLength(50, MinimumLength = 3,
-            ErrorMessage = "String length must be between 3 and 50 characters"
+            ErrorMessage = "Error: last name tring length must be between 3 and 50 characters."
             )]
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "Surname is required")]
+        [Required(ErrorMessage = "Error: Surname is required.")]
         [StringLength(50,
             MinimumLength = 3,
-            ErrorMessage = "String length must be between 3 and 50 characters"
+            ErrorMessage = "Error: String length must be between 3 and 50 characters."
             )]
         public string Surname { get; set; }
 
-        [Required(ErrorMessage = "UrlPhoto")]
+        [Required(ErrorMessage = "Error: photo is required.")]
         public string UrlPhoto { get; set; }
-
 
         public string NewUrlPhoto { get; set; }
 
         [CheckBday]
-        [Required(ErrorMessage = "Dbay is required")]
+        [Required(ErrorMessage = "Error: dbay is required.")]
         public DateTime DBay { get; set; }
 
         [CheckNewPassword]
@@ -41,15 +40,15 @@ namespace Contracts
 
         [RegularExpression(
             @"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}",
-            ErrorMessage = "Email is not correct"
+            ErrorMessage = "Error: email is not correct."
             )]
-        [Required(ErrorMessage = "Email is required")]
+        [Required(ErrorMessage = "Error: email is required.")]
         public string Email { get; set; }
 
         [CheckNewEmail]
         public string NewEmail { get; set; }
 
-        [Required(ErrorMessage = "Phone number is required")]
+        [Required(ErrorMessage = "Error: phone number is required.")]
         [Phone]
         public string PhoneNumber { get; set; }
     }

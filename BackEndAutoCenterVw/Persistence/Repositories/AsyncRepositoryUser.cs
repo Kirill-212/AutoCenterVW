@@ -56,6 +56,6 @@ namespace Persistence.Repositories
                  .Where(i => i.Status == Status.ACTIVE)
                  .Where(i => i.Email == email)
                  .FirstOrDefaultAsync();
-        }    
+        }
     }
 }

@@ -29,5 +29,9 @@ namespace Domain.Repositories
 
         IQueryable<T> GetByEmailPaged(string email);
 
+        void UpdateRange(IEnumerable<T> items);
+
+        Task<IEnumerable<T>> GetByEmail(string email);
+
     }
 }

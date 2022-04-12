@@ -35,7 +35,6 @@ namespace Persistence.Repositories
                 .ToListAsync();
         }
 
-
         public override async Task<ClientCar> GetById(int id)
         {
             return await _dbContext.ClientCars

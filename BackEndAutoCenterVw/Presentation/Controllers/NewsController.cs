@@ -2,9 +2,7 @@
 using Contracts;
 using Domain.Models;
 using Domain.Pagination;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Services.Abstractions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -27,12 +25,11 @@ namespace Presentation.Controllers
             _serviceManager = serviceManager;
         }
 
-
-       // [Authorize(Roles = "USER")]
+        // [Authorize(Roles = "USER")]
         [HttpGet("paged")]
         public GetPagedNewDto GetNewsPaged([FromQuery] PagedParameters pagedParameters)
         {
-            var pageds = _serviceManager.AsyncServiceNew.GetAllPaged(pagedParameters,_mapper);
+            var pageds = _serviceManager.AsyncServiceNew.GetAllPaged(pagedParameters, _mapper);
             GetPagedNewDto getPagedNewDto = new()
             {
                 GetNewDto = pageds,
@@ -43,9 +40,8 @@ namespace Presentation.Controllers
                 HasNext = pageds.HasNext,
                 HasPrevious = pageds.HasPrevious
             };
-         return getPagedNewDto;
+            return getPagedNewDto;
         }
-
 
         //  [Authorize(Roles = " ADMIN, EMPLOYEE, USER")]
         [HttpGet]
@@ -121,7 +117,6 @@ namespace Presentation.Controllers
             await _serviceManager.AsyncServiceNew.Remove(title);
 
             return NoContent();
-
         }
     }
 }

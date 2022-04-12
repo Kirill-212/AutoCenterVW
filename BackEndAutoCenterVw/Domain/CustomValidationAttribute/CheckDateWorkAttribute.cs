@@ -11,7 +11,7 @@ namespace Domain.CustomValidationAttribute
             DateTime dateTime = (DateTime)value;
             if (dateTime < DateTime.Now)
             {
-                ErrorMessage = $"Date must be greater than current";
+                ErrorMessage = $"Error: Date must be greater than current.";
 
                 return false;
             }
@@ -19,7 +19,7 @@ namespace Domain.CustomValidationAttribute
             {
                 if (dateTime.DayOfWeek == DayOfWeek.Saturday || dateTime.DayOfWeek == DayOfWeek.Sunday)
                 {
-                    ErrorMessage = $"The date must not fall on a weekend";
+                    ErrorMessage = $"Error: The date must not fall on a weekend.";
 
                     return false;
                 }

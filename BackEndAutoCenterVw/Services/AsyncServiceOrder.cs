@@ -42,17 +42,18 @@ namespace Services
             if (emailOwner == null)
             {
                 car = await unitOfWork.AsyncRepositoryCar.GetCarByVinForOrder(vin);
-                if (car == null || car.IsActive == false) throw new CarVinError(vin);
+                if (car == null || car.IsActive == false) 
+                    throw new CarVinError(vin);
             }
             else
             {
-
                 car = await unitOfWork.AsyncRepositoryCar.GetCarByVinForOrder(vin);
                 if (car == null || car.IsActive == false)
                     throw new CarVinWithEmailFound(vin, emailOwner, "not found or status car is not active");
             }
             User user = await unitOfWork.AsyncRepositoryUser.GetActiveUserByEmail(emailBuyer);
-            if (user == null) throw new UserStatusIsNotValidOrUserNotFound(emailBuyer);
+            if (user == null)
+                throw new UserStatusIsNotValidOrUserNotFound(emailBuyer);
             CarEquipment carEquipment = asyncRepositoryCarEquipment.GetById(car.IdCarEquipment);
             decimal totalCost = car.Cost + carEquipment.Equipments.Select(i => i.EquipmentItem.Cost).Sum();
             if (car.ActionCar != null) totalCost =
@@ -215,7 +216,6 @@ namespace Services
                     CarId = car.Id,
                 };
                 await unitOfWork.AsyncRepositoryClientCar.Create(clientCar);
-
             }
             else
             {
@@ -223,16 +223,13 @@ namespace Services
                 {
                     clientCar.RegisterNumber = null;
                     clientCar.UserId = user.Id;
-
                 }
                 else
                 {
                     clientCar.UserId = user.Id;
                 }
                 unitOfWork.AsyncRepositoryClientCar.Update(clientCar);
-
             }
-
             car.IsActive=!car.IsActive;
             unitOfWork.AsyncRepositoryCar.Update(car);
             unitOfWork.AsyncRepositoryOrder.Update(order);

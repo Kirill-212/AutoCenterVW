@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain.Pagination
+﻿namespace Domain.Pagination
 {
-	public abstract class QueryStringParameters
+    public abstract class QueryStringParameters
 	{
 		const int maxPageSize = 50;
 		public int PageNumber { get; set; } = 1;

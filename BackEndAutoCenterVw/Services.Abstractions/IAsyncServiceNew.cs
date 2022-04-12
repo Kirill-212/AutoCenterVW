@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using Contracts;
 using Domain.Pagination;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 

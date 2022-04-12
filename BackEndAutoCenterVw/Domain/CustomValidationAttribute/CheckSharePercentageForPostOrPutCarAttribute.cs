@@ -15,7 +15,7 @@ namespace Domain.CustomValidationAttribute
                 {
                     return true;
                 }
-                ErrorMessage = "This SharePercentage is not valid value [1,100]";
+                ErrorMessage = "Error: This SharePercentage is not valid value [1,100].";
             }
             else
             {
