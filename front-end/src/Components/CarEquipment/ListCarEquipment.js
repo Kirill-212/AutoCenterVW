@@ -1,77 +1,59 @@
 import { styled } from "@mui/material/styles";
-import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
-import MuiAccordion from "@mui/material/Accordion";
-import MuiAccordionSummary from "@mui/material/AccordionSummary";
-import MuiAccordionDetails from "@mui/material/AccordionDetails";
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 
-const Accordion = styled(props =>
-  <MuiAccordion disableGutters elevation={0} square {...props} />
-)(({ theme }) => ({
-  border: `1px solid ${theme.palette.divider}`,
-  "&:not(:last-child)": {
-    borderBottom: 0
-  },
-  "&:before": {
-    display: "none"
-  }
-}));
-
-const AccordionSummary = styled(props =>
-  <MuiAccordionSummary
-    expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: "0.9rem" }} />}
-    {...props}
-  />
-)(({ theme }) => ({
-  backgroundColor:
-    theme.palette.mode === "dark"
-      ? "rgba(255, 255, 255, .05)"
-      : "rgba(0, 0, 0, .03)",
-  flexDirection: "row-reverse",
-  "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
-    transform: "rotate(90deg)"
-  },
-  "& .MuiAccordionSummary-content": {
-    marginLeft: theme.spacing(1)
-  }
-}));
-
-const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  padding: theme.spacing(2),
-  borderTop: "1px solid rgba(0, 0, 0, .125)"
-}));
-
 export default function CustomizedAccordions(props) {
-   
+   const[data,setData]=React.useState(props.data)
   const [expanded, setExpanded] = React.useState("panel1");
  if(props.data.lenght===0)return <></>
   const handleChange = panel => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
+  const requestSearch = searchedVal => {
+    const filteredRows = data.filter(row => {
+      return row.name.toLowerCase().includes(searchedVal.toLowerCase());
+    });
+    setData(filteredRows);
+  };
 
-  console.log(props.data);
+  const search = e => {
+    if (e.length === 0) {
+      setData(props.data);
+    } else {
+      requestSearch(e);
+    }
+  };
   return (
     <div>
-        {props.data.map(r=>{
-            if(r.name===props.data[0].name)return(<Accordion
+      <div className="row mt-2  bg-white text-white">
+        <div className="input-group rounded w-25">
+          <input
+            type="search"
+            className="form-control rounded"
+            placeholder="Search"
+            aria-label="Search"
+            aria-describedby="search-addon"
+            onChange={e => search(e.target.value)}
+          />
+          <span className="input-group-text border-0" id="search-addon">
+            <i className="fas fa-search" />
+          </span>
+        </div>
+      </div>
+      <div className="row ">
+        {data.map(r=>{
+            if(r.name===data[0].name)return(<Accordion
                 expanded={expanded === "panel1"}
                 onChange={handleChange("panel1")}
               >
                 <AccordionSummary aria-controls='panel1d-content' id='panel1d-header'>
                   <Typography>
                       <div className="row">
-                          <div className="col"> {r.name}</div>
-                          <div className="col">
-                          <button
-                            class="btn btn-primary-sm btn-sm mr-1"
-                            value={r.name}
-                            onClick={props.deleteCarEquipment}
-                            type="button"
-                          >
-                            <i class="fas fa-trash" />
-                          </button>
-                          </div>
+                          <div className="col">Name: {r.name}</div>
+   
                       </div>
                     </Typography>
                 </AccordionSummary>
@@ -81,7 +63,7 @@ export default function CustomizedAccordions(props) {
                         return <div className="row d-flex flex-row justify-content-center">
                             
                                 <div className="col">
-                                <i class="fa-thin fa-square" ></i>
+                                <i class="fa-solid fa-arrow-right"></i>
                                 Name:{element.name}
                                    
                                     </div>
@@ -90,7 +72,14 @@ export default function CustomizedAccordions(props) {
                                 <div className="col"></div>
                                 <div className="col"></div>
                         </div>
-                    })}
+                    })}{(props.roleName==="ADMIN"||props.roleName==="EMPLOYEEs")&&<div className="row"><div className="col"><button
+                    class="btn btn-primary-sm btn-sm mr-1"
+                    value={r.name}
+                    onClick={props.deleteCarEquipment}
+                    type="button"
+                  >
+                    <i class="fas fa-trash" />
+                  </button></div><div className="col"></div><div className="col"></div> </div>}
                   </Typography>
                 </AccordionDetails>
               </Accordion>)
@@ -99,27 +88,20 @@ export default function CustomizedAccordions(props) {
             onChange={handleChange(r.name)}
           >
             <AccordionSummary aria-controls={r.name+'d-content'} id={r.name+'d-header'}>
-              <Typography><div className="row">
-                          <div className="col"> {r.name}</div>
-                          <div className="col">
-                          <button
-                            class="btn btn-primary-sm btn-sm mr-1"
-                            value={r.name}
-                            onClick={props.deleteCarEquipment}
-                            type="button"
-                          >
-                             <i class="fas fa-trash" />
-                          </button>
-                          </div>
-                      </div></Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>
-              {r.equipments.map(element=>{
+            <Typography>
+                      <div className="row">
+                          <div className="col">Name: {r.name}</div>
+   
+                      </div>
+                    </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography>
+                    {r.equipments.map(element=>{
                         return <div className="row d-flex flex-row justify-content-center">
                             
                                 <div className="col">
-                                <i class="fa-thin fa-square" ></i>
+                               <i class="fa-solid fa-arrow-right"></i>
                                 Name:{element.name}
                                    
                                     </div>
@@ -128,12 +110,19 @@ export default function CustomizedAccordions(props) {
                                 <div className="col"></div>
                                 <div className="col"></div>
                         </div>
-                    })}
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
+                    })}{(props.roleName==="ADMIN"||props.roleName==="EMPLOYEEs")&&<div className="row"><div className="col"><button
+                    class="btn btn-primary-sm btn-sm mr-1"
+                    value={r.name}
+                    onClick={props.deleteCarEquipment}
+                    type="button"
+                  >
+                    <i class="fas fa-trash" />
+                  </button></div><div className="col"></div><div className="col"></div> </div>}
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
         })}
-     
+     </div>
       
       
     </div>

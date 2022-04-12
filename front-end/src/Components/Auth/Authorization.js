@@ -3,7 +3,7 @@ import { AuthApi } from "../../api/AuthApi";
 import { Navigate } from "react-router-dom";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-const Authorization = () => {
+const Authorization = props => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [MessageError, setMessageError] = React.useState("");
@@ -50,6 +50,7 @@ const Authorization = () => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200) {
+      props.set(response.text);
       localStorage.setItem("user", response.text);
       setRole(JSON.parse(response.text).roleName.toLowerCase());
       setRedirect(true);

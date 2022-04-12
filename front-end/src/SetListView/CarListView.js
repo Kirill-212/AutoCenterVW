@@ -4,7 +4,7 @@ export default function CarListView() {
         label: "Vin",
         id: "vin",
         numeric: false,
-        disablePadding: true
+        disablePadding: false
       },
       {
         label: "Date of realese cat",
@@ -13,7 +13,7 @@ export default function CarListView() {
         disablePadding: true
       },
       {
-        label: "Is active",
+        label: "Sell",
         id: "isActive",
         numeric: false,
         disablePadding: false

@@ -1,11 +1,13 @@
-import { React, useContext } from "react";
+import { React, useContext,useEffect } from "react";
 import Context from "../../context";
 
-function Header() {
+function Header(props) {
   const { user } = useContext(Context);
   function ClearStorage() {
     localStorage.clear();
   }
+  console.log(user,props.user);
+
   return (
     <header role="banner">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -18,120 +20,187 @@ function Header() {
             />
           </div>
           <ul class="navbar-nav flex-row">
-            <li class="nav-item dropdown mt-1  ">
-              <a
-                class="nav-link dropdown-toggle hidden-arrow"
-                href="#"
-                id="navbarDropdownMenuLink"
-                role="button"
-                data-mdb-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <strong>Cars</strong>
-              </a>
-              <ul
-                class="dropdown-menu dropdown-menu-end"
-                aria-labelledby="navbarDropdownMenuLink"
-              >
-                <li>
-                  <a class="dropdown-item" href="/car/post">
-                    Post
+            {user !== undefined &&
+              <>
+               {(JSON.parse(user).roleName === "ADMIN" ||
+                  JSON.parse(user).roleName === "EMPLOYEE") && <li class="nav-item dropdown mt-1  ">
+                  <a
+                    class="nav-link dropdown-toggle hidden-arrow"
+                    href="#"
+                    id="navbarDropdownMenuLink"
+                    role="button"
+                    data-mdb-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <strong>Car</strong>
                   </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/car">
-                    Managed List
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item dropdown mt-1  ">
-              <a
-                class="nav-link dropdown-toggle hidden-arrow"
-                href="#"
-                id="navbarDropdownMenuLink"
-                role="button"
-                data-mdb-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <strong>News</strong>
-              </a>
-              <ul
-                class="dropdown-menu dropdown-menu-end"
-                aria-labelledby="navbarDropdownMenuLink"
-              >
-                <li>
-                  <a class="dropdown-item" href="/new/post">
-                    Post
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/new">
-                    Managed List
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item dropdown mt-1  ">
-              <a
-                class="nav-link dropdown-toggle hidden-arrow"
-                href="#"
-                id="navbarDropdownMenuLink"
-                role="button"
-                data-mdb-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <strong>Employee</strong>
-              </a>
-              <ul
-                class="dropdown-menu dropdown-menu-end"
-                aria-labelledby="navbarDropdownMenuLink"
-              >
-                <li>
-                  <a class="dropdown-item" href="/employee">
-                    List
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="/employee/post">
-                    Post
-                  </a>
-                </li>
-              </ul>
-            </li>
-            {JSON.parse(user).roleName === "ADMIN" &&
-              <li class="nav-item dropdown mt-1  ">
-                <a
-                  class="nav-link dropdown-toggle hidden-arrow"
-                  href="#"
-                  id="navbarDropdownMenuLink"
-                  role="button"
-                  data-mdb-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <strong>User</strong>
-                </a>
-                <ul
-                  class="dropdown-menu dropdown-menu-end"
-                  aria-labelledby="navbarDropdownMenuLink"
-                >
-                  <li>
-                    <a class="dropdown-item" href="/user">
-                      List
-                    </a>
-                  </li>
-                </ul>
-              </li>}
+                  <ul
+                    class="dropdown-menu dropdown-menu-end"
+                    aria-labelledby="navbarDropdownMenuLink"
+                  >
+                    <li>
+                      <a class="dropdown-item" href="/car/post">
+                        Post
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="/car">
+                       List
+                      </a>
+                    </li>
+                  </ul>
+                </li>}
+                
 
-            <li class="nav-item mt-1  ">
-              <a
-                class="nav-link d-sm-flex align-items-sm-center"
-                onClick={ClearStorage}
-                href="/"
-              >
-                <strong>Register</strong>
-              </a>
-            </li>
+                {(JSON.parse(user).roleName === "ADMIN" ||
+                  JSON.parse(user).roleName === "EMPLOYEE") &&<li class="nav-item dropdown mt-1  ">
+                  <a
+                    class="nav-link dropdown-toggle hidden-arrow"
+                    href="#"
+                    id="navbarDropdownMenuLink"
+                    role="button"
+                    data-mdb-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <strong>Car equipment form</strong>
+                  </a>
+                  <ul
+                    class="dropdown-menu dropdown-menu-end"
+                    aria-labelledby="navbarDropdownMenuLink"
+                  >
+                    <li>
+                      <a class="dropdown-item" href="/carequipmentform">
+                       List
+                      </a>
+                    </li>
+                   <li>
+                      <a class="dropdown-item" href="carequipmentform/post">
+                        Post
+                      </a>
+                    </li>
+                    
+                  </ul>
+                </li>}
+
+                 <li class="nav-item dropdown mt-1  ">
+                  <a
+                    class="nav-link dropdown-toggle hidden-arrow"
+                    href="#"
+                    id="navbarDropdownMenuLink"
+                    role="button"
+                    data-mdb-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <strong>Car equipment</strong>
+                  </a>
+                  <ul
+                    class="dropdown-menu dropdown-menu-end"
+                    aria-labelledby="navbarDropdownMenuLink"
+                  >
+                    <li>
+                      <a class="dropdown-item" href="/carequipment">
+                        List
+                      </a>
+                    </li>
+                    {(JSON.parse(user).roleName === "ADMIN" ||
+                  JSON.parse(user).roleName === "EMPLOYEE") &&<li>
+                      <a class="dropdown-item" href="/carequipment/post">
+                        Post
+                      </a>
+                    </li>}
+                  </ul>
+                </li>
+                <li class="nav-item dropdown mt-1  ">
+                  <a
+                    class="nav-link dropdown-toggle hidden-arrow"
+                    href="#"
+                    id="navbarDropdownMenuLink"
+                    role="button"
+                    data-mdb-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <strong>New</strong>
+                  </a>
+                  <ul
+                    class="dropdown-menu dropdown-menu-end"
+                    aria-labelledby="navbarDropdownMenuLink"
+                  >
+                     {(JSON.parse(user).roleName === "ADMIN" ||
+                  JSON.parse(user).roleName === "EMPLOYEE") &&<li>
+                      <a class="dropdown-item" href="/new/post">
+                        Post
+                      </a>
+                    </li>}
+                    <li>
+                      <a class="dropdown-item" href="/new">
+                       List
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                {JSON.parse(user).roleName === "ADMIN" &&
+                 <li class="nav-item dropdown mt-1  ">
+                  <a
+                    class="nav-link dropdown-toggle hidden-arrow"
+                    href="#"
+                    id="navbarDropdownMenuLink"
+                    role="button"
+                    data-mdb-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <strong>Employee</strong>
+                  </a>
+                  <ul
+                    class="dropdown-menu dropdown-menu-end"
+                    aria-labelledby="navbarDropdownMenuLink"
+                  >
+                    <li>
+                      <a class="dropdown-item" href="/employee">
+                        List
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="/employee/post">
+                        Post
+                      </a>
+                    </li>
+                  </ul>
+                </li>}
+                {JSON.parse(user).roleName === "ADMIN" &&
+                  <li class="nav-item dropdown mt-1  ">
+                    <a
+                      class="nav-link dropdown-toggle hidden-arrow"
+                      href="#"
+                      id="navbarDropdownMenuLink"
+                      role="button"
+                      data-mdb-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      <strong>User</strong>
+                    </a>
+                    <ul
+                      class="dropdown-menu dropdown-menu-end"
+                      aria-labelledby="navbarDropdownMenuLink"
+                    >
+                      <li>
+                        <a class="dropdown-item" href="/user">
+                          List
+                        </a>
+                      </li>
+                    </ul>
+                  </li>}
+               
+              </>}
+
+              <li class="nav-item mt-1  ">
+                  <a
+                    class="nav-link d-sm-flex align-items-sm-center"
+                    onClick={ClearStorage}
+                    href="/"
+                  >
+                    <strong>Register</strong>
+                  </a>
+                </li>
             <li class="nav-item mt-1  ">
               <a
                 class="nav-link d-sm-flex align-items-sm-center"
@@ -146,6 +215,17 @@ function Header() {
                 <strong>LogIn</strong>
               </a>
             </li>
+            {user !== undefined &&
+              <li class="nav-item mt-2  ">
+                <a
+                  class="nav-link d-sm-flex align-items-sm-center"
+                  href="/user/put/user"
+                >
+                  <strong>
+                    <i class="fa-solid fa-user" />
+                  </strong>
+                </a>
+              </li>}
             <li class="nav-item mt-2  ">
               <a class="nav-link d-sm-flex align-items-sm-center" href="/home">
                 <i class="fa-solid fa-house" />

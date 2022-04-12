@@ -4,7 +4,8 @@ import { Navigate } from "react-router-dom";
 import { EmployeesApi } from "../../api/EmployeesApi";
 import { Role } from "../../model/Role";
 import { RolesApi } from "../../api/RolesApi";
-
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 const PutEmployee = () => {
   const { user } = useContext(Context);
@@ -15,9 +16,16 @@ const PutEmployee = () => {
   const [redirect, setRedirect] = React.useState(false);
   const [roleList, setRoleList] = React.useState([]);
   const [flag, setFlag] = React.useState(false);
-
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleToggle = () => {
+    setOpen(!open);
+  };
   async function submitEmployee(event) {
     event.preventDefault();
+    handleToggle();
     setMessageError("");
     new EmployeesApi().apiEmployeesPut(
       GetJwtToken(),
@@ -55,6 +63,7 @@ const PutEmployee = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
 
   async function GetRoleList() {
@@ -91,15 +100,16 @@ const PutEmployee = () => {
   }
 
   useEffect(() => {
+    handleToggle();
     GetRoleList();
     const query = new URLSearchParams(window.location.search);
     setEmail(query.get("email"));
     setAddress(query.get("address"));
     setRole(query.get("roleName"));
+    handleClose();
   }, []);
   let style = { width: "30rem" };
   return (
-    <div className="opacity-90">
     <div className="d-flex   justify-content-center w-40  align-items-center ">
       <div className=" p-4   bg-dark text-white h-100 ">
         <div className="row mt-5">
@@ -172,12 +182,18 @@ const PutEmployee = () => {
 
         <div>
           {redirect && <Navigate to={"/home"} />}
+          <Backdrop
+            sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
+            open={open}
+            onClick={handleClose}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
           <div style={style} class="text-wrap  text-reset text-white">
             {MessageError}
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };

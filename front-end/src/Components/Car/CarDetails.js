@@ -4,6 +4,7 @@ import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import { getDate } from "../ViewLists/SupportFunction";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+import Footer from '../Footer'
 const CarDetail = () => {
   const [flag, setFlag] = React.useState(false);
   const [MessageError, setMessageError] = React.useState("");
@@ -50,6 +51,7 @@ const CarDetail = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+   
   }
   function CallbackRequestGetById(error, data, response) {
     console.log(response);
@@ -290,6 +292,7 @@ const CarDetail = () => {
             </div>}
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

@@ -41,30 +41,38 @@ import PostService from "./Components/Service/PostService";
 import EmployeeServce from "./Components/Service/EmployeeService";
 import StartService from "./Components/Service/StartWorkService";
 import UserService from "./Components/Service/UserService";
+import PutUserForUser from "./Components/User/PutUserForUser";
 function App() {
   const [user, setUser] = React.useState(undefined);
 
   if (user === undefined) {
     if (localStorage.getItem("user")) setUser(localStorage.getItem("user"));
   }
-
+  function setUserData(value) {
+    setUser(value);
+  }
   return (
     <Context.Provider value={{ user, setUser }}>
       <Router>
-        <Header />
+        <Header user={user} />
         <main id="bgImg" role="main">
           <Routes>
-            <Route exact path="/login" element={<Authorization />} />
-            <Route path="/" element={<Registration />} />
-            <Route path="home" element={<Home />} />
-            <Route path="user" element={<User />} />
-            <Route path="user/put" element={<PutUser />} />
-            <Route path="employee" element={<Employee />} />
-            <Route path="employee/post" element={<PostEmployee />} />
-            <Route path="employee/put" element={<PutEmployee />} />
-            <Route path="new" element={<New />} />
-            <Route path="new/post" element={<PostNew />} />
-            <Route path="new/put" element={<PutNew />} />
+            <Route
+              exact
+              path="/login"
+              element={<Authorization set={setUserData} />}
+            />//+
+            <Route path="/" element={<Registration />} />//+
+            <Route path="home" element={<Home />} />//+
+            <Route path="user" element={<User />} />//+
+            <Route path="user/put" element={<PutUser />} />//+
+            <Route path="user/put/user" element={<PutUserForUser />} />//+
+            <Route path="employee" element={<Employee />} />//+
+            <Route path="employee/post" element={<PostEmployee />} />//+
+            <Route path="employee/put" element={<PutEmployee />} />//+
+            <Route path="new" element={<New />} />//+
+            <Route path="new/post" element={<PostNew />} />//+
+            <Route path="new/put" element={<PutNew />} />//+
             <Route path="car/post" element={<PostCar />} />
             <Route path="car" element={<Car />} />
             <Route path="car/put" element={<PutCar />} />
@@ -73,18 +81,17 @@ function App() {
             <Route path="clientcar" element={<ClientCar />} />
             <Route path="clientcar/put" element={<PutClientCar />} />
             <Route path="clientcar/info" element={<ClientCarInfo />} />
-            <Route path="carequipment/post" element={<PostCarEquipment />} />
-            <Route path="carequipment" element={<CarEquipment />} />
-            <Route path="carequipment" element={<CarEquipment />} />
+            <Route path="carequipment/post" element={<PostCarEquipment />} />//+
+            <Route path="carequipment" element={<CarEquipment />} />//+
             <Route
               path="carequipmentform/post"
               element={<PostCarEquipmentForm />}
-            />
+            />//+
             <Route
               path="carequipmentform/put"
               element={<PutCarEquipmentForm />}
-            />
-            <Route path="carequipmentform" element={<CarEquipmentForm />} />
+            />//+
+            <Route path="carequipmentform" element={<CarEquipmentForm />} />//+
             <Route path="order/post" element={<PostOrder />} />
             <Route path="order/employee" element={<EmployeeOrder />} />
             <Route path="order/user" element={<UserOrder />} />

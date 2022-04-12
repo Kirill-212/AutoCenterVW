@@ -110,6 +110,7 @@ const PutCar = () => {
   }
   async function GetCarEquipment() {
     setMessageError("");
+    handleToggle();
     new CarEquipmentApi().apiCarequipmentsEquipmentGet(
       GetJwtToken(),
       CallbackRequestGet

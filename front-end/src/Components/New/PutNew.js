@@ -9,7 +9,8 @@ import {
 import ImgService from "../../Services/ImgServices/ImgService";
 import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
-
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 const PutNew = () => {
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
@@ -19,8 +20,15 @@ const PutNew = () => {
   const [news, setNews] = React.useState({});
   const fileInput = React.useRef(null);
   const { user } = useContext(Context);
-
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleToggle = () => {
+    setOpen(!open);
+  };
   async function GetNew(title) {
+    handleToggle();
     new NewApi().apiNewsByTitleGet(
       GetJwtToken(),
       { title: title },
@@ -52,8 +60,10 @@ const PutNew = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
   async function submitNew(event) {
+    handleToggle();
     event.preventDefault();
     console.log(news);
     let urls = [];
@@ -62,6 +72,7 @@ const PutNew = () => {
         let url = await ImgService.uploadImage(news[i]);
         if (url == undefined) {
           setMessageError("Error:upload img is not valid.");
+          handleClose();
           return;
         }
         if (url.height !== 700 || url.width !== 1000) {
@@ -71,6 +82,7 @@ const PutNew = () => {
               "|Line" +
               i
           );
+          handleClose();
           return;
         }
         console.log(url);
@@ -127,6 +139,7 @@ const PutNew = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
 
   function AddImgs(value, i) {
@@ -166,6 +179,7 @@ const PutNew = () => {
                 <label className="custom-file-label" for="inputGroupFile01">
                   Choose file
                 </label>
+                <small class="form-text text-muted">Size w-1000 h-700</small>
               </div>
             </div>}
           {imgs[i].url !== undefined &&
@@ -183,8 +197,9 @@ const PutNew = () => {
                 <label className="custom-file-label" for="inputGroupFile01">
                   Choose file
                 </label>
+                <small class="form-text text-muted">Size w-1000 h-700</small>
               </div>
-              <div className=" mt-2 ">
+              <div className=" mt-5 ">
                 <img src={imgs[i].url} className="w-100 h-90" />
               </div>
             </div>}
@@ -201,7 +216,6 @@ const PutNew = () => {
   }, []);
   let style = { width: "30rem" };
   return (
-    <div className="opacity-90">
     <div className="d-flex   justify-content-center align-items-center ">
       <div className="p-4  bg-dark text-white w-40">
         <div className="row mt-5">
@@ -277,12 +291,18 @@ const PutNew = () => {
 
         <div>
           {redirect && <Navigate to={"/home"} />}
+          <Backdrop
+            sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
+            open={open}
+            onClick={handleClose}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
           <div style={style} class="text-wrap  text-reset text-white">
             {MessageError}
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };

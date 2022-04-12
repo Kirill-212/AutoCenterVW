@@ -56,7 +56,7 @@ export default function EnhancedTable(props) {
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <div className="row mt-2 ml-2">
-        <div className="input-group rounded w-50">
+        <div className="input-group rounded w-25">
           <input
             type="search"
             className="form-control rounded"
@@ -76,7 +76,6 @@ export default function EnhancedTable(props) {
             stickyHeader
             aria-label="sticky table"
             sx={{ minWidth: 600 }}
-            // aria-labelledby="tableTitle"
             size="medium"
           >
             <EnhancedTableHead
@@ -91,7 +90,6 @@ export default function EnhancedTable(props) {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const labelId = `enhanced-table-checkbox-${index}`;
-
                   return (
                     <TableRow
                       hover
@@ -134,15 +132,16 @@ export default function EnhancedTable(props) {
                       </TableCell>
                       <TableCell align="right">
                         <div className="d-grid gap-2 d-md-block">
-                          <button
-                            color="purple"
-                            size="sm"
-                            className="btn btn-primary-sm btn-sm m-2"
-                            value={row.email}
-                            onClick={props.deleteUser}
-                          >
-                            <i className="fa-regular fa-trash-can" />
-                          </button>
+                          {props.email !== row.email &&
+                            <button
+                              color="purple"
+                              size="sm"
+                              className="btn btn-primary-sm btn-sm m-2"
+                              value={row.email}
+                              onClick={props.deleteUser}
+                            >
+                              <i className="fa-regular fa-trash-can" />
+                            </button>}
                           {row.roleName === "USER" &&
                             <button
                               color="purple"

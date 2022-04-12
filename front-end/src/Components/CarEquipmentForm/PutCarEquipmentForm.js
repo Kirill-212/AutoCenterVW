@@ -6,6 +6,8 @@ import {
   PutValueCarEquipmentDto
 } from "../../ImportExportGenClient";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 const PutCarEquipmentForm = () => {
   const [name, setName] = React.useState("");
   const [nameNew, setNameNew] = React.useState("");
@@ -14,18 +16,17 @@ const PutCarEquipmentForm = () => {
   const [flag, setFlag] = React.useState(false);
   const [carEquipment, setCarEquipment] = React.useState([]);
   const [length, setLength] = React.useState(0);
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleToggle = () => {
+    setOpen(!open);
+  };
   async function submitCarEquipment(event) {
     event.preventDefault();
     setMessageError("");
-    console.log({
-      body: new PutCarEquipmentFormDto(
-        nameNew.length === 0 ? null : nameNew,
-        name,
-        carEquipment.map(r => {
-          return new PutValueCarEquipmentDto(r.value, r.isDeleted, r.cost);
-        })
-      )
-    });
+    handleToggle();
     new CarEquipmentApi().apiCarequipmentsPut(
       GetJwtToken(),
       {
@@ -63,10 +64,12 @@ const PutCarEquipmentForm = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
 
   async function GetCarEquipmentItemByName(name) {
     setMessageError("");
+    handleToggle();
     new CarEquipmentApi().apiCarequipmentsNameGet(
       GetJwtToken(),
       { name: name },
@@ -104,6 +107,7 @@ const PutCarEquipmentForm = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
 
   function AddField() {
@@ -272,6 +276,13 @@ const PutCarEquipmentForm = () => {
             </div>
           </form>
           <div>
+            <Backdrop
+              sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
+              open={open}
+              onClick={handleClose}
+            >
+              <CircularProgress color="inherit" />
+            </Backdrop>
             {redirect && <Navigate to={"/home"} />}
             <div style={style} class="text-wrap  text-reset text-white">
               {MessageError}

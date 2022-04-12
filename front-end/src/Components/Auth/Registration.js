@@ -1,5 +1,4 @@
 import React from "react";
-import "./Registration.css";
 import { UsersApi } from "../../api/UsersApi";
 import { Navigate } from "react-router-dom";
 import ImgService from "../../Services/ImgServices/ImgService";
@@ -46,7 +45,7 @@ function Registration() {
     if (img.type.split("/")[0] !== "image") {
       handleClose();
       setMessageError("Wrong file type!");
-      return
+      return;
     }
     let url = await ImgService.uploadImage(img);
     if (url == undefined) {
@@ -195,6 +194,10 @@ function Registration() {
                 placeholder="Enter your password..."
                 required
               />
+              <small class="form-text text-muted">
+                1 number. 1 upper letter.1 lower letter and one '-' min 8
+                lenght.
+              </small>
             </div>
             <div className="form-group mb-3">
               <label>Image profile:</label>

@@ -6,16 +6,24 @@ import {
   ValueCarEquipmentDto
 } from "../../ImportExportGenClient";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
-
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 const PostCarEquipmentForm = () => {
   const [name, setName] = React.useState("");
   const [MessageError, setMessageError] = React.useState("");
   const [redirect, setRedirect] = React.useState(false);
   const [carEquipment, setCarEquipment] = React.useState([]);
-
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleToggle = () => {
+    setOpen(!open);
+  };
   async function submitCarEquipment(event) {
     event.preventDefault();
     setMessageError("");
+    handleToggle();
     new CarEquipmentApi().apiCarequipmentsPost(
       GetJwtToken(),
       {
@@ -52,6 +60,7 @@ const PostCarEquipmentForm = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
 
   function AddField() {
@@ -104,7 +113,7 @@ const PostCarEquipmentForm = () => {
   }
   let style = { width: "30rem" };
   return (
-    <div className="d-flex   justify-content-center w-40 h-100 align-items-center ">
+    <div className="d-flex   justify-content-center w-40 align-items-center ">
       <div className="p-4  bg-dark text-white h-100">
         <div className="row mt-5">
           <h1 className="d-flex   justify-content-center align-items-center ">
@@ -152,6 +161,13 @@ const PostCarEquipmentForm = () => {
         </div>
 
         <div>
+          <Backdrop
+            sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
+            open={open}
+            onClick={handleClose}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
           {redirect && <Navigate to={"/home"} />}
           <div style={style} class="text-wrap  text-reset text-white">
             {MessageError}

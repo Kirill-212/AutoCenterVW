@@ -10,6 +10,7 @@ import ImgService from "../../Services/ImgServices/ImgService";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+
 const PostCar = () => {
   const [nameCarEquipment, setNameCarEquipment] = React.useState("");
   const [cost, setCost] = React.useState(0);
@@ -146,13 +147,13 @@ const PostCar = () => {
 
   return (
     <div className="d-flex   justify-content-center w-40 align-items-center ">
-      <div className="p-4  bg-dark text-white h-100">
+      <div className="p-4 w-25 bg-dark text-white h-100">
         <div className="row mt-5">
           <h1 className="d-flex   justify-content-center align-items-center ">
             Post car
           </h1>
         </div>
-        <div className="container mt-5 pt-5">
+        <div className="container  mt-5 pt-5">
           <form onSubmit={submitCar}>
             <div className="row">
               <div className="col mb-2 ">
@@ -191,15 +192,24 @@ const PostCar = () => {
                 />
               </div>
               <div className="col mb-2 ">
-                <label>Car mileage(km):</label>
-                <input
-                  className="w-100 shadow-lg  bg-white rounded"
-                  onChange={e => setCarMileage(e.target.value)}
-                  name="carMileage"
-                  type="number"
-                  placeholder="Enter your car mileage..."
+                <label>Car equipment:</label>
+                <select
+                  size="0"
+                  className="form-select "
+                  aria-label="Default select example"
+                  onChange={e => setNameCarEquipment(e.target.value)}
                   required
-                />
+                >
+                  <option value="" />
+                  {flag &&
+                    carEquipmentList.map(element => {
+                      return (
+                        <option value={element.name}>
+                          {element.name}
+                        </option>
+                      );
+                    })}
+                </select>
               </div>
             </div>
             <div className="form-group mb-2 ">
@@ -213,27 +223,18 @@ const PostCar = () => {
               />
             </div>
             <div className="form-group mb-2 ">
-              <label>Car equipment:</label>
-              <select
-                size="0"
-                className="form-select "
-                aria-label="Default select example"
-                onChange={e => setNameCarEquipment(e.target.value)}
+              <label>Car mileage(km):</label>
+              <input
+                className="w-100 shadow-lg  bg-white rounded"
+                onChange={e => setCarMileage(e.target.value)}
+                name="carMileage"
+                type="number"
+                placeholder="Enter your car mileage..."
                 required
-              >
-                <option value="" />
-                {flag &&
-                  carEquipmentList.map(element => {
-                    return (
-                      <option value={element.name}>
-                        {element.name}
-                      </option>
-                    );
-                  })}
-              </select>
+              />
             </div>
             <div className="form-group mb-3">
-              <label>Car images(800x600):</label>
+              <label>Car images:</label>
               <div className="custom-file">
                 <input
                   type="file"
@@ -245,7 +246,7 @@ const PostCar = () => {
                   required
                 />
                 <label className="custom-file-label" for="inputGroupFile01">
-                  Choose file/files
+                  Choose file/files(800x600)
                 </label>
               </div>
             </div>

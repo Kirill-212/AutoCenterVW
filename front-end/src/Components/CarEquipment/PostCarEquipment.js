@@ -8,7 +8,8 @@ import {
 } from "../../ImportExportGenClient";
 import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
-
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 const PostCarEquipment = () => {
   const { user } = useContext(Context);
   const [name, setName] = React.useState("");
@@ -18,8 +19,15 @@ const PostCarEquipment = () => {
   const [carEquipmentList, setCarEquipmentList] = React.useState([]);
   const [key, setKey] = React.useState([]);
   const [carEquipment, setCarEquipment] = React.useState([]);
-
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleToggle = () => {
+    setOpen(!open);
+  };
   async function GetFormCarEquipment() {
+    handleToggle();
     setMessageError("");
     new CarEquipmentApi().apiCarequipmentsFormGet(
       GetJwtToken(),
@@ -50,6 +58,7 @@ const PostCarEquipment = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
 
   function RenderRadioButton(input, name, nameEquipment) {
@@ -88,7 +97,7 @@ const PostCarEquipment = () => {
       radioButtonsCarEuipment.push(
         <div>
           <label>
-            {carEquipmentList[i].name}
+            Name: {carEquipmentList[i].name}
           </label>
           <div onChange={e => onChangeValue(e)}>
             {RenderRadioButton(
@@ -105,6 +114,7 @@ const PostCarEquipment = () => {
 
   async function submitCarEquipment(event) {
     event.preventDefault();
+    handleToggle();
     setMessageError("");
     new CarEquipmentApi().apiCarequipmentsEquipmentPost(
       GetJwtToken(),
@@ -145,6 +155,7 @@ const PostCarEquipment = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
   function onChangeValue(event) {
     let valuePush = JSON.parse(event.target.value);
@@ -208,6 +219,13 @@ const PostCarEquipment = () => {
 
         <div>
           {redirect && <Navigate to={"/home"} />}
+          <Backdrop
+            sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
+            open={open}
+            onClick={handleClose}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
           <div style={style} class="text-wrap  text-reset text-white">
             {MessageError}
           </div>

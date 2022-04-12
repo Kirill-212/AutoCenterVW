@@ -170,10 +170,10 @@ export default function EnhancedTable(props) {
       setLoad(true);
     }
   };
-
+  let style = { width: "30rem" };
   return (
     <div className="container">
-      <p className="text-reset text-white">
+      <p style={style} class="text-wrap  text-reset text-white">
         {MessageError}
       </p>
       {listNew.map(e => {
@@ -183,7 +183,8 @@ export default function EnhancedTable(props) {
           <div class="card mt-5 mb-5 text-white bg-black">
             <div class="card-header">
               <div className="row justify-content-center">
-                {JSON.parse(user).roleName === "ADMIN" &&
+                {(JSON.parse(user).roleName === "ADMIN" ||
+                  JSON.parse(user).roleName === "EMPLOYEE") &&
                   <div class="col ">
                     <a
                       className="text-reset btn btn-primary-sm btn-sm mr-1"

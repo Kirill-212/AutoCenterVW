@@ -49,7 +49,7 @@ export class UsersApi {
      * @param {module:api/UsersApi~apiUsersByEmailGetCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}
      */
-  apiUsersByEmailGet(opts, callback) {
+  apiUsersByEmailGet(jwt, opts, callback) {
     opts = opts || {};
     let postBody = null;
 
@@ -57,7 +57,7 @@ export class UsersApi {
     let queryParams = {
       email: opts["email"]
     };
-    let headerParams = {};
+    let headerParams = jwt;
     let formParams = {};
 
     let authNames = [];
@@ -93,7 +93,7 @@ export class UsersApi {
      * @param {String} opts.email 
      * @param {module:api/UsersApi~apiUsersDeleteCallback} callback The callback function, accepting three arguments: error, data, response
      */
-  apiUsersDelete(jwt,opts, callback) {
+  apiUsersDelete(jwt, opts, callback) {
     opts = opts || {};
     let postBody = null;
 
@@ -225,7 +225,7 @@ export class UsersApi {
      * @param {module:api/UsersApi~apiUsersNotAddedToEmployeeGetCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}
      */
-  apiUsersNotAddedToEmployeeGet(jwt,callback) {
+  apiUsersNotAddedToEmployeeGet(jwt, callback) {
     let postBody = null;
 
     let pathParams = {};
@@ -308,7 +308,7 @@ export class UsersApi {
      * @param {module:model/PutUserDto} opts.body 
      * @param {module:api/UsersApi~apiUsersPutCallback} callback The callback function, accepting three arguments: error, data, response
      */
-  apiUsersPut(jwt,opts, callback) {
+  apiUsersPut(jwt, opts, callback) {
     opts = opts || {};
     let postBody = opts["body"];
 
@@ -350,7 +350,7 @@ export class UsersApi {
      * @param {String} opts.email 
      * @param {module:api/UsersApi~apiUsersUpdateStatusPutCallback} callback The callback function, accepting three arguments: error, data, response
      */
-  apiUsersUpdateStatusPut(jwt,opts, callback) {
+  apiUsersUpdateStatusPut(jwt, opts, callback) {
     opts = opts || {};
     let postBody = null;
 

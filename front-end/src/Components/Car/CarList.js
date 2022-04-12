@@ -54,7 +54,7 @@ export default function EnhancedTable(props) {
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <div className="row mt-2 ml-2">
-        <div className="input-group rounded w-50">
+        <div className="input-group rounded w-25">
           <input
             type="search"
             className="form-control rounded"
@@ -99,7 +99,9 @@ export default function EnhancedTable(props) {
                         component="th"
                         id={labelId}
                         scope="row"
-                        padding="none"
+                        padding="2"
+                        
+                        className="text-center"
                       >
                         {row.vin}
                       </TableCell>
