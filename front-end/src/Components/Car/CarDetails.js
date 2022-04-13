@@ -4,26 +4,31 @@ import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import { getDate } from "../ViewLists/SupportFunction";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import Footer from '../Footer'
+
 const CarDetail = () => {
   const [flag, setFlag] = React.useState(false);
   const [MessageError, setMessageError] = React.useState("");
   const [detailCar, setDetailCar] = React.useState({});
   const [carEquipment, setCarEquipment] = React.useState({});
   const [open, setOpen] = React.useState(false);
+
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleToggle = () => {
     setOpen(!open);
   };
+
   async function GetCarByVin(vin) {
     handleToggle();
     setMessageError("");
     new CarsApi().apiCarsByVinGet(GetJwtToken(), { vin: vin }, CallbackRequest);
   }
+
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
+      handleClose();
       setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
       if (JSON.parse(error.message)["error"] == undefined) {
@@ -32,16 +37,24 @@ const CarDetail = () => {
         for (let key in errorsJson) {
           errorResult += key + " : " + errorsJson[key] + " | ";
         }
+        handleClose();
         setMessageError(errorResult);
       } else {
+        handleClose();
         setMessageError(JSON.parse(error.message)["error"]);
       }
     } else if (response.statusCode == 403) {
+      handleClose();
       setMessageError("Forbidden");
     } else if (response.statusCode == 401) {
+      handleClose();
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
-      console.log(response.body);
+      if(response.statusCode===204){
+        handleClose();
+        setMessageError("EMPTY");
+        return
+      }
       setDetailCar(response.body);
       new CarEquipmentApi().apiCarequipmentsEquipmentIdGet(
         GetJwtToken(),
@@ -49,12 +62,13 @@ const CarDetail = () => {
         CallbackRequestGetById
       );
     } else if (response.statusCode > 400) {
+      handleClose();
       setMessageError(JSON.parse(error.message)["error"]);
     }
-   
+    handleClose();
   }
+
   function CallbackRequestGetById(error, data, response) {
-    console.log(response);
     if (response == undefined) {
       setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
@@ -81,6 +95,7 @@ const CarDetail = () => {
     }
     handleClose();
   }
+
   function ViewCarEquipment() {
     let totalCost = detailCar.cost;
     let equipment = [];
@@ -151,7 +166,9 @@ const CarDetail = () => {
     const query = new URLSearchParams(window.location.search);
     GetCarByVin(query.get("vin"));
   }, []);
+
   let fl = true;
+
   return (
     <div>
       <Backdrop
@@ -292,7 +309,6 @@ const CarDetail = () => {
             </div>}
         </div>
       </div>
-      <Footer/>
     </div>
   );
 };

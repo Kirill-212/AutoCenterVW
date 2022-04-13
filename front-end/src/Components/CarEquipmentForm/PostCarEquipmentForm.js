@@ -8,18 +8,22 @@ import {
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+
 const PostCarEquipmentForm = () => {
   const [name, setName] = React.useState("");
   const [MessageError, setMessageError] = React.useState("");
   const [redirect, setRedirect] = React.useState(false);
   const [carEquipment, setCarEquipment] = React.useState([]);
   const [open, setOpen] = React.useState(false);
+
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleToggle = () => {
     setOpen(!open);
   };
+
   async function submitCarEquipment(event) {
     event.preventDefault();
     setMessageError("");
@@ -37,6 +41,7 @@ const PostCarEquipmentForm = () => {
       CallbackRequestPost
     );
   }
+
   function CallbackRequestPost(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -111,7 +116,9 @@ const PostCarEquipmentForm = () => {
     }
     console.log(carEquipment);
   }
+
   let style = { width: "30rem" };
+
   return (
     <div className="d-flex   justify-content-center w-40 align-items-center ">
       <div className="p-4  bg-dark text-white h-100">

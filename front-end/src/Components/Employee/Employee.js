@@ -8,24 +8,28 @@ import { UsersApi } from "../../ImportExportGenClient";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import Context from "../../context";
+
 const Employee = () => {
   const { user } = useContext(Context);
   const [MessageError, setMessageError] = React.useState("");
   const [listEmployees, setListEmployees] = React.useState([]);
   const [viewList, setViewList] = React.useState(false);
-
   const [open, setOpen] = React.useState(false);
+
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleToggle = () => {
     setOpen(!open);
   };
+
   async function GetEmployeeList() {
     handleToggle();
     setViewList(false);
     new EmployeesApi().apiEmployeesGet(GetJwtToken(), CallbackRequest);
   }
+
   async function DeleteEmployee(e) {
     handleToggle();
     new UsersApi().apiUsersDelete(
@@ -80,7 +84,6 @@ const Employee = () => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
-      console.log(data);
       setListEmployees(
         data.map(e => {
           return GetEmployeeDto.constructFromObject(e);
@@ -96,7 +99,9 @@ const Employee = () => {
   useEffect(() => {
     GetEmployeeList();
   }, []);
+
   let style = { width: "30rem" };
+  
   return (
     <div className="container">
       <div className="row align-items-center">

@@ -5,22 +5,27 @@ import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import ListCars from "./CarList";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+
 const Cars = () => {
   const [MessageError, setMessageError] = React.useState("");
   const [listCars, setListCars] = React.useState([]);
   const [viewList, setViewList] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleToggle = () => {
     setOpen(!open);
   };
+
   async function GetCarList() {
     handleToggle();
     setViewList(false);
     new CarsApi().apiCarsWithoutClientCarGet(GetJwtToken(), CallbackRequest);
   }
+
   async function DeleteCar(e) {
     handleToggle();
     new CarsApi().apiCarsDelete(
@@ -55,6 +60,7 @@ const Cars = () => {
     }
     handleClose();
   }
+
   async function UpdateCar(e) {
     handleToggle();
     new CarsApi().updateStatusGet(
@@ -89,6 +95,7 @@ const Cars = () => {
     }
     handleClose();
   }
+  
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");

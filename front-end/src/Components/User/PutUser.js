@@ -1,5 +1,4 @@
-import React, { useEffect, useContext } from "react";
-import Context from "../../context";
+import React, { useEffect } from "react";
 import { UsersApi } from "../../api/UsersApi";
 import { Navigate } from "react-router-dom";
 import { getDate } from "../ViewLists/SupportFunction";
@@ -7,8 +6,8 @@ import ImgService from "../../Services/ImgServices/ImgService";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+
 const PutUser = () => {
-  const { user } = useContext(Context);
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
   const [surname, setSurname] = React.useState("");
@@ -22,24 +21,28 @@ const PutUser = () => {
   const [MessageError, setMessageError] = React.useState("");
   const [redirect, setredirect] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+
   const handleClose = () => {
     setOpen(false);
   };
+  
   const handleToggle = () => {
     setOpen(!open);
   };
+
   async function submitUser(event) {
-    handleToggle();
     event.preventDefault();
+    setMessageError("");
+    handleToggle();
     let url;
     if (imgNew.length !== 0) {
       if (!imgNew) {
-        setMessageError("Wrong file type!");
+        setMessageError("Error:Wrong file type!");
         handleClose();
         return;
       }
       if (img.type.split("/")[0] !== "image") {
-        setMessageError("Wrong file type!");
+        setMessageError("Error:Wrong file type!");
         handleClose();
         return;
       }
@@ -114,7 +117,9 @@ const PutUser = () => {
     setPhoneNumber(query.get("phoneNumber"));
     setImg(query.get("urlPhoto"));
   }, []);
+
   let style = { width: "30rem" };
+  
   return (
     <div className="  d-flex   justify-content-center w-20  align-items-center ">
       <div className="d-flex  justify-content-center  align-items-center ">
@@ -248,7 +253,7 @@ const PutUser = () => {
                       id="inputGroupFile01"
                     />
                     <label className="custom-file-label" for="inputGroupFile01">
-                      Choose file
+                      Choose file(200x200)
                     </label>
                   </div>
                   <label className="mt-2">

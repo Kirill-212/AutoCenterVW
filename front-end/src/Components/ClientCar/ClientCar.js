@@ -1,19 +1,33 @@
-import React, { useContext, useEffect } from "react";
-import { Car, CarsApi, ClientCarsApi } from "../../ImportExportGenClient";
+import React, { useEffect } from "react";
+import { CarsApi, ClientCarsApi } from "../../ImportExportGenClient";
 import ClientCarListView from "../../SetListView/ClientCarListView";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import ListClientCars from "./ClientCarList";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+
 const ClientCars = () => {
   const [MessageError, setMessageError] = React.useState("");
   const [listClientCars, setListClientCars] = React.useState([]);
   const [viewList, setViewList] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleToggle = () => {
+    setOpen(!open);
+  };
 
   async function GetClientCarList() {
+    handleToggle();
     setViewList(false);
     new ClientCarsApi().apiClientcarsGet(GetJwtToken(), CallbackRequest);
   }
+
   async function DeleteClientCar(e) {
-    console.log("email", e.currentTarget.value);
+    handleToggle();
     new CarsApi().apiCarsDelete(
       GetJwtToken(),
       { vin: e.currentTarget.value },
@@ -44,9 +58,11 @@ const ClientCars = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
+
   async function UpdateClientCar(e) {
-    console.log("email", e.currentTarget.value);
+    handleToggle();
     new CarsApi().updateStatusGet(
       GetJwtToken(),
       { vin: e.currentTarget.value },
@@ -77,7 +93,9 @@ const ClientCars = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
+
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -102,28 +120,39 @@ const ClientCars = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
 
   useEffect(() => {
     GetClientCarList();
   }, []);
 
+  let style = { width: "30rem" };
+
   return (
-    <div className="container-md">
+    <div className="container">
       <div className="row align-items-center">
-        <p className="text-reset text-white">
+        <p style={style} class="text-wrap  text-reset text-white">
+          <Backdrop
+            sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
+            open={open}
+            onClick={handleClose}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
           {MessageError}
         </p>
       </div>
-
-      <div className="row mt-5 pt-5 align-items-center">
-        {viewList &&
-          <ListClientCars
-            head={ClientCarListView()}
-            rows={listClientCars}
-            updateClientCar={UpdateClientCar}
-            deleteClientCar={DeleteClientCar}
-          />}
+      <div className="row align-items-center">
+        <div className="col-12 mt-5 pt-5  align-items-center">
+          {viewList &&
+            <ListClientCars
+              head={ClientCarListView()}
+              rows={listClientCars}
+              updateClientCar={UpdateClientCar}
+              deleteClientCar={DeleteClientCar}
+            />}
+        </div>
       </div>
     </div>
   );

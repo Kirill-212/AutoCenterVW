@@ -1,20 +1,24 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { CarEquipmentApi } from "../../ImportExportGenClient";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import DisplayDataCarEquipmentForm from "./DetailCarEquipmentForm";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+
 const CarEquipmentForm = () => {
   const [MessageError, setMessageError] = React.useState("");
   const [listCarEquipmentForm, setListCarEquipmentForm] = React.useState({});
   const [viewList, setViewList] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleToggle = () => {
     setOpen(!open);
   };
+
   async function GetCarEquipmentForm() {
     handleToggle();
     setViewList(false);
@@ -23,9 +27,10 @@ const CarEquipmentForm = () => {
       CallbackRequest
     );
   }
+
   async function DeleteCarEquipmentForm(e) {
-    handleToggle();
     e.preventDefault();
+    handleToggle();
     new CarEquipmentApi().apiCarequipmentsDelete(
       GetJwtToken(),
       { name: e.currentTarget.value },
@@ -89,7 +94,9 @@ const CarEquipmentForm = () => {
   useEffect(() => {
     GetCarEquipmentForm();
   }, []);
+
   let style = { width: "30rem" };
+
   return (
     <div className="container-md">
       <div style={style} class=" row text-wrap  text-reset text-white">

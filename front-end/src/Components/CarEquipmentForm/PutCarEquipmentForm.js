@@ -8,6 +8,7 @@ import {
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+
 const PutCarEquipmentForm = () => {
   const [name, setName] = React.useState("");
   const [nameNew, setNameNew] = React.useState("");
@@ -17,12 +18,15 @@ const PutCarEquipmentForm = () => {
   const [carEquipment, setCarEquipment] = React.useState([]);
   const [length, setLength] = React.useState(0);
   const [open, setOpen] = React.useState(false);
+
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleToggle = () => {
     setOpen(!open);
   };
+
   async function submitCarEquipment(event) {
     event.preventDefault();
     setMessageError("");
@@ -41,6 +45,7 @@ const PutCarEquipmentForm = () => {
       CallbackRequestPut
     );
   }
+
   function CallbackRequestPut(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -76,6 +81,7 @@ const PutCarEquipmentForm = () => {
       CallbackRequest
     );
   }
+
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -95,7 +101,6 @@ const PutCarEquipmentForm = () => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
-      // console.log(response.body);
       setLength(response.body.equipmentItems.length);
       setName(response.body.name);
       setCarEquipment(
@@ -121,9 +126,7 @@ const PutCarEquipmentForm = () => {
   function renderInput() {
     let imgs = carEquipment;
     let rows = [];
-    console.log(imgs);
     for (let i = 0; i < imgs.length; i++) {
-      console.log(imgs[i]);
       if (
         imgs[i].value !== undefined &&
         imgs[i].cost !== undefined &&
@@ -214,11 +217,14 @@ const PutCarEquipmentForm = () => {
     }
     console.log(carEquipment);
   }
+
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     GetCarEquipmentItemByName(query.get("name"));
   }, []);
+
   let style = { width: "30rem" };
+
   return (
     <div className="d-flex   justify-content-center align-items-center ">
       <div className="p-4  bg-dark text-white w-40">

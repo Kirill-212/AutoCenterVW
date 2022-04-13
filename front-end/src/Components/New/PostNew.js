@@ -15,33 +15,33 @@ import CircularProgress from "@mui/material/CircularProgress";
 const PostNew = () => {
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
-  const [email, setEmail] = React.useState("");
   const [imgs, setImgs] = React.useState([]);
   const [MessageError, setMessageError] = React.useState("");
   const [redirect, setRedirect] = React.useState(false);
   const { user } = useContext(Context);
-
   const [open, setOpen] = React.useState(false);
+
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleToggle = () => {
     setOpen(!open);
   };
+
   async function submitNew(event) {
     event.preventDefault();
     handleToggle();
     setMessageError("");
     let urls = [];
     for (let i = 0; i < imgs.length; i++) {
-      console.log("New", imgs[i]);
       if (!imgs[i]) {
-        setMessageError("Wrong file type!");
+        setMessageError("Error:Wrong file type!");
         handleClose();
         return;
       }
       if (imgs[i].type.split("/")[0] !== "image") {
-        setMessageError("Wrong file type!");
+        setMessageError("Error:Wrong file type!");
         handleClose();
         return;
       }
@@ -61,6 +61,11 @@ const PostNew = () => {
 
       urls.push(new ImgDto(url.url));
     }
+    if (user === undefined) {
+      setMessageError("Unauthorized");
+      handleClose();
+      return;
+    }
     new NewApi().apiNewsPost(
       GetJwtToken(),
       {
@@ -69,10 +74,11 @@ const PostNew = () => {
           urls
         )
       },
-      CallbackRequestPut
+      CallbackRequest
     );
   }
-  function CallbackRequestPut(error, data, response) {
+  
+  function CallbackRequest(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
@@ -97,6 +103,7 @@ const PostNew = () => {
     }
     handleClose();
   }
+  
   let style = { width: "30rem" };
 
   return (

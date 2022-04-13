@@ -1,9 +1,12 @@
 import React, { useContext, useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import { CarsApi, OrdersApi, PostOrderDto } from "../../ImportExportGenClient";
+import { OrdersApi } from "../../ImportExportGenClient";
 import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import { UpdateStateOrderForPaidDto } from "../../model/UpdateStateOrderForPaidDto";
+
 const UpdateOrderBuyer = () => {
   const { user } = useContext(Context);
   const [vin, setVin] = React.useState("");
@@ -15,26 +18,46 @@ const UpdateOrderBuyer = () => {
   const [year, setYear] = React.useState(0);
   const [cvc, setCVC] = React.useState(0);
   const [cardNumber, setCardNumber] = React.useState("");
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleToggle = () => {
+    setOpen(!open);
+  };
 
   async function submit(e) {
     e.preventDefault();
-    console.log(new Date().getFullYear() % 100, cvc.length);
+    handleToggle();
+    setMessageError("");
     if (cardNumber.length !== 16) {
       setMessageError(
         "Error: Card number is not valid.Valid is Visa Electron or Maestro"
       );
+      handleClose();
       return;
     } else if (cardOwnerName.length === 0) {
       setMessageError("Error: Card owner is not valid value.");
+      handleClose();
       return;
     } else if (month < 0 || month > 12) {
       setMessageError("Error: Month is not valid value.");
+      handleClose();
       return;
     } else if (year < new Date().getFullYear() % 100 || year > 100) {
       setMessageError("Error: Year is not valid value.");
+      handleClose();
       return;
     } else if (cvc.length !== 3) {
       setMessageError("Error: CVC is not valid value.");
+      handleClose();
+      return;
+    }
+    if (user === undefined) {
+      setMessageError("Unauthorized");
+      handleClose();
       return;
     }
     new OrdersApi().apiOrdersPaidPut(
@@ -78,24 +101,26 @@ const UpdateOrderBuyer = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
 
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     setVin(query.get("vin"));
     setTotalCost(query.get("totalCost"));
-    console.log(query.get("totalCost"));
   }, []);
+
   let style = { width: "30rem" };
+
   return (
     <div className="d-flex   justify-content-center  align-items-center ">
-      <div className="     bg-dark text-white   ">
+      <div className="  w-25   bg-dark text-white   ">
         <div className="row mt-5">
           <h1 className="d-flex   justify-content-center align-items-center ">
             Buy car
           </h1>
         </div>
-        <div className="container w-50 mt-5 pt-5">
+        <div className="container  mt-5 pt-5">
           <form onSubmit={submit}>
             <div className="row">
               <div className="col mb-2 ">
@@ -109,7 +134,6 @@ const UpdateOrderBuyer = () => {
                   disabled
                 />
               </div>
-
               <div className="col mb-2 ">
                 <label>Total cost($):</label>
                 <input
@@ -193,6 +217,13 @@ const UpdateOrderBuyer = () => {
 
         <div>
           {redirect && <Navigate to={"/home"} />}
+          <Backdrop
+            sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
+            open={open}
+            onClick={handleClose}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
           <div style={style} class="text-wrap  text-reset text-white">
             {MessageError}
           </div>

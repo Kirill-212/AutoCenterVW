@@ -4,6 +4,7 @@ import { GetPagedNewDto } from "../../model/GetPagedNewDto";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import { getDate } from "../ViewLists/SupportFunction";
 import Context from "../../context";
+
 export default function EnhancedTable(props) {
   const { user } = useContext(Context);
   const [listNew, setListNew] = React.useState([]);
@@ -15,7 +16,6 @@ export default function EnhancedTable(props) {
   const [flag, setFlag] = React.useState(true);
 
   async function DeleteNew(e) {
-    console.log("email", e.currentTarget.value);
     new NewApi().apiNewsDelete(
       GetJwtToken(),
       { title: e.currentTarget.value },
@@ -48,6 +48,7 @@ export default function EnhancedTable(props) {
     }
     setBlockFlag(true);
   }
+
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -88,6 +89,7 @@ export default function EnhancedTable(props) {
     setBlockFlag(false);
     setLoad(false);
   }
+  
   function CallbackRequestBlock(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -127,8 +129,9 @@ export default function EnhancedTable(props) {
 
   useEffect(
     () => {
-      console.log("load", currentPages, totalPages, load);
-      if (load && (flag || (!flag && currentPages <= totalPages))) {
+      if (user === undefined) {
+        setMessageError("Unauthorized");
+      } else if (load && (flag || (!flag && currentPages <= totalPages))) {
         new NewApi().apiNewsPagedGet(
           GetJwtToken(),
           {
@@ -171,13 +174,13 @@ export default function EnhancedTable(props) {
     }
   };
   let style = { width: "30rem" };
+
   return (
     <div className="container">
       <p style={style} class="text-wrap  text-reset text-white">
         {MessageError}
       </p>
       {listNew.map(e => {
-        // console.log(e);
         let flag = true;
         return (
           <div class="card mt-5 mb-5 text-white bg-black">
@@ -199,10 +202,12 @@ export default function EnhancedTable(props) {
                       value={e.title}
                       onClick={DeleteNew}
                     >
-                      <i class="fas fa-trash" />
+                      <i class="fa-solid fa-trash" />
                     </button>
                   </div>}
-                {JSON.parse(user).roleName !== "ADMIN" && <div class="col " />}
+                {(JSON.parse(user).roleName === "ADMIN" ||
+                  JSON.parse(user).roleName === "EMPLOYEE") &&
+                  <div class="col " />}
                 <div className="col text-center">
                   <h2>
                     {e.title}

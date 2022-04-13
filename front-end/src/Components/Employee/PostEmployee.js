@@ -1,5 +1,4 @@
-import React, { useEffect, useContext } from "react";
-import Context from "../../context";
+import React, { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { EmployeesApi } from "../../api/EmployeesApi";
 import { Role } from "../../model/Role";
@@ -9,8 +8,8 @@ import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import { GetUserDto } from "../../model/GetUserDto";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+
 const PostEmployee = () => {
-  const { user } = useContext(Context);
   const [address, setAddress] = React.useState("");
   const [role, setRole] = React.useState("");
   const [email, setEmail] = React.useState("");
@@ -20,15 +19,18 @@ const PostEmployee = () => {
   const [emailList, setEmailList] = React.useState([]);
   const [flag, setFlag] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleToggle = () => {
     setOpen(!open);
   };
+
   async function submitEmployee(event) {
-    handleToggle();
     event.preventDefault();
+    handleToggle();
     setMessageError("");
     new EmployeesApi().apiEmployeesPost(
       GetJwtToken(),
@@ -70,15 +72,18 @@ const PostEmployee = () => {
   }
 
   async function GetRoleList() {
+    handleToggle();
     new RolesApi().apiRolesGetWithoutUser(GetJwtToken(), CallbackRequest);
   }
 
   async function GetUsersList() {
+    handleToggle();
     new UsersApi().apiUsersNotAddedToEmployeeGet(
       GetJwtToken(),
       CallbackRequest
     );
   }
+
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -98,7 +103,6 @@ const PostEmployee = () => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
-      console.log(data);
       if (data[0] instanceof Role) {
         setRoleList(
           data.map(e => {
@@ -116,15 +120,14 @@ const PostEmployee = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
 
   let style = { width: "30rem" };
 
   useEffect(() => {
-    handleToggle();
     GetRoleList();
     GetUsersList();
-    handleClose();
   }, []);
 
   return (
@@ -147,7 +150,6 @@ const PostEmployee = () => {
                 placeholder="Enter your address..."
                 required
               />
-              
             </div>
             <div className="form-group mb-2 ">
               <label>Role:</label>

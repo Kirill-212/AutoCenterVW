@@ -7,18 +7,21 @@ import UserItem from "./ListUsers";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import Context from "../../context";
+
 const User = () => {
   const { user } = useContext(Context);
   const [MessageError, setMessageError] = React.useState("");
   const [listUsers, setListUsers] = React.useState([]);
   const [viewList, setViewList] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+
   const handleClose = () => {
     setOpen(false);
   };
   const handleToggle = () => {
     setOpen(!open);
   };
+
   async function GetUsersList() {
     handleToggle();
     setViewList(false);
@@ -101,7 +104,9 @@ const User = () => {
   useEffect(() => {
     GetUsersList();
   }, []);
+
   let style = { width: "30rem" };
+
   return (
     <div className="container">
       <div className="row align-items-center">

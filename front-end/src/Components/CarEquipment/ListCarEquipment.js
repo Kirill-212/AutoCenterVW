@@ -1,4 +1,3 @@
-import { styled } from "@mui/material/styles";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -26,10 +25,11 @@ export default function CustomizedAccordions(props) {
       requestSearch(e);
     }
   };
+  
   return (
     <div>
       <div className="row mt-2  bg-white text-white">
-        <div className="input-group rounded w-25">
+        <div className="input-group rounded w-25 pt-2">
           <input
             type="search"
             className="form-control rounded"

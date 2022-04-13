@@ -7,6 +7,7 @@ import ImgService from "../../Services/ImgServices/ImgService";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+
 const PutUser = () => {
   const { user } = useContext(Context);
   const [firstName, setFirstName] = React.useState("");
@@ -22,24 +23,28 @@ const PutUser = () => {
   const [MessageError, setMessageError] = React.useState("");
   const [redirect, setredirect] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+
   const handleClose = () => {
     setOpen(false);
   };
+  
   const handleToggle = () => {
     setOpen(!open);
   };
+
   async function submitUser(event) {
-    handleToggle();
     event.preventDefault();
+    handleToggle();
+    setMessageError("");
     let url;
     if (imgNew.length !== 0) {
       if (!imgNew) {
-        setMessageError("Wrong file type!");
+        setMessageError("Error:Wrong file type!");
         handleClose();
         return;
       }
       if (img.type.split("/")[0] !== "image") {
-        setMessageError("Wrong file type!");
+        setMessageError("Error:Wrong file type!");
         handleClose();
         return;
       }
@@ -105,6 +110,11 @@ const PutUser = () => {
   }
 
   async function Get() {
+    if (user === undefined) {
+      setMessageError("Unauthorized");
+      handleClose();
+      return;
+    }
     handleToggle();
     new UsersApi().apiUsersByEmailGet(
       GetJwtToken(),
@@ -146,10 +156,13 @@ const PutUser = () => {
     }
     handleClose();
   }
+
   useEffect(() => {
     Get();
   }, []);
+
   let style = { width: "30rem" };
+  
   return (
     <div className="  d-flex   justify-content-center w-20  align-items-center ">
       <div className="d-flex  justify-content-center  align-items-center ">
@@ -283,7 +296,7 @@ const PutUser = () => {
                       id="inputGroupFile01"
                     />
                     <label className="custom-file-label" for="inputGroupFile01">
-                      Choose file
+                      Choose file(200x200)
                     </label>
                   </div>
                   <label className="mt-2">

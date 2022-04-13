@@ -19,6 +19,7 @@ export default function EnhancedTable(props) {
   const [orderBy, setOrderBy] = React.useState("calories");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
   const requestSearch = searchedVal => {
     const filteredRows = rows.filter(row => {
       return row.vin.toLowerCase().includes(searchedVal.toLowerCase());
@@ -33,6 +34,7 @@ export default function EnhancedTable(props) {
       requestSearch(e);
     }
   };
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -50,9 +52,9 @@ export default function EnhancedTable(props) {
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-  console.log(rows);
+
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
+    <Paper sx={{ width: "100%", overflow: "hidden" }} className="p-2">
       <div className="row mt-2 ml-2">
         <div className="input-group rounded w-25">
           <input
@@ -101,7 +103,6 @@ export default function EnhancedTable(props) {
                         scope="row"
                         padding="2"
                         
-                        className="text-center"
                       >
                         {row.vin}
                       </TableCell>

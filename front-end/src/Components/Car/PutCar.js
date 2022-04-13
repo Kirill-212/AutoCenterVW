@@ -11,6 +11,7 @@ import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import { getDate } from "../ViewLists/SupportFunction";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+
 const PutCar = () => {
   const [nameCarEquipment, setNameCarEquipment] = React.useState("");
   const [cost, setCost] = React.useState(0);
@@ -28,17 +29,21 @@ const PutCar = () => {
   const fileInput = React.useRef(null);
   let checkCarEquipment = "";
   const [open, setOpen] = React.useState(false);
+
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleToggle = () => {
     setOpen(!open);
   };
+
   async function GetCarByVin(vin) {
     handleToggle();
     setMessageError("");
     new CarsApi().apiCarsByVinGet(GetJwtToken(), { vin: vin }, CallbackRequest);
   }
+
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -75,7 +80,9 @@ const PutCar = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
+
   function CallbackRequestGet(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -108,6 +115,7 @@ const PutCar = () => {
     }
     handleClose();
   }
+
   async function GetCarEquipment() {
     setMessageError("");
     handleToggle();
@@ -118,8 +126,9 @@ const PutCar = () => {
   }
 
   async function submitCar(event) {
-    handleToggle();
     event.preventDefault();
+    handleToggle();
+    setMessageError("");
     let urls = [];
     for (let i = 0; i < imgsCar.length; i++) {
       if (imgsCar[i].name !== undefined) {
@@ -162,6 +171,7 @@ const PutCar = () => {
       CallbackRequestPut
     );
   }
+
   function CallbackRequestPut(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -221,11 +231,13 @@ const PutCar = () => {
 
   function AddImgs(value, i) {
     if (!value) {
-      setMessageError("Wrong file type!Input number:" + i);
+      setMessageError("Error:Wrong file type!Input number:" + i);
       return;
     }
     if (value.type.split("/")[0] !== "image") {
-      setMessageError("Wrong file type!File name:" + value.name + "|Line:" + i);
+      setMessageError(
+        "Error:Wrong file type!File name:" + value.name + "|Line:" + i
+      );
     } else {
       imgsCar[i] = value;
     }
@@ -254,13 +266,13 @@ const PutCar = () => {
                   id="inputGroupFile01"
                 />
                 <label className="custom-file-label" for="inputGroupFile01">
-                  Choose file
+                  Choose file(800x600)
                 </label>
               </div>
             </div>}
           {imgs[i].url !== undefined &&
             <div className="form-group mb-3">
-              <label>Car image(800x600):</label>
+              <label>Car image:</label>
               <div className="custom-file">
                 <input
                   type="file"
@@ -271,7 +283,7 @@ const PutCar = () => {
                   id="inputGroupFile01"
                 />
                 <label className="custom-file-label" for="inputGroupFile01">
-                  Choose file
+                  Choose file(800x600)
                 </label>
               </div>
               <div className=" mt-2 ">
@@ -283,7 +295,9 @@ const PutCar = () => {
     }
     return rows;
   }
+
   let style = { width: "30rem" };
+
   return (
     <div className="d-flex   justify-content-center w-40 align-items-center ">
       <div className="p-4 w-50 bg-dark text-white h-100">

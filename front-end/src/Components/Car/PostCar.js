@@ -24,12 +24,15 @@ const PostCar = () => {
   const [flag, setFlag] = React.useState(false);
   const [imgs, setImgs] = React.useState([]);
   const [open, setOpen] = React.useState(false);
+
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleToggle = () => {
     setOpen(!open);
   };
+
   async function GetCarEquipment() {
     handleToggle();
     setMessageError("");
@@ -38,6 +41,7 @@ const PostCar = () => {
       CallbackRequest
     );
   }
+
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -65,13 +69,13 @@ const PostCar = () => {
     }
     handleClose();
   }
+
   async function submitCar(event) {
-    handleToggle();
     event.preventDefault();
+    handleToggle();
     setMessageError("");
     let urls = [];
     for (let i = 0; i < imgs.length; i++) {
-      console.log("New", imgs[i]);
       if (!imgs[i]) {
         setMessageError("Wrong file type!");
         handleClose();
@@ -114,6 +118,7 @@ const PostCar = () => {
       CallbackRequestPost
     );
   }
+  
   function CallbackRequestPost(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -143,6 +148,7 @@ const PostCar = () => {
   useEffect(() => {
     GetCarEquipment();
   }, []);
+  
   let style = { width: "30rem" };
 
   return (

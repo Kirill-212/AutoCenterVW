@@ -6,15 +6,48 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
-
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 import { getDate } from "../ViewLists/SupportFunction";
+
 const UserListOrder = props => {
   const { user } = useContext(Context);
   const [MessageError, setMessageError] = React.useState("");
   const [listTestDrive, setListTestDrive] = React.useState([]);
   const [viewList, setViewList] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleToggle = () => {
+    setOpen(!open);
+  };
+
+  const requestSearch = searchedVal => {
+    const filteredRows = listTestDrive.filter(row => {
+      return row.car.vin.toLowerCase().includes(searchedVal.toLowerCase());
+    });
+    setListTestDrive(filteredRows);
+  };
+
+  const search = e => {
+    if (e.length === 0) {
+      GetTestDriveList();
+    } else {
+      requestSearch(e);
+    }
+  };
+
   async function GetTestDriveList() {
     setViewList(false);
+    handleToggle();
+    if (user === undefined) {
+      setMessageError("Unauthorized");
+      handleClose();
+      return;
+    }
     new TestDrivesApi().apiTestdrivesUserGet(
       GetJwtToken(),
       { email: JSON.parse(user).email },
@@ -41,26 +74,18 @@ const UserListOrder = props => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
-      console.log(response.body);
       setListTestDrive(response.body);
       setViewList(true);
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
 
   function UpdateState(value, e) {
-    console.log(value, e);
     let valueTestDrive = JSON.parse(value);
-    console.log({
-      body: new TestDriveDto(
-        valueTestDrive.dateStart,
-        valueTestDrive.time,
-        valueTestDrive.email,
-        valueTestDrive.vin
-      )
-    });
     if (valueTestDrive.state === "CANCEL") {
+      handleToggle();
       new TestDrivesApi().apiTestdrivesCancelPut(
         GetJwtToken(),
         {
@@ -99,6 +124,7 @@ const UserListOrder = props => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
 
   function CheckState(value) {
@@ -110,18 +136,42 @@ const UserListOrder = props => {
       return "CANCEL";
     }
   }
+
   useEffect(() => {
     GetTestDriveList();
   }, []);
+
+  let style = { width: "30rem" };
+  
   return (
     <div className="container-md">
-      <div className="row align-items-center">
-        <p className="text-reset text-white">
-          {MessageError}
-        </p>
+      <div style={style} class=" row text-wrap  text-reset text-white">
+        <Backdrop
+          sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
+          open={open}
+          onClick={handleClose}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+        {MessageError}
       </div>
 
       <div className="row mt-5 pt-5 align-items-center">
+        <div className="row mt-2  ">
+          <div className="input-group rounded w-25">
+            <input
+              type="search"
+              className="form-control rounded"
+              placeholder="Search"
+              aria-label="Search"
+              aria-describedby="search-addon"
+              onChange={e => search(e.target.value)}
+            />
+            <span className="input-group-text border-0" id="search-addon">
+              <i className="fas fa-search" />
+            </span>
+          </div>
+        </div>
         {viewList &&
           listTestDrive.map(r => {
             console.log("r", r);
@@ -211,14 +261,15 @@ const UserListOrder = props => {
                               {getDate(r.car.dateOfRealeseCar)}
                             </div>
                           </div>
-                          <div className="row d-flex flex-column">
-                            <div className="col text-center">
-                              <h4>Options </h4>
-                            </div>
-                          </div>
-                          <div className="row ">
-                            <div className="col">
-                              {CheckState(r.stateTestDrive) === "PENDING" &&
+                          {CheckState(r.stateTestDrive) === "PENDING" &&
+                            <div className="row d-flex flex-column">
+                              <div className="col text-center">
+                                <h4>Options </h4>
+                              </div>
+                            </div>}
+                          {CheckState(r.stateTestDrive) === "PENDING" &&
+                            <div className="row ">
+                              <div className="col">
                                 <button
                                   class="btn btn-primary-sm btn-sm ml-1"
                                   onClick={e =>
@@ -235,9 +286,9 @@ const UserListOrder = props => {
                                   type="button"
                                 >
                                   <i class="fa-solid fa-ban" />
-                                </button>}
-                            </div>
-                          </div>
+                                </button>
+                              </div>
+                            </div>}
                         </div>
                       </div>
                     </Typography>
@@ -329,14 +380,15 @@ const UserListOrder = props => {
                             {getDate(r.car.dateOfRealeseCar)}
                           </div>
                         </div>
-                        <div className="row d-flex flex-column">
-                          <div className="col text-center">
-                            <h4>Options </h4>
-                          </div>
-                        </div>
-                        <div className="row ">
-                          <div className="col">
-                            {CheckState(r.stateTestDrive) === "PENDING" &&
+                        {CheckState(r.stateTestDrive) === "PENDING" &&
+                          <div className="row d-flex flex-column">
+                            <div className="col text-center">
+                              <h4>Options </h4>
+                            </div>
+                          </div>}
+                        {CheckState(r.stateTestDrive) === "PENDING" &&
+                          <div className="row ">
+                            <div className="col">
                               <button
                                 class="btn btn-primary-sm btn-sm ml-1"
                                 onClick={e =>
@@ -353,9 +405,9 @@ const UserListOrder = props => {
                                 type="button"
                               >
                                 <i class="fa-solid fa-ban" />
-                              </button>}
-                          </div>
-                        </div>
+                              </button>
+                            </div>
+                          </div>}
                       </div>
                     </div>
                   </Typography>

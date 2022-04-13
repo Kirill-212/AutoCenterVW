@@ -5,6 +5,7 @@ import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import { GetCarDto } from "../../model/GetCarDto";
 import { getDate } from "../ViewLists/SupportFunction";
 import Context from "../../context";
+
 export default function EnhancedTable(props) {
   const { user } = useContext(Context);
   const [list, setList] = React.useState([]);
@@ -16,8 +17,6 @@ export default function EnhancedTable(props) {
   const [flag, setFlag] = React.useState(true);
 
   async function UpdateCar(e) {
-    console.log("block fl", blockFlag);
-    console.log("email", e.currentTarget.value);
     new CarsApi().updateStatusGet(
       GetJwtToken(),
       { vin: e.currentTarget.value },
@@ -78,7 +77,6 @@ export default function EnhancedTable(props) {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
-      console.log("non block ", response.body);
       let rs = GetPagedCarDto.constructFromObject(response.body);
       setCurrentPages(rs.currentPage + 1);
       setTotalPages(rs.totalPages);
@@ -119,7 +117,6 @@ export default function EnhancedTable(props) {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
-      console.log("block", response.body);
       let rs = GetPagedCarDto.constructFromObject(response.body);
       setCurrentPages(rs.currentPage + 1);
       setTotalPages(rs.totalPages);
@@ -140,13 +137,9 @@ export default function EnhancedTable(props) {
 
   useEffect(
     () => {
-      console.log("load block flag", blockFlag);
-      if (load && (flag || (!flag && currentPages <= totalPages))) {
-        console.log({
-          pageNumber: currentPages,
-          pageSize: 3,
-          email: JSON.parse(user).email
-        });
+      if (user === undefined) {
+        setMessageError("Unauthorized");
+      } else if (load && (flag || (!flag && currentPages <= totalPages))) {
         new CarsApi().emailPagedGet(
           GetJwtToken(),
           {
@@ -158,11 +151,6 @@ export default function EnhancedTable(props) {
         );
         setFlag(false);
       } else if (blockFlag) {
-        console.log({
-          pageNumber: 1,
-          pageSize: 3,
-          email: JSON.parse(user).email
-        });
         new CarsApi().emailPagedGet(
           GetJwtToken(),
           {
@@ -195,15 +183,14 @@ export default function EnhancedTable(props) {
       setLoad(true);
     }
   };
-
+  let style = { width: "30rem" };
   return (
     <div className="container ">
-      <p className="text-reset text-center text-white">
+      <p style={style} class="text-wrap  text-reset text-white">
         {MessageError}
       </p>
       <div className="row align-items-center d-flex flex-column">
         {list.map(e => {
-          console.log(e);
           return (
             <div className="col  w-50 text-center">
               <div class="card mt-5 mb-5 text-white bg-black">

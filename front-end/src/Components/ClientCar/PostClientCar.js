@@ -10,6 +10,8 @@ import {
 import ImgService from "../../Services/ImgServices/ImgService";
 import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const PostClientCar = () => {
   const { user } = useContext(Context);
@@ -25,14 +27,25 @@ const PostClientCar = () => {
   const [registerNumber, setRegisterNumber] = React.useState("");
   const [flag, setFlag] = React.useState(false);
   const [imgs, setImgs] = React.useState([]);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleToggle = () => {
+    setOpen(!open);
+  };
 
   async function GetCarEquipment() {
     setMessageError("");
+    handleToggle();
     new CarEquipmentApi().apiCarequipmentsEquipmentGet(
       GetJwtToken(),
       CallbackRequest
     );
   }
+
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -52,40 +65,51 @@ const PostClientCar = () => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
-      console.log(response.body);
       setCarEquipmentList(response.body);
       setFlag(true);
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
+
   async function submitCar(event) {
     event.preventDefault();
+    handleToggle();
     setMessageError("");
     let urls = [];
     for (let i = 0; i < imgs.length; i++) {
-      console.log("New", imgs[i]);
       if (!imgs[i]) {
-        setMessageError("Wrong file type!");
+        setMessageError("Error:Wrong file type!");
+        handleClose();
         return;
       }
       if (imgs[i].type.split("/")[0] !== "image") {
-        setMessageError("Wrong file type!");
+        setMessageError("Error:Wrong file type!");
+        handleClose();
         return;
       }
       let url = await ImgService.uploadImage(imgs[i]);
       if (url == undefined) {
         setMessageError("Error:upload img is not valid.");
+        handleClose();
         return;
       }
       if (url.height !== 600 || url.width !== 800) {
         setMessageError(
           "Error:size is valid 800x600:File name:" + imgs[i].name
         );
+        handleClose();
         return;
       }
 
       urls.push(new ImgDto(url.url));
+    }
+
+    if (user === undefined) {
+      setMessageError("Unauthorized");
+      handleClose();
+      return;
     }
     new ClientCarsApi().apiClientcarsPost(
       GetJwtToken(),
@@ -107,6 +131,7 @@ const PostClientCar = () => {
       CallbackRequestPost
     );
   }
+
   function CallbackRequestPost(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -130,21 +155,24 @@ const PostClientCar = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
 
   useEffect(() => {
     GetCarEquipment();
   }, []);
+
   let style = { width: "30rem" };
+
   return (
-    <div className="d-flex   justify-content-center w-30 h-100 align-items-center ">
+    <div className="d-flex   justify-content-center w-30  align-items-center ">
       <div className=" p-4   bg-dark text-white h-100 ">
         <div className="row mt-5">
           <h1 className="d-flex   justify-content-center align-items-center ">
             Post client car
           </h1>
         </div>
-        <div className="container mt-5 pt-5">
+        <div className="container w-75 mt-5 pt-2">
           <form onSubmit={submitCar}>
             <div className="row">
               <div className="col mb-2 ">
@@ -205,14 +233,17 @@ const PostClientCar = () => {
               />
             </div>
             <div className="form-group mb-2 ">
-              <label>RegisterNumber:</label>
+              <label>Register number:</label>
               <input
                 className="w-100 shadow-lg  bg-white rounded"
                 onChange={e => setRegisterNumber(e.target.value)}
                 name="registerNumber"
                 type="text"
-                placeholder="If you don't want to add register number, leave the field blank...."
               />
+              <small class="form-text text-muted">
+                If you don't want to add register number, leave the field blank.
+                Use English letter.
+              </small>
             </div>
             <div className="form-group mb-2 ">
               <label>Car equipment:</label>
@@ -235,7 +266,7 @@ const PostClientCar = () => {
               </select>
             </div>
             <div className="form-group mb-3">
-              <label>Car images(800x600):</label>
+              <label>Car images:</label>
               <div className="custom-file">
                 <input
                   type="file"
@@ -247,7 +278,7 @@ const PostClientCar = () => {
                   required
                 />
                 <label className="custom-file-label" for="inputGroupFile01">
-                  Choose file/files
+                  Choose file/files(800x600)
                 </label>
               </div>
             </div>
@@ -265,6 +296,13 @@ const PostClientCar = () => {
         </div>
 
         <div>
+          <Backdrop
+            sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
+            open={open}
+            onClick={handleClose}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
           {redirect && <Navigate to={"/home"} />}
           <div style={style} class="text-wrap  text-reset text-white">
             {MessageError}

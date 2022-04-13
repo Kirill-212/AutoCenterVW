@@ -1,8 +1,10 @@
 import React, { useContext, useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import { CarsApi, OrdersApi, PostOrderDto } from "../../ImportExportGenClient";
+import { OrdersApi, PostOrderDto } from "../../ImportExportGenClient";
 import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const PostOrder = () => {
   const { user } = useContext(Context);
@@ -10,21 +12,27 @@ const PostOrder = () => {
   const [emailOwner, setEmailOwner] = React.useState("");
   const [MessageError, setMessageError] = React.useState("");
   const [redirect, setRedirect] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleToggle = () => {
+    setOpen(!open);
+  };
 
   const [flag, setFlag] = React.useState("0");
 
   async function submit(e) {
     e.preventDefault();
-    console.log(e.target.value);
-    console.log({
-      body: new PostOrderDto(
-        emailOwner,
-        JSON.parse(user).email,
-        flag === "1" ? true : false,
-        vin
-      )
-    });
-
+    setMessageError("");
+    handleToggle();
+    if (user === undefined) {
+      setMessageError("Unauthorized");
+      handleClose();
+      return;
+    }
     new OrdersApi().apiOrdersPost(
       GetJwtToken(),
       {
@@ -62,18 +70,23 @@ const PostOrder = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
+
   function SetValueChangeRegisterNumber(event) {
     setFlag(event.target.value);
   }
+  
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     setVin(query.get("vin"));
     setEmailOwner(query.get("emailOwner"));
   }, []);
+
   let style = { width: "30rem" };
+
   return (
-    <div className="d-flex   justify-content-center w-30 h-100 align-items-center ">
+    <div className="d-flex   justify-content-center w-30 align-items-center ">
       <div className=" p-4   bg-dark text-white h-100 ">
         <div className="row mt-5">
           <h1 className="d-flex   justify-content-center align-items-center ">
@@ -141,6 +154,13 @@ const PostOrder = () => {
 
         <div>
           {redirect && <Navigate to={"/home"} />}
+          <Backdrop
+            sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
+            open={open}
+            onClick={handleClose}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
           <div style={style} class="text-wrap  text-reset text-white">
             {MessageError}
           </div>

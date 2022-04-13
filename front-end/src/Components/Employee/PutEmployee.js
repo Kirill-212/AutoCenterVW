@@ -1,5 +1,4 @@
-import React, { useEffect, useContext } from "react";
-import Context from "../../context";
+import React, { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { EmployeesApi } from "../../api/EmployeesApi";
 import { Role } from "../../model/Role";
@@ -7,8 +6,8 @@ import { RolesApi } from "../../api/RolesApi";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
+
 const PutEmployee = () => {
-  const { user } = useContext(Context);
   const [address, setAddress] = React.useState("");
   const [role, setRole] = React.useState("");
   const [email, setEmail] = React.useState("");
@@ -17,12 +16,15 @@ const PutEmployee = () => {
   const [roleList, setRoleList] = React.useState([]);
   const [flag, setFlag] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+
   const handleClose = () => {
     setOpen(false);
   };
+  
   const handleToggle = () => {
     setOpen(!open);
   };
+
   async function submitEmployee(event) {
     event.preventDefault();
     handleToggle();
@@ -67,8 +69,10 @@ const PutEmployee = () => {
   }
 
   async function GetRoleList() {
+    handleToggle();
     new RolesApi().apiRolesGetWithoutUser(GetJwtToken(), CallbackRequest);
   }
+
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -97,18 +101,19 @@ const PutEmployee = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
 
   useEffect(() => {
-    handleToggle();
     GetRoleList();
     const query = new URLSearchParams(window.location.search);
     setEmail(query.get("email"));
     setAddress(query.get("address"));
     setRole(query.get("roleName"));
-    handleClose();
   }, []);
+
   let style = { width: "30rem" };
+
   return (
     <div className="d-flex   justify-content-center w-40  align-items-center ">
       <div className=" p-4   bg-dark text-white h-100 ">

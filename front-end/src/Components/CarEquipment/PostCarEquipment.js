@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import {
   CarEquipmentApi,
@@ -6,12 +6,11 @@ import {
   CarEquipmentFormItemDto,
   ValueCarEquipmentDto
 } from "../../ImportExportGenClient";
-import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+
 const PostCarEquipment = () => {
-  const { user } = useContext(Context);
   const [name, setName] = React.useState("");
   const [MessageError, setMessageError] = React.useState("");
   const [redirect, setRedirect] = React.useState(false);
@@ -20,12 +19,15 @@ const PostCarEquipment = () => {
   const [key, setKey] = React.useState([]);
   const [carEquipment, setCarEquipment] = React.useState([]);
   const [open, setOpen] = React.useState(false);
+
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleToggle = () => {
     setOpen(!open);
   };
+
   async function GetFormCarEquipment() {
     handleToggle();
     setMessageError("");
@@ -34,6 +36,7 @@ const PostCarEquipment = () => {
       CallbackRequest
     );
   }
+
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -132,6 +135,7 @@ const PostCarEquipment = () => {
       CallbackRequestPost
     );
   }
+
   function CallbackRequestPost(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -157,6 +161,7 @@ const PostCarEquipment = () => {
     }
     handleClose();
   }
+
   function onChangeValue(event) {
     let valuePush = JSON.parse(event.target.value);
     let arr = carEquipment.map(r => {
@@ -171,13 +176,14 @@ const PostCarEquipment = () => {
         }
       }
     }
-    console.log(carEquipment);
   }
 
   useEffect(() => {
     GetFormCarEquipment();
   }, []);
+
   let style = { width: "30rem" };
+
   return (
     <div className="d-flex   justify-content-center w-40  align-items-center ">
       <div className="p-4  bg-dark text-white h-100">

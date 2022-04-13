@@ -5,18 +5,22 @@ import ListCarEquipments from "./ListCarEquipment";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import Context from "../../context";
+
 const CarEquipments = () => {
   const { user } = useContext(Context);
   const [MessageError, setMessageError] = React.useState("");
   const [listCarEquipments, setListCarEquipments] = React.useState([]);
   const [viewList, setViewList] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleToggle = () => {
     setOpen(!open);
   };
+
   async function GetCarEquipmentsList() {
     setViewList(false);
     handleToggle();
@@ -25,6 +29,7 @@ const CarEquipments = () => {
       CallbackRequest
     );
   }
+  
   async function DeleteCarEquipments(e) {
     e.preventDefault();
     handleToggle();
@@ -91,7 +96,9 @@ const CarEquipments = () => {
   useEffect(() => {
     GetCarEquipmentsList();
   }, []);
+
   let style = { width: "30rem" };
+
   return (
     <div className="container-md">
       <div style={style} class=" row text-wrap  text-reset text-white">

@@ -11,8 +11,10 @@ import {
 import ImgService from "../../Services/ImgServices/ImgService";
 import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
-
 import { getDate } from "../ViewLists/SupportFunction";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+
 const PutClientCar = () => {
   const { user } = useContext(Context);
   const [nameCarEquipment, setNameCarEquipment] = React.useState("");
@@ -35,14 +37,25 @@ const PutClientCar = () => {
   const [emailNew, setEmailNew] = React.useState("");
   const [vinNew, setVinNew] = React.useState("");
   let checkCarEquipment = "";
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleToggle = () => {
+    setOpen(!open);
+  };
 
   async function submitCar(event) {
     event.preventDefault();
+    handleToggle();
+    setMessageError("");
     let urls = [];
     for (let i = 0; i < imgsCar.length; i++) {
       if (imgsCar[i].name !== undefined) {
         let url = await ImgService.uploadImage(imgsCar[i]);
         if (url == undefined) {
+          handleClose();
           setMessageError("Error:upload img is not valid.");
           return;
         }
@@ -53,6 +66,7 @@ const PutClientCar = () => {
               "|Line" +
               i
           );
+          handleClose();
           return;
         }
         urls.push(new ImgDto(url.url));
@@ -60,26 +74,11 @@ const PutClientCar = () => {
         if (imgsCar[i].id !== undefined) urls.push(new ImgDto(imgsCar[i].url));
       }
     }
-    console.log(registerNumberNew, "new");
-    console.log({
-      body: new PutClientCarDto(
-        emailNew.length === 0 ? undefined : emailNew,
-        registerNumber,
-        registerNumberNew.length === 0 ? undefined : registerNumberNew,
-        new PutCarDto(
-          vin,
-          vinNew.length === 0 ? undefined : vinNew,
-          nameCarEquipment,
-          sharePercentage == 0 ? undefined : sharePercentage,
-          cost,
-          carMileage,
-          dateOfRealeseCar,
-          urls
-        ),
-        JSON.parse(user).email,
-        changeRegiterNumber === "1" ? true : false
-      )
-    });
+    if (user === undefined) {
+      setMessageError("Unauthorized");
+      handleClose();
+      return;
+    }
     new ClientCarsApi().apiClientcarsPut(
       GetJwtToken(),
       {
@@ -114,7 +113,12 @@ const PutClientCar = () => {
   }
 
   async function GetCarByVin(vin) {
-    setMessageError("");
+    handleToggle();
+    if (user === undefined) {
+      setMessageError("Unauthorized");
+      handleClose();
+      return;
+    }
     new ClientCarsApi().emailWithVinGet(
       GetJwtToken(),
       { vin: vin, email: JSON.parse(user).email },
@@ -123,11 +127,11 @@ const PutClientCar = () => {
   }
 
   async function GetUsersList() {
+    handleToggle();
     new UsersApi().apiUsersGet(GetJwtToken(), CallbackRequestUserList);
   }
 
   function CallbackRequestPut(error, data, response) {
-    console.log(response);
     if (response == undefined) {
       setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
@@ -150,6 +154,7 @@ const PutClientCar = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
 
   function CallbackRequestGet(error, data, response) {
@@ -182,6 +187,7 @@ const PutClientCar = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
 
   function CallbackRequest(error, data, response) {
@@ -203,7 +209,6 @@ const PutClientCar = () => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
-      console.log(response.body);
       setRegisterNumber(response.body.registerNumber);
       setVin(response.body.car.vin);
       setCarMileage(response.body.car.carMileage);
@@ -223,6 +228,7 @@ const PutClientCar = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
 
   function CallbackRequestGetById(error, data, response) {
@@ -248,6 +254,7 @@ const PutClientCar = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
 
   function CallbackRequestUserList(error, data, response) {
@@ -273,15 +280,18 @@ const PutClientCar = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
 
   function AddImgs(value, i) {
     if (!value) {
-      setMessageError("Wrong file type!Input number:" + i);
+      setMessageError("Error:Wrong file type!Input number:" + i);
       return;
     }
     if (value.type.split("/")[0] !== "image") {
-      setMessageError("Wrong file type!File name:" + value.name + "|Line:" + i);
+      setMessageError(
+        "Error:Wrong file type!File name:" + value.name + "|Line:" + i
+      );
     } else {
       imgsCar[i] = value;
     }
@@ -299,7 +309,7 @@ const PutClientCar = () => {
         <div className="row">
           {imgs[i].url === undefined &&
             <div className="col">
-              <label>Car image(800x600):</label>
+              <label>Car image:</label>
               <div className="custom-file">
                 <input
                   type="file"
@@ -310,7 +320,7 @@ const PutClientCar = () => {
                   id="inputGroupFile01"
                 />
                 <label className="custom-file-label" for="inputGroupFile01">
-                  Choose file
+                  Choose file(800x600)
                 </label>
               </div>
             </div>}
@@ -327,7 +337,7 @@ const PutClientCar = () => {
                   id="inputGroupFile01"
                 />
                 <label className="custom-file-label" for="inputGroupFile01">
-                  Choose file
+                  Choose file(800x600)
                 </label>
               </div>
               <div className=" mt-2 ">
@@ -348,7 +358,9 @@ const PutClientCar = () => {
   function SetValueChangeRegisterNumber(event) {
     setChangeRegiterNumber(event.target.value);
   }
+
   let style = { width: "30rem" };
+
   return (
     <div className="d-flex   justify-content-center w-40  align-items-center ">
       <div className=" p-4   bg-dark text-white h-100 ">
@@ -564,6 +576,13 @@ const PutClientCar = () => {
         <div>
           {redirect && <Navigate to={"/home"} />}
           <div style={style} class="text-wrap  text-reset text-white">
+            <Backdrop
+              sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
+              open={open}
+              onClick={handleClose}
+            >
+              <CircularProgress color="inherit" />
+            </Backdrop>
             {MessageError}
           </div>
         </div>

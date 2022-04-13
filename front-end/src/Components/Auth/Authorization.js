@@ -3,6 +3,7 @@ import { AuthApi } from "../../api/AuthApi";
 import { Navigate } from "react-router-dom";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+
 const Authorization = props => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -10,12 +11,15 @@ const Authorization = props => {
   const [redirect, setRedirect] = React.useState(false);
   const [role, setRole] = React.useState("");
   const [open, setOpen] = React.useState(false);
+
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleToggle = () => {
     setOpen(!open);
   };
+
   function ClearField() {
     setEmail("");
     setPassword("");
@@ -25,6 +29,7 @@ const Authorization = props => {
   function SendAuthRequest(event) {
     handleToggle();
     event.preventDefault();
+    setMessageError("");
     new AuthApi().apiAuthsPost(
       { body: { email: email, password: password } },
       CallbackRequest

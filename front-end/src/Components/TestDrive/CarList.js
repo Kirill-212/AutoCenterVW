@@ -4,6 +4,7 @@ import { GetPagedCarDto } from "../../model/GetPagedCarDto";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import { GetCarDto } from "../../model/GetCarDto";
 import { getDate } from "../ViewLists/SupportFunction";
+
 export default function EnhancedTable(props) {
   const [list, setList] = React.useState([]);
   const [currentPages, setCurrentPages] = React.useState(1);
@@ -35,7 +36,6 @@ export default function EnhancedTable(props) {
       let rs = GetPagedCarDto.constructFromObject(response.body);
       setCurrentPages(rs.currentPage + 1);
       setTotalPages(rs.totalPages);
-
       let ListCars = GetPagedCarDto.constructFromObject(
         response.body
       ).getCarDto.map(e => {
@@ -53,6 +53,7 @@ export default function EnhancedTable(props) {
     setBlockFlag(false);
     setLoad(false);
   }
+
   function CallbackRequestBlock(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -92,7 +93,6 @@ export default function EnhancedTable(props) {
 
   useEffect(
     () => {
-      console.log("load", currentPages, totalPages, load);
       if (load && (flag || (!flag && currentPages <= totalPages))) {
         new CarsApi().apiCarsPagedGet(
           GetJwtToken(),
@@ -136,14 +136,17 @@ export default function EnhancedTable(props) {
     }
   };
 
+  let style = { width: "30rem" };
+
   return (
-    <div className="container ">
-      <p className="text-reset text-center text-white">
-        {MessageError}
-      </p>
+    <div className="container">
+      <div className="row align-items-center">
+        <p style={style} class="text-wrap  text-reset text-white">
+          {MessageError}
+        </p>
+      </div>
       <div className="row align-items-center d-flex flex-column">
         {list.map(e => {
-          console.log(e);
           return (
             <div className="col  w-50 text-center">
               <div class="card mt-5 mb-5 text-white bg-black">

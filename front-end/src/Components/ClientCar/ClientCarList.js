@@ -1,5 +1,4 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -7,11 +6,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-
-//import SearchBar from "material-ui-search-bar";
 import {
   EnhancedTableHead,
-  descendingComparator,
   getComparator,
   stableSort,
   getDate
@@ -23,7 +19,6 @@ export default function EnhancedTable(props) {
   const [orderBy, setOrderBy] = React.useState("calories");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [searched, setSearched] = React.useState("");
 
   const requestSearch = searchedVal => {
     const filteredRows = rows.filter(row => {
@@ -32,10 +27,14 @@ export default function EnhancedTable(props) {
     setRows(filteredRows);
   };
 
-  const cancelSearch = () => {
-    setSearched("");
-    requestSearch(searched);
+  const search = e => {
+    if (e.length === 0) {
+      setRows(props.rows);
+    } else {
+      requestSearch(e);
+    }
   };
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -53,15 +52,25 @@ export default function EnhancedTable(props) {
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-  console.log(rows);
+
   return (
-    <Box sx={{ width: "100%" }} className="pt-5">
-      <Paper sx={{ p: 5 }}>
-        <input
-          type="text"
-          className="w-20 shadow-lg  bg-white rounded"
-          placeholder="Search"
-        />
+    <Paper sx={{ width: "100%", overflow: "hidden" }} className="p-2">
+      <div className="row mt-2 ml-2">
+        <div className="input-group rounded w-25">
+          <input
+            type="search"
+            className="form-control rounded"
+            placeholder="Search"
+            aria-label="Search"
+            aria-describedby="search-addon"
+            onChange={e => search(e.target.value)}
+          />
+          <span className="input-group-text border-0" id="search-addon">
+            <i className="fas fa-search" />
+          </span>
+        </div>
+      </div>
+      <div className="row pt-2">
         <TableContainer sx={{ maxHeight: 550 }}>
           <Table
             stickyHeader
@@ -175,7 +184,7 @@ export default function EnhancedTable(props) {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      </Paper>
-    </Box>
+      </div>
+    </Paper>
   );
 }

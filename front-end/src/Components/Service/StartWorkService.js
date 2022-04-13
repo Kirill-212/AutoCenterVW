@@ -6,19 +6,35 @@ import {
 } from "../../ImportExportGenClient";
 import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const PostService = () => {
   const { user } = useContext(Context);
-  const [description, setDescription] = React.useState("");
   const [vin, setVin] = React.useState("");
   const [startWork, setStartWork] = React.useState("");
   const [endWork, setEndWork] = React.useState("");
   const [MessageError, setMessageError] = React.useState("");
   const [redirect, setRedirect] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleToggle = () => {
+    setOpen(!open);
+  };
 
   async function submitCar(event) {
     event.preventDefault();
+    handleToggle();
     setMessageError("");
+    if (user === undefined) {
+      setMessageError("Unauthorized");
+      handleClose();
+      return;
+    }
     new CarRepairsApi().apiCarrepairsStartWorkPut(
       GetJwtToken(),
       {
@@ -32,6 +48,7 @@ const PostService = () => {
       CallbackRequest
     );
   }
+
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -55,78 +72,85 @@ const PostService = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
 
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     setVin(query.get("vin"));
   }, []);
+
   let style = { width: "30rem" };
 
   return (
-    <div className="opacity-95 w-40">
-      <div className="d-flex   justify-content-center w-40 align-items-center ">
-        <div className="p-4  bg-dark text-white h-100">
-          <div className="row mt-5">
-            <h1 className="d-flex   justify-content-center align-items-center ">
-              Start repair car
-            </h1>
-          </div>
-          <div className="container mt-5 pt-5">
-            <form onSubmit={submitCar}>
-              <div className="form-group mb-2 ">
-                <label>VIN:</label>
+    <div className="d-flex   justify-content-center w-40 align-items-center ">
+      <div className="p-4  bg-dark text-white h-100">
+        <div className="row mt-5">
+          <h1 className="d-flex   justify-content-center align-items-center ">
+            Start repair car
+          </h1>
+        </div>
+        <div className="container mt-5 pt-5">
+          <form onSubmit={submitCar}>
+            <div className="form-group mb-2 ">
+              <label>VIN:</label>
+              <input
+                value={vin}
+                className="w-100 shadow-lg  bg-white rounded"
+                onChange={e => setVin(e.target.value)}
+                name="vin"
+                type="text"
+                placeholder="Enter your VIN..."
+                disabled
+              />
+            </div>
+            <div className="row">
+              <div className="col mb-2 ">
+                <label>Start work:</label>
                 <input
-                  value={vin}
                   className="w-100 shadow-lg  bg-white rounded"
-                  onChange={e => setVin(e.target.value)}
-                  name="vin"
-                  type="text"
-                  placeholder="Enter your VIN..."
-                  disabled
+                  onChange={e => setStartWork(e.target.value)}
+                  type="date"
+                  placeholder="Enter your date of start work..."
+                  required
                 />
               </div>
-              <div className="row">
-                <div className="col mb-2 ">
-                  <label>Start work:</label>
-                  <input
-                    className="w-100 shadow-lg  bg-white rounded"
-                    onChange={e => setStartWork(e.target.value)}
-                    type="date"
-                    placeholder="Enter your date of start work..."
-                    required
-                  />
-                </div>
-                <div className="col mb-2 ">
-                  <label>End work:</label>
-                  <input
-                    className="w-100 shadow-lg  bg-white rounded"
-                    onChange={e => setEndWork(e.target.value)}
-                    type="date"
-                    placeholder="Enter your date of end work..."
-                    required
-                  />
-                </div>
+              <div className="col mb-2 ">
+                <label>End work:</label>
+                <input
+                  className="w-100 shadow-lg  bg-white rounded"
+                  onChange={e => setEndWork(e.target.value)}
+                  type="date"
+                  placeholder="Enter your date of end work..."
+                  required
+                />
               </div>
-
-              <div className="d-flex justify-content-center form-outline mb-3">
-                <div className="flex-fill">
-                  <button
-                    type="submit"
-                    className="btn btn-secondary btn-rounded w-100 "
-                  >
-                    Post
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-
-          <div>
-            {redirect && <Navigate to={"/home"} />}
-            <div style={style} class="text-wrap  text-reset text-white">
-              {MessageError}
             </div>
+
+            <div className="d-flex justify-content-center form-outline mb-3">
+              <div className="flex-fill">
+                <button
+                  type="submit"
+                  className="btn btn-secondary btn-rounded w-100 "
+                >
+                  Post
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div>
+          {redirect && <Navigate to={"/home"} />}
+          <Backdrop
+            sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
+            open={open}
+            onClick={handleClose}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
+          <div style={style} class="text-wrap  text-reset text-white">
+            {MessageError}
           </div>
         </div>
       </div>

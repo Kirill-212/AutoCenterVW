@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 import ImgService from "../../Services/ImgServices/ImgService";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+
 function Registration() {
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
@@ -16,9 +17,11 @@ function Registration() {
   const [img, setImg] = React.useState("");
   const [redirectLogin, setRedirectLogin] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleToggle = () => {
     setOpen(!open);
   };
@@ -35,16 +38,17 @@ function Registration() {
   }
 
   async function submitUser(event) {
-    handleToggle();
     event.preventDefault();
+    handleToggle();
+    setMessageError("");
     if (!img) {
-      setMessageError("Wrong file type!");
+      setMessageError("Error:Wrong file type!");
       handleClose();
       return;
     }
     if (img.type.split("/")[0] !== "image") {
       handleClose();
-      setMessageError("Wrong file type!");
+      setMessageError("Error:Wrong file type!");
       return;
     }
     let url = await ImgService.uploadImage(img);
@@ -75,6 +79,7 @@ function Registration() {
       CallbackRequest
     );
   }
+  
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -104,12 +109,12 @@ function Registration() {
   let style = { width: "30rem" };
 
   return (
-    <div className="d-flex   justify-content-center w-40 align-items-center ">
-      <div className="p-4  bg-dark text-white h-100">
+    <div className="d-flex   justify-content-center  align-items-center ">
+      <div className="p-4  w-25 bg-dark text-white h-100">
         <div className="row mt-3">
           <h1 className="d-flex   justify-content-center  ">Registration</h1>
         </div>
-        <div className="container mt-2">
+        <div className="container  mt-2">
           <form onSubmit={submitUser}>
             <div className="row">
               <div className="col mb-2 ">

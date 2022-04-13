@@ -3,6 +3,8 @@ import { Navigate } from "react-router-dom";
 import { TestDrivesApi, TestDriveDto } from "../../ImportExportGenClient";
 import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const PostTestDrive = () => {
   const { user } = useContext(Context);
@@ -11,19 +13,24 @@ const PostTestDrive = () => {
   const [MessageError, setMessageError] = React.useState("");
   const [redirect, setRedirect] = React.useState(false);
   const [hourStart, setHourStart] = React.useState(0);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleToggle = () => {
+    setOpen(!open);
+  };
 
   async function submit(e) {
     e.preventDefault();
-    console.log(e.target.value);
-    // console.log({
-    //   body: new PostOrderDto(
-    //     emailOwner,
-    //     JSON.parse(user).email,
-    //     flag === "1" ? true : false,
-    //     vin
-    //   )
-    // });
-
+    handleToggle();
+    if (user === undefined) {
+      setMessageError("Unauthorized");
+      handleClose();
+      return;
+    }
     new TestDrivesApi().apiTestdrivesPost(
       GetJwtToken(),
       {
@@ -61,13 +68,16 @@ const PostTestDrive = () => {
     } else if (response.statusCode > 400) {
       setMessageError(JSON.parse(error.message)["error"]);
     }
+    handleClose();
   }
 
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     setVin(query.get("vin"));
   }, []);
+
   let style = { width: "30rem" };
+
   return (
     <div className="d-flex   justify-content-center w-30 h-90 align-items-center ">
       <div className=" p-4   bg-dark text-white h-100 ">
@@ -139,6 +149,13 @@ const PostTestDrive = () => {
 
         <div>
           {redirect && <Navigate to={"/home"} />}
+          <Backdrop
+            sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
+            open={open}
+            onClick={handleClose}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
           <div style={style} class="text-wrap  text-reset text-white">
             {MessageError}
           </div>

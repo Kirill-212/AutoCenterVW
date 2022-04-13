@@ -3,9 +3,11 @@ import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
+
 const DetailCarEquipmentForm = props => {
   const [expanded, setExpanded] = React.useState(false);
   const [row, setRow] = React.useState(props.data);
+
   const handleChange = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
@@ -16,6 +18,7 @@ const DetailCarEquipmentForm = props => {
     });
     setRow(filteredRows);
   };
+
   const search = e => {
     if (e.length === 0) {
       setRow(props.data);
@@ -23,10 +26,11 @@ const DetailCarEquipmentForm = props => {
       requestSearch(e);
     }
   };
+
   return (
     <div>
       <div className="row mt-2 bg-white text-white">
-        <div className="input-group rounded w-25">
+        <div className="input-group rounded w-25 pt-2">
           <input
             type="search"
             className="form-control rounded"

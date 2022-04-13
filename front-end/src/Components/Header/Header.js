@@ -22,6 +22,139 @@ function Header(props) {
           <ul class="navbar-nav flex-row">
             {user !== undefined &&
               <>
+                 <li class="nav-item dropdown mt-1  ">
+                  <a
+                    class="nav-link dropdown-toggle hidden-arrow"
+                    href="#"
+                    id="navbarDropdownMenuLink"
+                    role="button"
+                    data-mdb-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <strong>Service</strong>
+                  </a>
+                  <ul
+                    class="dropdown-menu dropdown-menu-end"
+                    aria-labelledby="navbarDropdownMenuLink"
+                  >
+                  
+                   
+                    <li>
+                      <a class="dropdown-item" href="/service/user">
+                      List
+                      </a>
+                    </li>
+                    {(JSON.parse(user).roleName === "ADMIN" ||
+                  JSON.parse(user).roleName === "SERVICE_EMPLOYEE") &&  <li>
+                      <a class="dropdown-item" href="/service/employee">
+                      List for employee
+                      </a>
+                    </li>}
+                  </ul>
+                </li>
+                  <li class="nav-item dropdown mt-1  ">
+                  <a
+                    class="nav-link dropdown-toggle hidden-arrow"
+                    href="#"
+                    id="navbarDropdownMenuLink"
+                    role="button"
+                    data-mdb-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <strong>Test drive</strong>
+                  </a>
+                  <ul
+                    class="dropdown-menu dropdown-menu-end"
+                    aria-labelledby="navbarDropdownMenuLink"
+                  >
+                  
+                   
+                    <li>
+                      <a class="dropdown-item" href="/testdrive/user">
+                      List
+                      </a>
+                    </li>
+                    {(JSON.parse(user).roleName === "ADMIN" ||
+                  JSON.parse(user).roleName === "EMPLOYEE") &&  <li>
+                      <a class="dropdown-item" href="/testdrive/employee">
+                      List for employee
+                      </a>
+                    </li>}
+                  </ul>
+                </li>
+                  <li class="nav-item dropdown mt-1  ">
+                  <a
+                    class="nav-link dropdown-toggle hidden-arrow"
+                    href="#"
+                    id="navbarDropdownMenuLink"
+                    role="button"
+                    data-mdb-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <strong>Order</strong>
+                  </a>
+                  <ul
+                    class="dropdown-menu dropdown-menu-end"
+                    aria-labelledby="navbarDropdownMenuLink"
+                  >
+                  
+                    <li>
+                      <a class="dropdown-item" href="/order/buyer">
+                        List for buyer
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="/order/user">
+                      List for owner
+                      </a>
+                    </li>
+                    {(JSON.parse(user).roleName === "ADMIN" ||
+                  JSON.parse(user).roleName === "EMPLOYEE") &&  <li>
+                      <a class="dropdown-item" href="/order/employee">
+                      List for employee
+                      </a>
+                    </li>}
+                  </ul>
+                </li>
+                <li class="nav-item dropdown mt-1  ">
+                  <a
+                    class="nav-link dropdown-toggle hidden-arrow"
+                    href="#"
+                    id="navbarDropdownMenuLink"
+                    role="button"
+                    data-mdb-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <strong>Car</strong>
+                  </a>
+                  <ul
+                    class="dropdown-menu dropdown-menu-end"
+                    aria-labelledby="navbarDropdownMenuLink"
+                  >
+                    <li>
+                      <a class="dropdown-item" href="/clientcar/post">
+                        Post
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="/clientcar/user">
+                        List
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="/car/list">
+                      List of cars to buy
+                      </a>
+                    </li>
+                    {(JSON.parse(user).roleName === "ADMIN" ||
+                  JSON.parse(user).roleName === "EMPLOYEE") &&  <li>
+                      <a class="dropdown-item" href="/clientcar">
+                      All List
+                      </a>
+                    </li>}
+                  </ul>
+                </li>
+
                {(JSON.parse(user).roleName === "ADMIN" ||
                   JSON.parse(user).roleName === "EMPLOYEE") && <li class="nav-item dropdown mt-1  ">
                   <a
@@ -32,7 +165,7 @@ function Header(props) {
                     data-mdb-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    <strong>Car</strong>
+                    <strong>Auto Center Car</strong>
                   </a>
                   <ul
                     class="dropdown-menu dropdown-menu-end"
@@ -74,7 +207,7 @@ function Header(props) {
                       </a>
                     </li>
                    <li>
-                      <a class="dropdown-item" href="carequipmentform/post">
+                      <a class="dropdown-item" href="/carequipmentform/post">
                         Post
                       </a>
                     </li>
@@ -200,21 +333,7 @@ function Header(props) {
                   >
                     <strong>Register</strong>
                   </a>
-                </li>
-            <li class="nav-item mt-1  ">
-              <a
-                class="nav-link d-sm-flex align-items-sm-center"
-                onClick={ClearStorage}
-                href="/login"
-              >
-                <strong>LogOut</strong>
-              </a>
-            </li>
-            <li class="nav-item mt-1  ">
-              <a class="nav-link d-sm-flex align-items-sm-center" href="/login">
-                <strong>LogIn</strong>
-              </a>
-            </li>
+                </li>      
             {user !== undefined &&
               <li class="nav-item mt-2  ">
                 <a
@@ -231,7 +350,22 @@ function Header(props) {
                 <i class="fa-solid fa-house" />
               </a>
             </li>
+            <li class="nav-item  mt-2 ">
+              <a
+                class="nav-link d-sm-flex align-items-sm-center"
+                onClick={ClearStorage}
+                href="/login"
+              >
+              <i class="fa-solid fa-arrow-right-from-bracket"></i>
+              </a>
+            </li>
+            <li class="nav-item mt-2  ">
+              <a class="nav-link d-sm-flex align-items-sm-center" href="/login">
+              <i class="fa-solid fa-arrow-right-to-bracket"></i>
+              </a>
+            </li>
           </ul>
+          
         </div>
       </nav>
     </header>

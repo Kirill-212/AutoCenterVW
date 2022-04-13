@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, {  useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import {
   PutNewDtoNewWrapperDto,
@@ -7,10 +7,10 @@ import {
   NewApi
 } from "../../ImportExportGenClient";
 import ImgService from "../../Services/ImgServices/ImgService";
-import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+
 const PutNew = () => {
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
@@ -19,14 +19,16 @@ const PutNew = () => {
   const [redirect, setRedirect] = React.useState(false);
   const [news, setNews] = React.useState({});
   const fileInput = React.useRef(null);
-  const { user } = useContext(Context);
   const [open, setOpen] = React.useState(false);
+
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleToggle = () => {
     setOpen(!open);
   };
+
   async function GetNew(title) {
     handleToggle();
     new NewApi().apiNewsByTitleGet(
@@ -35,6 +37,7 @@ const PutNew = () => {
       CallbackRequest
     );
   }
+
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -54,7 +57,6 @@ const PutNew = () => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
-      console.log(response.body);
       setDescription(response.body.description);
       setNews(response.body.imgs);
     } else if (response.statusCode > 400) {
@@ -62,10 +64,11 @@ const PutNew = () => {
     }
     handleClose();
   }
+
   async function submitNew(event) {
-    handleToggle();
     event.preventDefault();
-    console.log(news);
+    handleToggle();
+    setMessageError("");
     let urls = [];
     for (let i = 0; i < news.length; i++) {
       if (news[i].name !== undefined) {
@@ -85,22 +88,11 @@ const PutNew = () => {
           handleClose();
           return;
         }
-        console.log(url);
         urls.push(new ImgDto(url.url));
       } else {
         if (news[i].id !== undefined) urls.push(new ImgDto(news[i].url));
       }
     }
-    console.log({
-      body: new PutNewDtoNewWrapperDto(
-        new PutNewDto(
-          title,
-          titleNew.length === 0 ? undefined : titleNew,
-          description
-        ),
-        urls
-      )
-    });
     new NewApi().apiNewsPut(
       GetJwtToken(),
       {
@@ -116,6 +108,7 @@ const PutNew = () => {
       CallbackRequestPut
     );
   }
+
   function CallbackRequestPut(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -144,11 +137,13 @@ const PutNew = () => {
 
   function AddImgs(value, i) {
     if (!value) {
-      setMessageError("Wrong file type!Input number:" + i);
+      setMessageError("Error:Wrong file type!Input number:" + i);
       return;
     }
     if (value.type.split("/")[0] !== "image") {
-      setMessageError("Wrong file type!File name:" + value.name + "|Line:" + i);
+      setMessageError(
+        "Error:Wrong file type!File name:" + value.name + "|Line:" + i
+      );
     } else {
       news[i] = value;
     }
@@ -214,7 +209,9 @@ const PutNew = () => {
     GetNew(query.get("title"));
     setTitle(query.get("title"));
   }, []);
+
   let style = { width: "30rem" };
+  
   return (
     <div className="d-flex   justify-content-center align-items-center ">
       <div className="p-4  bg-dark text-white w-40">
@@ -269,7 +266,7 @@ const PutNew = () => {
             </div>
             <div>
               <button
-                className="btn btn-dark btn-rounded"
+                className="btn btn-dark btn-rounded mt-5"
                 type="button"
                 onClick={AddField}
               >

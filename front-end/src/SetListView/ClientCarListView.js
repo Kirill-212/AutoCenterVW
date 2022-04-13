@@ -19,7 +19,7 @@ export default function CarListView() {
       disablePadding: true
     },
     {
-      label: "Is active",
+      label: "Sell",
       id: "isActive",
       numeric: false,
       disablePadding: true

@@ -6,7 +6,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-
 import {
   EnhancedTableHead,
   getComparator,
@@ -20,7 +19,7 @@ export default function EnhancedTable(props) {
   const [orderBy, setOrderBy] = React.useState("calories");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  console.log(props.rows);
+  
   const requestSearch = searchedVal => {
     const filteredRows = rows.filter(row => {
       return row.email.toLowerCase().includes(searchedVal.toLowerCase());
@@ -54,7 +53,7 @@ export default function EnhancedTable(props) {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
+    <Paper sx={{ width: "100%", overflow: "hidden" }} className="p-2">
       <div className="row mt-2 ml-2">
         <div className="input-group rounded w-25">
           <input
@@ -70,7 +69,7 @@ export default function EnhancedTable(props) {
           </span>
         </div>
       </div>
-      <div className="row">
+      <div className="row pt-2">
         <TableContainer sx={{ maxHeight: 500 }}>
           <Table
             stickyHeader
