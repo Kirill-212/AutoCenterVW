@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Contracts;
 using Domain.Models.CarEquipment;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstractions;
 using System.Collections.Generic;
@@ -30,6 +31,7 @@ namespace Presentation.Controllers
             this.equipmentForm = equipmentForm;
         }
 
+        [Authorize(Roles = "ADMIN,EMPLOYEE")]
         [HttpPost]
         public async Task<ActionResult> PostCarEquipmentForm(
             [FromBody] PostCarEquipmentFormDto item
@@ -47,7 +49,7 @@ namespace Presentation.Controllers
             }
         }
 
-        //[Authorize(Roles = " ADMIN, EMPLOYEE")]
+        [Authorize(Roles = "ADMIN,EMPLOYEE")]
         [HttpDelete]
         public async Task<ActionResult> DeleteCarEquipmentForm(
             [FromQuery] string name
@@ -58,7 +60,7 @@ namespace Presentation.Controllers
             return NoContent();
         }
 
-        //[Authorize(Roles = " ADMIN, EMPLOYEE")]
+        [Authorize(Roles = "ADMIN,EMPLOYEE")]
         [HttpPut]
         public async Task<ActionResult> PutCarEquipmentForm(
             [FromBody] PutCarEquipmentFormDto item
@@ -83,19 +85,21 @@ namespace Presentation.Controllers
             return mapper.Map<CarEquipmentFormDto>(equipmentForm.GetById(id));
         }
 
+        [Authorize(Roles = "ADMIN,EMPLOYEE")]
         [HttpGet("name")]
         public ActionResult<CarEquipmentFormDto> GetByNameForm([FromQuery] string name)
         {
             return mapper.Map<CarEquipmentFormDto>(equipmentForm.GetByName(name));
         }
 
-        ////[Authorize(Roles = " ADMIN, EMPLOYEE,  USER")]
+        [Authorize(Roles = "ADMIN,EMPLOYEE")]
         [HttpGet("form")]
         public List<CarEquipmentFormDto> GetForm()
         {
             return mapper.Map<List<CarEquipmentFormDto>>(equipmentForm.GetAll());
         }
 
+        [Authorize(Roles = "ADMIN,EMPLOYEE")]
         [HttpPost("equipment")]
         public async Task<ActionResult> Post([FromBody] PostCarEquipmentDto item)
         {
@@ -111,7 +115,7 @@ namespace Presentation.Controllers
             }
         }
 
-        //[Authorize(Roles = " ADMIN, EMPLOYEE")]
+        [Authorize(Roles = "ADMIN,EMPLOYEE")]
         [HttpDelete("equipment")]
         public async Task<ActionResult> Delete([FromQuery] string name)
         {
@@ -135,7 +139,7 @@ namespace Presentation.Controllers
             }
         }
 
-        //[Authorize(Roles = " ADMIN, EMPLOYEE, USER")]
+        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("equipment")]
         public IEnumerable<CarEquipment> GetAll()
         {
@@ -149,7 +153,7 @@ namespace Presentation.Controllers
             return equipment.GetByName(name);
         }
 
-        //[Authorize(Roles = " ADMIN, EMPLOYEE")]
+        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("equipment/{id}")]
         public CarEquipment GetByIdCarEquipment(string id)
         {

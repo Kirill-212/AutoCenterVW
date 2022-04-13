@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Contracts;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstractions;
 using System.Collections.Generic;
@@ -33,7 +34,7 @@ namespace Presentation.Controllers
                 );
         }
 
-        //  [Authorize(Roles = " ADMIN")]
+        [Authorize(Roles = " ADMIN")]
         [HttpGet]
         public async Task<List<GetEmployeeDto>> GetAll()
         {
@@ -50,7 +51,7 @@ namespace Presentation.Controllers
                 );
         }
 
-        //   [Authorize(Roles = " ADMIN")]
+        [Authorize(Roles = " ADMIN")]
         [HttpGet("{id}")]
         public async Task<GetEmployeeDto> GetbyId(int id)
         {
@@ -59,7 +60,7 @@ namespace Presentation.Controllers
                 );
         }
 
-        //  [Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] PostEmployeeDto item)
         {
@@ -79,7 +80,7 @@ namespace Presentation.Controllers
             }
         }
 
-        //    [Authorize(Roles = " ADMIN")]
+        [Authorize(Roles = " ADMIN")]
         [HttpPut]
         public async Task<ActionResult> Put([FromBody] PutEmployeeDto item)
         {
@@ -99,7 +100,7 @@ namespace Presentation.Controllers
             }
         }
 
-        //  [Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN")]
         [HttpDelete]
         public async Task<ActionResult> Delete(string email)
         {

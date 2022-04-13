@@ -89,7 +89,7 @@ export default function EnhancedTable(props) {
     setBlockFlag(false);
     setLoad(false);
   }
-  
+
   function CallbackRequestBlock(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -222,7 +222,7 @@ export default function EnhancedTable(props) {
             <div class="card-body row ">
               <div className="col" />
               <div
-                id={"slider" + e.title}
+                id={"slider" + e.title.replace(" ", "_")}
                 className="col carousel slide carousel-fade carousel-dark row justify-content-center align-self-center p-2 w-100 "
                 data-mdb-ride="carousel"
               >
@@ -259,7 +259,7 @@ export default function EnhancedTable(props) {
                 <button
                   className="carousel-control-prev pt-5 pl-5 mt-5"
                   type="button"
-                  data-mdb-target={"#slider" + e.title}
+                  data-mdb-target={"#slider" + e.title.replace(" ", "_")}
                   data-mdb-slide="prev"
                 >
                   <span
@@ -271,7 +271,7 @@ export default function EnhancedTable(props) {
                 <button
                   className="carousel-control-next pt-5 pr-5 mt-5"
                   type="button"
-                  data-mdb-target={"#slider" + e.title}
+                  data-mdb-target={"#slider" + e.title.replace(" ", "_")}
                   data-mdb-slide="next"
                 >
                   <span

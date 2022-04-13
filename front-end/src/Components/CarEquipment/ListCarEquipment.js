@@ -72,7 +72,7 @@ export default function CustomizedAccordions(props) {
                                 <div className="col"></div>
                                 <div className="col"></div>
                         </div>
-                    })}{(props.roleName==="ADMIN"||props.roleName==="EMPLOYEEs")&&<div className="row"><div className="col"><button
+                    })}{(JSON.parse(props.roleName).roleName==="ADMIN"||JSON.parse(props.roleName).roleName==="EMPLOYEE")&&<div className="row"><div className="col"><button
                     class="btn btn-primary-sm btn-sm mr-1"
                     value={r.name}
                     onClick={props.deleteCarEquipment}
@@ -110,7 +110,7 @@ export default function CustomizedAccordions(props) {
                                 <div className="col"></div>
                                 <div className="col"></div>
                         </div>
-                    })}{(props.roleName==="ADMIN"||props.roleName==="EMPLOYEEs")&&<div className="row"><div className="col"><button
+                    })}{(JSON.parse(props.roleName).roleName==="ADMIN"||JSON.parse(props.roleName).roleName==="EMPLOYEE")&&<div className="row"><div className="col"><button
                     class="btn btn-primary-sm btn-sm mr-1"
                     value={r.name}
                     onClick={props.deleteCarEquipment}

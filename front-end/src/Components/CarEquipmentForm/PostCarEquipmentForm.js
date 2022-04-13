@@ -124,7 +124,7 @@ const PostCarEquipmentForm = () => {
       <div className="p-4  bg-dark text-white h-100">
         <div className="row mt-5">
           <h1 className="d-flex   justify-content-center align-items-center ">
-            Post car equipment item
+            Post car equipment form item
           </h1>
         </div>
         <div className="container mt-5 pt-5">

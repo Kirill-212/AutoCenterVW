@@ -20,7 +20,7 @@ namespace Persistence.Repositories
         {
             return await _dbContext.Users.Include(i => i.Employee)
                 .Where(i => i.Status != Status.DELETED)
-               .Where(r => r.Id != r.Employee.UserId)
+               .Where(r =>r.Employee==null)
                .ToListAsync();
         }
 

@@ -19,7 +19,7 @@ export default function EnhancedTable(props) {
   const [orderBy, setOrderBy] = React.useState("calories");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  
+
   const requestSearch = searchedVal => {
     const filteredRows = rows.filter(row => {
       return row.email.toLowerCase().includes(searchedVal.toLowerCase());
@@ -131,7 +131,7 @@ export default function EnhancedTable(props) {
                       </TableCell>
                       <TableCell align="right">
                         <div className="d-grid gap-2 d-md-block">
-                          {props.email !== row.email &&
+                          {JSON.parse(props.email).email !== row.email &&
                             <button
                               color="purple"
                               size="sm"
@@ -142,6 +142,7 @@ export default function EnhancedTable(props) {
                               <i className="fa-regular fa-trash-can" />
                             </button>}
                           {row.roleName === "USER" &&
+                            row.status === "CREATED" &&
                             <button
                               color="purple"
                               size="sm"

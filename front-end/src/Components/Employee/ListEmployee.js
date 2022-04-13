@@ -52,7 +52,9 @@ export default function EnhancedTable(props) {
   };
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
+  if(props.email==undefined){
+    
+  }
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }} className="p-2">
       <div className="row mt-2 ml-2">
@@ -139,7 +141,8 @@ export default function EnhancedTable(props) {
                         {row.getUserDto.roleName}
                       </TableCell>
                       <TableCell align="right">
-                        {props.email !== row.getUserDto.email &&
+                        {JSON.parse(props.email).email !==
+                          row.getUserDto.email &&
                           <div class="d-grid gap-2 d-md-block">
                             <button
                               class="btn btn-primary-sm btn-sm m-2"

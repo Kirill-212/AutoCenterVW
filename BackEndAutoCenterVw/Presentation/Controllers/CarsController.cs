@@ -2,6 +2,7 @@
 using Contracts;
 using Domain.Models;
 using Domain.Pagination;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstractions;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace Presentation.Controllers
             _serviceManager = serviceManager;
         }
 
-        //  [Authorize(Roles = " ADMIN, EMPLOYEE, USER")]
+        [Authorize(Roles = "ADMIN,EMPLOYEE")]
         [HttpGet("/update/status")]
         public async Task<ActionResult> UpdateStatus([FromQuery] string vin)
         {
@@ -70,6 +71,7 @@ namespace Presentation.Controllers
         //}
 
         //[Authorize(Roles = " ADMIN, EMPLOYEE, USER")]
+       
         [HttpGet("user")]
         public async Task<IEnumerable<Car>> GetCarForUser()
         {
@@ -126,21 +128,21 @@ namespace Presentation.Controllers
 
         }
 
-        // [Authorize(Roles = " ADMIN, EMPLOYEE, USER")]
+        [Authorize(Roles = "ADMIN,EMPLOYEE")]
         [HttpGet("without/clientCar")]
         public async Task<IEnumerable<Car>> GetWithoutClientCar()
         {
             return await _serviceManager.AsyncServiceCar.GetWithoutClientCar();
         }
 
-        //  [Authorize(Roles = " ADMIN, EMPLOYEE, USER")]
+        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("by/vin")]
         public async Task<ActionResult<Car>> GetByVin([FromQuery] string vin)
         {
             return await _serviceManager.AsyncServiceCar.GetByVin(vin);
         }
 
-        // [Authorize(Roles = " ADMIN, EMPLOYEE, USER")]
+        [Authorize(Roles = "ADMIN,EMPLOYEE")]
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] PostCarDto item)
         {
@@ -161,7 +163,7 @@ namespace Presentation.Controllers
             }
         }
 
-        // [Authorize(Roles = " ADMIN, EMPLOYEE, USER")]
+        [Authorize(Roles = "ADMIN,EMPLOYEE")]
         [HttpPut]
         public async Task<ActionResult> Put([FromBody] PutCarDto item)
         {
@@ -182,7 +184,7 @@ namespace Presentation.Controllers
             }
         }
 
-        //  [Authorize(Roles = " ADMIN, EMPLOYEE, USER")]
+        [Authorize(Roles = "ADMIN,EMPLOYEE")]
         [HttpDelete]
         public async Task<ActionResult> Delete([FromQuery] string vin)
         {

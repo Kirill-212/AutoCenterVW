@@ -150,7 +150,7 @@ const PutCar = () => {
         }
         urls.push(new ImgDto(url.url));
       } else {
-        if (imgsCar[i].id !== undefined) urls.push(new ImgDto(imgsCar[i].url));
+        if (imgsCar[i].url !== undefined) urls.push(new ImgDto(imgsCar[i].url));
       }
     }
 
@@ -323,8 +323,6 @@ const PutCar = () => {
             <div className="form-group mb-2 ">
               <label>New VIN:</label>
               <input
-                disabled
-                value={vinNew}
                 className="w-100 shadow-lg  bg-white rounded"
                 onChange={e => setVinNew(e.target.value)}
                 name="vin"

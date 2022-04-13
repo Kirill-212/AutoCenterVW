@@ -27,7 +27,7 @@ const PutUser = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  
+
   const handleToggle = () => {
     setOpen(!open);
   };
@@ -43,7 +43,7 @@ const PutUser = () => {
         handleClose();
         return;
       }
-      if (img.type.split("/")[0] !== "image") {
+      if (imgNew.type.split("/")[0] !== "image") {
         setMessageError("Error:Wrong file type!");
         handleClose();
         return;
@@ -55,7 +55,7 @@ const PutUser = () => {
         return;
       }
       if (url.height !== 200 || url.width !== 200) {
-        setMessageError("Error:size min 200x200:File name:" + imgNew.name);
+        setMessageError("Error:valid size 200x200:File name:" + imgNew.name);
         handleClose();
         return;
       }
@@ -162,7 +162,7 @@ const PutUser = () => {
   }, []);
 
   let style = { width: "30rem" };
-  
+
   return (
     <div className="  d-flex   justify-content-center w-20  align-items-center ">
       <div className="d-flex  justify-content-center  align-items-center ">
@@ -220,7 +220,7 @@ const PutUser = () => {
                     type="text"
                     value={phoneNumber}
                     name="phoneNumber"
-                    placeholder="Example 375297699506"
+                    placeholder="Example +375 (29) 769-95-06"
                     onChange={e => setPhoneNumber(e.target.value)}
                     required
                   />

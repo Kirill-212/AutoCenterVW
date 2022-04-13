@@ -124,7 +124,7 @@ const Employee = () => {
               head={EmployeeListView()}
               rows={listEmployees}
               getList={GetEmployeeList}
-              email={JSON.parse(user).email}
+              email={user}
               deleteEmployee={DeleteEmployee}
             />}
         </div>

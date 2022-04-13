@@ -49,7 +49,10 @@ namespace Contracts
         public string NewEmail { get; set; }
 
         [Required(ErrorMessage = "Error: phone number is required.")]
-        [Phone]
+        [RegularExpression(
+            @"^\+375 \((17|29|33|44)\) [0-9]{3}-[0-9]{2}-[0-9]{2}$",
+            ErrorMessage = "Error: phone number is not correct.Example +375 (29) 769-95-06."
+            )]
         public string PhoneNumber { get; set; }
     }
 }

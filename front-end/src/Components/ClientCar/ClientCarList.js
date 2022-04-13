@@ -22,7 +22,7 @@ export default function EnhancedTable(props) {
 
   const requestSearch = searchedVal => {
     const filteredRows = rows.filter(row => {
-      return row.vin.toLowerCase().includes(searchedVal.toLowerCase());
+      return row.car.vin.toLowerCase().includes(searchedVal.toLowerCase());
     });
     setRows(filteredRows);
   };

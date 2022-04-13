@@ -15,6 +15,7 @@ namespace Contracts
         public bool IsDeleted { get; set; }
 
         [Required(ErrorMessage = "Error: cost is required.")]
+        [Range(0, 1000000, ErrorMessage = "Error: valid cost is 0-1 000 000.")]
         public decimal Cost { get; set; }
     }
 }

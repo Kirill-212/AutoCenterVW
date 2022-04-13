@@ -1,6 +1,7 @@
 ﻿using Contracts;
 using Domain.Auth;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Services.Abstractions;
@@ -25,6 +26,7 @@ namespace Presentation.Controllers
             _serviceManager = serviceManager;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] AuthDto authDto)
         {

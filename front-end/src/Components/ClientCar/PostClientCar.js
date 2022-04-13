@@ -54,7 +54,7 @@ const PostClientCar = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -96,16 +96,12 @@ const PostClientCar = () => {
         return;
       }
       if (url.height !== 600 || url.width !== 800) {
-        setMessageError(
-          "Error:size is valid 800x600:File name:" + imgs[i].name
-        );
+        setMessageError("Error:valid size 800x600:File name:" + imgs[i].name);
         handleClose();
         return;
       }
-
       urls.push(new ImgDto(url.url));
     }
-
     if (user === undefined) {
       setMessageError("Unauthorized");
       handleClose();
@@ -140,7 +136,7 @@ const PostClientCar = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult +=  errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {

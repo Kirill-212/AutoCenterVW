@@ -61,7 +61,6 @@ const PostCar = () => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
-      console.log(response.body);
       setCarEquipmentList(response.body);
       setFlag(true);
     } else if (response.statusCode > 400) {
@@ -94,12 +93,11 @@ const PostCar = () => {
       }
       if (url.height !== 600 || url.width !== 800) {
         setMessageError(
-          "Error:size is valid 800x600:File name:" + imgs[i].name
+          "Error:valid size 800x600:File name:" + imgs[i].name
         );
         handleClose();
         return;
       }
-
       urls.push(new ImgDto(url.url));
     }
     new CarsApi().apiCarsPost(
@@ -149,7 +147,7 @@ const PostCar = () => {
     GetCarEquipment();
   }, []);
   
-  let style = { width: "30rem" };
+  let style = { width: "25rem" };
 
   return (
     <div className="d-flex   justify-content-center w-40 align-items-center ">

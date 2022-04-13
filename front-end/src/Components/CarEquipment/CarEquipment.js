@@ -29,7 +29,7 @@ const CarEquipments = () => {
       CallbackRequest
     );
   }
-  
+
   async function DeleteCarEquipments(e) {
     e.preventDefault();
     handleToggle();
@@ -116,7 +116,7 @@ const CarEquipments = () => {
         {viewList &&
           <ListCarEquipments
             data={listCarEquipments}
-            roleName={JSON.parse(user).roleName}
+            roleName={user}
             deleteCarEquipment={DeleteCarEquipments}
           />}
       </div>

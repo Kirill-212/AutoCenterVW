@@ -92,9 +92,7 @@ const PostCarEquipment = () => {
 
   function RenderCarEquipment() {
     let radioButtonsCarEuipment = [];
-    // console.log(carEquipmentList);
     for (let i in carEquipmentList) {
-      //  console.log();
       if (!key.includes(carEquipmentList[i].equipmentItems))
         key.push(carEquipmentList[i].equipmentItems);
       radioButtonsCarEuipment.push(

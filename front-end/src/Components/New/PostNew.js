@@ -53,7 +53,7 @@ const PostNew = () => {
       }
       if (url.height !== 700 || url.width !== 1000) {
         setMessageError(
-          "Error:size is valid 1000x700:File name:" + imgs[i].name
+          "Error:valid size 1000x700:File name:" + imgs[i].name
         );
         handleClose();
         return;

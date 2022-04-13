@@ -2,6 +2,7 @@
 using Contracts;
 using Domain.Models;
 using Domain.Pagination;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstractions;
 using System.Collections.Generic;
@@ -25,7 +26,7 @@ namespace Presentation.Controllers
             _serviceManager = serviceManager;
         }
 
-        // [Authorize(Roles = "USER")]
+        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("paged")]
         public GetPagedNewDto GetNewsPaged([FromQuery] PagedParameters pagedParameters)
         {
@@ -61,7 +62,7 @@ namespace Presentation.Controllers
                 );
         }
 
-        //  [Authorize(Roles = " ADMIN, EMPLOYEE")]
+        [Authorize(Roles = "ADMIN,EMPLOYEE")]
         [HttpGet("by/title")]
         public async Task<ActionResult<GetNewDto>> GetbyTitle([FromQuery] string title)
         {
@@ -70,7 +71,7 @@ namespace Presentation.Controllers
                 );
         }
 
-        // [Authorize(Roles = " ADMIN, EMPLOYEE")]
+        [Authorize(Roles = "ADMIN,EMPLOYEE")]
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] NewWrapperDto<PostNewDto> item)
         {
@@ -90,7 +91,7 @@ namespace Presentation.Controllers
             }
         }
 
-        //  [Authorize(Roles = " ADMIN, EMPLOYEE")]
+        [Authorize(Roles = "ADMIN,EMPLOYEE")]
         [HttpPut]
         public async Task<ActionResult> Put([FromBody] NewWrapperDto<PutNewDto> item)
         {
@@ -110,7 +111,7 @@ namespace Presentation.Controllers
             }
         }
 
-        // [Authorize(Roles = " ADMIN, EMPLOYEE")]
+        [Authorize(Roles = "ADMIN,EMPLOYEE")]
         [HttpDelete]
         public async Task<ActionResult> Delete([FromQuery] string title)
         {

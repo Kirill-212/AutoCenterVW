@@ -27,6 +27,7 @@ const User = () => {
     setViewList(false);
     new UsersApi().apiUsersGet(GetJwtToken(), CallbackRequest);
   }
+
   async function DeleteUser(e) {
     handleToggle();
     new UsersApi().apiUsersDelete(
@@ -35,6 +36,7 @@ const User = () => {
       CallbackRequestDeleteOrUpdateStatus
     );
   }
+  
   async function UpdateStatusUser(e) {
     handleToggle();
     new UsersApi().apiUsersUpdateStatusPut(
@@ -127,7 +129,7 @@ const User = () => {
             <UserItem
               head={UserListView()}
               rows={listUsers}
-              email={JSON.parse(user).email}
+              email={user}
               deleteUser={DeleteUser}
               getUsersList={GetUsersList}
               updateStatusUser={UpdateStatusUser}

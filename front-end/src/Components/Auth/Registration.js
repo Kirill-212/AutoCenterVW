@@ -106,7 +106,7 @@ function Registration() {
     handleClose();
   }
 
-  let style = { width: "30rem" };
+  let style = { width: "25rem" };
 
   return (
     <div className="d-flex   justify-content-center  align-items-center ">

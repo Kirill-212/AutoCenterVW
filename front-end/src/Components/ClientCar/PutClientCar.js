@@ -42,6 +42,7 @@ const PutClientCar = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleToggle = () => {
     setOpen(!open);
   };
@@ -61,7 +62,7 @@ const PutClientCar = () => {
         }
         if (url.height !== 600 || url.width !== 800) {
           setMessageError(
-            "Error:size is valid 800x600:File name:" +
+            "Error:valid size 800x600:File name:" +
               imgsCar[i].name +
               "|Line" +
               i
@@ -71,37 +72,37 @@ const PutClientCar = () => {
         }
         urls.push(new ImgDto(url.url));
       } else {
-        if (imgsCar[i].id !== undefined) urls.push(new ImgDto(imgsCar[i].url));
+        if (imgsCar[i].url !== undefined) urls.push(new ImgDto(imgsCar[i].url));
       }
     }
     if (user === undefined) {
       setMessageError("Unauthorized");
       handleClose();
-      return;
+    } else {
+      new ClientCarsApi().apiClientcarsPut(
+        GetJwtToken(),
+        {
+          body: new PutClientCarDto(
+            emailNew.length === 0 ? undefined : emailNew,
+            registerNumber,
+            registerNumberNew.length === 0 ? undefined : registerNumberNew,
+            new PutCarDto(
+              vin,
+              vinNew.length === 0 ? undefined : vinNew,
+              nameCarEquipment,
+              sharePercentage == 0 ? undefined : sharePercentage,
+              cost,
+              carMileage,
+              dateOfRealeseCar,
+              urls
+            ),
+            JSON.parse(user).email,
+            changeRegiterNumber === "1" ? true : false
+          )
+        },
+        CallbackRequestPut
+      );
     }
-    new ClientCarsApi().apiClientcarsPut(
-      GetJwtToken(),
-      {
-        body: new PutClientCarDto(
-          emailNew.length === 0 ? undefined : emailNew,
-          registerNumber,
-          registerNumberNew.length === 0 ? undefined : registerNumberNew,
-          new PutCarDto(
-            vin,
-            vinNew.length === 0 ? undefined : vinNew,
-            nameCarEquipment,
-            sharePercentage == 0 ? undefined : sharePercentage,
-            cost,
-            carMileage,
-            dateOfRealeseCar,
-            urls
-          ),
-          JSON.parse(user).email,
-          changeRegiterNumber === "1" ? true : false
-        )
-      },
-      CallbackRequestPut
-    );
   }
 
   async function GetCarEquipment() {
@@ -139,7 +140,7 @@ const PutClientCar = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -165,7 +166,7 @@ const PutClientCar = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -198,7 +199,7 @@ const PutClientCar = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -239,7 +240,7 @@ const PutClientCar = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -265,7 +266,7 @@ const PutClientCar = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {

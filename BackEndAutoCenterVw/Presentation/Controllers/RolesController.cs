@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstractions;
 using System.Collections.Generic;
@@ -20,13 +21,13 @@ namespace Presentation.Controllers
             _serviceManager = serviceManager;
         }
 
-        //  [Authorize(Roles = " ADMIN")]
+        [Authorize(Roles = " ADMIN")]
         [HttpGet]
         public async Task<IEnumerable<Role>> GetAll()
         {
             return await _serviceManager.AsyncServiceRole.GetAll();
         }
-
+        [Authorize(Roles = " ADMIN")]
         [HttpGet("withoutUser")]
         public async Task<IEnumerable<Role>> GetWithoutUser()
         {

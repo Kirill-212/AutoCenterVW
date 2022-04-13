@@ -1,4 +1,4 @@
-import React, {  useEffect } from "react";
+import React, { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import {
   PutNewDtoNewWrapperDto,
@@ -70,6 +70,7 @@ const PutNew = () => {
     handleToggle();
     setMessageError("");
     let urls = [];
+
     for (let i = 0; i < news.length; i++) {
       if (news[i].name !== undefined) {
         let url = await ImgService.uploadImage(news[i]);
@@ -80,7 +81,7 @@ const PutNew = () => {
         }
         if (url.height !== 700 || url.width !== 1000) {
           setMessageError(
-            "Error:size is valid 100x700:File name:" +
+            "Error:size is valid 1000x700:File name:" +
               news[i].name +
               "|Line" +
               i
@@ -90,7 +91,7 @@ const PutNew = () => {
         }
         urls.push(new ImgDto(url.url));
       } else {
-        if (news[i].id !== undefined) urls.push(new ImgDto(news[i].url));
+        if (news[i].url !== undefined) urls.push(new ImgDto(news[i].url));
       }
     }
     new NewApi().apiNewsPut(
@@ -172,9 +173,8 @@ const PutNew = () => {
                   id="inputGroupFile01"
                 />
                 <label className="custom-file-label" for="inputGroupFile01">
-                  Choose file
+                  Choose file(1000x700)
                 </label>
-                <small class="form-text text-muted">Size w-1000 h-700</small>
               </div>
             </div>}
           {imgs[i].url !== undefined &&
@@ -190,9 +190,8 @@ const PutNew = () => {
                   id="inputGroupFile01"
                 />
                 <label className="custom-file-label" for="inputGroupFile01">
-                  Choose file
+                  Choose file(1000x700)
                 </label>
-                <small class="form-text text-muted">Size w-1000 h-700</small>
               </div>
               <div className=" mt-5 ">
                 <img src={imgs[i].url} className="w-100 h-90" />
@@ -211,7 +210,7 @@ const PutNew = () => {
   }, []);
 
   let style = { width: "30rem" };
-  
+
   return (
     <div className="d-flex   justify-content-center align-items-center ">
       <div className="p-4  bg-dark text-white w-40">
