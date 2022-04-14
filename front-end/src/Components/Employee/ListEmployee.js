@@ -143,15 +143,15 @@ export default function EnhancedTable(props) {
                       <TableCell align="right">
                         {JSON.parse(props.email).email !==
                           row.getUserDto.email &&
-                          <div class="d-grid gap-2 d-md-block">
+                          <div className="d-grid gap-2 d-md-block">
                             <button
-                              class="btn btn-primary-sm btn-sm m-2"
+                              className="btn btn-primary-sm btn-sm m-2"
                               color="purple"
                               size="sm"
                               value={row.getUserDto.email}
                               onClick={props.deleteEmployee}
                             >
-                              <i class="fas fa-trash" />
+                              <i className="fas fa-trash" />
                             </button>
                             <a
                               className="text-reset btn btn-primary-sm btn-sm m-2"
@@ -160,7 +160,7 @@ export default function EnhancedTable(props) {
                                 .roleName}
                           `}
                             >
-                              <i class="fa-solid fa-screwdriver-wrench" />
+                              <i className="fa-solid fa-screwdriver-wrench" />
                             </a>
                           </div>}
                       </TableCell>

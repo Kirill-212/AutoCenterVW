@@ -126,7 +126,7 @@ const Authorization = props => {
         </div>
         <div>
           {redirect && <Navigate to={"/home"} />}
-          <div style={style} class="text-wrap  text-reset text-white">
+          <div style={style} className="text-wrap  text-reset text-white">
             <Backdrop
               sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
               open={open}

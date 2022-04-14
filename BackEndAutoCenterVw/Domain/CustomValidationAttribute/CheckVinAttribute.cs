@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace Domain.CustomValidationAttribute
 {
@@ -6,11 +7,12 @@ namespace Domain.CustomValidationAttribute
     {
         public override bool IsValid(object value)
         {
+            Regex regex = new("^[0 - 9A - HJ - NPR - Z]{ 17}$");
             if (value != null)
             {
-                if (value.ToString().Length == 17)
-                    return true;
-                ErrorMessage = "Error:Value VIN  is not correct.Example: XW8ZZZ5NZAG123456(17).";
+                MatchCollection matches = regex.Matches(value.ToString());
+                if (matches.Count == 1) return true;
+                ErrorMessage = $"Error:Value VIN  is not correct.";
 
                 return false;
             }

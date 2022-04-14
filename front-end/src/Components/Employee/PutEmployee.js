@@ -194,7 +194,7 @@ const PutEmployee = () => {
           >
             <CircularProgress color="inherit" />
           </Backdrop>
-          <div style={style} class="text-wrap  text-reset text-white">
+          <div style={style} className="text-wrap  text-reset text-white">
             {MessageError}
           </div>
         </div>

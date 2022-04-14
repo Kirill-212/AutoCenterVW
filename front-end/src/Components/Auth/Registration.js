@@ -199,7 +199,7 @@ function Registration() {
                 placeholder="Enter your password..."
                 required
               />
-              <small class="form-text text-muted">
+              <small className="form-text text-muted">
                 1 number. 1 upper letter.1 lower letter and one '-' min 8
                 lenght.
               </small>
@@ -248,7 +248,7 @@ function Registration() {
             </div>
           </div>
           <div>
-            <div style={style} class="text-wrap  text-reset text-white">
+            <div style={style} className="text-wrap  text-reset text-white">
               <Backdrop
                 sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
                 open={open}

@@ -150,6 +150,11 @@ const PutUser = () => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
+      if(response.statusCode === 204){
+        handleClose();
+        setMessageError("Error: user with this email not found.");
+        return
+      }
       setFirstName(response.body.firstName);
       setLastName(response.body.lastName);
       setSurname(response.body.surname);
@@ -326,7 +331,7 @@ const PutUser = () => {
 
           <div>
             {redirect && <Navigate to={"/home"} />}
-            <div style={style} class="text-wrap  text-reset text-white">
+            <div style={style} className="text-wrap  text-reset text-white">
               <Backdrop
                 sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
                 open={open}
