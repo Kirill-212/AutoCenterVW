@@ -12,12 +12,12 @@ namespace Services
     internal sealed class AsyncServiceUser : IAsyncServiceUser<User>
     {
         private readonly IUnitOfWork unitOfWork;
-      
+
         public AsyncServiceUser(
           IUnitOfWork unitOfWork)
-            
+
         {
-          
+
             this.unitOfWork = unitOfWork;
         }
 
@@ -69,19 +69,19 @@ namespace Services
             User user = await unitOfWork.AsyncRepositoryUser.GetByEmail(email);
             if (user == null) throw new UserEmailNotFound(email);
             user.Status = Status.DELETED;
-            
+
             IEnumerable<Car> cars = await unitOfWork.AsyncRepositoryCar.GetByEmail(email);
             foreach (var i in cars)
-               await RemoveCar(i.VIN);
-            IEnumerable<Order>  orders =await unitOfWork.AsyncRepositoryOrder.GetByEmail(email);
+                await RemoveCar(i.VIN);
+            IEnumerable<Order> orders = await unitOfWork.AsyncRepositoryOrder.GetByEmail(email);
             IEnumerable<TestDrive> testDrives = await unitOfWork.AsyncRepositoryTestDrive.GetByEmail(email);
-            IEnumerable<CarRepair> carRepairs=await unitOfWork.AsyncRepositoryCarRepair.GetByEmail(email);
+            IEnumerable<CarRepair> carRepairs = await unitOfWork.AsyncRepositoryCarRepair.GetByEmail(email);
             foreach (var i in orders)
                 i.State = State.CANCEL;
             foreach (var i in testDrives)
-               i.stateTestDrive=StateTestDrive.CANCEL;
+                i.stateTestDrive = StateTestDrive.CANCEL;
             foreach (var i in carRepairs)
-               i.StateCarRepair=StateCarRepair.CANCEL;
+                i.StateCarRepair = StateCarRepair.CANCEL;
             unitOfWork.AsyncRepositoryUser.Update(user);
             unitOfWork.AsyncRepositoryOrder.UpdateRange(orders);
             unitOfWork.AsyncRepositoryTestDrive.UpdateRange(testDrives);
@@ -140,13 +140,25 @@ namespace Services
             }
             else
             {
-                item.Password=user.Password;
+                item.Password = user.Password;
             }
             item.Id = user.Id;
             item.Status = user.Status;
             item.RoleId = user.RoleId;
             unitOfWork.AsyncRepositoryUser.Update(item);
             await unitOfWork.CompleteAsync();
+        }
+
+        public async Task UpdateForUser(User item, string email, string newUrlPhoto = null, string newEmail = null, string newPassword = null, CancellationToken cancellationToken = default)
+        {
+            if (item.Email != email)
+                throw new UserUpdateError();
+            await Update(
+             item,
+            newUrlPhoto
+             , newEmail,
+              newPassword
+             );
         }
 
         public async Task UpdateStatusByEmail(string email,

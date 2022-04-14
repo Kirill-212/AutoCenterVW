@@ -79,7 +79,7 @@ const PutClientCar = () => {
       setMessageError("Unauthorized");
       handleClose();
     } else {
-      new ClientCarsApi().apiClientcarsPut(
+      new ClientCarsApi().apiClientcarsClientcarPut(
         GetJwtToken(),
         {
           body: new PutClientCarDto(
@@ -98,7 +98,8 @@ const PutClientCar = () => {
             ),
             JSON.parse(user).email,
             changeRegiterNumber === "1" ? true : false
-          )
+          ),
+          email: JSON.parse(user).email
         },
         CallbackRequestPut
       );

@@ -42,7 +42,7 @@ namespace Presentation.Controllers
                 );
         }
 
-        [Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet]
         public async Task<List<GetUserDto>> GetAll()
         {
@@ -77,7 +77,7 @@ namespace Presentation.Controllers
             }
         }
 
-        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [Authorize(Roles = "ADMIN,EMPLOYEE")]
         [HttpPut]
         public async Task<ActionResult> Put([FromBody] PutUserDto item)
         {
@@ -85,6 +85,23 @@ namespace Presentation.Controllers
             {
                 await _serviceManager.AsyncServiceUser.Update(
                     _mapper.Map<User>(item), item.NewUrlPhoto, item.NewEmail, item.NewPassword);
+
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [HttpPut("user")]
+        public async Task<ActionResult> Put([FromBody] PutUserDto item,[FromQuery]string email)
+        {
+            if (ModelState.IsValid)
+            {
+                await _serviceManager.AsyncServiceUser.UpdateForUser(
+                    _mapper.Map<User>(item),email, item.NewUrlPhoto, item.NewEmail, item.NewPassword);
 
                 return NoContent();
             }

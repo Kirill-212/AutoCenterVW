@@ -42,7 +42,7 @@ namespace Services
             if (emailOwner == null)
             {
                 car = await unitOfWork.AsyncRepositoryCar.GetCarByVinForOrder(vin);
-                if (car == null || car.IsActive == false) 
+                if (car == null || car.IsActive == false)
                     throw new CarVinError(vin);
             }
             else
@@ -128,6 +128,18 @@ namespace Services
             await unitOfWork.CompleteAsync();
         }
 
+        public async Task UpdateStateForCancelUser(string vin, string emailBuyer, decimal totalCost, string email, CancellationToken cancellationToken = default)
+        {
+            Car car = await unitOfWork.AsyncRepositoryCar.GetCarByVinAndEmailForOrder(vin, email);
+            if (car == null)
+                throw new CarVinFound(vin, "found or not found or car have new owner, but this is not your car.");
+            await UpdateStateForCancel(
+              vin,
+              emailBuyer,
+             totalCost
+             );
+        }
+
         public async Task UpdateStateForConfirm(
             string vin,
             string emailBuyer,
@@ -157,6 +169,18 @@ namespace Services
             order.State = State.CONFIRM;
             unitOfWork.AsyncRepositoryOrder.Update(order);
             await unitOfWork.CompleteAsync();
+        }
+
+        public async Task UpdateStateForConfirmUser(string vin, string emailBuyer, decimal totalCost, string email, CancellationToken cancellationToken = default)
+        {
+            Car car = await unitOfWork.AsyncRepositoryCar.GetCarByVinAndEmailForOrder(vin, email);
+            if (car == null)
+                throw new CarVinFound(vin, "found or not found or car have new owner, but this is not your car.");
+            await UpdateStateForConfirm(
+            vin,
+            emailBuyer,
+            totalCost
+            );
         }
 
         public async Task UpdateStateForPaid(
@@ -230,7 +254,7 @@ namespace Services
                 }
                 unitOfWork.AsyncRepositoryClientCar.Update(clientCar);
             }
-            car.IsActive=!car.IsActive;
+            car.IsActive = !car.IsActive;
             unitOfWork.AsyncRepositoryCar.Update(car);
             unitOfWork.AsyncRepositoryOrder.Update(order);
             await unitOfWork.CompleteAsync();

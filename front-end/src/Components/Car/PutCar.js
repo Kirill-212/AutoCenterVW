@@ -52,7 +52,7 @@ const PutCar = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult +=  errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -91,7 +91,7 @@ const PutCar = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult +=  errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -180,7 +180,7 @@ const PutCar = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult +=  errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -211,7 +211,7 @@ const PutCar = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult +=  errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -229,7 +229,7 @@ const PutCar = () => {
     handleClose();
   }
 
-  function AddImgs(value, i) {
+ async function AddImgs(value, i) {
     if (!value) {
       setMessageError("Error:Wrong file type!Input number:" + i);
       return;
@@ -239,7 +239,20 @@ const PutCar = () => {
         "Error:Wrong file type!File name:" + value.name + "|Line:" + i
       );
     } else {
-      imgsCar[i] = value;
+      let url = await ImgService.uploadImage(value);
+      if (url == undefined) {
+        setMessageError("Error:upload img is not valid.");
+
+        return;
+      }
+      if (url.height !== 600 || url.width !== 800) {
+        setMessageError(
+          "Error:size is valid 800x600:File name:" + value.name + "|Line" + i
+        );
+
+        return;
+      }
+      imgsCar[i] = new ImgDto(url.url);
     }
   }
 

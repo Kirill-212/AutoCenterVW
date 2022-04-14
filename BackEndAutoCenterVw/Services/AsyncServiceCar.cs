@@ -229,6 +229,36 @@ namespace Services
             Car car = await unitOfWork.AsyncRepositoryCar.GetByVin(vin);
             if (car == null)
                 throw new CarVinFound(vin, "not found");
+            if (car.ClientCar != null)
+            {
+                if (car.IsActive)
+                {
+                    IEnumerable<Order> order = await unitOfWork.AsyncRepositoryOrder.GetByVin(vin);
+                    if (order.Count() > 0)
+                        throw new UpdateStatusIsActiveCarRepair();
+                }
+                else
+                {
+                    IEnumerable<CarRepair> carRepairs = await unitOfWork.AsyncRepositoryCarRepair.GetByVin(vin);
+                    if (carRepairs.Count() > 0)
+                        throw new UpdateStatusIsActiveCarRepair();
+                }
+            }
+            else
+            {
+                if (car.IsActive)
+                {
+                    IEnumerable<Order> order = await unitOfWork.AsyncRepositoryOrder.GetByVin(vin);
+                    if (order.Count() > 0)
+                        throw new UpdateStatusIsActiveCarRepair();
+                }
+                else
+                {
+                    IEnumerable<TestDrive> testDrives = await unitOfWork.AsyncRepositoryTestDrive.GetByVin(vin);
+                    if (testDrives.Count() > 0)
+                        throw new UpdateStatusIsActiveCarRepair();
+                }
+            }
             car.IsActive = !car.IsActive;
             unitOfWork.AsyncRepositoryCar.Update(car);
             await unitOfWork.CompleteAsync();
@@ -237,6 +267,29 @@ namespace Services
         public async Task<IEnumerable<Car>> GetCarByEmail(string email, CancellationToken cancellationToken = default)
         {
             return await unitOfWork.AsyncRepositoryCar.GetCarByEmail(email);
+        }
+
+        public async Task Remove(string vin, string email, CancellationToken cancellationToken = default)
+        {
+            Car car = await unitOfWork.AsyncRepositoryCar.GetCarByVinAndEmailForOrder(vin, email);
+            if (car == null)
+                throw new CarVinFound(vin, "found or not found or car have new owner, but this is not your car.");
+            car.IsDeleted = true;
+            unitOfWork.AsyncRepositoryCar.Update(car);
+            IEnumerable<TestDrive> testDrives = await unitOfWork.AsyncRepositoryTestDrive.GetByVin(vin);
+            foreach (var i in testDrives)
+                i.stateTestDrive = StateTestDrive.CANCEL;
+            IEnumerable<CarRepair> carRepairs = await unitOfWork.AsyncRepositoryCarRepair.GetByVin(vin);
+            foreach (var i in carRepairs)
+                i.StateCarRepair = StateCarRepair.CANCEL;
+            IEnumerable<Order> order = await unitOfWork.AsyncRepositoryOrder.GetByVin(vin);
+            foreach (var i in order)
+                i.State = State.CANCEL;
+            unitOfWork.AsyncRepositoryOrder.UpdateRange(order);
+            unitOfWork.AsyncRepositoryTestDrive.UpdateRange(testDrives);
+            unitOfWork.AsyncRepositoryCarRepair.UpdateRange(carRepairs);
+            unitOfWork.AsyncRepositoryCar.Update(car);
+            await unitOfWork.CompleteAsync();
         }
     }
 }

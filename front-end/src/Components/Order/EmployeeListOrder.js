@@ -1,16 +1,15 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { OrdersApi, UpdateStateOrderDto } from "../../ImportExportGenClient";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
-import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { getDate } from "../ViewLists/SupportFunction";
+
 const EmployeeListOrder = props => {
-  const { user } = useContext(Context);
   const [MessageError, setMessageError] = React.useState("");
   const [listCars, setListCars] = React.useState([]);
   const [viewList, setViewList] = React.useState(false);
@@ -19,6 +18,7 @@ const EmployeeListOrder = props => {
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleToggle = () => {
     setOpen(!open);
   };
@@ -52,7 +52,7 @@ const EmployeeListOrder = props => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -110,7 +110,7 @@ const EmployeeListOrder = props => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {

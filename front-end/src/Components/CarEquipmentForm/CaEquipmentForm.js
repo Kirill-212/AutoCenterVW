@@ -46,7 +46,7 @@ const CarEquipmentForm = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult +=  errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -72,7 +72,7 @@ const CarEquipmentForm = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult +=  errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {

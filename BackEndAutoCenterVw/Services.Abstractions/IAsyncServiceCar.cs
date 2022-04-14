@@ -30,6 +30,8 @@ namespace Services.Abstractions
 
         Task Remove(string vin, CancellationToken cancellationToken = default);
 
+        Task Remove(string vin,string email, CancellationToken cancellationToken = default);
+
         Task<T> GetByVin(string vin, CancellationToken cancellationToken = default);
 
         Task<IEnumerable<T>> GetWithoutClientCar(CancellationToken cancellationToken = default);

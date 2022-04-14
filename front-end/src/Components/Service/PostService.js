@@ -1,4 +1,4 @@
-import React, {  useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { Navigate } from "react-router-dom";
 import {
   EmployeesApi,
@@ -8,8 +8,10 @@ import {
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+import Context from "../../context";
 
 const PostService = () => {
+  const { user } = useContext(Context);
   const [description, setDescription] = React.useState("");
   const [vin, setVin] = React.useState("");
   const [emp, setEmp] = React.useState("");
@@ -31,10 +33,20 @@ const PostService = () => {
     event.preventDefault();
     handleToggle();
     setMessageError("");
+    if (user === undefined) {
+      setMessageError("Unauthorized");
+      handleClose();
+      return;
+    }
     new CarRepairsApi().apiCarrepairsPost(
       GetJwtToken(),
       {
-        body: new PostCarRepairDto(description, vin, emp)
+        body: new PostCarRepairDto(
+          description,
+          vin,
+          emp,
+          JSON.parse(user).email
+        )
       },
       CallbackRequestPost
     );
@@ -47,7 +59,7 @@ const PostService = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -70,7 +82,7 @@ const PostService = () => {
     handleToggle();
     new EmployeesApi().apiEmployeesCarrepairGet(GetJwtToken(), CallbackRequest);
   }
-  
+
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -79,7 +91,7 @@ const PostService = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {

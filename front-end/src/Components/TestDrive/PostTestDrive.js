@@ -26,6 +26,7 @@ const PostTestDrive = () => {
   async function submit(e) {
     e.preventDefault();
     handleToggle();
+    setMessageError("")
     if (user === undefined) {
       setMessageError("Unauthorized");
       handleClose();
@@ -53,7 +54,7 @@ const PostTestDrive = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult +=  errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {

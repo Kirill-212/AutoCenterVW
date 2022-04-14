@@ -21,19 +21,23 @@ namespace Services
         }
 
         public async Task Create(
+            string emailOwner,
             string email,
             string vin,
             string description,
             CancellationToken cancellationToken = default
             )
         {
+            Car car = await unitOfWork.AsyncRepositoryCar.GetCarByVinAndEmailForOrder(vin, emailOwner);
+            if (car == null)
+                throw new CarVinFound(vin, "found, but this is not your car");
             User user =
                 await unitOfWork.AsyncRepositoryUser.GetActiveUserByEmail(email);
             if (user == null)
                 throw new UserStatusIsNotValidOrUserNotFound(email);
             if (user != null && user.Employee == null)
                 throw new CarRepairEmployeeError(email);
-            Car car = await unitOfWork.AsyncRepositoryCar.GetByVin(vin);
+            car = await unitOfWork.AsyncRepositoryCar.GetByVin(vin);
             if (car == null || car.IsActive == true || car.ClientCar == null)
                 throw new CarRepairCarError(vin);
             CarRepair carRepair = new()
@@ -46,7 +50,7 @@ namespace Services
                 StateCarRepair = StateCarRepair.PENDING
             };
             CarRepair checkCarRepair =
-                await unitOfWork.AsyncRepositoryCarRepair.GetByCarRepairParams(carRepair);
+                await unitOfWork.AsyncRepositoryCarRepair.GetByCarRepairParamsNotEmp(carRepair);
             if (checkCarRepair != null &&
                 checkCarRepair.StateCarRepair != StateCarRepair.ENDWORK &&
                 checkCarRepair.StateCarRepair != StateCarRepair.CANCEL
@@ -106,6 +110,17 @@ namespace Services
             await unitOfWork.CompleteAsync();
         }
 
+        public async Task UpdateStateForCancelUser(string emailOwner, string emailEmployee, string vin, CancellationToken cancellationToken = default)
+        {
+            Car car = await unitOfWork.AsyncRepositoryCar.GetCarByVinAndEmailForOrder(vin, emailOwner);
+            if (car == null)
+                throw new CarVinFound(vin, "found, but this is not your car");
+            await UpdateStateForCancel(
+             emailEmployee,
+            vin
+            );
+        }
+
         public async Task UpdateStateForEndWork(
             string emailEmployee,
             string vin,
@@ -160,11 +175,17 @@ namespace Services
                 (await unitOfWork.AsyncRepositoryCarRepair.GetCarRepairForEmployee(user.Id)).ToList();
 
             if (carRepairList
-                .Where(i => (i.StartWork < startWork && i.EndWork > startWork) ||
-                (i.StartWork < endWork && i.EndWork > endWork))
+                .Where(i => (i.StartWork < startWork && i.EndWork > startWork))
                 .ToList().Count > 0 ||
                 carRepairList
-                .Where(i => i.StartWork == startWork && i.EndWork == endWork)
+                .Where(i => (i.StartWork < endWork && i.EndWork > endWork))
+                .ToList().Count > 0 ||
+                
+                carRepairList
+                .Where(i => (i.StartWork > startWork && i.EndWork < endWork) )
+                .ToList().Count > 0 ||
+                carRepairList
+                .Where(i => i.StartWork == startWork || i.EndWork == endWork)
                .ToList().Count > 0)
                 throw new CarRepairDateIsNotValid(startWork.ToString(), endWork.ToString());
             CarRepair carRepair = new()

@@ -40,6 +40,23 @@ namespace Services.Abstractions
             CancellationToken cancellationToken = default
             );
 
+
+        Task UpdateStateForCancelUser(
+            string vin,
+            string emailBuyer,
+            decimal totalCost,
+            string email,
+            CancellationToken cancellationToken = default
+            );
+
+        Task UpdateStateForConfirmUser(
+            string vin,
+            string emailBuyer,
+            decimal totalCost,
+            string email,
+            CancellationToken cancellationToken = default
+            );
+
         Task UpdateStateForPaid(
             string vin,
             string emailBuyer,

@@ -8,6 +8,7 @@ namespace Services.Abstractions
     public interface IAsyncServiceCarRepair<T>
     {
         Task Create(
+            string emailOwner,
             string email,
             string vin,
             string description,
@@ -25,6 +26,13 @@ namespace Services.Abstractions
             );
 
         Task UpdateStateForCancel(
+            string emailEmployee,
+            string vin,
+            CancellationToken cancellationToken = default
+            );
+
+        Task UpdateStateForCancelUser(
+            string emailOwner,
             string emailEmployee,
             string vin,
             CancellationToken cancellationToken = default

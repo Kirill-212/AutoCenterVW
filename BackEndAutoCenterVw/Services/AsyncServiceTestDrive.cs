@@ -75,10 +75,11 @@ namespace Services
             CancellationToken cancellationToken = default
             )
         {
+
             User user = await unitOfWork.AsyncRepositoryUser.GetActiveUserByEmail(email);
             if (user == null) throw new UserStatusIsNotValidOrUserNotFound(email);
 
-            Car car = await unitOfWork.AsyncRepositoryCar.GetByVin(vin);
+           Car car = await unitOfWork.AsyncRepositoryCar.GetByVin(vin);
             if (car == null || car.IsActive == true || car.ClientCar != null)
                 throw new TestDriveCarError(vin);
             TestDrive testDrive = new()

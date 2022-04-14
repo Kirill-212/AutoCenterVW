@@ -44,8 +44,8 @@ function Header(props) {
                       List
                       </a>
                     </li>
-                    {(JSON.parse(user).roleName === "ADMIN" ||
-                  JSON.parse(user).roleName === "SERVICE_EMPLOYEE") &&  <li>
+                    {
+                  JSON.parse(user).roleName === "SERVICE_EMPLOYEE" &&  <li>
                       <a class="dropdown-item" href="/service/employee">
                       List for employee
                       </a>

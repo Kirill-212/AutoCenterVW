@@ -30,5 +30,14 @@ namespace Services.Abstractions
             CancellationToken cancellationToken = default
             );
 
+        Task UpdateForUser(
+            T item,
+            string email,
+            string newUrlPhoto = null,
+            string newEmail = null,
+            string newPassword = null,
+            CancellationToken cancellationToken = default
+            );
+
     }
 }

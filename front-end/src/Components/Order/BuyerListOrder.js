@@ -65,7 +65,7 @@ const BuyerListOrder = props => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -88,12 +88,17 @@ const BuyerListOrder = props => {
     let valueOrder = JSON.parse(value);
     if (valueOrder.state === "CANCEL") {
       handleToggle();
+      if (user === undefined) {
+        setMessageError("Unauthorized");
+        handleClose();
+        return;
+      }
       new OrdersApi().apiOrdersCancelPut(
         GetJwtToken(),
         {
           body: new UpdateStateOrderDto(
             valueOrder.vin,
-            valueOrder.email,
+            JSON.parse(user).email,
             valueOrder.totalCost
           )
         },
@@ -110,7 +115,7 @@ const BuyerListOrder = props => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -413,7 +418,6 @@ const BuyerListOrder = props => {
                                   UpdateState(
                                     JSON.stringify({
                                       vin: r.order.car.vin,
-                                      email: r.order.user.email,
                                       totalCost: r.order.totalCost,
                                       state: "CANCEL"
                                     }),
@@ -671,7 +675,6 @@ const BuyerListOrder = props => {
                                 UpdateState(
                                   JSON.stringify({
                                     vin: r.order.car.vin,
-                                    email: r.order.user.email,
                                     totalCost: r.order.totalCost,
                                     state: "CANCEL"
                                   }),

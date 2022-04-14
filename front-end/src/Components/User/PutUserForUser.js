@@ -63,7 +63,12 @@ const PutUser = () => {
     } else {
       url = null;
     }
-    new UsersApi().apiUsersPut(
+    if (user === undefined) {
+      setMessageError("Unauthorized");
+      handleClose();
+      return;
+    }
+    new UsersApi().apiUsersUserPut(
       GetJwtToken(),
       {
         body: {
@@ -77,7 +82,8 @@ const PutUser = () => {
           FirstName: firstName,
           NewPassword: passwordNew.length === 0 ? null : passwordNew,
           NewEmail: emailNew.length === 0 ? null : emailNew
-        }
+        },
+        email: JSON.parse(user).email
       },
       CallbackRequest
     );
@@ -91,7 +97,7 @@ const PutUser = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult +=  errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -133,7 +139,7 @@ const PutUser = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult +=  errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {

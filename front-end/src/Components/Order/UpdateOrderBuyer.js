@@ -55,6 +55,12 @@ const UpdateOrderBuyer = () => {
       handleClose();
       return;
     }
+    if(new Date().getMonth() + 1 > Number(month) &&
+    year == new Date().getFullYear() % 100){
+      setMessageError("Error: month with year is not valid value.");
+      handleClose();
+      return;
+    }
     if (user === undefined) {
       setMessageError("Unauthorized");
       handleClose();
@@ -86,7 +92,7 @@ const UpdateOrderBuyer = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -110,7 +116,7 @@ const UpdateOrderBuyer = () => {
     setTotalCost(query.get("totalCost"));
   }, []);
 
-  let style = { width: "30rem" };
+  let style = { width: "20rem" };
 
   return (
     <div className="d-flex   justify-content-center  align-items-center ">

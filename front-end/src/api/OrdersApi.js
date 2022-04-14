@@ -34,7 +34,68 @@ export class OrdersApi {
   constructor(apiClient) {
     this.apiClient = apiClient || ApiClient.instance;
   }
+  apiOrdersConfirmUserPut(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = opts["body"];
 
+    let pathParams = {};
+    let queryParams = {
+      email: opts["email"]
+    };
+    let headerParams = jwt;
+    let formParams = {};
+
+    let authNames = [];
+    let contentTypes = ["application/json", "text/json", "application/_*+json"];
+    let accepts = [];
+    let returnType = null;
+
+    return this.apiClient.callApi(
+      "/api/orders/confirm/user",
+      "PUT",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+  apiOrdersCancelUserPut(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = opts["body"];
+
+    let pathParams = {};
+    let queryParams = {
+      email: opts["email"]
+    };
+    let headerParams = jwt;
+    let formParams = {};
+
+    let authNames = [];
+    let contentTypes = ["application/json", "text/json", "application/_*+json"];
+    let accepts = [];
+    let returnType = null;
+
+    return this.apiClient.callApi(
+      "/api/orders/cancel/user",
+      "PUT",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
   /**
      * Callback function to receive the result of the apiOrdersBuyerGet operation.
      * @callback moduleapi/OrdersApi~apiOrdersBuyerGetCallback

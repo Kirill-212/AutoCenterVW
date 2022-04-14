@@ -254,6 +254,39 @@ export class ClientCarsApi {
      * @param {module:model/PutClientCarDto} opts.body 
      * @param {module:api/ClientCarsApi~apiClientcarsPutCallback} callback The callback function, accepting three arguments: error, data, response
      */
+
+  apiClientcarsClientcarPut(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = opts["body"];
+
+    let pathParams = {};
+    let queryParams = {
+      email: opts["email"]
+    };
+    let headerParams = jwt;
+    let formParams = {};
+
+    let authNames = [];
+    let contentTypes = ["application/json", "text/json", "application/_*+json"];
+    let accepts = [];
+    let returnType = null;
+
+    return this.apiClient.callApi(
+      "/api/clientcars/clientcar",
+      "PUT",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+
   apiClientcarsVinGet(jwt, opts, callback) {
     opts = opts || {};
     let postBody = null;

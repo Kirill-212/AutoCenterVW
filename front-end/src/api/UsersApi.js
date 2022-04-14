@@ -136,6 +136,38 @@ export class UsersApi {
      * @param {module:api/UsersApi~apiUsersGetCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}
      */
+  apiUsersUserPut(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = opts["body"];
+
+    let pathParams = {};
+    let queryParams = {
+      email: opts["email"]
+    };
+    let headerParams = jwt;
+    let formParams = {};
+
+    let authNames = [];
+    let contentTypes = ["application/json", "text/json", "application/_*+json"];
+    let accepts = [];
+    let returnType = null;
+
+    return this.apiClient.callApi(
+      "/api/users/user",
+      "PUT",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+
   apiUsersGet(jwt, callback) {
     let postBody = null;
 

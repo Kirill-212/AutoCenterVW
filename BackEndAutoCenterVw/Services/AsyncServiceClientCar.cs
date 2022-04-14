@@ -99,7 +99,7 @@ namespace Services
 
         public async Task<ClientCar> GetCarByVin(string vin)
         {
-           return await unitOfWork.AsyncRepositoryClientCar.GetCarByVin(vin);
+            return await unitOfWork.AsyncRepositoryClientCar.GetCarByVin(vin);
         }
 
         public async Task Remove(
@@ -241,6 +241,23 @@ namespace Services
             await unitOfWork.CompleteAsync();
             unitOfWork.AsyncRepositoryClientCar.Update(clientCar);
             await unitOfWork.CompleteAsync();
+        }
+
+        public async Task UpdateForUser(ClientCar item, int? sharePercentage, string oldEmail, string newEmail, string newRegisterNumber, string email, string nameCarEquipment = null, bool changeRegisterNumber = false, string newVin = null, CancellationToken cancellationToken = default)
+        {
+            Car car = await unitOfWork.AsyncRepositoryCar.GetCarByVinAndEmailForOrder(item.Car.VIN, email);
+            if (car == null)
+                throw new CarVinFound(item.Car.VIN, "found or not found or car have new owner, but this is not your car");
+            await Update(
+             item,
+           sharePercentage,
+            oldEmail,
+            newEmail,
+            newRegisterNumber,
+            nameCarEquipment ,
+            changeRegisterNumber,
+            newVin
+              );
         }
     }
 }

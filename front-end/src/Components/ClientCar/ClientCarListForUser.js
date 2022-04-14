@@ -16,18 +16,14 @@ export default function EnhancedTable(props) {
   const [MessageError, setMessageError] = React.useState("");
   const [flag, setFlag] = React.useState(true);
 
-  async function UpdateCar(e) {
-    new CarsApi().updateStatusGet(
-      GetJwtToken(),
-      { vin: e.currentTarget.value },
-      CallbackReq
-    );
-  }
-
   async function DeleteClientCar(e) {
-    new CarsApi().apiCarsDelete(
+    if (user === undefined) {
+      setMessageError("Unauthorized");
+      return;
+    }
+    new CarsApi().apiCarsClientcarDelete(
       GetJwtToken(),
-      { vin: e.currentTarget.value },
+      { vin: e.currentTarget.value, email: 'd'+JSON.parse(user).email },
       CallbackReq
     );
   }
@@ -40,7 +36,7 @@ export default function EnhancedTable(props) {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -66,7 +62,7 @@ export default function EnhancedTable(props) {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -106,7 +102,7 @@ export default function EnhancedTable(props) {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -216,22 +212,21 @@ export default function EnhancedTable(props) {
                     </button>
                   </div>
                   <div className="col-1">
-                    <button
-                      class="btn btn-primary-sm btn-sm ml-1"
-                      value={e.car.vin}
-                      onClick={UpdateCar}
-                      type="button"
-                    >
-                      <i class="fa-solid fa-sack-dollar" />
-                    </button>
-                  </div>
-                  <div className="col-1">
                     <a
                       className="btn btn-primary-sm btn-sm ml-1 text-reset "
                       href={`/clientcar/info?vin=${e.car.vin}
                           `}
                     >
                       <i class="fa-solid fa-info" />
+                    </a>
+                  </div>
+                  <div className="col-1">
+                    {" "}<a
+                      className="btn btn-primary-sm btn-sm ml-1 text-reset"
+                      href={`/clientcar/put/user?vin=${e.car.vin}
+                          `}
+                    >
+                      <i className="fa fa-wrench" aria-hidden="true" />
                     </a>
                   </div>
                 </div>

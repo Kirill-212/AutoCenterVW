@@ -42,7 +42,7 @@ const ClientCarDetail = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         handleClose();
         setMessageError(errorResult);
@@ -74,7 +74,6 @@ const ClientCarDetail = () => {
       handleClose();
       setMessageError(JSON.parse(error.message)["error"]);
     }
-    handleClose();
   }
 
   function CallbackRequestGetById(error, data, response) {
@@ -85,7 +84,7 @@ const ClientCarDetail = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {

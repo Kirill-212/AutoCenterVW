@@ -46,7 +46,7 @@ const PutNew = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult +=  errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -70,7 +70,6 @@ const PutNew = () => {
     handleToggle();
     setMessageError("");
     let urls = [];
-
     for (let i = 0; i < news.length; i++) {
       if (news[i].name !== undefined) {
         let url = await ImgService.uploadImage(news[i]);
@@ -118,7 +117,7 @@ const PutNew = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult +=  errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -136,7 +135,7 @@ const PutNew = () => {
     handleClose();
   }
 
-  function AddImgs(value, i) {
+  async function AddImgs(value, i) {
     if (!value) {
       setMessageError("Error:Wrong file type!Input number:" + i);
       return;
@@ -146,7 +145,20 @@ const PutNew = () => {
         "Error:Wrong file type!File name:" + value.name + "|Line:" + i
       );
     } else {
-      news[i] = value;
+      let url = await ImgService.uploadImage(value);
+      if (url == undefined) {
+        setMessageError("Error:upload img is not valid.");
+
+        return;
+      }
+      if (url.height !== 700 || url.width !== 1000) {
+        setMessageError(
+          "Error:size is valid 1000x700:File name:" + value.name + "|Line" + i
+        );
+
+        return;
+      }
+      news[i] = new ImgDto(url.url);
     }
   }
 
@@ -156,6 +168,7 @@ const PutNew = () => {
 
   function renderInput() {
     let imgs = news;
+
     let rows = [];
     for (let i = 0; i < imgs.length; i++) {
       rows.push(

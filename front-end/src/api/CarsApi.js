@@ -531,6 +531,40 @@ export class CarsApi {
      * @param {String} opts.vin 
      * @param {module:api/CarsApi~updateStatusGetCallback} callback The callback function, accepting three arguments: error, data, response
      */
+
+  apiCarsClientcarDelete(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = null;
+
+    let pathParams = {};
+    let queryParams = {
+      vin: opts["vin"],
+      email: opts["email"]
+    };
+    let headerParams = jwt;
+    let formParams = {};
+
+    let authNames = [];
+    let contentTypes = [];
+    let accepts = [];
+    let returnType = null;
+
+    return this.apiClient.callApi(
+      "/api/cars/clientcar",
+      "DELETE",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
+
   updateStatusGet(jwt, opts, callback) {
     opts = opts || {};
     let postBody = null;

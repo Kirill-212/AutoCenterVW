@@ -21,6 +21,7 @@ import CarInfo from "./Components/Car/CarDetails";
 import PostClientCar from "./Components/ClientCar/PostClientCar";
 import ClientCar from "./Components/ClientCar/ClientCar";
 import PutClientCar from "./Components/ClientCar/PutClientCar";
+import PutClientCarForUser from "./Components/ClientCar/PuClientCarForUser";
 import ClientCarInfo from "./Components/ClientCar/ClientCarDetail";
 import PostCarEquipment from "./Components/CarEquipment/PostCarEquipment";
 import CarEquipment from "./Components/CarEquipment/CarEquipment";
@@ -80,6 +81,10 @@ function App() {
             <Route path="clientcar/post" element={<PostClientCar />} />//+
             <Route path="clientcar" element={<ClientCar />} />//+
             <Route path="clientcar/put" element={<PutClientCar />} />//+
+            <Route
+              path="clientcar/put/user"
+              element={<PutClientCarForUser />}
+            />//+
             <Route path="clientcar/info" element={<ClientCarInfo />} />//+
             <Route path="carequipment/post" element={<PostCarEquipment />} />//+
             <Route path="carequipment" element={<CarEquipment />} />//+
@@ -99,9 +104,15 @@ function App() {
             <Route path="order/put" element={<PutOrder />} />//+
             <Route path="car/list" element={<AllCarForTestDriveOrder />} />//+
             <Route path="testdrive/post" element={<PostTestDrive />} />//+
-            <Route path="testdrive/employee" element={<EmployeeTestDrive />} />//+
+            <Route
+              path="testdrive/employee"
+              element={<EmployeeTestDrive />}
+            />//+
             <Route path="testdrive/user" element={<UserTestDrive />} />//+
-            <Route path="clientcar/user" element={<ClientCarListForUser />} />//+
+            <Route
+              path="clientcar/user"
+              element={<ClientCarListForUser />}
+            />//+
             <Route path="service/post" element={<PostService />} />
             <Route path="service/employee" element={<EmployeeServce />} />
             <Route path="service/start" element={<StartService />} />

@@ -34,6 +34,7 @@ namespace Presentation.Controllers
 
             return NoContent();
         }
+
         [HttpGet("/active")]
         public async Task<List<GetCarDto>> GetCarActive()
         {
@@ -47,6 +48,7 @@ namespace Presentation.Controllers
             return await _serviceManager.AsyncServiceCar.GetCarByEmail(email);
         }
 
+        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("/email/paged")]
         public GetPagedCarDto GetCarsPagedByEmail([FromQuery] PagedParameters pagedParameters, string email)
         {
@@ -78,6 +80,7 @@ namespace Presentation.Controllers
             return await _serviceManager.AsyncServiceCar.GetCarForUser();
         }
 
+        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("paged")]
         public GetPagedCarDto GetCarsPaged([FromQuery] PagedParameters pagedParameters)
         {
@@ -189,6 +192,15 @@ namespace Presentation.Controllers
         public async Task<ActionResult> Delete([FromQuery] string vin)
         {
             await _serviceManager.AsyncServiceCar.Remove(vin);
+
+            return NoContent();
+        }
+
+        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [HttpDelete("clientcar")]
+        public async Task<ActionResult> Delete([FromQuery] string vin,string email)
+        {
+            await _serviceManager.AsyncServiceCar.Remove(vin,email);
 
             return NoContent();
         }

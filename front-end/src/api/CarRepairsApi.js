@@ -35,6 +35,37 @@ export class CarRepairsApi {
     this.apiClient = apiClient || ApiClient.instance;
   }
 
+  apiCarrepairsCancelUserPut(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = opts["body"];
+
+    let pathParams = {};
+    let queryParams = {
+      email: opts["email"]
+    };
+    let headerParams = jwt;
+    let formParams = {};
+
+    let authNames = [];
+    let contentTypes = ["application/json", "text/json", "application/_*+json"];
+    let accepts = [];
+    let returnType = null;
+
+    return this.apiClient.callApi(
+      "/api/carrepairs/cancel/user",
+      "PUT",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
   /**
      * Callback function to receive the result of the apiCarrepairsCancelPut operation.
      * @callback moduleapi/CarRepairsApi~apiCarrepairsCancelPutCallback
@@ -294,7 +325,7 @@ export class CarRepairsApi {
      * @param {module:api/CarRepairsApi~apiCarrepairsUserGetCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link <&vendorExtensions.x-jsdoc-type>}
      */
-  apiCarrepairsUserGet(jwt,opts, callback) {
+  apiCarrepairsUserGet(jwt, opts, callback) {
     opts = opts || {};
     let postBody = null;
 

@@ -16,5 +16,9 @@ namespace Contracts
 
         [Required(ErrorMessage = "Error: email is required.")]
         public string Email { get; set; }
+
+        [Required(ErrorMessage = "Error: email owner is required.")]
+        public string EmailOwner { get; set; }
+
     }
 }

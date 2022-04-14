@@ -63,7 +63,7 @@ const UserListOrder = props => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -86,13 +86,18 @@ const UserListOrder = props => {
     let valueTestDrive = JSON.parse(value);
     if (valueTestDrive.state === "CANCEL") {
       handleToggle();
+      if (user === undefined) {
+        setMessageError("Unauthorized");
+        handleClose();
+        return;
+      }
       new TestDrivesApi().apiTestdrivesCancelPut(
         GetJwtToken(),
         {
           body: new TestDriveDto(
             valueTestDrive.dateStart,
             valueTestDrive.time,
-            valueTestDrive.email,
+            JSON.parse(user).email,
             valueTestDrive.vin
           )
         },
@@ -109,7 +114,7 @@ const UserListOrder = props => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -142,7 +147,7 @@ const UserListOrder = props => {
   }, []);
 
   let style = { width: "30rem" };
-  
+
   return (
     <div className="container-md">
       <div style={style} class=" row text-wrap  text-reset text-white">
@@ -276,7 +281,6 @@ const UserListOrder = props => {
                                     UpdateState(
                                       JSON.stringify({
                                         vin: r.car.vin,
-                                        email: r.user.email,
                                         time: r.time,
                                         dateStart: r.dateStart,
                                         state: "CANCEL"
@@ -395,7 +399,6 @@ const UserListOrder = props => {
                                   UpdateState(
                                     JSON.stringify({
                                       vin: r.car.vin,
-                                      email: r.user.email,
                                       time: r.time,
                                       dateStart: r.dateStart,
                                       state: "CANCEL"

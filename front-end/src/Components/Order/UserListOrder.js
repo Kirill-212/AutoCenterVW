@@ -63,7 +63,7 @@ const UserListOrder = props => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -84,29 +84,36 @@ const UserListOrder = props => {
 
   function UpdateState(value, e) {
     let valueOrder = JSON.parse(value);
+    if (user === undefined) {
+      setMessageError("Unauthorized");
+      handleClose();
+      return;
+    }
     if (valueOrder.state === "CANCEL") {
       handleToggle();
-      new OrdersApi().apiOrdersCancelPut(
+      new OrdersApi().apiOrdersCancelUserPut(
         GetJwtToken(),
         {
           body: new UpdateStateOrderDto(
             valueOrder.vin,
             valueOrder.email,
             valueOrder.totalCost
-          )
+          ),
+          email:JSON.parse(user).email
         },
         CallbackRequestUpdate
       );
     } else {
       handleToggle();
-      new OrdersApi().apiOrdersConfirmPut(
+      new OrdersApi().apiOrdersConfirmUserPut(
         GetJwtToken(),
         {
           body: new UpdateStateOrderDto(
             valueOrder.vin,
             valueOrder.email,
             valueOrder.totalCost
-          )
+          ),
+          email:  JSON.parse(user).email
         },
         CallbackRequestUpdate
       );
@@ -121,7 +128,7 @@ const UserListOrder = props => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {

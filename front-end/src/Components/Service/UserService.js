@@ -66,7 +66,7 @@ const EmployeeListService = props => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -87,6 +87,7 @@ const EmployeeListService = props => {
 
   function UpdateState(value, e) {
     let valueService = JSON.parse(value);
+    console.log(valueService);
     if (valueService.state === "CANCEL") {
       handleToggle();
       if (user === undefined) {
@@ -94,13 +95,14 @@ const EmployeeListService = props => {
         handleClose();
         return;
       }
-      new CarRepairsApi().apiCarrepairsCancelPut(
+      new CarRepairsApi().apiCarrepairsCancelUserPut(
         GetJwtToken(),
         {
           body: new UpdateStateCarRepairDto(
-            JSON.parse(user).email,
+            valueService.email,
             valueService.vin
-          )
+          ),
+          email: JSON.parse(user).email
         },
         CallbackRequestUpdate
       );
@@ -115,7 +117,7 @@ const EmployeeListService = props => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -359,6 +361,7 @@ const EmployeeListService = props => {
                                     UpdateState(
                                       JSON.stringify({
                                         vin: r.car.vin,
+                                        email: r.emp.email,
                                         state: "CANCEL"
                                       }),
                                       e
@@ -382,7 +385,144 @@ const EmployeeListService = props => {
                   id={r.carUser.email + r.car.vin + "d-header"}
                 />
                 <AccordionDetails>
-                  <Typography />
+                  <Typography>
+                    <div class="card">
+                      <h5 class="card-header">Information about car repair</h5>
+                      <div class="card-body">
+                        <div className="row">
+                          <div className="col text-right">Description</div>
+                          <div className="col-1 text-center">
+                            <i class="fa-solid fa-arrow-right" />
+                          </div>
+                          <div className="col text-left">
+                            {r.carRepair.description}
+                          </div>
+                        </div>
+                        <div className="row d-flex flex-column">
+                          <div className="col text-center">
+                            <h4> Information about employee </h4>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col text-right">First name</div>
+                          <div className="col-1 text-center">
+                            <i class="fa-solid fa-arrow-right" />
+                          </div>
+                          <div className="col text-left">
+                            {r.emp.firstName}
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col text-right">Last name</div>
+                          <div className="col-1 text-center">
+                            <i class="fa-solid fa-arrow-right" />
+                          </div>
+                          <div className="col text-left">
+                            {r.emp.lastName}
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col text-right">Surname</div>
+                          <div className="col-1 text-center">
+                            <i class="fa-solid fa-arrow-right" />
+                          </div>
+                          <div className="col text-left">
+                            {r.emp.surname}
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col text-right">Phone number</div>
+                          <div className="col-1 text-center">
+                            <i class="fa-solid fa-arrow-right" />
+                          </div>
+                          <div className="col text-left">
+                            {r.emp.phoneNumber}
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col text-right">Email</div>
+                          <div className="col-1 text-center">
+                            <i class="fa-solid fa-arrow-right" />
+                          </div>
+                          <div className="col text-left">
+                            {r.emp.email}
+                          </div>
+                        </div>
+                        <div className="row d-flex flex-column">
+                          <div className="col text-center">
+                            <h4> Information about car </h4>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col text-right">Car mileage(km)</div>
+                          <div className="col-1 text-center">
+                            <i class="fa-solid fa-arrow-right" />
+                          </div>
+                          <div className="col text-left">
+                            {r.car.carMileage}
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col text-right">
+                            Cost(<i class="fa-solid fa-dollar-sign" />)
+                          </div>
+                          <div className="col-1 text-center">
+                            <i class="fa-solid fa-arrow-right" />
+                          </div>
+                          <div className="col text-left">
+                            {r.car.cost}
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col text-right">
+                            Date of realese car
+                          </div>
+                          <div className="col-1 text-center">
+                            <i class="fa-solid fa-arrow-right" />
+                          </div>
+                          <div className="col text-left">
+                            {getDate(r.car.dateOfRealeseCar)}
+                          </div>
+                        </div>
+                        <div className="row d-flex flex-column">
+                          <div className="col text-center">
+                            <h4>Options </h4>
+                          </div>
+                        </div>
+                        <div className="row d-grid gap-2 d-md-block">
+                          <div className="col m-1">
+                            <a
+                              className="btn btn-primary-sm btn-sm ml-1 text-reset "
+                              href={`/clientcar/info?vin=${r.car.vin}
+                          `}
+                            >
+                              <i class="fa-solid fa-info" />
+                            </a>
+                          </div>
+
+                          {CheckState(r.carRepair.stateCarRepair) ===
+                            "PENDING" &&
+                            <div className="col">
+                              {" "}<button
+                                class="btn btn-primary-sm btn-sm ml-1"
+                                onClick={e =>
+                                  UpdateState(
+                                    JSON.stringify({
+                                      vin: r.car.vin,
+                                      email: r.emp.email,
+                                      state: "CANCEL"
+                                    }),
+                                    e
+                                  )}
+                                type="button"
+                              >
+                                <i class="fa-solid fa-ban" />
+                              </button>
+                            </div>}
+                        </div>
+                      </div>
+                    </div>
+                  </Typography>
                 </AccordionDetails>
               </Accordion>
             );

@@ -26,6 +26,15 @@ namespace Persistence.Repositories
                  .FirstOrDefaultAsync();
         }
 
+        public async Task<CarRepair> GetByCarRepairParamsNotEmp(CarRepair item)
+        {
+            return await _dbContext.CarRepairs
+                .Where(i => i.CarId == item.CarId)
+                .Where(i => i.StateCarRepair != StateCarRepair.CANCEL)
+                .Where(i => i.StateCarRepair != StateCarRepair.ENDWORK)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<IEnumerable<CarRepair>> GetByEmail(string email)
         {
             return await _dbContext.CarRepairs

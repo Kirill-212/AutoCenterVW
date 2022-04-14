@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstractions;
 using System.Collections.Generic;
@@ -22,12 +23,15 @@ namespace Presentation.Controllers
             this._mapper = _mapper; _serviceManager = serviceManager;
         }
 
+
+        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] PostCarRepairDto item)
         {
             if (ModelState.IsValid)
             {
                 await _serviceManager.AsyncServiceCarRepair.Create(
+                    item.EmailOwner,
                     item.Email,
                     item.Vin,
                     item.Description
@@ -41,6 +45,8 @@ namespace Presentation.Controllers
             }
         }
 
+
+        [Authorize(Roles = "SERVICE_EMPLOYEE")]
         [HttpPut("cancel")]
         public async Task<ActionResult> UpdateStateForCancel(
             [FromBody] UpdateStateCarRepairDto item
@@ -62,6 +68,30 @@ namespace Presentation.Controllers
             }
         }
 
+        [HttpPut("cancel/user")]
+        public async Task<ActionResult> UpdateStateForCancelUser(
+            [FromBody] UpdateStateCarRepairDto item,
+            [FromQuery] string email
+            )
+        {
+            if (ModelState.IsValid)
+            {
+                await _serviceManager.AsyncServiceCarRepair.UpdateStateForCancelUser
+                    (email,
+                    item.EmailEmployee,
+                    item.Vin
+                    );
+
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+
+        [Authorize(Roles = "SERVICE_EMPLOYEE")]
         [HttpPut("endWork")]
         public async Task<ActionResult> UpdateStateEndWork(
             [FromBody] UpdateStateCarRepairDto item
@@ -84,6 +114,8 @@ namespace Presentation.Controllers
             }
         }
 
+
+        [Authorize(Roles = "SERVICE_EMPLOYEE")]
         [HttpPut("startWork")]
         public async Task<ActionResult> UpdateStateStartWork(
             [FromBody] UpdateStateCarRepairForStartWorkDto item
@@ -107,6 +139,8 @@ namespace Presentation.Controllers
             }
         }
 
+
+        [Authorize(Roles = "SERVICE_EMPLOYEE")]
         [HttpPost("sendNotification")]
         public async Task<ActionResult> SendNotification(
            [FromQuery] string email
@@ -116,12 +150,15 @@ namespace Presentation.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("user")]
         public async Task<List<GetCarRepairDto>> GetForUser([FromQuery] string email)
         {
             return _mapper.Map<List<GetCarRepairDto>>(await _serviceManager.AsyncServiceCarRepair.GetForUser(email));
         }
 
+
+        [Authorize(Roles = "SERVICE_EMPLOYEE")]
         [HttpGet("employee")]
         public async Task<List<GetCarRepairDto>> GetForEmployee([FromQuery] string email)
         {

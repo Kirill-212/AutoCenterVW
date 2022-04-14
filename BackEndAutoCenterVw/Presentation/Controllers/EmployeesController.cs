@@ -43,6 +43,8 @@ namespace Presentation.Controllers
                 );
         }
 
+
+        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("carrepair")]
         public async Task<List<GetEmployeeDto>> GetCarRepairEmp()
         {

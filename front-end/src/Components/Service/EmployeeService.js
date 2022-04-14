@@ -66,7 +66,7 @@ const EmployeeListService = props => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -132,7 +132,7 @@ const EmployeeListService = props => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -168,7 +168,7 @@ const EmployeeListService = props => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult += key + " : " + errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -397,7 +397,22 @@ const EmployeeListService = props => {
                                 <i class="fa-solid fa-info" />
                               </a>
                             </div>
-
+                            <div className="col-1">
+                              {" "}<button
+                                class="btn btn-primary-sm btn-sm ml-1"
+                                onClick={e =>
+                                  UpdateState(
+                                    JSON.stringify({
+                                      vin: r.car.vin,
+                                      state: "CANCEL"
+                                    }),
+                                    e
+                                  )}
+                                type="button"
+                              >
+                                <i class="fa-solid fa-ban" />
+                              </button>
+                            </div>
                             {CheckState(r.carRepair.stateCarRepair) ===
                               "PENDING" &&
                               <div className="col">
@@ -408,20 +423,6 @@ const EmployeeListService = props => {
                                 >
                                   <i class="fa-solid fa-flag-checkered" />
                                 </a>
-                                <button
-                                  class="btn btn-primary-sm btn-sm ml-1"
-                                  onClick={e =>
-                                    UpdateState(
-                                      JSON.stringify({
-                                        vin: r.car.vin,
-                                        state: "CANCEL"
-                                      }),
-                                      e
-                                    )}
-                                  type="button"
-                                >
-                                  <i class="fa-solid fa-ban" />
-                                </button>
                               </div>}
 
                             {getDate(r.carRepair.endWork) ===
@@ -611,7 +612,22 @@ const EmployeeListService = props => {
                               <i class="fa-solid fa-info" />
                             </a>
                           </div>
-
+                          <div className="col-1">
+                            {" "}<button
+                              class="btn btn-primary-sm btn-sm ml-1"
+                              onClick={e =>
+                                UpdateState(
+                                  JSON.stringify({
+                                    vin: r.car.vin,
+                                    state: "CANCEL"
+                                  }),
+                                  e
+                                )}
+                              type="button"
+                            >
+                              <i class="fa-solid fa-ban" />
+                            </button>
+                          </div>
                           {CheckState(r.carRepair.stateCarRepair) ===
                             "PENDING" &&
                             <div className="col">
@@ -622,20 +638,6 @@ const EmployeeListService = props => {
                               >
                                 <i class="fa-solid fa-flag-checkered" />
                               </a>
-                              <button
-                                class="btn btn-primary-sm btn-sm ml-1"
-                                onClick={e =>
-                                  UpdateState(
-                                    JSON.stringify({
-                                      vin: r.car.vin,
-                                      state: "CANCEL"
-                                    }),
-                                    e
-                                  )}
-                                type="button"
-                              >
-                                <i class="fa-solid fa-ban" />
-                              </button>
                             </div>}
 
                           {getDate(r.carRepair.endWork) ===

@@ -32,6 +32,19 @@ namespace Services.Abstractions
             CancellationToken cancellationToken = default
             );
 
+        Task UpdateForUser(
+           T item,
+           int? sharePercentage,
+           string oldEmail,
+           string newEmail,
+           string newRegisterNumber,
+           string email,
+           string nameCarEquipment = null,
+           bool changeRegisterNumber = false,
+           string newVin = null,
+           CancellationToken cancellationToken = default
+           );
+
         Task<T> GetCarByVin(string vin);
 
         Task Remove(string registerNumber, CancellationToken cancellationToken = default);

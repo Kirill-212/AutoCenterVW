@@ -7,6 +7,8 @@ namespace Domain.Repositories
     {
         Task<T> GetByCarRepairParams(T item);
 
+        Task<T> GetByCarRepairParamsNotEmp(T item);
+
         Task<IEnumerable<T>> GetForUser(string email);
 
         Task<IEnumerable<T>> GetForEmployee(string email);

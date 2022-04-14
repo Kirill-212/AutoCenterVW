@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Contracts;
 using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstractions;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace Presentation.Controllers
             _serviceManager = serviceManager;
         }
 
-        // [Authorize(Roles = "ADMIN, EMPLOYEE, USER")]
+        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] PostClientCarDto item)
         {
@@ -45,7 +46,7 @@ namespace Presentation.Controllers
             }
         }
 
-        //  [Authorize(Roles = "ADMIN, EMPLOYEE, USER")]
+        [Authorize(Roles = "ADMIN,EMPLOYEE")]
         [HttpPut]
         public async Task<ActionResult> Put([FromBody] PutClientCarDto item)
         {
@@ -69,7 +70,32 @@ namespace Presentation.Controllers
             }
         }
 
-        // [Authorize(Roles = "ADMIN, EMPLOYEE, USER")]
+        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [HttpPut("clientcar")]
+        public async Task<ActionResult> PutClient([FromBody] PutClientCarDto item,[FromQuery] string email)
+        {
+            if (ModelState.IsValid)
+            {
+                await _serviceManager.AsyncServiceClientCar.UpdateForUser(
+                    _mapper.Map<ClientCar>(item),
+                    item.PutCarDto.SharePercentage,
+                    item.Email, item.NewEmail,
+                    item.NewRegisterNumber,
+                    email,
+                    item.PutCarDto.NameCarEquipment,
+                    item.ChangeRegisterNumber,
+                    item.PutCarDto.NewVIN
+                    );
+
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        [Authorize(Roles = "ADMIN,EMPLOYEE")]
         [HttpGet]
         public async Task<IEnumerable<ClientCar>> GetAll()
         {
@@ -83,6 +109,7 @@ namespace Presentation.Controllers
             return await _serviceManager.AsyncServiceClientCar.GetById(id);
         }
 
+        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("vin")]
         public async Task<ActionResult<ClientCar>> GetByVin([FromQuery]string vin)
         {
@@ -98,6 +125,7 @@ namespace Presentation.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("/emailWithVin")]
         public async Task<ActionResult<ClientCar>> GetByEmailWithVin([FromQuery] string email,string vin){
             return await _serviceManager.AsyncServiceClientCar.GetByEmailWithVin(email, vin);
