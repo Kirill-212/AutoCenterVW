@@ -35,13 +35,14 @@ namespace Presentation.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("/active")]
         public async Task<List<GetCarDto>> GetCarActive()
         {
             return _mapper.Map<List<GetCarDto>>(await _serviceManager.AsyncServiceCar.GetCarActive());
         }
 
-        // [Authorize(Roles = " ADMIN, EMPLOYEE, USER")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("/ByEmail")]
         public async Task<IEnumerable<Car>> GetCarByEmail([FromQuery] string email)
         {
@@ -65,15 +66,8 @@ namespace Presentation.Controllers
             };
             return getPagedNewDto;
         }
-        // [Authorize(Roles = " ADMIN, EMPLOYEE, USER")]
-        //[HttpGet("/ByVinNotAddedEmp")]
-        //public async Task<Car> GetByVinNotAddedEmp([FromQuery] string vin)
-        //{
-        //    return await _serviceManager.AsyncServiceCar.GetByVinNotAddedEmpValidAttr(vin);
-        //}
 
-        //[Authorize(Roles = " ADMIN, EMPLOYEE, USER")]
-       
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("user")]
         public async Task<IEnumerable<Car>> GetCarForUser()
         {
@@ -115,14 +109,14 @@ namespace Presentation.Controllers
             return getPagedNewDto;
         }
 
-        //[Authorize(Roles = " ADMIN, EMPLOYEE,  USER")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet]
         public async Task<List<GetCarDto>> GetAll()
         {
             return _mapper.Map<List<GetCarDto>>(await _serviceManager.AsyncServiceCar.GetAll());
         }
 
-        //   [Authorize(Roles = " ADMIN, EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN")]
         [HttpGet("{id}")]
         public async Task<ActionResult<Car>> GetbyId(int id)
         {

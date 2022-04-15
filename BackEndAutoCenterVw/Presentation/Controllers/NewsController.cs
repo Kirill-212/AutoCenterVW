@@ -45,7 +45,7 @@ namespace Presentation.Controllers
             return getPagedNewDto;
         }
 
-        //  [Authorize(Roles = " ADMIN, EMPLOYEE, USER")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet]
         public async Task<IEnumerable<GetNewDto>> GetAll()
         {
@@ -54,7 +54,7 @@ namespace Presentation.Controllers
                 );
         }
 
-        // [Authorize(Roles = " ADMIN, EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("{id}")]
         public async Task<ActionResult<GetNewDto>> GetbyId(int id)
         {

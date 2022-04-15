@@ -9,7 +9,7 @@ namespace Domain.Exceptions
     public class UpdateStatusIsActiveCarRepair : BadRequestException
     {
         public UpdateStatusIsActiveCarRepair()
-            : base($"Error: Еhis car cannot be upgraded because her father-in-law has car repair/repairs.")
+            : base($"Error: This car cannot be update because he have car repair/repairs.")
         {
         }
     }

@@ -102,7 +102,7 @@ namespace Presentation.Controllers
             return await _serviceManager.AsyncServiceClientCar.GetAll();
         }
 
-        // [Authorize(Roles = "ADMIN, EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN")]
         [HttpGet("{id}")]
         public async Task<ActionResult<ClientCar>> GetbyId(int id)
         {
@@ -116,7 +116,7 @@ namespace Presentation.Controllers
             return await _serviceManager.AsyncServiceClientCar.GetCarByVin(vin);
         }
 
-        // [Authorize(Roles = "ADMIN, EMPLOYEE,USER")]
+        [Authorize(Roles = "SUPER_ADMIN")]
         [HttpDelete]
         public async Task<ActionResult> DeleteByRegisterNumber([FromQuery] string registerNumber)
         {

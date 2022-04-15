@@ -78,7 +78,7 @@ namespace Presentation.Controllers
             }
         }
 
-        //[Authorize(Roles = " ADMIN, EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN")]
         [HttpGet("{id}")]
         public ActionResult<CarEquipmentFormDto> GetById(string id)
         {
@@ -123,7 +123,7 @@ namespace Presentation.Controllers
             return NoContent();
         }
 
-        //[Authorize(Roles = " ADMIN, EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN")]
         [HttpPut("equipment")]
         public async Task<ActionResult> Put([FromBody] PutCarEquipmentDto item)
         {
@@ -146,7 +146,7 @@ namespace Presentation.Controllers
             return equipment.GetAll();
         }
 
-        //[Authorize(Roles = " ADMIN, EMPLOYEE,  USER")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("equipment/name")]
         public CarEquipment GetByName([FromQuery] string name)
         {

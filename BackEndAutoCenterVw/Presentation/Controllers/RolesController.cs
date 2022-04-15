@@ -14,8 +14,7 @@ namespace Presentation.Controllers
     {
         private readonly IServiceManager _serviceManager;
 
-        public RolesController(IServiceManager serviceManager,
-            IMapper _mapper
+        public RolesController(IServiceManager serviceManager
             )
         {
             _serviceManager = serviceManager;
@@ -27,6 +26,7 @@ namespace Presentation.Controllers
         {
             return await _serviceManager.AsyncServiceRole.GetAll();
         }
+
         [Authorize(Roles = "SUPER_ADMIN,ADMIN")]
         [HttpGet("withoutUser")]
         public async Task<IEnumerable<Role>> GetWithoutUser()

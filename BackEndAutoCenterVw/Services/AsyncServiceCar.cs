@@ -235,7 +235,7 @@ namespace Services
                 {
                     IEnumerable<Order> order = await unitOfWork.AsyncRepositoryOrder.GetByVin(vin);
                     if (order.Count() > 0)
-                        throw new UpdateStatusIsActiveCarRepair();
+                        throw new UpdateStatusIsActiveOrder();
                 }
                 else
                 {
@@ -250,13 +250,13 @@ namespace Services
                 {
                     IEnumerable<Order> order = await unitOfWork.AsyncRepositoryOrder.GetByVin(vin);
                     if (order.Count() > 0)
-                        throw new UpdateStatusIsActiveCarRepair();
+                        throw new UpdateStatusIsActiveOrder();
                 }
                 else
                 {
                     IEnumerable<TestDrive> testDrives = await unitOfWork.AsyncRepositoryTestDrive.GetByVin(vin);
                     if (testDrives.Count() > 0)
-                        throw new UpdateStatusIsActiveCarRepair();
+                        throw new UpdateStatusIsActiveTestDrive();
                 }
             }
             car.IsActive = !car.IsActive;

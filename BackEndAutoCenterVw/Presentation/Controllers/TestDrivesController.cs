@@ -15,13 +15,10 @@ namespace Presentation.Controllers
     {
         private readonly IServiceManager _serviceManager;
 
-        private readonly IMapper _mapper;
-
-        public TestDrivesController(IServiceManager serviceManager,
-            IMapper _mapper
+        public TestDrivesController(IServiceManager serviceManager
             )
         {
-            this._mapper = _mapper; _serviceManager = serviceManager;
+            _serviceManager = serviceManager;
         }
 
         [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]

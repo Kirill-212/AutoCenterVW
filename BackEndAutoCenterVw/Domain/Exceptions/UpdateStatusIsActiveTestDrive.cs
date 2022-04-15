@@ -9,7 +9,7 @@ namespace Domain.Exceptions
     public class UpdateStatusIsActiveTestDrive : BadRequestException
     {
         public UpdateStatusIsActiveTestDrive()
-            : base($"Error: Еhis car cannot be upgraded because her father-in-law has test drive/drives.")
+            : base($"Error: This car cannot be update because he have car test drive/drives.")
         {
         }
     }

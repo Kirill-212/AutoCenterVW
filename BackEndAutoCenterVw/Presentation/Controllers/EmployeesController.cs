@@ -25,7 +25,7 @@ namespace Presentation.Controllers
             _serviceManager = serviceManager;
         }
 
-        // [Authorize(Roles = " ADMIN")]
+        [Authorize(Roles = "SUPER_ADMIN")]
         [HttpGet("byUser/email")]
         public async Task<GetEmployeeDto> GetbyUserEmail([FromQuery] string email)
         {

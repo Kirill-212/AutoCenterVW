@@ -51,7 +51,7 @@ namespace Presentation.Controllers
                 );
         }
 
-        //  [AllowAnonymous]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("{id}")]
         public async Task<GetUserDto> GetbyId(int id)
         {
@@ -129,7 +129,6 @@ namespace Presentation.Controllers
             return NoContent();
         }
 
-
         [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("active")]
         public async Task<List<GetUserDto>> GetAllActive()
@@ -138,6 +137,5 @@ namespace Presentation.Controllers
                 await _serviceManager.AsyncServiceUser.GetAllActive()
                 );
         }
-
     }
 }
