@@ -14,6 +14,7 @@ const EmployeeListOrder = props => {
   const [listCars, setListCars] = React.useState([]);
   const [viewList, setViewList] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const [empty, setEmpty] = React.useState(false);
 
   const handleClose = () => {
     setOpen(false);
@@ -63,6 +64,13 @@ const EmployeeListOrder = props => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
+      console.log(response.body);
+      if (response.body.length == 0) {
+        handleClose();
+        setEmpty(true);
+        return;
+      }
+      setEmpty(false);
       setListCars(response.body);
       setViewList(true);
     } else if (response.statusCode > 400) {
@@ -146,9 +154,11 @@ const EmployeeListOrder = props => {
 
   let style = { width: "30rem" };
 
+  if (empty) return <div>No data</div>;
+
   return (
     <div className="container-md">
-      <div style={style} class=" row text-wrap  text-reset text-white">
+      <div style={style} className=" row text-wrap  text-reset text-white">
         <Backdrop
           sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
           open={open}
@@ -196,7 +206,7 @@ const EmployeeListOrder = props => {
                           </div>
                           <div className="col">
                             <p>
-                              Total cost(<i class="fa-solid fa-dollar-sign" />):
+                              Total cost(<i className="fa-solid fa-dollar-sign" />):
                               {r.totalCost}
                             </p>
                           </div>
@@ -210,13 +220,15 @@ const EmployeeListOrder = props => {
                     </AccordionSummary>
                     <AccordionDetails>
                       <Typography>
-                        <div class="card">
-                          <h5 class="card-header">Information about order</h5>
-                          <div class="card-body">
+                        <div className="card">
+                          <h5 className="card-header">
+                            Information about order
+                          </h5>
+                          <div className="card-body">
                             <div className="row">
                               <div className="col text-right">State</div>
                               <div className="col-1 text-center">
-                                <i class="fa-solid fa-arrow-right" />
+                                <i className="fa-solid fa-arrow-right" />
                               </div>
                               <div className="col text-left">
                                 {CheckState(r.state)}
@@ -227,7 +239,7 @@ const EmployeeListOrder = props => {
                                 Change register number
                               </div>
                               <div className="col-1 text-center">
-                                <i class="fa-solid fa-arrow-right" />
+                                <i className="fa-solid fa-arrow-right" />
                               </div>
                               <div className="col text-left">
                                 {r.changeRegisterNumber === false
@@ -243,7 +255,7 @@ const EmployeeListOrder = props => {
                             <div className="row">
                               <div className="col text-right">First name</div>
                               <div className="col-1 text-center">
-                                <i class="fa-solid fa-arrow-right" />
+                                <i className="fa-solid fa-arrow-right" />
                               </div>
                               <div className="col text-left">
                                 {r.user.firstName}
@@ -252,7 +264,7 @@ const EmployeeListOrder = props => {
                             <div className="row">
                               <div className="col text-right">Last name</div>
                               <div className="col-1 text-center">
-                                <i class="fa-solid fa-arrow-right" />
+                                <i className="fa-solid fa-arrow-right" />
                               </div>
                               <div className="col text-left">
                                 {r.user.lastName}
@@ -261,7 +273,7 @@ const EmployeeListOrder = props => {
                             <div className="row">
                               <div className="col text-right">Surname</div>
                               <div className="col-1 text-center">
-                                <i class="fa-solid fa-arrow-right" />
+                                <i className="fa-solid fa-arrow-right" />
                               </div>
                               <div className="col text-left">
                                 {r.user.surname}
@@ -270,7 +282,7 @@ const EmployeeListOrder = props => {
                             <div className="row">
                               <div className="col text-right">Phone number</div>
                               <div className="col-1 text-center">
-                                <i class="fa-solid fa-arrow-right" />
+                                <i className="fa-solid fa-arrow-right" />
                               </div>
                               <div className="col text-left">
                                 {r.user.phoneNumber}
@@ -286,7 +298,7 @@ const EmployeeListOrder = props => {
                                 Car mileage(km)
                               </div>
                               <div className="col-1 text-center">
-                                <i class="fa-solid fa-arrow-right" />
+                                <i className="fa-solid fa-arrow-right" />
                               </div>
                               <div className="col text-left">
                                 {r.car.carMileage}
@@ -294,10 +306,10 @@ const EmployeeListOrder = props => {
                             </div>
                             <div className="row">
                               <div className="col text-right">
-                                Cost(<i class="fa-solid fa-dollar-sign" />)
+                                Cost(<i className="fa-solid fa-dollar-sign" />)
                               </div>
                               <div className="col-1 text-center">
-                                <i class="fa-solid fa-arrow-right" />
+                                <i className="fa-solid fa-arrow-right" />
                               </div>
                               <div className="col text-left">
                                 {r.car.cost}
@@ -308,7 +320,7 @@ const EmployeeListOrder = props => {
                                 Date of realese car
                               </div>
                               <div className="col-1 text-center">
-                                <i class="fa-solid fa-arrow-right" />
+                                <i className="fa-solid fa-arrow-right" />
                               </div>
                               <div className="col text-left">
                                 {getDate(r.car.dateOfRealeseCar)}
@@ -323,7 +335,7 @@ const EmployeeListOrder = props => {
                               <div className="col text-right">
                                 {CheckState(r.state) !== "CONFIRM" &&
                                   <button
-                                    class="btn btn-primary-sm btn-sm ml-1"
+                                    className="btn btn-primary-sm btn-sm ml-1"
                                     onClick={e =>
                                       UpdateState(
                                         JSON.stringify({
@@ -336,12 +348,12 @@ const EmployeeListOrder = props => {
                                       )}
                                     type="button"
                                   >
-                                    <i class="fa-regular fa-circle-check" />
+                                    <i className="fa-regular fa-circle-check" />
                                   </button>}
                               </div>
                               <div className="col">
                                 <button
-                                  class="btn btn-primary-sm btn-sm ml-1"
+                                  className="btn btn-primary-sm btn-sm ml-1"
                                   onClick={e =>
                                     UpdateState(
                                       JSON.stringify({
@@ -354,7 +366,7 @@ const EmployeeListOrder = props => {
                                     )}
                                   type="button"
                                 >
-                                  <i class="fa-solid fa-ban" />
+                                  <i className="fa-solid fa-ban" />
                                 </button>
                               </div>
                             </div>
@@ -372,33 +384,36 @@ const EmployeeListOrder = props => {
                     }
                     id={r.user.email + r.car.vin + r.totalCost + "d-header"}
                   >
-                    <div className="row">
-                      <div className="col">
-                        <p>
-                          {r.car.vin}
-                        </p>
+                    <Typography>
+                      <div className="row d-flex flex-column">
+                        <div className="col">
+                          <p>
+                            Vin: {r.car.vin}
+                          </p>
+                        </div>
+                        <div className="col">
+                          <p>
+                            Total cost(<i className="fa-solid fa-dollar-sign" />):
+                            {r.totalCost}
+                          </p>
+                        </div>
+                        <div className="col">
+                          <p>
+                            Email buyer: {r.user.email}
+                          </p>
+                        </div>
                       </div>
-                      <div className="col">
-                        <p>
-                          {r.totalCost}
-                        </p>
-                      </div>
-                      <div className="col">
-                        <p>
-                          {r.user.email}
-                        </p>
-                      </div>
-                    </div>
+                    </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
-                      <div class="card">
-                        <h5 class="card-header">Information about order</h5>
-                        <div class="card-body">
+                      <div className="card">
+                        <h5 className="card-header">Information about order</h5>
+                        <div className="card-body">
                           <div className="row">
                             <div className="col text-right">State</div>
                             <div className="col-1 text-center">
-                              <i class="fa-solid fa-arrow-right" />
+                              <i className="fa-solid fa-arrow-right" />
                             </div>
                             <div className="col text-left">
                               {CheckState(r.state)}
@@ -409,7 +424,7 @@ const EmployeeListOrder = props => {
                               Change register number
                             </div>
                             <div className="col-1 text-center">
-                              <i class="fa-solid fa-arrow-right" />
+                              <i className="fa-solid fa-arrow-right" />
                             </div>
                             <div className="col text-left">
                               {r.changeRegisterNumber === false
@@ -425,7 +440,7 @@ const EmployeeListOrder = props => {
                           <div className="row">
                             <div className="col text-right">First name</div>
                             <div className="col-1 text-center">
-                              <i class="fa-solid fa-arrow-right" />
+                              <i className="fa-solid fa-arrow-right" />
                             </div>
                             <div className="col text-left">
                               {r.user.firstName}
@@ -434,7 +449,7 @@ const EmployeeListOrder = props => {
                           <div className="row">
                             <div className="col text-right">Last name</div>
                             <div className="col-1 text-center">
-                              <i class="fa-solid fa-arrow-right" />
+                              <i className="fa-solid fa-arrow-right" />
                             </div>
                             <div className="col text-left">
                               {r.user.lastName}
@@ -443,7 +458,7 @@ const EmployeeListOrder = props => {
                           <div className="row">
                             <div className="col text-right">Surname</div>
                             <div className="col-1 text-center">
-                              <i class="fa-solid fa-arrow-right" />
+                              <i className="fa-solid fa-arrow-right" />
                             </div>
                             <div className="col text-left">
                               {r.user.surname}
@@ -452,7 +467,7 @@ const EmployeeListOrder = props => {
                           <div className="row">
                             <div className="col text-right">Phone number</div>
                             <div className="col-1 text-center">
-                              <i class="fa-solid fa-arrow-right" />
+                              <i className="fa-solid fa-arrow-right" />
                             </div>
                             <div className="col text-left">
                               {r.user.phoneNumber}
@@ -468,7 +483,7 @@ const EmployeeListOrder = props => {
                               Car mileage(km)
                             </div>
                             <div className="col-1 text-center">
-                              <i class="fa-solid fa-arrow-right" />
+                              <i className="fa-solid fa-arrow-right" />
                             </div>
                             <div className="col text-left">
                               {r.car.carMileage}
@@ -476,10 +491,10 @@ const EmployeeListOrder = props => {
                           </div>
                           <div className="row">
                             <div className="col text-right">
-                              Cost(<i class="fa-solid fa-dollar-sign" />)
+                              Cost(<i className="fa-solid fa-dollar-sign" />)
                             </div>
                             <div className="col-1 text-center">
-                              <i class="fa-solid fa-arrow-right" />
+                              <i className="fa-solid fa-arrow-right" />
                             </div>
                             <div className="col text-left">
                               {r.car.cost}
@@ -490,7 +505,7 @@ const EmployeeListOrder = props => {
                               Date of realese car
                             </div>
                             <div className="col-1 text-center">
-                              <i class="fa-solid fa-arrow-right" />
+                              <i className="fa-solid fa-arrow-right" />
                             </div>
                             <div className="col text-left">
                               {getDate(r.car.dateOfRealeseCar)}
@@ -505,7 +520,7 @@ const EmployeeListOrder = props => {
                             <div className="col text-right">
                               {CheckState(r.state) !== "CONFIRM" &&
                                 <button
-                                  class="btn btn-primary-sm btn-sm ml-1"
+                                  className="btn btn-primary-sm btn-sm ml-1"
                                   onClick={e =>
                                     UpdateState(
                                       JSON.stringify({
@@ -518,12 +533,12 @@ const EmployeeListOrder = props => {
                                     )}
                                   type="button"
                                 >
-                                  <i class="fa-regular fa-circle-check" />
+                                  <i className="fa-regular fa-circle-check" />
                                 </button>}
                             </div>
                             <div className="col">
                               <button
-                                class="btn btn-primary-sm btn-sm ml-1"
+                                className="btn btn-primary-sm btn-sm ml-1"
                                 onClick={e =>
                                   UpdateState(
                                     JSON.stringify({
@@ -536,7 +551,7 @@ const EmployeeListOrder = props => {
                                   )}
                                 type="button"
                               >
-                                <i class="fa-solid fa-ban" />
+                                <i className="fa-solid fa-ban" />
                               </button>
                             </div>
                           </div>

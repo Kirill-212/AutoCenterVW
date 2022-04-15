@@ -35,6 +35,34 @@ export class UsersApi {
     this.apiClient = apiClient || ApiClient.instance;
   }
 
+  apiUsersActiveGet(jwt, callback) {
+    let postBody = null;
+
+    let pathParams = {};
+    let queryParams = {};
+    let headerParams = jwt;
+    let formParams = {};
+
+    let authNames = [];
+    let contentTypes = [];
+    let accepts = ["text/plain", "application/json", "text/json"];
+    let returnType = [GetUserDto];
+
+    return this.apiClient.callApi(
+      "/api/users/active",
+      "GET",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
   /**
      * Callback function to receive the result of the apiUsersByEmailGet operation.
      * @callback moduleapi/UsersApi~apiUsersByEmailGetCallback

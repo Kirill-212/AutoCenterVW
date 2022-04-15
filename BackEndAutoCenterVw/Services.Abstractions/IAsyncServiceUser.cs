@@ -20,6 +20,8 @@ namespace Services.Abstractions
 
         Task<IEnumerable<T>> GetAll(CancellationToken cancellationToken = default);
 
+        Task<IEnumerable<T>> GetAllActive(CancellationToken cancellationToken = default);
+
         Task Remove(string email, CancellationToken cancellationToken = default);
 
         Task Update(

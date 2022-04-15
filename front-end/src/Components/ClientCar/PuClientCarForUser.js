@@ -136,7 +136,7 @@ const PutClientCar = () => {
 
   async function GetUsersList() {
     handleToggle();
-    new UsersApi().apiUsersGet(GetJwtToken(), CallbackRequestUserList);
+    new UsersApi().apiUsersActiveGet(GetJwtToken(), CallbackRequestUserList);
   }
 
   function CallbackRequestPut(error, data, response) {

@@ -57,5 +57,12 @@ namespace Persistence.Repositories
                  .Where(i => i.Email == email)
                  .FirstOrDefaultAsync();
         }
+
+        public async Task<IEnumerable<User>> GetAllActve()
+        {
+            return await _dbContext.Users
+               .Where(i => i.Status == Status.ACTIVE)
+               .Include(i => i.Role).ToListAsync();
+        }
     }
 }

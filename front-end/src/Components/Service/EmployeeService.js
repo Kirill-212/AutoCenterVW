@@ -19,6 +19,7 @@ const EmployeeListService = props => {
   const [listService, setListService] = React.useState([]);
   const [viewList, setViewList] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const [empty, setEmpty] = React.useState(false);
 
   const handleClose = () => {
     setOpen(false);
@@ -77,6 +78,12 @@ const EmployeeListService = props => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
+      if (response.body.length == 0) {
+        handleClose();
+        setEmpty(true);
+        return;
+      }
+      setEmpty(false);
       setListService(response.body);
       setViewList(true);
     } else if (response.statusCode > 400) {
@@ -203,6 +210,8 @@ const EmployeeListService = props => {
 
   let style = { width: "30rem" };
 
+  if (empty) return <div>No data</div>;
+
   return (
     <div className="container-md">
       <div style={style} className=" row text-wrap  text-reset text-white">
@@ -270,7 +279,7 @@ const EmployeeListService = props => {
                         </div>
                         <div className="col">
                           <p>
-                            Start:{" "}
+                            Start:
                             {r.carRepair.startWork === null
                               ? "None"
                               : getDate(r.carRepair.startWork)}
@@ -278,7 +287,7 @@ const EmployeeListService = props => {
                         </div>
                         <div className="col">
                           <p>
-                            End:{" "}
+                            End:
                             {r.carRepair.endWork === null
                               ? "None"
                               : getDate(r.carRepair.endWork)}
@@ -398,7 +407,7 @@ const EmployeeListService = props => {
                               </a>
                             </div>
                             <div className="col-1">
-                              {" "}<button
+                              <button
                                 className="btn btn-primary-sm btn-sm m-2"
                                 onClick={e =>
                                   UpdateState(
@@ -441,7 +450,7 @@ const EmployeeListService = props => {
                                   type="button"
                                 >
                                   <i className="fa-solid fa-money-bill-1" />
-                                </button>{" "}
+                                </button>
                                 <button
                                   className="btn btn-primary-sm btn-sm m-2"
                                   onClick={e =>
@@ -489,7 +498,7 @@ const EmployeeListService = props => {
                       </div>
                       <div className="col">
                         <p>
-                          Start:{" "}
+                          Start:
                           {r.carRepair.startWork === null
                             ? "None"
                             : getDate(r.carRepair.startWork)}
@@ -497,7 +506,7 @@ const EmployeeListService = props => {
                       </div>
                       <div className="col">
                         <p>
-                          End:{" "}
+                          End:
                           {r.carRepair.endWork === null
                             ? "None"
                             : getDate(r.carRepair.endWork)}
@@ -509,7 +518,9 @@ const EmployeeListService = props => {
                 <AccordionDetails>
                   <Typography>
                     <div className="card">
-                      <h5 className="card-header">Information about car repair</h5>
+                      <h5 className="card-header">
+                        Information about car repair
+                      </h5>
                       <div className="card-body">
                         <div className="row">
                           <div className="col text-right">Description</div>
@@ -613,7 +624,7 @@ const EmployeeListService = props => {
                             </a>
                           </div>
                           <div className="col-1">
-                            {" "}<button
+                            <button
                               className="btn btn-primary-sm btn-sm m-2"
                               onClick={e =>
                                 UpdateState(
@@ -656,7 +667,7 @@ const EmployeeListService = props => {
                                 type="button"
                               >
                                 <i className="fa-solid fa-money-bill-1" />
-                              </button>{" "}
+                              </button>
                               <button
                                 className="btn btn-primary-sm btn-sm m-2"
                                 onClick={e =>

@@ -14,6 +14,7 @@ const EmployeeListOrder = props => {
   const [listTestDrive, setListTestDrive] = React.useState([]);
   const [viewList, setViewList] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  const [empty, setEmpty] = React.useState(false);
 
   const handleClose = () => {
     setOpen(false);
@@ -55,7 +56,7 @@ const EmployeeListOrder = props => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult +=  errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -66,6 +67,12 @@ const EmployeeListOrder = props => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
+      if (response.body.length == 0) {
+        handleClose();
+        setEmpty(true);
+        return;
+      }
+      setEmpty(false);
       setListTestDrive(response.body);
       setViewList(true);
     } else if (response.statusCode > 400) {
@@ -115,7 +122,7 @@ const EmployeeListOrder = props => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult +=  errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -148,7 +155,7 @@ const EmployeeListOrder = props => {
   }, []);
 
   let style = { width: "30rem" };
-
+  if (empty) return <div>No data</div>;
   return (
     <div className="container-md">
       <div style={style} className=" row text-wrap  text-reset text-white">
@@ -407,7 +414,9 @@ const EmployeeListOrder = props => {
                 <AccordionDetails>
                   <Typography>
                     <div className="card">
-                      <h5 className="card-header">Information about test drive</h5>
+                      <h5 className="card-header">
+                        Information about test drive
+                      </h5>
                       <div className="card-body">
                         <div className="row">
                           <div className="col text-right">State</div>

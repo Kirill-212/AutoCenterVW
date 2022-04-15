@@ -48,6 +48,11 @@ namespace Services
             return await unitOfWork.AsyncRepositoryUser.Get();
         }
 
+        public async Task<IEnumerable<User>> GetAllActive(CancellationToken cancellationToken = default)
+        {
+            return await unitOfWork.AsyncRepositoryUser.GetAllActve();
+        }
+
         public async Task<IEnumerable<User>> GetAllUsersNotAddedToEmp(
             CancellationToken cancellationToken = default
             )

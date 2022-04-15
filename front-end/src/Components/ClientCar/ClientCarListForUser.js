@@ -202,7 +202,7 @@ export default function EnhancedTable(props) {
                       </a>
                     </div>}
                   <div className="col-1">
-                    {" "}<button
+                    <button
                       className="btn btn-primary-sm btn-sm mr-1"
                       value={e.car.vin}
                       onClick={DeleteClientCar}
@@ -221,7 +221,7 @@ export default function EnhancedTable(props) {
                     </a>
                   </div>
                   <div className="col-1">
-                    {" "}<a
+                    <a
                       className="btn btn-primary-sm btn-sm ml-1 text-reset"
                       href={`/clientcar/put/user?vin=${e.car.vin}
                           `}

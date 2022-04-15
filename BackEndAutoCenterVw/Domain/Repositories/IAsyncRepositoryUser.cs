@@ -10,5 +10,7 @@ namespace Domain.Repositories
         Task<T> GetByEmail(string email);
 
         Task<T> GetActiveUserByEmail(string email);
+
+        Task<IEnumerable<T>> GetAllActve();
     }
 }

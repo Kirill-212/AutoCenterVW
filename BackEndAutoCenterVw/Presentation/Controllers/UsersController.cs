@@ -128,5 +128,16 @@ namespace Presentation.Controllers
 
             return NoContent();
         }
+
+
+        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [HttpGet("active")]
+        public async Task<List<GetUserDto>> GetAllActive()
+        {
+            return _mapper.Map<List<GetUserDto>>(
+                await _serviceManager.AsyncServiceUser.GetAllActive()
+                );
+        }
+
     }
 }

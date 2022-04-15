@@ -273,7 +273,7 @@ namespace Services
         {
             Car car = await unitOfWork.AsyncRepositoryCar.GetCarByVinAndEmailForOrder(vin, email);
             if (car == null)
-                throw new CarVinFound(vin, "found or not found or car have new owner, but this is not your car.");
+                throw new CarVinWithEmailFound(vin, email, "not found");
             car.IsDeleted = true;
             unitOfWork.AsyncRepositoryCar.Update(car);
             IEnumerable<TestDrive> testDrives = await unitOfWork.AsyncRepositoryTestDrive.GetByVin(vin);

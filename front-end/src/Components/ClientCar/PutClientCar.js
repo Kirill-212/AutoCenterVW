@@ -25,6 +25,7 @@ const PutClientCar = () => {
   const [sharePercentage, setSharePercentage] = React.useState(0);
   const [MessageError, setMessageError] = React.useState("");
   const [redirect, setRedirect] = React.useState(false);
+  const [email, setEmail] = React.useState("");
   const [carEquipmentList, setCarEquipmentList] = React.useState([]);
   const [registerNumber, setRegisterNumber] = React.useState("");
   const [registerNumberNew, setRegisterNumberNew] = React.useState("");
@@ -102,7 +103,7 @@ const PutClientCar = () => {
               dateOfRealeseCar,
               urls
             ),
-            JSON.parse(user).email,
+            email,
             changeRegiterNumber === "1" ? true : false
           )
         },
@@ -119,7 +120,7 @@ const PutClientCar = () => {
     );
   }
 
-  async function GetCarByVin(vin) {
+  async function GetCarByVin(vin, email) {
     handleToggle();
     if (user === undefined) {
       setMessageError("Unauthorized");
@@ -128,14 +129,14 @@ const PutClientCar = () => {
     }
     new ClientCarsApi().emailWithVinGet(
       GetJwtToken(),
-      { vin: vin, email: JSON.parse(user).email },
+      { vin: vin, email: email },
       CallbackRequest
     );
   }
 
   async function GetUsersList() {
     handleToggle();
-    new UsersApi().apiUsersGet(GetJwtToken(), CallbackRequestUserList);
+    new UsersApi().apiUsersActiveGet(GetJwtToken(), CallbackRequestUserList);
   }
 
   function CallbackRequestPut(error, data, response) {
@@ -378,7 +379,8 @@ const PutClientCar = () => {
 
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
-    GetCarByVin(query.get("vin"));
+    GetCarByVin(query.get("vin"), query.get("email"));
+    setEmail(query.get("email"));
   }, []);
 
   function SetValueChangeRegisterNumber(event) {

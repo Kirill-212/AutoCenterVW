@@ -62,57 +62,57 @@ function App() {
               exact
               path="/login"
               element={<Authorization set={setUserData} />}
-            />//+
-            <Route path="/" element={<Registration />} />//+
-            <Route path="home" element={<Home />} />//+
-            <Route path="user" element={<User />} />//+
-            <Route path="user/put" element={<PutUser />} />//+
-            <Route path="user/put/user" element={<PutUserForUser />} />//+
-            <Route path="employee" element={<Employee />} />//+
-            <Route path="employee/post" element={<PostEmployee />} />//+
-            <Route path="employee/put" element={<PutEmployee />} />//+
-            <Route path="new" element={<New />} />//+
-            <Route path="new/post" element={<PostNew />} />//+
-            <Route path="new/put" element={<PutNew />} />//+
-            <Route path="car/post" element={<PostCar />} />//+
-            <Route path="car" element={<Car />} />//+
-            <Route path="car/put" element={<PutCar />} />//+
-            <Route path="car/info" element={<CarInfo />} />//+
-            <Route path="clientcar/post" element={<PostClientCar />} />//+
-            <Route path="clientcar" element={<ClientCar />} />//+
-            <Route path="clientcar/put" element={<PutClientCar />} />//+
+            />
+            <Route path="/" element={<Registration />} />
+            <Route path="home" element={<Home />} />
+            <Route path="user" element={<User />} />
+            <Route path="user/put" element={<PutUser />} />
+            <Route path="user/put/user" element={<PutUserForUser />} />
+            <Route path="employee" element={<Employee />} />
+            <Route path="employee/post" element={<PostEmployee />} />
+            <Route path="employee/put" element={<PutEmployee />} />
+            <Route path="new" element={<New />} />
+            <Route path="new/post" element={<PostNew />} />
+            <Route path="new/put" element={<PutNew />} />
+            <Route path="car/post" element={<PostCar />} />
+            <Route path="car" element={<Car />} />
+            <Route path="car/put" element={<PutCar />} />
+            <Route path="car/info" element={<CarInfo />} />
+            <Route path="clientcar/post" element={<PostClientCar />} />
+            <Route path="clientcar" element={<ClientCar />} />
+            <Route path="clientcar/put" element={<PutClientCar />} />
             <Route
               path="clientcar/put/user"
               element={<PutClientCarForUser />}
-            />//+
-            <Route path="clientcar/info" element={<ClientCarInfo />} />//+
-            <Route path="carequipment/post" element={<PostCarEquipment />} />//+
-            <Route path="carequipment" element={<CarEquipment />} />//+
+            />
+            <Route path="clientcar/info" element={<ClientCarInfo />} />
+            <Route path="carequipment/post" element={<PostCarEquipment />} />
+            <Route path="carequipment" element={<CarEquipment />} />
             <Route
               path="carequipmentform/post"
               element={<PostCarEquipmentForm />}
-            />//+
+            />
             <Route
               path="carequipmentform/put"
               element={<PutCarEquipmentForm />}
-            />//+
-            <Route path="carequipmentform" element={<CarEquipmentForm />} />//+
-            <Route path="order/post" element={<PostOrder />} />//+
-            <Route path="order/employee" element={<EmployeeOrder />} />//+
-            <Route path="order/user" element={<UserOrder />} />//+
-            <Route path="order/buyer" element={<BuyerOrder />} />//+
-            <Route path="order/put" element={<PutOrder />} />//+
-            <Route path="car/list" element={<AllCarForTestDriveOrder />} />//+
-            <Route path="testdrive/post" element={<PostTestDrive />} />//+
+            />
+            <Route path="carequipmentform" element={<CarEquipmentForm />} />
+            <Route path="order/post" element={<PostOrder />} />
+            <Route path="order/employee" element={<EmployeeOrder />} />
+            <Route path="order/user" element={<UserOrder />} />
+            <Route path="order/buyer" element={<BuyerOrder />} />
+            <Route path="order/put" element={<PutOrder />} />
+            <Route path="car/list" element={<AllCarForTestDriveOrder />} />
+            <Route path="testdrive/post" element={<PostTestDrive />} />
             <Route
               path="testdrive/employee"
               element={<EmployeeTestDrive />}
-            />//+
-            <Route path="testdrive/user" element={<UserTestDrive />} />//+
+            />
+            <Route path="testdrive/user" element={<UserTestDrive />} />
             <Route
               path="clientcar/user"
               element={<ClientCarListForUser />}
-            />//+
+            />
             <Route path="service/post" element={<PostService />} />
             <Route path="service/employee" element={<EmployeeServce />} />
             <Route path="service/start" element={<StartService />} />

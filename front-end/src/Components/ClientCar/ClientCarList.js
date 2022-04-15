@@ -52,7 +52,6 @@ export default function EnhancedTable(props) {
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }} className="p-2">
       <div className="row mt-2 ml-2">
@@ -147,7 +146,8 @@ export default function EnhancedTable(props) {
                           </button>
                           <a
                             className="btn btn-primary-sm btn-sm ml-1 text-reset"
-                            href={`/clientcar/put?vin=${row.car.vin}
+                            href={`/clientcar/put?vin=${row.car
+                              .vin}&email=${row.user.email}
                           `}
                           >
                             <i className="fa fa-wrench" aria-hidden="true" />
