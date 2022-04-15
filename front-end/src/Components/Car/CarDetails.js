@@ -35,7 +35,7 @@ const CarDetail = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult +=  errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         handleClose();
         setMessageError(errorResult);
@@ -57,7 +57,7 @@ const CarDetail = () => {
         return;
       }
       setDetailCar(response.body);
-      new CarEquipmentApi().apiCarequipmentsEquipmentIdGet(
+      new CarEquipmentApi().apiCarequipmentsEquipmentIdDetailGet(
         GetJwtToken(),
         response.body.idCarEquipment,
         CallbackRequestGetById
@@ -77,7 +77,7 @@ const CarDetail = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult +=  errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -88,6 +88,7 @@ const CarDetail = () => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
+      console.log(response)
       setCarEquipment(response.body);
       setFlag(true);
     } else if (response.statusCode > 400) {
@@ -99,6 +100,7 @@ const CarDetail = () => {
   function ViewCarEquipment() {
     let totalCost = detailCar.cost;
     let equipment = [];
+    console.log(carEquipment);
     equipment.push(
       <div className="row m-3">
         <div className="col-2">

@@ -23,7 +23,7 @@ export default function EnhancedTable(props) {
     }
     new CarsApi().apiCarsClientcarDelete(
       GetJwtToken(),
-      { vin: e.currentTarget.value, email: 'd'+JSON.parse(user).email },
+      { vin: e.currentTarget.value, email: JSON.parse(user).email },
       CallbackReq
     );
   }
@@ -182,15 +182,15 @@ export default function EnhancedTable(props) {
   let style = { width: "30rem" };
   return (
     <div className="container ">
-      <p style={style} class="text-wrap  text-reset text-white">
+      <p style={style} className="text-wrap  text-reset text-white">
         {MessageError}
       </p>
       <div className="row align-items-center d-flex flex-column">
         {list.map(e => {
           return (
             <div className="col  w-50 text-center">
-              <div class="card mt-5 mb-5 text-white bg-black">
-                <div class="row card-header">
+              <div className="card mt-5 mb-5 text-white bg-black">
+                <div className="row card-header">
                   {!e.car.isActive &&
                     <div className="col-1">
                       <a
@@ -198,17 +198,17 @@ export default function EnhancedTable(props) {
                         href={`/service/post?vin=${e.car.vin}
                           `}
                       >
-                        <i class="fa-solid fa-screwdriver-wrench" />
+                        <i className="fa-solid fa-screwdriver-wrench" />
                       </a>
                     </div>}
                   <div className="col-1">
                     {" "}<button
-                      class="btn btn-primary-sm btn-sm mr-1"
+                      className="btn btn-primary-sm btn-sm mr-1"
                       value={e.car.vin}
                       onClick={DeleteClientCar}
                       type="button"
                     >
-                      <i class="fas fa-trash" />
+                      <i className="fas fa-trash" />
                     </button>
                   </div>
                   <div className="col-1">
@@ -217,7 +217,7 @@ export default function EnhancedTable(props) {
                       href={`/clientcar/info?vin=${e.car.vin}
                           `}
                     >
-                      <i class="fa-solid fa-info" />
+                      <i className="fa-solid fa-info" />
                     </a>
                   </div>
                   <div className="col-1">
@@ -230,10 +230,10 @@ export default function EnhancedTable(props) {
                     </a>
                   </div>
                 </div>
-                <div class="card-body row ">
+                <div className="card-body row ">
                   <img src={e.car.imgsCar[0].url} width={400} height={400} />
                 </div>
-                <div class="row card-footer">
+                <div className="row card-footer">
                   <div className="row d-flex flex-column">
                     <div className="col text-center">
                       <h4> Information about car </h4>
@@ -242,7 +242,7 @@ export default function EnhancedTable(props) {
                   <div className="row">
                     <div className="col text-right">Cell</div>
                     <div className="col-1 text-center">
-                      <i class="fa-solid fa-arrow-right" />
+                      <i className="fa-solid fa-arrow-right" />
                     </div>
                     <div className="col text-left">
                       {e.car.isActive === true && "True"}
@@ -252,7 +252,7 @@ export default function EnhancedTable(props) {
                   <div className="row">
                     <div className="col text-right">Car mileage(km)</div>
                     <div className="col-1 text-center">
-                      <i class="fa-solid fa-arrow-right" />
+                      <i className="fa-solid fa-arrow-right" />
                     </div>
                     <div className="col text-left">
                       {e.car.carMileage}
@@ -260,10 +260,10 @@ export default function EnhancedTable(props) {
                   </div>
                   <div className="row">
                     <div className="col text-right">
-                      Cost(<i class="fa-solid fa-dollar-sign" />)
+                      Cost(<i className="fa-solid fa-dollar-sign" />)
                     </div>
                     <div className="col-1 text-center">
-                      <i class="fa-solid fa-arrow-right" />
+                      <i className="fa-solid fa-arrow-right" />
                     </div>
                     <div className="col text-left">
                       {e.car.cost}
@@ -272,7 +272,7 @@ export default function EnhancedTable(props) {
                   <div className="row">
                     <div className="col text-right">Date of realese car</div>
                     <div className="col-1 text-center">
-                      <i class="fa-solid fa-arrow-right" />
+                      <i className="fa-solid fa-arrow-right" />
                     </div>
                     <div className="col text-left">
                       {getDate(e.car.dateOfRealeseCar)}

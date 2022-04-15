@@ -115,10 +115,31 @@ namespace Services
             Car car = await unitOfWork.AsyncRepositoryCar.GetCarByVinAndEmailForOrder(vin, emailOwner);
             if (car == null)
                 throw new CarVinFound(vin, "found, but this is not your car");
-            await UpdateStateForCancel(
-             emailEmployee,
-            vin
-            );
+            User user =
+                await unitOfWork.AsyncRepositoryUser.GetActiveUserByEmail(emailEmployee);
+            if (user == null)
+                throw new UserStatusIsNotValidOrUserNotFound(emailEmployee);
+            if (user != null && user.Employee == null)
+                throw new CarRepairEmployeeError(emailEmployee);
+            car = await unitOfWork.AsyncRepositoryCar.GetByVin(vin);
+            if (car == null || car.IsActive == true || car.ClientCar == null)
+                throw new CarRepairCarError(vin);
+            CarRepair carRepair = new()
+            {
+                CarId = car.Id,
+                EmployeeId = user.Id
+            };
+            CarRepair checkCarRepair =
+                await unitOfWork.AsyncRepositoryCarRepair.GetByCarRepairParams(carRepair);
+            if (checkCarRepair == null)
+                throw new CarRepairNotFound();
+            if (
+                checkCarRepair.StateCarRepair != StateCarRepair.PENDING 
+                )
+                throw new CarRepairStateCarRepairError(checkCarRepair.StateCarRepair.ToString());
+            checkCarRepair.StateCarRepair = StateCarRepair.CANCEL;
+            unitOfWork.AsyncRepositoryCarRepair.Update(checkCarRepair);
+            await unitOfWork.CompleteAsync();
         }
 
         public async Task UpdateStateForEndWork(

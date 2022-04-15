@@ -99,7 +99,7 @@ const CarEquipmentForm = () => {
 
   return (
     <div className="container-md">
-      <div style={style} class=" row text-wrap  text-reset text-white">
+      <div style={style} className=" row text-wrap  text-reset text-white">
         <Backdrop
           sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
           open={open}

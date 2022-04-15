@@ -3,9 +3,9 @@ import Footer from "./Footer";
 function Home() {
   return (
     <div className="d-flex justify-content-between  flex-column bg-dark text-white ">
-      <div class=" container marketing ">
-        <div class="row">
-          <div class="col-lg-4">
+      <div className=" container marketing ">
+        <div className="row">
+          <div className="col-lg-4">
             <img
               src="https://res.cloudinary.com/courseaspcore/image/upload/v1649621875/pngegg_4_meireb.png"
               width={200}
@@ -21,7 +21,7 @@ function Home() {
               conglomerate in 1925.
             </p>
           </div>
-          <div class="col-lg-4">
+          <div className="col-lg-4">
             <img
               src="https://res.cloudinary.com/courseaspcore/image/upload/v1649621874/pngegg_6_guktxz.png"
               width={200}
@@ -34,7 +34,7 @@ function Home() {
               Group. The headquarters is located in Barcelona, Spain.
             </p>
           </div>
-          <div class="col-lg-4">
+          <div className="col-lg-4">
             <img
               src="https://res.cloudinary.com/courseaspcore/image/upload/v1649621875/pngegg_5_vr56pl.png"
               width={200}
@@ -51,12 +51,12 @@ function Home() {
           </div>
         </div>
 
-        <hr class="featurette-divider" />
+        <hr className="featurette-divider" />
 
-        <div class="row featurette">
-          <div class="col-md-7">
-            <h2 class="featurette-heading">Lamborghini</h2>
-            <p class="lead">
+        <div className="row featurette">
+          <div className="col-md-7">
+            <h2 className="featurette-heading">Lamborghini</h2>
+            <p className="lead">
               Automobili Lamborghini S.p.A. - Italian company, manufacturer of
               expensive sports cars under the Lamborghini brand. Located in the
               commune of Sant'Agata Bolognese, near Bologna. The company was
@@ -64,7 +64,7 @@ function Home() {
               already the founder of a large tractor manufacturing company.
             </p>
           </div>
-          <div class="col-md-5">
+          <div className="col-md-5">
             <img
               width={500}
               height={500}
@@ -73,18 +73,18 @@ function Home() {
           </div>
         </div>
 
-        <hr class="featurette-divider" />
+        <hr className="featurette-divider" />
 
-        <div class="row featurette">
-          <div class="col-md-7 order-md-2">
-            <h2 class="featurette-heading">Porshe</h2>
-            <p class="lead">
+        <div className="row featurette">
+          <div className="col-md-7 order-md-2">
+            <h2 className="featurette-heading">Porshe</h2>
+            <p className="lead">
               Porsche AG is a German manufacturer of cars and sunglasses founded
               by designer Ferdinand Porsche in 1931. The headquarters and main
               plant are located in Stuttgart, Germany.
             </p>
           </div>
-          <div class="col-md-5 order-md-1">
+          <div className="col-md-5 order-md-1">
             <img
               width={500}
               height={500}
@@ -93,12 +93,12 @@ function Home() {
           </div>
         </div>
 
-        <hr class="featurette-divider" />
+        <hr className="featurette-divider" />
 
-        <div class="row featurette">
-          <div class="col-md-7">
-            <h2 class="featurette-heading">Audi</h2>
-            <p class="lead">
+        <div className="row featurette">
+          <div className="col-md-7">
+            <h2 className="featurette-heading">Audi</h2>
+            <p className="lead">
               Audi AG is a German automotive company within the Volkswagen
               Group, specializing in the production of cars under the Audi
               brand. The headquarters is located in the city of Ingolstadt. The
@@ -106,7 +106,7 @@ function Home() {
               amounted to about 1,903,259 vehicles.
             </p>
           </div>
-          <div class="col-md-5">
+          <div className="col-md-5">
             <img
               width={500}
               height={500}
@@ -115,7 +115,7 @@ function Home() {
           </div>
         </div>
 
-        <hr class="featurette-divider" />
+        <hr className="featurette-divider" />
       </div>
 
       <Footer />

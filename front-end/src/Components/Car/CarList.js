@@ -125,36 +125,36 @@ export default function EnhancedTable(props) {
                         {row.actionCar === undefined && "None"}
                       </TableCell>
                       <TableCell align="right" className="text-center">
-                        <div class="d-grid gap-2 d-md-block">
+                        <div className="d-grid gap-2 d-md-block">
                           <button
-                            class="btn btn-primary-sm btn-sm mr-1"
+                            className="btn btn-primary-sm btn-sm mr-1"
                             value={row.vin}
                             onClick={props.deleteCar}
                             type="button"
                           >
-                            <i class="fas fa-trash" />
+                            <i className="fas fa-trash" />
                           </button>
                           <button
-                            class="btn btn-primary-sm btn-sm ml-1"
+                            className="btn btn-primary-sm btn-sm ml-1"
                             value={row.vin}
                             onClick={props.updateCar}
                             type="button"
                           >
-                            <i class="fa-solid fa-sack-dollar" />
+                            <i className="fa-solid fa-sack-dollar" />
                           </button>
                           <a
                             className="btn btn-primary-sm btn-sm ml-1 text-reset"
                             href={`/car/put?vin=${row.vin}
                           `}
                           >
-                            <i class="fa-solid fa-screwdriver-wrench" />
+                            <i className="fa-solid fa-screwdriver-wrench" />
                           </a>
                           <a
                             className="btn btn-primary-sm btn-sm ml-1 text-reset "
                             href={`/car/info?vin=${row.vin}
                           `}
                           >
-                            <i class="fa-solid fa-info" />
+                            <i className="fa-solid fa-info" />
                           </a>
                         </div>
                       </TableCell>

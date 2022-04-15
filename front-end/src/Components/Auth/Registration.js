@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 import ImgService from "../../Services/ImgServices/ImgService";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+import { validate_dateAge } from "../ViewLists/SupportFunction";
 
 function Registration() {
   const [firstName, setFirstName] = React.useState("");
@@ -41,6 +42,12 @@ function Registration() {
     event.preventDefault();
     handleToggle();
     setMessageError("");
+    let date = validate_dateAge(dBay);
+    if (date !== null) {
+      setMessageError(date);
+      handleClose();
+      return;
+    }
     if (!img) {
       setMessageError("Error:Wrong file type!");
       handleClose();
@@ -58,7 +65,7 @@ function Registration() {
       return;
     }
     if (url.height !== 200 || url.width !== 200) {
-      setMessageError("Error:size  200x200:File name:" + img.name);
+      setMessageError("Error:valid size  200x200:File name:" + img.name);
       handleClose();
       return;
     }

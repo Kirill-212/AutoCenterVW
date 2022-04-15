@@ -7,7 +7,7 @@ namespace Domain.CustomValidationAttribute
     {
         public override bool IsValid(object value)
         {
-            Regex regex = new("^[0 - 9A - HJ - NPR - Z]{ 17}$");
+            Regex regex = new("^(([a-h,A-H,j-n,J-N,p-z,P-Z,0-9]{9})([a-h,A-H,j-n,J-N,p,P,r-t,R-T,v-z,V-Z,0-9])([a-h,A-H,j-n,J-N,p-z,P-Z,0-9])(\\d{6}))$");
             if (value != null)
             {
                 MatchCollection matches = regex.Matches(value.ToString());

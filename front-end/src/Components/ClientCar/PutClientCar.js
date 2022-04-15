@@ -11,7 +11,7 @@ import {
 import ImgService from "../../Services/ImgServices/ImgService";
 import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
-import { getDate } from "../ViewLists/SupportFunction";
+import { getDate, validate_date } from "../ViewLists/SupportFunction";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 
@@ -51,6 +51,12 @@ const PutClientCar = () => {
     event.preventDefault();
     handleToggle();
     setMessageError("");
+    let date = validate_date(dateOfRealeseCar);
+    if (date !== null) {
+      setMessageError(date);
+      handleClose();
+      return;
+    }
     let urls = [];
     for (let i = 0; i < imgsCar.length; i++) {
       if (imgsCar[i].name !== undefined) {
@@ -211,13 +217,18 @@ const PutClientCar = () => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
+      if (response.statusCode === 204) {
+        handleClose();
+        setMessageError("Error: car with not found.");
+        return;
+      }
       setRegisterNumber(response.body.registerNumber);
       setVin(response.body.car.vin);
       setCarMileage(response.body.car.carMileage);
       setCost(response.body.car.cost);
       setImgsCar(response.body.car.imgsCar);
       setIdCarEquipment(response.body.car.idCarEquipment);
-      new CarEquipmentApi().apiCarequipmentsEquipmentIdGet(
+      new CarEquipmentApi().apiCarequipmentsEquipmentIdDetailGet(
         GetJwtToken(),
         response.body.car.idCarEquipment,
         CallbackRequestGetById
@@ -590,7 +601,7 @@ const PutClientCar = () => {
 
         <div>
           {redirect && <Navigate to={"/home"} />}
-          <div style={style} class="text-wrap  text-reset text-white">
+          <div style={style} className="text-wrap  text-reset text-white">
             <Backdrop
               sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
               open={open}

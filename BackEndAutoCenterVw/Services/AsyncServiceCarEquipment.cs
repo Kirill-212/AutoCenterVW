@@ -41,6 +41,11 @@ namespace Services
             return asyncRepositoryCarEquipment.GetById(id, false);
         }
 
+        public CarEquipment GetByIdDetail(string id, CancellationToken cancellationToken = default)
+        {
+            return asyncRepositoryCarEquipment.GetById(id);
+        }
+
         public CarEquipment GetByName(string name, CancellationToken cancellationToken = default)
         {
             return asyncRepositoryCarEquipment.GetByName(name);

@@ -25,6 +25,10 @@ namespace Services
             CancellationToken cancellationToken = default
             )
         {
+            Employee employee =
+                await unitOfWork.AsyncRepositoryEmployee.FindByUserEmail(email);
+            if (employee != null)
+                throw new EmployeeFound(email);
             User user = await unitOfWork.AsyncRepositoryUser.GetByEmail(email);
             if (user == null)
                 throw new UserEmailNotFound(email);

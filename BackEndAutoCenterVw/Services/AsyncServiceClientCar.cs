@@ -247,7 +247,7 @@ namespace Services
         {
             Car car = await unitOfWork.AsyncRepositoryCar.GetCarByVinAndEmailForOrder(item.Car.VIN, email);
             if (car == null)
-                throw new CarVinFound(item.Car.VIN, "found or not found or car have new owner, but this is not your car");
+                throw new CarVinWithEmailFound(item.Car.VIN,email, "not found");
             await Update(
              item,
            sharePercentage,

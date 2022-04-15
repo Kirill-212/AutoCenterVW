@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { UsersApi } from "../../api/UsersApi";
 import { Navigate } from "react-router-dom";
-import { getDate } from "../ViewLists/SupportFunction";
+import { getDate, validate_dateAge } from "../ViewLists/SupportFunction";
 import ImgService from "../../Services/ImgServices/ImgService";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import Backdrop from "@mui/material/Backdrop";
@@ -25,7 +25,7 @@ const PutUser = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  
+
   const handleToggle = () => {
     setOpen(!open);
   };
@@ -34,6 +34,12 @@ const PutUser = () => {
     event.preventDefault();
     setMessageError("");
     handleToggle();
+    let date = validate_dateAge(dBay);
+    if (date !== null) {
+      setMessageError(date);
+      handleClose();
+      return;
+    }
     let url;
     if (imgNew.length !== 0) {
       if (!imgNew) {
@@ -89,7 +95,7 @@ const PutUser = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult +=  errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -107,19 +113,61 @@ const PutUser = () => {
     handleClose();
   }
 
+  async function Get(email) {
+    handleToggle();
+    new UsersApi().apiUsersByEmailGet(
+      GetJwtToken(),
+      {
+        email: email
+      },
+      CallbackRequestGet
+    );
+  }
+
+  function CallbackRequestGet(error, data, response) {
+    if (response == undefined) {
+      setMessageError("Error:server is not available");
+    } else if (response.statusCode == 400) {
+      if (JSON.parse(error.message)["error"] == undefined) {
+        let errorResult = "";
+        let errorsJson = JSON.parse(error.message)["errors"];
+        for (let key in errorsJson) {
+          errorResult += errorsJson[key] + " | ";
+        }
+        setMessageError(errorResult);
+      } else {
+        setMessageError(JSON.parse(error.message)["error"]);
+      }
+    } else if (response.statusCode == 403) {
+      setMessageError("Forbidden");
+    } else if (response.statusCode == 401) {
+      setMessageError("Unauthorized");
+    } else if (response.statusCode === 200 || response.statusCode === 204) {
+      if (response.statusCode === 204) {
+        handleClose();
+        setMessageError("Error: user with this email not found.");
+        return;
+      }
+      setFirstName(response.body.firstName);
+      setLastName(response.body.lastName);
+      setSurname(response.body.surname);
+      setDBay(getDate(response.body.dBay));
+      setEmail(response.body.email);
+      setPhoneNumber(response.body.phoneNumber);
+      setImg(response.body.urlPhoto);
+    } else if (response.statusCode > 400) {
+      setMessageError(JSON.parse(error.message)["error"]);
+    }
+    handleClose();
+  }
+
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
-    setFirstName(query.get("firstName"));
-    setLastName(query.get("lastName"));
-    setSurname(query.get("surname"));
-    setDBay(getDate(query.get("dBay")));
-    setEmail(query.get("email"));
-    setPhoneNumber('+'+query.get("phoneNumber"));
-    setImg(query.get("urlPhoto"));
+    Get(query.get("email"));
   }, []);
 
   let style = { width: "30rem" };
-  
+
   return (
     <div className="  d-flex   justify-content-center w-20  align-items-center ">
       <div className="d-flex  justify-content-center  align-items-center ">

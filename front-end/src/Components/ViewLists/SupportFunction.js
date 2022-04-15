@@ -45,7 +45,7 @@ export function EnhancedTableHead(props) {
       <TableRow>
         {props.headCells.map(headCell =>
           <TableCell
-          className="text-center"
+            className="text-center"
             key={headCell.id}
             align={headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "normal"}
@@ -77,8 +77,38 @@ EnhancedTableHead.propTypes = {
   orderBy: PropTypes.string.isRequired
 };
 
+export function validate_date(date) {
+  if (
+    new Date(date).getFullYear() > new Date().getFullYear() - 20 &&
+    new Date(date).getFullYear() < new Date().getFullYear()
+  ) {
+    return null;
+  }
+  return "Error: date is not correct";
+}
 
-export  function getDate(inputDate) {
+export function validate_dateAge(date) {
+  if (new Date(date).getFullYear() < new Date().getFullYear() - 18) {
+    return null;
+  }
+  return "Error: date is not correct";
+}
+
+export function validate_dateTestDrive(date) {
+  if (new Date(date).getFullYear() < new Date().getFullYear() + 20) {
+    return null;
+  }
+  return "Error: date is not correct";
+}
+
+export function validate_dateService(date) {
+  if (new Date(date).getFullYear() < new Date().getFullYear() + 20) {
+    return null;
+  }
+  return "Error: date is not correct";
+}
+
+export function getDate(inputDate) {
   let date = new Date(inputDate);
   let day = date.getDate();
   let month = date.getMonth() + 1;
@@ -89,6 +119,3 @@ export  function getDate(inputDate) {
 
   return year + "-" + month + "-" + day;
 }
-
-
-

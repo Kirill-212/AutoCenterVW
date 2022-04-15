@@ -165,8 +165,7 @@ const PostService = () => {
             <div className="col mb-2 ">
               <label>Description:</label>
               <textarea
-                class="form-control"
-                className="w-100 shadow-lg  bg-white rounded"
+                className="form-control w-100 shadow-lg  bg-white rounded"
                 onChange={e => setDescription(e.target.value)}
                 type="text"
                 placeholder="Enter your description..."
@@ -175,7 +174,7 @@ const PostService = () => {
                 rows="3"
               />
 
-              <small id="passwordHelpInline" class="text-muted">
+              <small id="passwordHelpInline" className="text-muted">
                 Description length must be between 3 and 100 characters.
               </small>
             </div>
@@ -202,7 +201,7 @@ const PostService = () => {
           >
             <CircularProgress color="inherit" />
           </Backdrop>
-          <div style={style} class="text-wrap  text-reset text-white">
+          <div style={style} className="text-wrap  text-reset text-white">
             {MessageError}
           </div>
         </div>

@@ -7,7 +7,6 @@ import * as React from "react";
 export default function CustomizedAccordions(props) {
    const[data,setData]=React.useState(props.data)
   const [expanded, setExpanded] = React.useState("panel1");
- if(props.data.lenght===0)return <></>
   const handleChange = panel => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
@@ -25,7 +24,7 @@ export default function CustomizedAccordions(props) {
       requestSearch(e);
     }
   };
-  
+  if (props.data.length == 0) return <div>No data</div>;
   return (
     <div>
       <div className="row mt-2  bg-white text-white">
@@ -63,22 +62,22 @@ export default function CustomizedAccordions(props) {
                         return <div className="row d-flex flex-row justify-content-center">
                             
                                 <div className="col">
-                                <i class="fa-solid fa-arrow-right"></i>
+                                <i className="fa-solid fa-arrow-right"></i>
                                 Name:{element.name}
                                    
                                     </div>
                                 <div className="col"> <p>Value:{element.equipmentItem.value}</p></div>
-                                <div className="col"> <p>Cost(<i class="fa-solid fa-dollar-sign"></i>):{element.equipmentItem.cost}</p></div>
+                                <div className="col"> <p>Cost(<i className="fa-solid fa-dollar-sign"></i>):{element.equipmentItem.cost}</p></div>
                                 <div className="col"></div>
                                 <div className="col"></div>
                         </div>
                     })}{(JSON.parse(props.roleName).roleName==="ADMIN"||JSON.parse(props.roleName).roleName==="EMPLOYEE")&&<div className="row"><div className="col"><button
-                    class="btn btn-primary-sm btn-sm mr-1"
+                    className="btn btn-primary-sm btn-sm mr-1"
                     value={r.name}
                     onClick={props.deleteCarEquipment}
                     type="button"
                   >
-                    <i class="fas fa-trash" />
+                    <i className="fas fa-trash" />
                   </button></div><div className="col"></div><div className="col"></div> </div>}
                   </Typography>
                 </AccordionDetails>
@@ -101,22 +100,22 @@ export default function CustomizedAccordions(props) {
                         return <div className="row d-flex flex-row justify-content-center">
                             
                                 <div className="col">
-                               <i class="fa-solid fa-arrow-right"></i>
+                               <i className="fa-solid fa-arrow-right"></i>
                                 Name:{element.name}
                                    
                                     </div>
                                 <div className="col"> <p>Value:{element.equipmentItem.value}</p></div>
-                                <div className="col"> <p>Cost(<i class="fa-solid fa-dollar-sign"></i>):{element.equipmentItem.cost}</p></div>
+                                <div className="col"> <p>Cost(<i className="fa-solid fa-dollar-sign"></i>):{element.equipmentItem.cost}</p></div>
                                 <div className="col"></div>
                                 <div className="col"></div>
                         </div>
                     })}{(JSON.parse(props.roleName).roleName==="ADMIN"||JSON.parse(props.roleName).roleName==="EMPLOYEE")&&<div className="row"><div className="col"><button
-                    class="btn btn-primary-sm btn-sm mr-1"
+                    className="btn btn-primary-sm btn-sm mr-1"
                     value={r.name}
                     onClick={props.deleteCarEquipment}
                     type="button"
                   >
-                    <i class="fas fa-trash" />
+                    <i className="fas fa-trash" />
                   </button></div><div className="col"></div><div className="col"></div> </div>}
                   </Typography>
                 </AccordionDetails>

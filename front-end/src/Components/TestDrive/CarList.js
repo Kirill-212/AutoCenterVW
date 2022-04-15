@@ -141,7 +141,7 @@ export default function EnhancedTable(props) {
   return (
     <div className="container">
       <div className="row align-items-center">
-        <p style={style} class="text-wrap  text-reset text-white">
+        <p style={style} className="text-wrap  text-reset text-white">
           {MessageError}
         </p>
       </div>
@@ -149,8 +149,8 @@ export default function EnhancedTable(props) {
         {list.map(e => {
           return (
             <div className="col  w-50 text-center">
-              <div class="card mt-5 mb-5 text-white bg-black">
-                <div class="row card-header">
+              <div className="card mt-5 mb-5 text-white bg-black">
+                <div className="row card-header">
                   {e.car.isActive === true &&
                     <div className="col-1">
                       <a
@@ -161,7 +161,7 @@ export default function EnhancedTable(props) {
                           : e.user.email}
                           `}
                       >
-                        <i class="fa-solid fa-sack-dollar" />
+                        <i className="fa-solid fa-sack-dollar" />
                       </a>
                     </div>}
                   {e.car.isActive === false &&
@@ -171,7 +171,7 @@ export default function EnhancedTable(props) {
                         href={`/testdrive/post?vin=${e.car.vin}
                           `}
                       >
-                        <i class="fa-solid fa-car" />
+                        <i className="fa-solid fa-car" />
                       </a>
                     </div>}
                   {e.user === undefined &&
@@ -181,7 +181,7 @@ export default function EnhancedTable(props) {
                         href={`/car/info?vin=${e.car.vin}
                           `}
                       >
-                        <i class="fa-solid fa-info" />
+                        <i className="fa-solid fa-info" />
                       </a>
                     </div>}
                   {e.user !== undefined &&
@@ -191,14 +191,14 @@ export default function EnhancedTable(props) {
                         href={`/clientcar/info?vin=${e.car.vin}
                           `}
                       >
-                        <i class="fa-solid fa-info" />
+                        <i className="fa-solid fa-info" />
                       </a>
                     </div>}
                 </div>
-                <div class="card-body row ">
+                <div className="card-body row ">
                   <img src={e.car.imgsCar[0].url} width={400} height={400} />
                 </div>
-                <div class="row card-footer">
+                <div className="row card-footer">
                   <div className="row d-flex flex-column">
                     <div className="col text-center">
                       <h4> Information about car </h4>
@@ -207,7 +207,7 @@ export default function EnhancedTable(props) {
                   <div className="row">
                     <div className="col text-right">Car mileage(km)</div>
                     <div className="col-1 text-center">
-                      <i class="fa-solid fa-arrow-right" />
+                      <i className="fa-solid fa-arrow-right" />
                     </div>
                     <div className="col text-left">
                       {e.car.carMileage}
@@ -215,10 +215,10 @@ export default function EnhancedTable(props) {
                   </div>
                   <div className="row">
                     <div className="col text-right">
-                      Cost(<i class="fa-solid fa-dollar-sign" />)
+                      Cost(<i className="fa-solid fa-dollar-sign" />)
                     </div>
                     <div className="col-1 text-center">
-                      <i class="fa-solid fa-arrow-right" />
+                      <i className="fa-solid fa-arrow-right" />
                     </div>
                     <div className="col text-left">
                       {e.car.cost}
@@ -227,7 +227,7 @@ export default function EnhancedTable(props) {
                   <div className="row">
                     <div className="col text-right">Date of realese car</div>
                     <div className="col-1 text-center">
-                      <i class="fa-solid fa-arrow-right" />
+                      <i className="fa-solid fa-arrow-right" />
                     </div>
                     <div className="col text-left">
                       {getDate(e.car.dateOfRealeseCar)}

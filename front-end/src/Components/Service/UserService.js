@@ -155,7 +155,7 @@ const EmployeeListService = props => {
 
   return (
     <div className="container-md">
-      <div style={style} class=" row text-wrap  text-reset text-white">
+      <div style={style} className=" row text-wrap  text-reset text-white">
         <Backdrop
           sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
           open={open}
@@ -234,15 +234,15 @@ const EmployeeListService = props => {
                   </AccordionSummary>
                   <AccordionDetails>
                     <Typography>
-                      <div class="card">
-                        <h5 class="card-header">
+                      <div className="card">
+                        <h5 className="card-header">
                           Information about car repair
                         </h5>
-                        <div class="card-body">
+                        <div className="card-body">
                           <div className="row">
                             <div className="col text-right">Description</div>
                             <div className="col-1 text-center">
-                              <i class="fa-solid fa-arrow-right" />
+                              <i className="fa-solid fa-arrow-right" />
                             </div>
                             <div className="col text-left">
                               {r.carRepair.description}
@@ -256,7 +256,7 @@ const EmployeeListService = props => {
                           <div className="row">
                             <div className="col text-right">First name</div>
                             <div className="col-1 text-center">
-                              <i class="fa-solid fa-arrow-right" />
+                              <i className="fa-solid fa-arrow-right" />
                             </div>
                             <div className="col text-left">
                               {r.emp.firstName}
@@ -265,7 +265,7 @@ const EmployeeListService = props => {
                           <div className="row">
                             <div className="col text-right">Last name</div>
                             <div className="col-1 text-center">
-                              <i class="fa-solid fa-arrow-right" />
+                              <i className="fa-solid fa-arrow-right" />
                             </div>
                             <div className="col text-left">
                               {r.emp.lastName}
@@ -274,7 +274,7 @@ const EmployeeListService = props => {
                           <div className="row">
                             <div className="col text-right">Surname</div>
                             <div className="col-1 text-center">
-                              <i class="fa-solid fa-arrow-right" />
+                              <i className="fa-solid fa-arrow-right" />
                             </div>
                             <div className="col text-left">
                               {r.emp.surname}
@@ -283,7 +283,7 @@ const EmployeeListService = props => {
                           <div className="row">
                             <div className="col text-right">Phone number</div>
                             <div className="col-1 text-center">
-                              <i class="fa-solid fa-arrow-right" />
+                              <i className="fa-solid fa-arrow-right" />
                             </div>
                             <div className="col text-left">
                               {r.emp.phoneNumber}
@@ -292,7 +292,7 @@ const EmployeeListService = props => {
                           <div className="row">
                             <div className="col text-right">Email</div>
                             <div className="col-1 text-center">
-                              <i class="fa-solid fa-arrow-right" />
+                              <i className="fa-solid fa-arrow-right" />
                             </div>
                             <div className="col text-left">
                               {r.emp.email}
@@ -308,7 +308,7 @@ const EmployeeListService = props => {
                               Car mileage(km)
                             </div>
                             <div className="col-1 text-center">
-                              <i class="fa-solid fa-arrow-right" />
+                              <i className="fa-solid fa-arrow-right" />
                             </div>
                             <div className="col text-left">
                               {r.car.carMileage}
@@ -316,10 +316,10 @@ const EmployeeListService = props => {
                           </div>
                           <div className="row">
                             <div className="col text-right">
-                              Cost(<i class="fa-solid fa-dollar-sign" />)
+                              Cost(<i className="fa-solid fa-dollar-sign" />)
                             </div>
                             <div className="col-1 text-center">
-                              <i class="fa-solid fa-arrow-right" />
+                              <i className="fa-solid fa-arrow-right" />
                             </div>
                             <div className="col text-left">
                               {r.car.cost}
@@ -330,7 +330,7 @@ const EmployeeListService = props => {
                               Date of realese car
                             </div>
                             <div className="col-1 text-center">
-                              <i class="fa-solid fa-arrow-right" />
+                              <i className="fa-solid fa-arrow-right" />
                             </div>
                             <div className="col text-left">
                               {getDate(r.car.dateOfRealeseCar)}
@@ -348,7 +348,7 @@ const EmployeeListService = props => {
                                 href={`/clientcar/info?vin=${r.car.vin}
                           `}
                               >
-                                <i class="fa-solid fa-info" />
+                                <i className="fa-solid fa-info" />
                               </a>
                             </div>
 
@@ -356,7 +356,7 @@ const EmployeeListService = props => {
                               "PENDING" &&
                               <div className="col">
                                 {" "}<button
-                                  class="btn btn-primary-sm btn-sm ml-1"
+                                  className="btn btn-primary-sm btn-sm ml-1"
                                   onClick={e =>
                                     UpdateState(
                                       JSON.stringify({
@@ -368,7 +368,7 @@ const EmployeeListService = props => {
                                     )}
                                   type="button"
                                 >
-                                  <i class="fa-solid fa-ban" />
+                                  <i className="fa-solid fa-ban" />
                                 </button>
                               </div>}
                           </div>
@@ -383,16 +383,53 @@ const EmployeeListService = props => {
                 <AccordionSummary
                   aria-controls={r.carUser.email + r.car.vin + "d-content"}
                   id={r.carUser.email + r.car.vin + "d-header"}
-                />
+                >
+                  {" "}<Typography>
+                    <div className="row d-flex flex-column">
+                      <div className="col">
+                        <p>
+                          Vin: {r.car.vin}
+                        </p>
+                      </div>
+                      <div className="col">
+                        <p>
+                          Email: {r.carUser.email}
+                        </p>
+                      </div>
+                      <div className="col">
+                        <p>
+                          State:
+                          {CheckState(r.carRepair.stateCarRepair)}
+                        </p>
+                      </div>
+                      <div className="col">
+                        <p>
+                          Start:{" "}
+                          {r.carRepair.startWork === null
+                            ? "None"
+                            : getDate(r.carRepair.startWork)}
+                        </p>
+                      </div>
+                      <div className="col">
+                        <p>
+                          End:{" "}
+                          {r.carRepair.endWork === null
+                            ? "None"
+                            : getDate(r.carRepair.endWork)}
+                        </p>
+                      </div>
+                    </div>
+                  </Typography>
+                </AccordionSummary>
                 <AccordionDetails>
                   <Typography>
-                    <div class="card">
-                      <h5 class="card-header">Information about car repair</h5>
-                      <div class="card-body">
+                    <div className="card">
+                      <h5 className="card-header">Information about car repair</h5>
+                      <div className="card-body">
                         <div className="row">
                           <div className="col text-right">Description</div>
                           <div className="col-1 text-center">
-                            <i class="fa-solid fa-arrow-right" />
+                            <i className="fa-solid fa-arrow-right" />
                           </div>
                           <div className="col text-left">
                             {r.carRepair.description}
@@ -406,7 +443,7 @@ const EmployeeListService = props => {
                         <div className="row">
                           <div className="col text-right">First name</div>
                           <div className="col-1 text-center">
-                            <i class="fa-solid fa-arrow-right" />
+                            <i className="fa-solid fa-arrow-right" />
                           </div>
                           <div className="col text-left">
                             {r.emp.firstName}
@@ -415,7 +452,7 @@ const EmployeeListService = props => {
                         <div className="row">
                           <div className="col text-right">Last name</div>
                           <div className="col-1 text-center">
-                            <i class="fa-solid fa-arrow-right" />
+                            <i className="fa-solid fa-arrow-right" />
                           </div>
                           <div className="col text-left">
                             {r.emp.lastName}
@@ -424,7 +461,7 @@ const EmployeeListService = props => {
                         <div className="row">
                           <div className="col text-right">Surname</div>
                           <div className="col-1 text-center">
-                            <i class="fa-solid fa-arrow-right" />
+                            <i className="fa-solid fa-arrow-right" />
                           </div>
                           <div className="col text-left">
                             {r.emp.surname}
@@ -433,7 +470,7 @@ const EmployeeListService = props => {
                         <div className="row">
                           <div className="col text-right">Phone number</div>
                           <div className="col-1 text-center">
-                            <i class="fa-solid fa-arrow-right" />
+                            <i className="fa-solid fa-arrow-right" />
                           </div>
                           <div className="col text-left">
                             {r.emp.phoneNumber}
@@ -442,7 +479,7 @@ const EmployeeListService = props => {
                         <div className="row">
                           <div className="col text-right">Email</div>
                           <div className="col-1 text-center">
-                            <i class="fa-solid fa-arrow-right" />
+                            <i className="fa-solid fa-arrow-right" />
                           </div>
                           <div className="col text-left">
                             {r.emp.email}
@@ -456,7 +493,7 @@ const EmployeeListService = props => {
                         <div className="row">
                           <div className="col text-right">Car mileage(km)</div>
                           <div className="col-1 text-center">
-                            <i class="fa-solid fa-arrow-right" />
+                            <i className="fa-solid fa-arrow-right" />
                           </div>
                           <div className="col text-left">
                             {r.car.carMileage}
@@ -464,10 +501,10 @@ const EmployeeListService = props => {
                         </div>
                         <div className="row">
                           <div className="col text-right">
-                            Cost(<i class="fa-solid fa-dollar-sign" />)
+                            Cost(<i className="fa-solid fa-dollar-sign" />)
                           </div>
                           <div className="col-1 text-center">
-                            <i class="fa-solid fa-arrow-right" />
+                            <i className="fa-solid fa-arrow-right" />
                           </div>
                           <div className="col text-left">
                             {r.car.cost}
@@ -478,7 +515,7 @@ const EmployeeListService = props => {
                             Date of realese car
                           </div>
                           <div className="col-1 text-center">
-                            <i class="fa-solid fa-arrow-right" />
+                            <i className="fa-solid fa-arrow-right" />
                           </div>
                           <div className="col text-left">
                             {getDate(r.car.dateOfRealeseCar)}
@@ -496,7 +533,7 @@ const EmployeeListService = props => {
                               href={`/clientcar/info?vin=${r.car.vin}
                           `}
                             >
-                              <i class="fa-solid fa-info" />
+                              <i className="fa-solid fa-info" />
                             </a>
                           </div>
 
@@ -504,7 +541,7 @@ const EmployeeListService = props => {
                             "PENDING" &&
                             <div className="col">
                               {" "}<button
-                                class="btn btn-primary-sm btn-sm ml-1"
+                                className="btn btn-primary-sm btn-sm ml-1"
                                 onClick={e =>
                                   UpdateState(
                                     JSON.stringify({
@@ -516,7 +553,7 @@ const EmployeeListService = props => {
                                   )}
                                 type="button"
                               >
-                                <i class="fa-solid fa-ban" />
+                                <i className="fa-solid fa-ban" />
                               </button>
                             </div>}
                         </div>

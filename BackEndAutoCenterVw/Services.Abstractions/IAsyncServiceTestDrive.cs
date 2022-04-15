@@ -30,6 +30,14 @@ namespace Services.Abstractions
            CancellationToken cancellationToken = default
            );
 
+        Task UpdateStateForCancelUser(
+           string email,
+            string vin,
+            string time,
+            DateTime dateStart,
+           CancellationToken cancellationToken = default
+           );
+
         Task UpdateStateForConfirm(
             string email,
             string vin,

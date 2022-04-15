@@ -26,7 +26,7 @@ const DetailCarEquipmentForm = props => {
       requestSearch(e);
     }
   };
-
+  if (props.data.length == 0) return <div>No data</div>;
   return (
     <div>
       <div className="row mt-2 bg-white text-white">
@@ -71,19 +71,19 @@ const DetailCarEquipmentForm = props => {
                     <div className="row d-grid gap-2 d-md-block">
                       <div className="col">
                         <button
-                          class="btn btn-primary-sm btn-sm m-2 "
+                          className="btn btn-primary-sm btn-sm m-2 "
                           value={r.name}
                           onClick={props.deleteCarEquipmentForm}
                           type="button"
                         >
-                          <i class="fas fa-trash" />
+                          <i className="fas fa-trash" />
                         </button>
                         <a
                           className="btn btn-primary-sm btn-sm m-2 text-reset"
                           href={`/carequipmentform/put?name=${r.name}
                           `}
                         >
-                          <i class="fa-solid fa-screwdriver-wrench" />
+                          <i className="fa-solid fa-screwdriver-wrench" />
                         </a>
                       </div>
                     </div>
@@ -97,7 +97,7 @@ const DetailCarEquipmentForm = props => {
                           </div>
                           <div className="col">
                             <p>
-                              Cost(<i class="fa-solid fa-dollar-sign" />):{element.cost}
+                              Cost(<i className="fa-solid fa-dollar-sign" />):{element.cost}
                             </p>
                           </div>
                           <div className="col" />
@@ -133,19 +133,19 @@ const DetailCarEquipmentForm = props => {
                   <div className="row d-grid gap-2 d-md-block">
                     <div className="col">
                       <button
-                        class="btn btn-primary-sm btn-sm m-2 "
+                        className="btn btn-primary-sm btn-sm m-2 "
                         value={r.name}
                         onClick={props.deleteCarEquipmentForm}
                         type="button"
                       >
-                        <i class="fas fa-trash" />
+                        <i className="fas fa-trash" />
                       </button>
                       <a
                         className="btn btn-primary-sm btn-sm m-2 text-reset"
                         href={`/carequipmentform/put?name=${r.name}
                           `}
                       >
-                        <i class="fa-solid fa-screwdriver-wrench" />
+                        <i className="fa-solid fa-screwdriver-wrench" />
                       </a>
                     </div>
                   </div>
@@ -159,7 +159,7 @@ const DetailCarEquipmentForm = props => {
                         </div>
                         <div className="col">
                           <p>
-                            Cost(<i class="fa-solid fa-dollar-sign" />):{element.cost}
+                            Cost(<i className="fa-solid fa-dollar-sign" />):{element.cost}
                           </p>
                         </div>
                         <div className="col" />

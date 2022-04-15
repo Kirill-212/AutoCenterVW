@@ -177,23 +177,23 @@ export default function EnhancedTable(props) {
 
   return (
     <div className="container">
-      <p style={style} class="text-wrap  text-reset text-white">
+      <p style={style} className="text-wrap  text-reset text-white">
         {MessageError}
       </p>
       {listNew.map(e => {
         let flag = true;
         return (
-          <div class="card mt-5 mb-5 text-white bg-black">
-            <div class="card-header">
+          <div className="card mt-5 mb-5 text-white bg-black">
+            <div className="card-header">
               <div className="row justify-content-center">
                 {(JSON.parse(user).roleName === "ADMIN" ||
                   JSON.parse(user).roleName === "EMPLOYEE") &&
-                  <div class="col ">
+                  <div className="col ">
                     <a
                       className="text-reset btn btn-primary-sm btn-sm mr-1"
                       href={`/new/put?title=${e.title}`}
                     >
-                      <i class="fa-solid fa-screwdriver-wrench" />
+                      <i className="fa-solid fa-screwdriver-wrench" />
                     </a>
                     <button
                       className="btn btn-primary-sm btn-sm mr-1"
@@ -202,12 +202,12 @@ export default function EnhancedTable(props) {
                       value={e.title}
                       onClick={DeleteNew}
                     >
-                      <i class="fa-solid fa-trash" />
+                      <i className="fa-solid fa-trash" />
                     </button>
                   </div>}
                 {(JSON.parse(user).roleName === "ADMIN" ||
                   JSON.parse(user).roleName === "EMPLOYEE") &&
-                  <div class="col " />}
+                  <div className="col " />}
                 <div className="col text-center">
                   <h2>
                     {e.title}
@@ -219,7 +219,7 @@ export default function EnhancedTable(props) {
                 </div>
               </div>
             </div>
-            <div class="card-body row ">
+            <div className="card-body row ">
               <div className="col" />
               <div
                 id={"slider" + e.title.replace(" ", "_")}
@@ -283,7 +283,7 @@ export default function EnhancedTable(props) {
               </div>
               <div className="col" />
             </div>
-            <div class="card-footer">
+            <div className="card-footer">
               <div className="row">
                 <div className="col">
                   <p>

@@ -46,13 +46,35 @@ namespace Presentation.Controllers
             }
         }
 
-        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [Authorize(Roles = "ADMIN,EMPLOYEE")]
         [HttpPut("cancel")]
         public async Task<ActionResult> UpdateStateForCancel([FromBody] TestDriveDto item)
         {
             if (ModelState.IsValid)
             {
                 await _serviceManager.AsyncServiceTestDrive.UpdateStateForCancel
+                    (
+                    item.Email,
+                    item.Vin,
+                    item.Time.ToString(),
+                    item.DateStart
+                    );
+
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+
+        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [HttpPut("cancel/user")]
+        public async Task<ActionResult> UpdateStateForCancelUser([FromBody] TestDriveDto item)
+        {
+            if (ModelState.IsValid)
+            {
+                await _serviceManager.AsyncServiceTestDrive.UpdateStateForCancelUser
                     (
                     item.Email,
                     item.Vin,

@@ -8,7 +8,7 @@ import {
 } from "../../ImportExportGenClient";
 import ImgService from "../../Services/ImgServices/ImgService";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
-import { getDate } from "../ViewLists/SupportFunction";
+import { getDate, validate_date } from "../ViewLists/SupportFunction";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 
@@ -52,7 +52,7 @@ const PutCar = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult +=  errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -63,12 +63,17 @@ const PutCar = () => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
+      if (response.statusCode === 204) {
+        handleClose();
+        setMessageError("Error: car with not found.");
+        return;
+      }
       setVin(response.body.vin);
       setCarMileage(response.body.carMileage);
       setCost(response.body.cost);
       setImgsCar(response.body.imgsCar);
       setIdCarEquipment(response.body.idCarEquipment);
-      new CarEquipmentApi().apiCarequipmentsEquipmentIdGet(
+      new CarEquipmentApi().apiCarequipmentsEquipmentIdDetailGet(
         GetJwtToken(),
         response.body.idCarEquipment,
         CallbackRequestGetById
@@ -91,7 +96,7 @@ const PutCar = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult +=  errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -129,6 +134,12 @@ const PutCar = () => {
     event.preventDefault();
     handleToggle();
     setMessageError("");
+    let date = validate_date(dateOfRealeseCar);
+    if (date !== null) {
+      setMessageError(date);
+      handleClose();
+      return;
+    }
     let urls = [];
     for (let i = 0; i < imgsCar.length; i++) {
       if (imgsCar[i].name !== undefined) {
@@ -140,7 +151,7 @@ const PutCar = () => {
         }
         if (url.height !== 600 || url.width !== 800) {
           setMessageError(
-            "Error:size is valid 800x600:File name:" +
+            "Error:valid size 800x600:File name:" +
               imgsCar[i].name +
               "|Line" +
               i
@@ -180,7 +191,7 @@ const PutCar = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult +=  errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -211,7 +222,7 @@ const PutCar = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult +=  errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -229,7 +240,7 @@ const PutCar = () => {
     handleClose();
   }
 
- async function AddImgs(value, i) {
+  async function AddImgs(value, i) {
     if (!value) {
       setMessageError("Error:Wrong file type!Input number:" + i);
       return;
@@ -444,7 +455,7 @@ const PutCar = () => {
 
         <div>
           {redirect && <Navigate to={"/home"} />}
-          <div style={style} class="text-wrap  text-reset text-white">
+          <div style={style} className="text-wrap  text-reset text-white">
             <Backdrop
               sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
               open={open}

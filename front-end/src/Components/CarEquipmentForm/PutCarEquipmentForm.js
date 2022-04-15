@@ -163,13 +163,13 @@ const PutCarEquipmentForm = () => {
 
             <div className="form-check col mt-5">
               <input
-                class="form-check-input"
+                className="form-check-input"
                 type="checkbox"
                 value={i}
                 id={i + "flexCheckDefault"}
                 onChange={e => UpdateState(e.target.value)}
               />
-              <label class="form-check-label" for="flexCheckDefault">
+              <label className="form-check-label" for="flexCheckDefault">
                 Delete
               </label>
             </div>
@@ -290,7 +290,7 @@ const PutCarEquipmentForm = () => {
               <CircularProgress color="inherit" />
             </Backdrop>
             {redirect && <Navigate to={"/home"} />}
-            <div style={style} class="text-wrap  text-reset text-white">
+            <div style={style} className="text-wrap  text-reset text-white">
               {MessageError}
             </div>
           </div>

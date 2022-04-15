@@ -98,6 +98,32 @@ namespace Services
             await unitOfWork.CompleteAsync();
         }
 
+        public async Task UpdateStateForCancelUser(string email, string vin, string time, DateTime dateStart, CancellationToken cancellationToken = default)
+        {
+            User user = await unitOfWork.AsyncRepositoryUser.GetActiveUserByEmail(email);
+            if (user == null) throw new UserStatusIsNotValidOrUserNotFound(email);
+
+            Car car = await unitOfWork.AsyncRepositoryCar.GetByVin(vin);
+            if (car == null || car.IsActive == true || car.ClientCar != null)
+                throw new TestDriveCarError(vin);
+            TestDrive testDrive = new()
+            {
+                UserId = user.Id,
+                CarId = car.Id,
+                Time = time,
+                DateStart = dateStart,
+            };
+
+            TestDrive checkTestDrive =
+                await unitOfWork.AsyncRepositoryTestDrive.GetByCarRepairParams(testDrive);
+            if (checkTestDrive == null) throw new TestDriveNotFound();
+            if (checkTestDrive.stateTestDrive != StateTestDrive.PENDING)
+                throw new TestDriveCancelUserError();
+            checkTestDrive.stateTestDrive = StateTestDrive.CANCEL;
+            unitOfWork.AsyncRepositoryTestDrive.Update(checkTestDrive);
+            await unitOfWork.CompleteAsync();
+        }
+
         public async Task UpdateStateForConfirm(
             string email,
             string vin,

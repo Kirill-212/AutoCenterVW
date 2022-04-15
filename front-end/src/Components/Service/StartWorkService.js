@@ -8,7 +8,7 @@ import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import { validate_dateService } from "../ViewLists/SupportFunction";
 const PostService = () => {
   const { user } = useContext(Context);
   const [vin, setVin] = React.useState("");
@@ -30,6 +30,18 @@ const PostService = () => {
     event.preventDefault();
     handleToggle();
     setMessageError("");
+    let date = validate_dateService(startWork);
+    if (date !== null) {
+      setMessageError(date);
+      handleClose();
+      return;
+    }
+    date = validate_dateService(endWork);
+    if (date !== null) {
+      setMessageError(date);
+      handleClose();
+      return;
+    }
     if (user === undefined) {
       setMessageError("Unauthorized");
       handleClose();
@@ -57,7 +69,7 @@ const PostService = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult +=  errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -149,7 +161,7 @@ const PostService = () => {
           >
             <CircularProgress color="inherit" />
           </Backdrop>
-          <div style={style} class="text-wrap  text-reset text-white">
+          <div style={style} className="text-wrap  text-reset text-white">
             {MessageError}
           </div>
         </div>

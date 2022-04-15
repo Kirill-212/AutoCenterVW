@@ -128,22 +128,22 @@ export default function EnhancedTable(props) {
                         {row.car.actionCar === null && "None"}
                       </TableCell>
                       <TableCell align="right" className="text-center">
-                        <div class="d-grid gap-2 d-md-block">
+                        <div className="d-grid gap-2 d-md-block">
                           <button
-                            class="btn btn-primary-sm btn-sm mr-1"
+                            className="btn btn-primary-sm btn-sm mr-1"
                             value={row.car.vin}
                             onClick={props.deleteClientCar}
                             type="button"
                           >
-                            <i class="fas fa-trash" />
+                            <i className="fas fa-trash" />
                           </button>
                           <button
-                            class="btn btn-primary-sm btn-sm ml-1"
+                            className="btn btn-primary-sm btn-sm ml-1"
                             value={row.car.vin}
                             onClick={props.updateClientCar}
                             type="button"
                           >
-                            <i class="fa-solid fa-sack-dollar" />
+                            <i className="fa-solid fa-sack-dollar" />
                           </button>
                           <a
                             className="btn btn-primary-sm btn-sm ml-1 text-reset"
@@ -157,7 +157,7 @@ export default function EnhancedTable(props) {
                             href={`/clientcar/info?vin=${row.car.vin}
                           `}
                           >
-                            <i class="fa-solid fa-info" />
+                            <i className="fa-solid fa-info" />
                           </a>
                         </div>
                       </TableCell>

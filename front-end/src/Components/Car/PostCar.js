@@ -10,7 +10,7 @@ import ImgService from "../../Services/ImgServices/ImgService";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import { validate_date } from "../ViewLists/SupportFunction";
 const PostCar = () => {
   const [nameCarEquipment, setNameCarEquipment] = React.useState("");
   const [cost, setCost] = React.useState(0);
@@ -50,7 +50,7 @@ const PostCar = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult +=  errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -73,15 +73,22 @@ const PostCar = () => {
     event.preventDefault();
     handleToggle();
     setMessageError("");
+    console.log(dateOfRealeseCar);
+    let date = validate_date(dateOfRealeseCar);
+    if (date !== null) {
+      setMessageError(date);
+      handleClose();
+      return;
+    }
     let urls = [];
     for (let i = 0; i < imgs.length; i++) {
       if (!imgs[i]) {
-        setMessageError("Wrong file type!");
+        setMessageError("Error:Wrong file type!");
         handleClose();
         return;
       }
       if (imgs[i].type.split("/")[0] !== "image") {
-        setMessageError("Wrong file type!");
+        setMessageError("Error:Wrong file type!");
         handleClose();
         return;
       }
@@ -92,9 +99,7 @@ const PostCar = () => {
         return;
       }
       if (url.height !== 600 || url.width !== 800) {
-        setMessageError(
-          "Error:valid size 800x600:File name:" + imgs[i].name
-        );
+        setMessageError("Error:valid size 800x600:File name:" + imgs[i].name);
         handleClose();
         return;
       }
@@ -116,7 +121,7 @@ const PostCar = () => {
       CallbackRequestPost
     );
   }
-  
+
   function CallbackRequestPost(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
@@ -125,7 +130,7 @@ const PostCar = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult +=  errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -146,7 +151,7 @@ const PostCar = () => {
   useEffect(() => {
     GetCarEquipment();
   }, []);
-  
+
   let style = { width: "25rem" };
 
   return (
@@ -269,7 +274,7 @@ const PostCar = () => {
 
         <div>
           {redirect && <Navigate to={"/home"} />}
-          <div style={style} class="text-wrap  text-reset text-white">
+          <div style={style} className="text-wrap  text-reset text-white">
             <Backdrop
               sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
               open={open}

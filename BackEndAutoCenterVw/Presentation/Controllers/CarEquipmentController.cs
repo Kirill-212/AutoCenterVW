@@ -159,6 +159,13 @@ namespace Presentation.Controllers
         {
             return equipment.GetById(id);
         }
+
+        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [HttpGet("equipment/{id}/detail")]
+        public CarEquipment GetByIdCarEquipmentDetail(string id)
+        {
+            return equipment.GetByIdDetail(id);
+        }
     }
 }
 

@@ -14,6 +14,8 @@ namespace Services.Abstractions
 
         T GetById(string id, CancellationToken cancellationToken = default);
 
+        T GetByIdDetail(string id, CancellationToken cancellationToken = default);
+
         Task Update(T item, string newName = null, CancellationToken cancellationToken = default);
 
         Task Remove(string name, CancellationToken cancellationToken = default);

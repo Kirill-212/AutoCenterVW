@@ -34,6 +34,7 @@ const ClientCarDetail = () => {
   }
 
   function CallbackRequest(error, data, response) {
+    setDetailCar(null);
     if (response == undefined) {
       setMessageError("Error:server is not available");
       handleClose();
@@ -60,12 +61,13 @@ const ClientCarDetail = () => {
       if (response.statusCode === 204) {
         handleClose();
         setMessageError("EMPTY");
+        setDetailCar(null);
         return;
       }
       setRegisterNumber(response.body.registerNumber);
       setDetailCar(response.body.car);
       setDetailUser(response.body.user);
-      new CarEquipmentApi().apiCarequipmentsEquipmentIdGet(
+      new CarEquipmentApi().apiCarequipmentsEquipmentIdDetailGet(
         GetJwtToken(),
         response.body.car.idCarEquipment,
         CallbackRequestGetById
@@ -189,167 +191,178 @@ const ClientCarDetail = () => {
             {MessageError}
           </p>
         </div>
-        <div className="row mt-5 pt-5 align-items-center ">
-          <div className="col" />
-          {flag &&
-            <div className="d-flex  row">
-              <h4 className="card-title text-center">Information about user</h4>
-              <div className="row m-3 d-flex flex-row justify-content-center">
-                <div className="col">
-                  <i className="fa-solid fa-angle-right text white mr-2 ml-4" />
-                  User Photo
-                  <img
-                    src={detailUser.urlPhoto}
-                    className="rounded-circle ml-5"
-                    width="200"
-                    height="200"
-                    alt="..."
-                  />
+        {detailCar !== null &&
+          <div className="row mt-5 pt-5 align-items-center ">
+            <div className="col" />
+            {flag &&
+              <div className="d-flex  row">
+                <h4 className="card-title text-center">
+                  Information about user
+                </h4>
+                <div className="row m-3 d-flex flex-row justify-content-center">
+                  <div className="col">
+                    <i className="fa-solid fa-angle-right text white mr-2 ml-4" />
+                    User Photo
+                    <img
+                      src={detailUser.urlPhoto}
+                      className="rounded-circle ml-5"
+                      width="200"
+                      height="200"
+                      alt="..."
+                    />
+                  </div>
+                  <div className="col align-self-end">
+                    <i className="fa-solid fa-angle-right text white mr-2" />
+                    <label className="mr-2"> First name</label>
+                    {detailUser.firstName}
+                    <i className="ml-2 fa-solid fa-angle-right text white mr-2" />
+                    <label className="mr-2"> Last name</label>
+                    {detailUser.lastName}
+                  </div>
                 </div>
-                <div className="col align-self-end">
-                  <i className="fa-solid fa-angle-right text white mr-2" />
-                  <label className="mr-2"> First name</label>
-                  {detailUser.firstName}
-                  <i className="ml-2 fa-solid fa-angle-right text white mr-2" />
-                  <label className="mr-2"> Last name</label>
-                  {detailUser.lastName}
-                </div>
-              </div>
-            </div>}
-          <div className="col" />
+              </div>}
+            <div className="col" />
 
-          <div
-            id="slider"
-            className="col carousel slide carousel-fade carousel-dark justify-content-center align-self-center p-5 w-100 "
-            data-mdb-ride="carousel"
-          >
-            <div className="carousel-inner">
-              {flag &&
-                detailCar.imgsCar.map(e => {
-                  if (fl) {
-                    fl = !fl;
-                    return (
-                      <div className="carousel-item active ">
-                        <img
-                          src={e.url}
-                          alt="..."
-                          width="800"
-                          heigth="600"
-                          className=""
-                        />
-                      </div>
-                    );
-                  } else {
-                    return (
-                      <div className="carousel-item">
-                        <img
-                          src={e.url}
-                          alt="..."
-                          width="800"
-                          heigth="600"
-                          className=""
-                        />
-                      </div>
-                    );
-                  }
-                })}
+            <div
+              id="slider"
+              className="col carousel slide carousel-fade carousel-dark justify-content-center align-self-center p-5 w-100 "
+              data-mdb-ride="carousel"
+            >
+              <div className="carousel-inner">
+                {flag &&
+                  detailCar.imgsCar.map(e => {
+                    if (fl) {
+                      fl = !fl;
+                      return (
+                        <div className="carousel-item active ">
+                          <img
+                            src={e.url}
+                            alt="..."
+                            width="800"
+                            heigth="600"
+                            className=""
+                          />
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <div className="carousel-item">
+                          <img
+                            src={e.url}
+                            alt="..."
+                            width="800"
+                            heigth="600"
+                            className=""
+                          />
+                        </div>
+                      );
+                    }
+                  })}
+              </div>
+              <button
+                className="carousel-control-prev pt-5 pl-5 mt-5"
+                type="button"
+                data-mdb-target="#slider"
+                data-mdb-slide="prev"
+              >
+                <span
+                  className="carousel-control-prev-icon"
+                  aria-hidden="true"
+                />
+                <span className="visually-hidden">Previous</span>
+              </button>
+              <button
+                className="carousel-control-next pt-5 pr-5 mt-5"
+                type="button"
+                data-mdb-target="#slider"
+                data-mdb-slide="next"
+              >
+                <span
+                  className="carousel-control-next-icon"
+                  aria-hidden="true"
+                />
+                <span className="visually-hidden">Next</span>
+              </button>
             </div>
-            <button
-              className="carousel-control-prev pt-5 pl-5 mt-5"
-              type="button"
-              data-mdb-target="#slider"
-              data-mdb-slide="prev"
-            >
-              <span className="carousel-control-prev-icon" aria-hidden="true" />
-              <span className="visually-hidden">Previous</span>
-            </button>
-            <button
-              className="carousel-control-next pt-5 pr-5 mt-5"
-              type="button"
-              data-mdb-target="#slider"
-              data-mdb-slide="next"
-            >
-              <span className="carousel-control-next-icon" aria-hidden="true" />
-              <span className="visually-hidden">Next</span>
-            </button>
-          </div>
-          <div className="col" />
-          {flag &&
-            <div className="card-body row">
-              <h4 className="card-title text-center">Information about car</h4>
-              <div className="row m-3">
-                <div className="col-2">
-                  <i className="fa-solid fa-angle-right text white mr-2" />
-                  Register number
+            <div className="col" />
+            {flag &&
+              <div className="card-body row">
+                <h4 className="card-title text-center">
+                  Information about car
+                </h4>
+                <div className="row m-3">
+                  <div className="col-2">
+                    <i className="fa-solid fa-angle-right text white mr-2" />
+                    Register number
+                  </div>
+                  <div className="col-10 text-left text white">
+                    {registerNumber === null && "None"}
+                    {registerNumber !== null && registerNumber}
+                  </div>
                 </div>
-                <div className="col-10 text-left text white">
-                  {registerNumber === null && "None"}
-                  {registerNumber !== null && registerNumber}
+                <div className="row m-3">
+                  <div className="col-2">
+                    <i className="fa-solid fa-angle-right text white mr-2" />
+                    Vin
+                  </div>
+                  <div className="col-10 text-left text white">
+                    {detailCar.vin}
+                  </div>
                 </div>
-              </div>
-              <div className="row m-3">
-                <div className="col-2">
-                  <i className="fa-solid fa-angle-right text white mr-2" />
-                  Vin
+                <div className="row m-3">
+                  <div className="col-2">
+                    <i className="fa-solid fa-angle-right text white mr-2" />
+                    Car mileage(km)
+                  </div>
+                  <div className="col-10 text-left text white">
+                    {detailCar.carMileage}
+                  </div>
                 </div>
-                <div className="col-10 text-left text white">
-                  {detailCar.vin}
+                <div className="row m-3">
+                  <div className="col-2">
+                    <i className="fa-solid fa-angle-right text white mr-2" />
+                    Cost($)
+                  </div>
+                  <div className="col-10 text-left text white">
+                    {detailCar.cost}
+                  </div>
                 </div>
-              </div>
-              <div className="row m-3">
-                <div className="col-2">
-                  <i className="fa-solid fa-angle-right text white mr-2" />
-                  Car mileage(km)
+                <div className="row m-3">
+                  <div className="col-2">
+                    <i className="fa-solid fa-angle-right text white mr-2" />
+                    Date of realese car
+                  </div>
+                  <div className="col-10 text-left text white">
+                    {getDate(detailCar.dateOfRealeseCar)}
+                  </div>
                 </div>
-                <div className="col-10 text-left text white">
-                  {detailCar.carMileage}
+                <div className="row m-3">
+                  <div className="col-2">
+                    <i className="fa-solid fa-angle-right text white mr-2" />
+                    For sale
+                  </div>
+                  <div className="col-10 text-left text white">
+                    {detailCar.isActive === true && "True"}
+                    {detailCar.isActive !== true && "False"}
+                  </div>
                 </div>
-              </div>
-              <div className="row m-3">
-                <div className="col-2">
-                  <i className="fa-solid fa-angle-right text white mr-2" />
-                  Cost($)
+                <div className="row m-3">
+                  <div className="col-2">
+                    <i className="fa-solid fa-angle-right text white mr-2" />
+                    Share percentage
+                  </div>
+                  <div className="col-10 text-left text white">
+                    {detailCar.actionCar !== null &&
+                      detailCar.actionCar.sharePercentage}
+                    {detailCar.actionCar === null && "None"}
+                  </div>
                 </div>
-                <div className="col-10 text-left text white">
-                  {detailCar.cost}
-                </div>
-              </div>
-              <div className="row m-3">
-                <div className="col-2">
-                  <i className="fa-solid fa-angle-right text white mr-2" />
-                  Date of realese car
-                </div>
-                <div className="col-10 text-left text white">
-                  {getDate(detailCar.dateOfRealeseCar)}
-                </div>
-              </div>
-              <div className="row m-3">
-                <div className="col-2">
-                  <i className="fa-solid fa-angle-right text white mr-2" />
-                  For sale
-                </div>
-                <div className="col-10 text-left text white">
-                  {detailCar.isActive === true && "True"}
-                  {detailCar.isActive !== true && "False"}
-                </div>
-              </div>
-              <div className="row m-3">
-                <div className="col-2">
-                  <i className="fa-solid fa-angle-right text white mr-2" />
-                  Share percentage
-                </div>
-                <div className="col-10 text-left text white">
-                  {detailCar.actionCar !== null &&
-                    detailCar.actionCar.sharePercentage}
-                  {detailCar.actionCar === null && "None"}
-                </div>
-              </div>
-              <h4 className="card-title text-center">
-                Information about equipment
-              </h4>
-              {ViewCarEquipment()}
-            </div>}
-        </div>
+                <h4 className="card-title text-center">
+                  Information about equipment
+                </h4>
+                {ViewCarEquipment()}
+              </div>}
+          </div>}
       </div>
     </div>
   );

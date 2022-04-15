@@ -198,6 +198,43 @@ export class CarEquipmentApi {
       callback
     );
   }
+
+  apiCarequipmentsEquipmentIdDetailGet(jwt, id, callback) {
+    let postBody = null;
+    // verify the required parameter 'id' is set
+    if (id === undefined || id === null) {
+      throw new Error(
+        "Missing the required parameter 'id' when calling apiCarequipmentsEquipmentIdDetailGet"
+      );
+    }
+
+    let pathParams = {
+      id: id
+    };
+    let queryParams = {};
+    let headerParams = jwt;
+    let formParams = {};
+
+    let authNames = [];
+    let contentTypes = [];
+    let accepts = ["text/plain", "application/json", "text/json"];
+    let returnType = CarEquipment;
+
+    return this.apiClient.callApi(
+      "/api/carequipments/equipment/{id}/detail",
+      "GET",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
   /**
      * Callback function to receive the result of the apiCarequipmentsEquipmentIdGet operation.
      * @callback moduleapi/CarEquipmentApi~apiCarequipmentsEquipmentIdGetCallback

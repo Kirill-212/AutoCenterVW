@@ -10,21 +10,21 @@ function Header(props) {
 
   return (
     <header role="banner">
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid justify-content-between">
-          <div class="d-flex">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div className="container-fluid justify-content-between">
+          <div className="d-flex">
             <img
               width={60}
               height={60}
               src="https://res.cloudinary.com/courseaspcore/image/upload/v1649405611/free-png.ru-8_zjx2k8.png"
             />
           </div>
-          <ul class="navbar-nav flex-row">
+          <ul className="navbar-nav flex-row">
             {user !== undefined &&
               <>
-                 <li class="nav-item dropdown mt-1  ">
+                 <li className="nav-item dropdown mt-1  ">
                   <a
-                    class="nav-link dropdown-toggle hidden-arrow"
+                    className="nav-link dropdown-toggle hidden-arrow"
                     href="#"
                     id="navbarDropdownMenuLink"
                     role="button"
@@ -34,27 +34,27 @@ function Header(props) {
                     <strong>Service</strong>
                   </a>
                   <ul
-                    class="dropdown-menu dropdown-menu-end"
+                    className="dropdown-menu dropdown-menu-end"
                     aria-labelledby="navbarDropdownMenuLink"
                   >
                   
                    
                     <li>
-                      <a class="dropdown-item" href="/service/user">
+                      <a className="dropdown-item" href="/service/user">
                       List
                       </a>
                     </li>
                     {
                   JSON.parse(user).roleName === "SERVICE_EMPLOYEE" &&  <li>
-                      <a class="dropdown-item" href="/service/employee">
+                      <a className="dropdown-item" href="/service/employee">
                       List for employee
                       </a>
                     </li>}
                   </ul>
                 </li>
-                  <li class="nav-item dropdown mt-1  ">
+                  <li className="nav-item dropdown mt-1  ">
                   <a
-                    class="nav-link dropdown-toggle hidden-arrow"
+                    className="nav-link dropdown-toggle hidden-arrow"
                     href="#"
                     id="navbarDropdownMenuLink"
                     role="button"
@@ -64,27 +64,27 @@ function Header(props) {
                     <strong>Test drive</strong>
                   </a>
                   <ul
-                    class="dropdown-menu dropdown-menu-end"
+                    className="dropdown-menu dropdown-menu-end"
                     aria-labelledby="navbarDropdownMenuLink"
                   >
                   
                    
                     <li>
-                      <a class="dropdown-item" href="/testdrive/user">
+                      <a className="dropdown-item" href="/testdrive/user">
                       List
                       </a>
                     </li>
                     {(JSON.parse(user).roleName === "ADMIN" ||
                   JSON.parse(user).roleName === "EMPLOYEE") &&  <li>
-                      <a class="dropdown-item" href="/testdrive/employee">
+                      <a className="dropdown-item" href="/testdrive/employee">
                       List for employee
                       </a>
                     </li>}
                   </ul>
                 </li>
-                  <li class="nav-item dropdown mt-1  ">
+                  <li className="nav-item dropdown mt-1  ">
                   <a
-                    class="nav-link dropdown-toggle hidden-arrow"
+                    className="nav-link dropdown-toggle hidden-arrow"
                     href="#"
                     id="navbarDropdownMenuLink"
                     role="button"
@@ -94,31 +94,31 @@ function Header(props) {
                     <strong>Order</strong>
                   </a>
                   <ul
-                    class="dropdown-menu dropdown-menu-end"
+                    className="dropdown-menu dropdown-menu-end"
                     aria-labelledby="navbarDropdownMenuLink"
                   >
                   
                     <li>
-                      <a class="dropdown-item" href="/order/buyer">
+                      <a className="dropdown-item" href="/order/buyer">
                         List for buyer
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="/order/user">
+                      <a className="dropdown-item" href="/order/user">
                       List for owner
                       </a>
                     </li>
                     {(JSON.parse(user).roleName === "ADMIN" ||
                   JSON.parse(user).roleName === "EMPLOYEE") &&  <li>
-                      <a class="dropdown-item" href="/order/employee">
+                      <a className="dropdown-item" href="/order/employee">
                       List for employee
                       </a>
                     </li>}
                   </ul>
                 </li>
-                <li class="nav-item dropdown mt-1  ">
+                <li className="nav-item dropdown mt-1  ">
                   <a
-                    class="nav-link dropdown-toggle hidden-arrow"
+                    className="nav-link dropdown-toggle hidden-arrow"
                     href="#"
                     id="navbarDropdownMenuLink"
                     role="button"
@@ -128,27 +128,27 @@ function Header(props) {
                     <strong>Car</strong>
                   </a>
                   <ul
-                    class="dropdown-menu dropdown-menu-end"
+                    className="dropdown-menu dropdown-menu-end"
                     aria-labelledby="navbarDropdownMenuLink"
                   >
                     <li>
-                      <a class="dropdown-item" href="/clientcar/post">
+                      <a className="dropdown-item" href="/clientcar/post">
                         Post
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="/clientcar/user">
+                      <a className="dropdown-item" href="/clientcar/user">
                         List
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="/car/list">
+                      <a className="dropdown-item" href="/car/list">
                       List of cars to buy
                       </a>
                     </li>
                     {(JSON.parse(user).roleName === "ADMIN" ||
                   JSON.parse(user).roleName === "EMPLOYEE") &&  <li>
-                      <a class="dropdown-item" href="/clientcar">
+                      <a className="dropdown-item" href="/clientcar">
                       All List
                       </a>
                     </li>}
@@ -156,9 +156,9 @@ function Header(props) {
                 </li>
 
                {(JSON.parse(user).roleName === "ADMIN" ||
-                  JSON.parse(user).roleName === "EMPLOYEE") && <li class="nav-item dropdown mt-1  ">
+                  JSON.parse(user).roleName === "EMPLOYEE") && <li className="nav-item dropdown mt-1  ">
                   <a
-                    class="nav-link dropdown-toggle hidden-arrow"
+                    className="nav-link dropdown-toggle hidden-arrow"
                     href="#"
                     id="navbarDropdownMenuLink"
                     role="button"
@@ -168,16 +168,16 @@ function Header(props) {
                     <strong>Auto Center Car</strong>
                   </a>
                   <ul
-                    class="dropdown-menu dropdown-menu-end"
+                    className="dropdown-menu dropdown-menu-end"
                     aria-labelledby="navbarDropdownMenuLink"
                   >
                     <li>
-                      <a class="dropdown-item" href="/car/post">
+                      <a className="dropdown-item" href="/car/post">
                         Post
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="/car">
+                      <a className="dropdown-item" href="/car">
                        List
                       </a>
                     </li>
@@ -186,9 +186,9 @@ function Header(props) {
                 
 
                 {(JSON.parse(user).roleName === "ADMIN" ||
-                  JSON.parse(user).roleName === "EMPLOYEE") &&<li class="nav-item dropdown mt-1  ">
+                  JSON.parse(user).roleName === "EMPLOYEE") &&<li className="nav-item dropdown mt-1  ">
                   <a
-                    class="nav-link dropdown-toggle hidden-arrow"
+                    className="nav-link dropdown-toggle hidden-arrow"
                     href="#"
                     id="navbarDropdownMenuLink"
                     role="button"
@@ -198,16 +198,16 @@ function Header(props) {
                     <strong>Car equipment form</strong>
                   </a>
                   <ul
-                    class="dropdown-menu dropdown-menu-end"
+                    className="dropdown-menu dropdown-menu-end"
                     aria-labelledby="navbarDropdownMenuLink"
                   >
                     <li>
-                      <a class="dropdown-item" href="/carequipmentform">
+                      <a className="dropdown-item" href="/carequipmentform">
                        List
                       </a>
                     </li>
                    <li>
-                      <a class="dropdown-item" href="/carequipmentform/post">
+                      <a className="dropdown-item" href="/carequipmentform/post">
                         Post
                       </a>
                     </li>
@@ -215,9 +215,9 @@ function Header(props) {
                   </ul>
                 </li>}
 
-                 <li class="nav-item dropdown mt-1  ">
+                 <li className="nav-item dropdown mt-1  ">
                   <a
-                    class="nav-link dropdown-toggle hidden-arrow"
+                    className="nav-link dropdown-toggle hidden-arrow"
                     href="#"
                     id="navbarDropdownMenuLink"
                     role="button"
@@ -227,25 +227,25 @@ function Header(props) {
                     <strong>Car equipment</strong>
                   </a>
                   <ul
-                    class="dropdown-menu dropdown-menu-end"
+                    className="dropdown-menu dropdown-menu-end"
                     aria-labelledby="navbarDropdownMenuLink"
                   >
                     <li>
-                      <a class="dropdown-item" href="/carequipment">
+                      <a className="dropdown-item" href="/carequipment">
                         List
                       </a>
                     </li>
                     {(JSON.parse(user).roleName === "ADMIN" ||
                   JSON.parse(user).roleName === "EMPLOYEE") &&<li>
-                      <a class="dropdown-item" href="/carequipment/post">
+                      <a className="dropdown-item" href="/carequipment/post">
                         Post
                       </a>
                     </li>}
                   </ul>
                 </li>
-                <li class="nav-item dropdown mt-1  ">
+                <li className="nav-item dropdown mt-1  ">
                   <a
-                    class="nav-link dropdown-toggle hidden-arrow"
+                    className="nav-link dropdown-toggle hidden-arrow"
                     href="#"
                     id="navbarDropdownMenuLink"
                     role="button"
@@ -255,26 +255,26 @@ function Header(props) {
                     <strong>New</strong>
                   </a>
                   <ul
-                    class="dropdown-menu dropdown-menu-end"
+                    className="dropdown-menu dropdown-menu-end"
                     aria-labelledby="navbarDropdownMenuLink"
                   >
                      {(JSON.parse(user).roleName === "ADMIN" ||
                   JSON.parse(user).roleName === "EMPLOYEE") &&<li>
-                      <a class="dropdown-item" href="/new/post">
+                      <a className="dropdown-item" href="/new/post">
                         Post
                       </a>
                     </li>}
                     <li>
-                      <a class="dropdown-item" href="/new">
+                      <a className="dropdown-item" href="/new">
                        List
                       </a>
                     </li>
                   </ul>
                 </li>
                 {JSON.parse(user).roleName === "ADMIN" &&
-                 <li class="nav-item dropdown mt-1  ">
+                 <li className="nav-item dropdown mt-1  ">
                   <a
-                    class="nav-link dropdown-toggle hidden-arrow"
+                    className="nav-link dropdown-toggle hidden-arrow"
                     href="#"
                     id="navbarDropdownMenuLink"
                     role="button"
@@ -284,25 +284,25 @@ function Header(props) {
                     <strong>Employee</strong>
                   </a>
                   <ul
-                    class="dropdown-menu dropdown-menu-end"
+                    className="dropdown-menu dropdown-menu-end"
                     aria-labelledby="navbarDropdownMenuLink"
                   >
                     <li>
-                      <a class="dropdown-item" href="/employee">
+                      <a className="dropdown-item" href="/employee">
                         List
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="/employee/post">
+                      <a className="dropdown-item" href="/employee/post">
                         Post
                       </a>
                     </li>
                   </ul>
                 </li>}
                 {JSON.parse(user).roleName === "ADMIN" &&
-                  <li class="nav-item dropdown mt-1  ">
+                  <li className="nav-item dropdown mt-1  ">
                     <a
-                      class="nav-link dropdown-toggle hidden-arrow"
+                      className="nav-link dropdown-toggle hidden-arrow"
                       href="#"
                       id="navbarDropdownMenuLink"
                       role="button"
@@ -312,11 +312,11 @@ function Header(props) {
                       <strong>User</strong>
                     </a>
                     <ul
-                      class="dropdown-menu dropdown-menu-end"
+                      className="dropdown-menu dropdown-menu-end"
                       aria-labelledby="navbarDropdownMenuLink"
                     >
                       <li>
-                        <a class="dropdown-item" href="/user">
+                        <a className="dropdown-item" href="/user">
                           List
                         </a>
                       </li>
@@ -325,9 +325,9 @@ function Header(props) {
                
               </>}
 
-              <li class="nav-item mt-1  ">
+              <li className="nav-item mt-1  ">
                   <a
-                    class="nav-link d-sm-flex align-items-sm-center"
+                    className="nav-link d-sm-flex align-items-sm-center"
                     onClick={ClearStorage}
                     href="/"
                   >
@@ -335,33 +335,33 @@ function Header(props) {
                   </a>
                 </li>      
             {user !== undefined &&
-              <li class="nav-item mt-2  ">
+              <li className="nav-item mt-2  ">
                 <a
-                  class="nav-link d-sm-flex align-items-sm-center"
+                  className="nav-link d-sm-flex align-items-sm-center"
                   href="/user/put/user"
                 >
                   <strong>
-                    <i class="fa-solid fa-user" />
+                    <i className="fa-solid fa-user" />
                   </strong>
                 </a>
               </li>}
-            <li class="nav-item mt-2  ">
-              <a class="nav-link d-sm-flex align-items-sm-center" href="/home">
-                <i class="fa-solid fa-house" />
+            <li className="nav-item mt-2  ">
+              <a className="nav-link d-sm-flex align-items-sm-center" href="/home">
+                <i className="fa-solid fa-house" />
               </a>
             </li>
-            <li class="nav-item  mt-2 ">
+            <li className="nav-item  mt-2 ">
               <a
-                class="nav-link d-sm-flex align-items-sm-center"
+                className="nav-link d-sm-flex align-items-sm-center"
                 onClick={ClearStorage}
                 href="/login"
               >
-              <i class="fa-solid fa-arrow-right-from-bracket"></i>
+              <i className="fa-solid fa-arrow-right-from-bracket"></i>
               </a>
             </li>
-            <li class="nav-item mt-2  ">
-              <a class="nav-link d-sm-flex align-items-sm-center" href="/login">
-              <i class="fa-solid fa-arrow-right-to-bracket"></i>
+            <li className="nav-item mt-2  ">
+              <a className="nav-link d-sm-flex align-items-sm-center" href="/login">
+              <i className="fa-solid fa-arrow-right-to-bracket"></i>
               </a>
             </li>
           </ul>

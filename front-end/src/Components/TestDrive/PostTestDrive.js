@@ -5,7 +5,7 @@ import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import { validate_dateTestDrive } from "../ViewLists/SupportFunction";
 const PostTestDrive = () => {
   const { user } = useContext(Context);
   const [vin, setVin] = React.useState("");
@@ -26,7 +26,13 @@ const PostTestDrive = () => {
   async function submit(e) {
     e.preventDefault();
     handleToggle();
-    setMessageError("")
+    setMessageError("");
+    let date = validate_dateTestDrive(dateStart);
+    if (date !== null) {
+      setMessageError(date);
+      handleClose();
+      return;
+    }
     if (user === undefined) {
       setMessageError("Unauthorized");
       handleClose();
@@ -54,7 +60,7 @@ const PostTestDrive = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult +=  errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -157,7 +163,7 @@ const PostTestDrive = () => {
           >
             <CircularProgress color="inherit" />
           </Backdrop>
-          <div style={style} class="text-wrap  text-reset text-white">
+          <div style={style} className="text-wrap  text-reset text-white">
             {MessageError}
           </div>
         </div>

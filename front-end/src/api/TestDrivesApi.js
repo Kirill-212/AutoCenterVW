@@ -89,6 +89,36 @@ export class TestDrivesApi {
      * @param {module:model/TestDriveDto} opts.body 
      * @param {module:api/TestDrivesApi~apiTestdrivesConfirmPutCallback} callback The callback function, accepting three arguments: error, data, response
      */
+
+  apiTestdrivesCancelUserPut(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = opts["body"];
+
+    let pathParams = {};
+    let queryParams = {};
+    let headerParams = jwt;
+    let formParams = {};
+
+    let authNames = [];
+    let contentTypes = ["application/json", "text/json", "application/_*+json"];
+    let accepts = [];
+    let returnType = null;
+
+    return this.apiClient.callApi(
+      "/api/testdrives/cancel/user",
+      "PUT",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
   apiTestdrivesConfirmPut(jwt, opts, callback) {
     opts = opts || {};
     let postBody = opts["body"];

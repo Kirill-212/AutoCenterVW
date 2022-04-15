@@ -12,6 +12,7 @@ import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+import { validate_date } from "../ViewLists/SupportFunction";
 
 const PostClientCar = () => {
   const { user } = useContext(Context);
@@ -77,6 +78,12 @@ const PostClientCar = () => {
     event.preventDefault();
     handleToggle();
     setMessageError("");
+    let date = validate_date(dateOfRealeseCar);
+    if (date !== null) {
+      setMessageError(date);
+      handleClose();
+      return;
+    }
     let urls = [];
     for (let i = 0; i < imgs.length; i++) {
       if (!imgs[i]) {
@@ -136,7 +143,7 @@ const PostClientCar = () => {
         let errorResult = "";
         let errorsJson = JSON.parse(error.message)["errors"];
         for (let key in errorsJson) {
-          errorResult +=  errorsJson[key] + " | ";
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
@@ -236,7 +243,7 @@ const PostClientCar = () => {
                 name="registerNumber"
                 type="text"
               />
-              <small class="form-text text-muted">
+              <small className="form-text text-muted">
                 If you don't want to add register number, leave the field blank.
                 Use English letter.
               </small>
@@ -300,7 +307,7 @@ const PostClientCar = () => {
             <CircularProgress color="inherit" />
           </Backdrop>
           {redirect && <Navigate to={"/home"} />}
-          <div style={style} class="text-wrap  text-reset text-white">
+          <div style={style} className="text-wrap  text-reset text-white">
             {MessageError}
           </div>
         </div>

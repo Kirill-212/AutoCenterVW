@@ -2,12 +2,11 @@ import React, { useEffect, useContext } from "react";
 import Context from "../../context";
 import { UsersApi } from "../../api/UsersApi";
 import { Navigate } from "react-router-dom";
-import { getDate } from "../ViewLists/SupportFunction";
+import { getDate,validate_dateAge } from "../ViewLists/SupportFunction";
 import ImgService from "../../Services/ImgServices/ImgService";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-
 const PutUser = () => {
   const { user } = useContext(Context);
   const [firstName, setFirstName] = React.useState("");
@@ -36,6 +35,12 @@ const PutUser = () => {
     event.preventDefault();
     handleToggle();
     setMessageError("");
+    let date = validate_dateAge(dBay);
+    if (date !== null) {
+      setMessageError(date);
+      handleClose();
+      return;
+    }
     let url;
     if (imgNew.length !== 0) {
       if (!imgNew) {
