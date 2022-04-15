@@ -26,7 +26,7 @@ namespace Presentation.Controllers
             _serviceManager = serviceManager;
         }
 
-        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("paged")]
         public GetPagedNewDto GetNewsPaged([FromQuery] PagedParameters pagedParameters)
         {
@@ -63,7 +63,7 @@ namespace Presentation.Controllers
                 );
         }
 
-        [Authorize(Roles = "ADMIN,EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,EMPLOYEE")]
         [HttpGet("by/title")]
         public async Task<ActionResult<GetNewDto>> GetbyTitle([FromQuery] string title)
         {
@@ -72,7 +72,7 @@ namespace Presentation.Controllers
                 );
         }
 
-        [Authorize(Roles = "ADMIN,EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,EMPLOYEE")]
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] NewWrapperDto<PostNewDto> item)
         {
@@ -92,7 +92,7 @@ namespace Presentation.Controllers
             }
         }
 
-        [Authorize(Roles = "ADMIN,EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,EMPLOYEE")]
         [HttpPut]
         public async Task<ActionResult> Put([FromBody] NewWrapperDto<PutNewDto> item)
         {
@@ -112,7 +112,7 @@ namespace Presentation.Controllers
             }
         }
 
-        [Authorize(Roles = "ADMIN,EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,EMPLOYEE")]
         [HttpDelete]
         public async Task<ActionResult> Delete([FromQuery] string title)
         {

@@ -8,7 +8,8 @@ namespace Domain.Models
         ADMIN = 1,
         USER = 2,
         EMPLOYEE = 3,
-        SERVICE_EMPLOYEE = 4
+        SERVICE_EMPLOYEE = 4,
+        SUPER_ADMIN=5
     }
     public class Role
     {

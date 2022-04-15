@@ -24,7 +24,7 @@ namespace Presentation.Controllers
         }
 
 
-        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] PostCarRepairDto item)
         {
@@ -68,6 +68,8 @@ namespace Presentation.Controllers
             }
         }
 
+
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpPut("cancel/user")]
         public async Task<ActionResult> UpdateStateForCancelUser(
             [FromBody] UpdateStateCarRepairDto item,
@@ -150,7 +152,7 @@ namespace Presentation.Controllers
             return Ok();
         }
 
-        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("user")]
         public async Task<List<GetCarRepairDto>> GetForUser([FromQuery] string email)
         {

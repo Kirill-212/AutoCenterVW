@@ -25,7 +25,7 @@ namespace Presentation.Controllers
             _serviceManager = serviceManager;
         }
 
-        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] PostClientCarDto item)
         {
@@ -46,7 +46,7 @@ namespace Presentation.Controllers
             }
         }
 
-        [Authorize(Roles = "ADMIN,EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,EMPLOYEE")]
         [HttpPut]
         public async Task<ActionResult> Put([FromBody] PutClientCarDto item)
         {
@@ -70,7 +70,7 @@ namespace Presentation.Controllers
             }
         }
 
-        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpPut("clientcar")]
         public async Task<ActionResult> PutClient([FromBody] PutClientCarDto item,[FromQuery] string email)
         {
@@ -95,7 +95,7 @@ namespace Presentation.Controllers
             }
         }
 
-        [Authorize(Roles = "ADMIN,EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,EMPLOYEE")]
         [HttpGet]
         public async Task<IEnumerable<ClientCar>> GetAll()
         {
@@ -109,7 +109,7 @@ namespace Presentation.Controllers
             return await _serviceManager.AsyncServiceClientCar.GetById(id);
         }
 
-        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("vin")]
         public async Task<ActionResult<ClientCar>> GetByVin([FromQuery]string vin)
         {
@@ -125,7 +125,7 @@ namespace Presentation.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("/emailWithVin")]
         public async Task<ActionResult<ClientCar>> GetByEmailWithVin([FromQuery] string email,string vin){
             return await _serviceManager.AsyncServiceClientCar.GetByEmailWithVin(email, vin);

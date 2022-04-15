@@ -25,6 +25,7 @@ namespace Persistence.Repositories
         {
             return await _context.Roles
                 .Where(i => i.RoleName != Roles.USER.ToString())
+                .Where(i => i.RoleName != Roles.SUPER_ADMIN.ToString())
                 .ToListAsync();
         }
     }

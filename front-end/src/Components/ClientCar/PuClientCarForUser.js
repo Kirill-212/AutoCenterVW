@@ -11,7 +11,7 @@ import {
 import ImgService from "../../Services/ImgServices/ImgService";
 import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
-import { getDate,validate_date } from "../ViewLists/SupportFunction";
+import { getDate, validate_date } from "../ViewLists/SupportFunction";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 
@@ -218,6 +218,11 @@ const PutClientCar = () => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
+      if (response.statusCode === 204) {
+        handleClose();
+        setMessageError("Error: car with this vin not found.");
+        return;
+      }
       setRegisterNumber(response.body.registerNumber);
       setVin(response.body.car.vin);
       setCarMileage(response.body.car.carMileage);

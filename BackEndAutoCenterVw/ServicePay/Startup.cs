@@ -31,7 +31,9 @@ namespace ServicePay
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseCors(
+ options => options.WithOrigins("*").AllowAnyMethod().AllowAnyHeader()
+ );
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

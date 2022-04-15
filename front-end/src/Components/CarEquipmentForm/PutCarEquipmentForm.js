@@ -101,6 +101,11 @@ const PutCarEquipmentForm = () => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
+      if(response.statusCode === 204){
+        handleClose();
+        setMessageError("Error: user with this email not found.");
+        return
+      }
       setLength(response.body.equipmentItems.length);
       setName(response.body.name);
       setCarEquipment(

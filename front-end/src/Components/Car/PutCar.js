@@ -65,7 +65,7 @@ const PutCar = () => {
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       if (response.statusCode === 204) {
         handleClose();
-        setMessageError("Error: car with not found.");
+        setMessageError("Error: car with this vin not found.");
         return;
       }
       setVin(response.body.vin);

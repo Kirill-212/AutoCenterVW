@@ -10,8 +10,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(RepositoryDbContext))]
-    [Migration("20220404095720_update")]
-    partial class update
+    [Migration("20220415104337_ff")]
+    partial class ff
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

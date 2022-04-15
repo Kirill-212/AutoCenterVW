@@ -24,7 +24,7 @@ namespace Presentation.Controllers
             this._mapper = _mapper; _serviceManager = serviceManager;
         }
 
-        [Authorize(Roles = " ADMIN")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN")]
         [HttpGet("notAddedTo/employee")]
         public async Task<List<GetUserDto>> GetAllUsersNotAddedToEmp()
         {
@@ -33,7 +33,7 @@ namespace Presentation.Controllers
                 );
         }
 
-        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("by/email")]
         public async Task<GetUserDto> GetUserByEmail([FromQuery] string email)
         {
@@ -42,7 +42,7 @@ namespace Presentation.Controllers
                 );
         }
 
-        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet]
         public async Task<List<GetUserDto>> GetAll()
         {
@@ -77,7 +77,7 @@ namespace Presentation.Controllers
             }
         }
 
-        [Authorize(Roles = "ADMIN,EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,EMPLOYEE")]
         [HttpPut]
         public async Task<ActionResult> Put([FromBody] PutUserDto item)
         {
@@ -94,7 +94,7 @@ namespace Presentation.Controllers
             }
         }
 
-        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpPut("user")]
         public async Task<ActionResult> Put([FromBody] PutUserDto item,[FromQuery]string email)
         {
@@ -111,7 +111,7 @@ namespace Presentation.Controllers
             }
         }
 
-        [Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN")]
         [HttpPut("update/status")]
         public async Task<IActionResult> PutStatus([FromQuery] string email)
         {
@@ -120,7 +120,7 @@ namespace Presentation.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN")]
         [HttpDelete]
         public async Task<IActionResult> Delete([FromQuery] string email)
         {
@@ -130,7 +130,7 @@ namespace Presentation.Controllers
         }
 
 
-        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("active")]
         public async Task<List<GetUserDto>> GetAllActive()
         {

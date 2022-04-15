@@ -131,7 +131,8 @@ export default function EnhancedTable(props) {
                       </TableCell>
                       <TableCell align="right">
                         <div className="d-grid gap-2 d-md-block">
-                          {JSON.parse(props.email).email !== row.email &&
+                          {(JSON.parse(props.email).email !== row.email ||
+                            row.roleName !== "SUPER_ADMIN") &&
                             <button
                               color="purple"
                               size="sm"

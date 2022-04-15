@@ -21,13 +21,13 @@ namespace Presentation.Controllers
             _serviceManager = serviceManager;
         }
 
-        [Authorize(Roles = " ADMIN")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN")]
         [HttpGet]
         public async Task<IEnumerable<Role>> GetAll()
         {
             return await _serviceManager.AsyncServiceRole.GetAll();
         }
-        [Authorize(Roles = " ADMIN")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN")]
         [HttpGet("withoutUser")]
         public async Task<IEnumerable<Role>> GetWithoutUser()
         {

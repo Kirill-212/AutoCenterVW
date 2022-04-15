@@ -59,9 +59,8 @@ function Footer() {
       </div>
 
       <div className="text-center p-3" id="footer">
-        © 2022 Copyright:
         <a className="text-white" href="https://www.vw.com/en.html">
-          www.vw.com
+          Call center + 375 (29) 769-95-06
         </a>
         <p className="float-end text-reset">
           <a className=" text-reset" href="#">

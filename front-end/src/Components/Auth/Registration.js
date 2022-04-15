@@ -165,7 +165,7 @@ function Registration() {
                   className="w-100 shadow-lg  bg-white rounded"
                   type="text"
                   name="phoneNumber"
-                  placeholder="Example 375297699506"
+                  placeholder="Example +375 (29) 769-95-06"
                   onChange={e => setPhoneNumber(e.target.value)}
                   required
                 />

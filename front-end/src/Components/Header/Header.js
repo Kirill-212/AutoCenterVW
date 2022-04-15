@@ -74,7 +74,7 @@ function Header(props) {
                       List
                       </a>
                     </li>
-                    {(JSON.parse(user).roleName === "ADMIN" ||
+                    {(JSON.parse(user).roleName === "ADMIN"||JSON.parse(user).roleName === "SUPER_ADMIN" ||
                   JSON.parse(user).roleName === "EMPLOYEE") &&  <li>
                       <a className="dropdown-item" href="/testdrive/employee">
                       List for employee
@@ -108,7 +108,7 @@ function Header(props) {
                       List for owner
                       </a>
                     </li>
-                    {(JSON.parse(user).roleName === "ADMIN" ||
+                    {(JSON.parse(user).roleName === "ADMIN" ||JSON.parse(user).roleName === "SUPER_ADMIN"||
                   JSON.parse(user).roleName === "EMPLOYEE") &&  <li>
                       <a className="dropdown-item" href="/order/employee">
                       List for employee
@@ -146,7 +146,7 @@ function Header(props) {
                       List of cars to buy
                       </a>
                     </li>
-                    {(JSON.parse(user).roleName === "ADMIN" ||
+                    {(JSON.parse(user).roleName === "ADMIN" ||JSON.parse(user).roleName === "SUPER_ADMIN"||
                   JSON.parse(user).roleName === "EMPLOYEE") &&  <li>
                       <a className="dropdown-item" href="/clientcar">
                       All List
@@ -155,7 +155,7 @@ function Header(props) {
                   </ul>
                 </li>
 
-               {(JSON.parse(user).roleName === "ADMIN" ||
+               {(JSON.parse(user).roleName === "ADMIN" ||JSON.parse(user).roleName === "SUPER_ADMIN"||
                   JSON.parse(user).roleName === "EMPLOYEE") && <li className="nav-item dropdown mt-1  ">
                   <a
                     className="nav-link dropdown-toggle hidden-arrow"
@@ -185,7 +185,7 @@ function Header(props) {
                 </li>}
                 
 
-                {(JSON.parse(user).roleName === "ADMIN" ||
+                {(JSON.parse(user).roleName === "ADMIN" ||JSON.parse(user).roleName === "SUPER_ADMIN"||
                   JSON.parse(user).roleName === "EMPLOYEE") &&<li className="nav-item dropdown mt-1  ">
                   <a
                     className="nav-link dropdown-toggle hidden-arrow"
@@ -235,7 +235,7 @@ function Header(props) {
                         List
                       </a>
                     </li>
-                    {(JSON.parse(user).roleName === "ADMIN" ||
+                    {(JSON.parse(user).roleName === "ADMIN" ||JSON.parse(user).roleName === "SUPER_ADMIN"||
                   JSON.parse(user).roleName === "EMPLOYEE") &&<li>
                       <a className="dropdown-item" href="/carequipment/post">
                         Post
@@ -258,7 +258,7 @@ function Header(props) {
                     className="dropdown-menu dropdown-menu-end"
                     aria-labelledby="navbarDropdownMenuLink"
                   >
-                     {(JSON.parse(user).roleName === "ADMIN" ||
+                     {(JSON.parse(user).roleName === "ADMIN" ||JSON.parse(user).roleName === "SUPER_ADMIN"||
                   JSON.parse(user).roleName === "EMPLOYEE") &&<li>
                       <a className="dropdown-item" href="/new/post">
                         Post
@@ -271,7 +271,7 @@ function Header(props) {
                     </li>
                   </ul>
                 </li>
-                {JSON.parse(user).roleName === "ADMIN" &&
+                {(JSON.parse(user).roleName === "ADMIN"||JSON.parse(user).roleName === "SUPER_ADMIN") &&
                  <li className="nav-item dropdown mt-1  ">
                   <a
                     className="nav-link dropdown-toggle hidden-arrow"
@@ -299,7 +299,7 @@ function Header(props) {
                     </li>
                   </ul>
                 </li>}
-                {JSON.parse(user).roleName === "ADMIN" &&
+                {(JSON.parse(user).roleName === "ADMIN" ||JSON.parse(user).roleName === "SUPER_ADMIN")&&
                   <li className="nav-item dropdown mt-1  ">
                     <a
                       className="nav-link dropdown-toggle hidden-arrow"

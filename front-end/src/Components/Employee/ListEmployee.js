@@ -52,8 +52,7 @@ export default function EnhancedTable(props) {
   };
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-  if(props.email==undefined){
-    
+  if (props.email == undefined) {
   }
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }} className="p-2">
@@ -144,24 +143,27 @@ export default function EnhancedTable(props) {
                         {JSON.parse(props.email).email !==
                           row.getUserDto.email &&
                           <div className="d-grid gap-2 d-md-block">
-                            <button
-                              className="btn btn-primary-sm btn-sm m-2"
-                              color="purple"
-                              size="sm"
-                              value={row.getUserDto.email}
-                              onClick={props.deleteEmployee}
-                            >
-                              <i className="fas fa-trash" />
-                            </button>
-                            <a
-                              className="text-reset btn btn-primary-sm btn-sm m-2"
-                              href={`/employee/put?email=${row.getUserDto.email}
+                            {row.getUserDto.roleName !== "SUPER_ADMIN" &&
+                              <button
+                                className="btn btn-primary-sm btn-sm m-2"
+                                color="purple"
+                                size="sm"
+                                value={row.getUserDto.email}
+                                onClick={props.deleteEmployee}
+                              >
+                                <i className="fas fa-trash" />
+                              </button>}
+                            {row.getUserDto.roleName !== "SUPER_ADMIN" &&
+                              <a
+                                className="text-reset btn btn-primary-sm btn-sm m-2"
+                                href={`/employee/put?email=${row.getUserDto
+                                  .email}
                           &address=${row.address}&roleName=${row.getUserDto
-                                .roleName}
+                                  .roleName}
                           `}
-                            >
-                              <i className="fa-solid fa-screwdriver-wrench" />
-                            </a>
+                              >
+                                <i className="fa-solid fa-screwdriver-wrench" />
+                              </a>}
                           </div>}
                       </TableCell>
                     </TableRow>

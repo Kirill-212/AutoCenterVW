@@ -24,7 +24,7 @@ namespace Presentation.Controllers
             this._mapper = _mapper; _serviceManager = serviceManager;
         }
 
-        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] PostOrderDto item)
         {
@@ -44,7 +44,7 @@ namespace Presentation.Controllers
             }
         }
 
-        [Authorize(Roles = "ADMIN,EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,EMPLOYEE")]
         [HttpPut("cancel")]
         public async Task<ActionResult> UpdateStateForCancel([FromBody] UpdateStateOrderDto item)
         {
@@ -64,7 +64,7 @@ namespace Presentation.Controllers
             }
         }
 
-        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpPut("cancel/user")]
         public async Task<ActionResult> UpdateStateForCancelUser([FromBody] UpdateStateOrderDto item,[FromQuery]string email)
         {
@@ -85,7 +85,7 @@ namespace Presentation.Controllers
             }
         }
 
-        [Authorize(Roles = "ADMIN,EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,EMPLOYEE")]
         [HttpPut("confirm")]
         public async Task<ActionResult> UpdateStateForConfirm([FromBody] UpdateStateOrderDto item)
         {
@@ -105,7 +105,7 @@ namespace Presentation.Controllers
             }
         }
 
-        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpPut("confirm/user")]
         public async Task<ActionResult> UpdateStateForConfirmUser([FromBody] UpdateStateOrderDto item,[FromQuery] string email)
         {
@@ -126,7 +126,7 @@ namespace Presentation.Controllers
             }
         }
 
-        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpPut("paid")]
         public async Task<ActionResult> UpdateStateForPaid([FromBody] UpdateStateOrderForPaidDto item)
         {
@@ -151,21 +151,21 @@ namespace Presentation.Controllers
             }
         }
 
-        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("user")]
         public async Task<IEnumerable<Order>> GetForUser([FromQuery] string email)
         {
             return await _serviceManager.AsyncServiceOrder.GetForUser(email);
         }
 
-        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("buyer")]
         public async Task<List<GetOrderBuyerDto>> GetForBuyer([FromQuery] string email)
         {
             return _mapper.Map<List<GetOrderBuyerDto>>(await _serviceManager.AsyncServiceOrder.GetForBuyer(email));
         }
 
-        [Authorize(Roles = "ADMIN,EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,EMPLOYEE")]
         [HttpGet("employee")]
         public async Task<IEnumerable<Order>> GetForEmployee()
         {

@@ -34,7 +34,7 @@ namespace Presentation.Controllers
                 );
         }
 
-        [Authorize(Roles = " ADMIN")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN")]
         [HttpGet]
         public async Task<List<GetEmployeeDto>> GetAll()
         {
@@ -44,7 +44,7 @@ namespace Presentation.Controllers
         }
 
 
-        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("carrepair")]
         public async Task<List<GetEmployeeDto>> GetCarRepairEmp()
         {
@@ -53,7 +53,7 @@ namespace Presentation.Controllers
                 );
         }
 
-        [Authorize(Roles = " ADMIN")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN")]
         [HttpGet("{id}")]
         public async Task<GetEmployeeDto> GetbyId(int id)
         {
@@ -62,7 +62,7 @@ namespace Presentation.Controllers
                 );
         }
 
-        [Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN")]
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] PostEmployeeDto item)
         {
@@ -82,7 +82,7 @@ namespace Presentation.Controllers
             }
         }
 
-        [Authorize(Roles = " ADMIN")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN")]
         [HttpPut]
         public async Task<ActionResult> Put([FromBody] PutEmployeeDto item)
         {
@@ -102,7 +102,7 @@ namespace Presentation.Controllers
             }
         }
 
-        [Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN")]
         [HttpDelete]
         public async Task<ActionResult> Delete(string email)
         {

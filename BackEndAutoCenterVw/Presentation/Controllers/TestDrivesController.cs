@@ -24,7 +24,7 @@ namespace Presentation.Controllers
             this._mapper = _mapper; _serviceManager = serviceManager;
         }
 
-        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] TestDriveDto item)
         {
@@ -46,7 +46,7 @@ namespace Presentation.Controllers
             }
         }
 
-        [Authorize(Roles = "ADMIN,EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,EMPLOYEE")]
         [HttpPut("cancel")]
         public async Task<ActionResult> UpdateStateForCancel([FromBody] TestDriveDto item)
         {
@@ -68,7 +68,7 @@ namespace Presentation.Controllers
             }
         }
 
-        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpPut("cancel/user")]
         public async Task<ActionResult> UpdateStateForCancelUser([FromBody] TestDriveDto item)
         {
@@ -90,7 +90,7 @@ namespace Presentation.Controllers
             }
         }
 
-        [Authorize(Roles = "ADMIN,EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,EMPLOYEE")]
         [HttpPut("confirm")]
         public async Task<ActionResult> UpdateStateForConfirm([FromBody] TestDriveDto item)
         {
@@ -112,14 +112,14 @@ namespace Presentation.Controllers
             }
         }
 
-        [Authorize(Roles = "ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("user")]
         public async Task<IEnumerable<TestDrive>> GetForUser([FromQuery] string email)
         {
             return await _serviceManager.AsyncServiceTestDrive.GetForUser(email);
         }
 
-        [Authorize(Roles = "ADMIN,EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,EMPLOYEE")]
         [HttpGet("employee")]
         public async Task<IEnumerable<TestDrive>> GetForEmployee()
         {
