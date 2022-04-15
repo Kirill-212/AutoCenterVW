@@ -79,8 +79,8 @@ EnhancedTableHead.propTypes = {
 
 export function validate_date(date) {
   if (
-    new Date(date).getFullYear() > new Date().getFullYear() - 20 &&
-    new Date(date).getFullYear() < new Date().getFullYear()
+    new Date(date).getFullYear() >= new Date().getFullYear() - 20 &&
+    new Date(date).getFullYear() <= new Date().getFullYear()
   ) {
     return null;
   }

@@ -86,20 +86,20 @@ function Registration() {
       CallbackRequest
     );
   }
-  
+
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
-      if (JSON.parse(error.message)["error"] == undefined) {
+      if (response.body.errors !== undefined) {
         let errorResult = "";
-        let errorsJson = JSON.parse(error.message)["errors"];
-        for (let key in errorsJson) {
-          errorResult +=  errorsJson[key] + " | ";
+        let errorsJson = response.body.errors;
+        for (let key in response.body.errors) {
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
-        setMessageError(JSON.parse(error.message)["error"]);
+        setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
       setMessageError("Forbidden");
@@ -108,7 +108,7 @@ function Registration() {
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       setRedirectLogin(true);
     } else if (response.statusCode > 400) {
-      setMessageError(JSON.parse(error.message)["error"]);
+      setMessageError(response.body.error);
     }
     handleClose();
   }
@@ -165,7 +165,7 @@ function Registration() {
                   className="w-100 shadow-lg  bg-white rounded"
                   type="text"
                   name="phoneNumber"
-                  placeholder="Example +375 (29) 769-95-06"
+                  placeholder="+111 (11) 111-11-11"
                   onChange={e => setPhoneNumber(e.target.value)}
                   required
                 />

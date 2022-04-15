@@ -27,15 +27,15 @@ export default function EnhancedTable(props) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
-      if (JSON.parse(error.message)["error"] == undefined) {
+      if (response.body.errors !== undefined) {
         let errorResult = "";
-        let errorsJson = JSON.parse(error.message)["errors"];
-        for (let key in errorsJson) {
-          errorResult +=  errorsJson[key] + " | ";
+        let errorsJson = response.body.errors;
+        for (let key in response.body.errors) {
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
-        setMessageError(JSON.parse(error.message)["error"]);
+        setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
       setMessageError("Forbidden");
@@ -44,7 +44,7 @@ export default function EnhancedTable(props) {
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       setBlockFlag(true);
     } else if (response.statusCode > 400) {
-      setMessageError(JSON.parse(error.message)["error"]);
+      setMessageError(response.body.error);
     }
     setBlockFlag(true);
   }
@@ -53,15 +53,15 @@ export default function EnhancedTable(props) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
-      if (JSON.parse(error.message)["error"] == undefined) {
+      if (response.body.errors !== undefined) {
         let errorResult = "";
-        let errorsJson = JSON.parse(error.message)["errors"];
-        for (let key in errorsJson) {
-          errorResult +=  errorsJson[key] + " | ";
+        let errorsJson = response.body.errors;
+        for (let key in response.body.errors) {
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
-        setMessageError(JSON.parse(error.message)["error"]);
+        setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
       setMessageError("Forbidden");
@@ -84,7 +84,7 @@ export default function EnhancedTable(props) {
         setListNew([...listNew, ...newss]);
       }
     } else if (response.statusCode > 400) {
-      setMessageError(JSON.parse(error.message)["error"]);
+      setMessageError(response.body.error);
     }
     setBlockFlag(false);
     setLoad(false);
@@ -94,15 +94,15 @@ export default function EnhancedTable(props) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
-      if (JSON.parse(error.message)["error"] == undefined) {
+      if (response.body.errors !== undefined) {
         let errorResult = "";
-        let errorsJson = JSON.parse(error.message)["errors"];
-        for (let key in errorsJson) {
-          errorResult +=  errorsJson[key] + " | ";
+        let errorsJson = response.body.errors;
+        for (let key in response.body.errors) {
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
-        setMessageError(JSON.parse(error.message)["error"]);
+        setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
       setMessageError("Forbidden");
@@ -121,7 +121,7 @@ export default function EnhancedTable(props) {
 
       setListNew(newss);
     } else if (response.statusCode > 400) {
-      setMessageError(JSON.parse(error.message)["error"]);
+      setMessageError(response.body.error);
     }
     setBlockFlag(false);
     setLoad(false);
@@ -174,6 +174,7 @@ export default function EnhancedTable(props) {
     }
   };
   let style = { width: "30rem" };
+  let styleDescription = { width: "50rem" };
 
   return (
     <div className="container">
@@ -187,6 +188,7 @@ export default function EnhancedTable(props) {
             <div className="card-header">
               <div className="row justify-content-center">
                 {(JSON.parse(user).roleName === "ADMIN" ||
+                JSON.parse(user).roleName === "SUPER_ADMIN"||
                   JSON.parse(user).roleName === "EMPLOYEE") &&
                   <div className="col ">
                     <a
@@ -206,6 +208,7 @@ export default function EnhancedTable(props) {
                     </button>
                   </div>}
                 {(JSON.parse(user).roleName === "ADMIN" ||
+                  JSON.parse(user).roleName === "SUPER_ADMIN" ||
                   JSON.parse(user).roleName === "EMPLOYEE") &&
                   <div className="col " />}
                 <div className="col text-center">
@@ -222,7 +225,7 @@ export default function EnhancedTable(props) {
             <div className="card-body row ">
               <div className="col" />
               <div
-                id={"slider" + e.title.replace(" ", "_")}
+                id={"slider" + e.title.replaceAll(" ", "")}
                 className="col carousel slide carousel-fade carousel-dark row justify-content-center align-self-center p-2 w-100 "
                 data-mdb-ride="carousel"
               >
@@ -259,7 +262,7 @@ export default function EnhancedTable(props) {
                 <button
                   className="carousel-control-prev pt-5 pl-5 mt-5"
                   type="button"
-                  data-mdb-target={"#slider" + e.title.replace(" ", "_")}
+                  data-mdb-target={"#slider" + e.title.replaceAll(" ", "")}
                   data-mdb-slide="prev"
                 >
                   <span
@@ -271,7 +274,7 @@ export default function EnhancedTable(props) {
                 <button
                   className="carousel-control-next pt-5 pr-5 mt-5"
                   type="button"
-                  data-mdb-target={"#slider" + e.title.replace(" ", "_")}
+                  data-mdb-target={"#slider" + e.title.replaceAll(" ", "")}
                   data-mdb-slide="next"
                 >
                   <span
@@ -292,7 +295,7 @@ export default function EnhancedTable(props) {
                 </div>
                 <div className="col" />
                 <div className="col text-reght">
-                  <p>
+                  <p style={styleDescription} className="text-wrap  text-reset text-white">
                     Description:
                     {e.description}
                   </p>

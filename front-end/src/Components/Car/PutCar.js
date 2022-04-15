@@ -48,15 +48,15 @@ const PutCar = () => {
     if (response == undefined) {
       setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
-      if (JSON.parse(error.message)["error"] == undefined) {
+      if (response.body.errors !== undefined) {
         let errorResult = "";
-        let errorsJson = JSON.parse(error.message)["errors"];
-        for (let key in errorsJson) {
+        let errorsJson = response.body.errors;
+        for (let key in response.body.errors) {
           errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
-        setMessageError(JSON.parse(error.message)["error"]);
+        setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
       setMessageError("Forbidden");
@@ -83,7 +83,7 @@ const PutCar = () => {
         setSharePercentage(response.body.actionCar.sharePercentage);
       GetCarEquipment();
     } else if (response.statusCode > 400) {
-      setMessageError(JSON.parse(error.message)["error"]);
+      setMessageError(response.body.error);
     }
     handleClose();
   }
@@ -92,15 +92,15 @@ const PutCar = () => {
     if (response == undefined) {
       setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
-      if (JSON.parse(error.message)["error"] == undefined) {
+      if (response.body.errors !== undefined) {
         let errorResult = "";
-        let errorsJson = JSON.parse(error.message)["errors"];
-        for (let key in errorsJson) {
+        let errorsJson = response.body.errors;
+        for (let key in response.body.errors) {
           errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
-        setMessageError(JSON.parse(error.message)["error"]);
+        setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
       setMessageError("Forbidden");
@@ -116,7 +116,7 @@ const PutCar = () => {
       setCarEquipmentList(response.body);
       setFlag(true);
     } else if (response.statusCode > 400) {
-      setMessageError(JSON.parse(error.message)["error"]);
+      setMessageError(response.body.error);
     }
     handleClose();
   }
@@ -187,15 +187,15 @@ const PutCar = () => {
     if (response == undefined) {
       setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
-      if (JSON.parse(error.message)["error"] == undefined) {
+      if (response.body.errors !== undefined) {
         let errorResult = "";
-        let errorsJson = JSON.parse(error.message)["errors"];
-        for (let key in errorsJson) {
+        let errorsJson = response.body.errors;
+        for (let key in response.body.errors) {
           errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
-        setMessageError(JSON.parse(error.message)["error"]);
+        setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
       setMessageError("Forbidden");
@@ -204,7 +204,7 @@ const PutCar = () => {
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       setRedirect(true);
     } else if (response.statusCode > 400) {
-      setMessageError(JSON.parse(error.message)["error"]);
+      setMessageError(response.body.error);
     }
     handleClose();
   }
@@ -218,15 +218,15 @@ const PutCar = () => {
     if (response == undefined) {
       setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
-      if (JSON.parse(error.message)["error"] == undefined) {
+      if (response.body.errors !== undefined) {
         let errorResult = "";
-        let errorsJson = JSON.parse(error.message)["errors"];
-        for (let key in errorsJson) {
+        let errorsJson = response.body.errors;
+        for (let key in response.body.errors) {
           errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
-        setMessageError(JSON.parse(error.message)["error"]);
+        setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
       setMessageError("Forbidden");
@@ -235,7 +235,7 @@ const PutCar = () => {
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       setNameCarEquipment(response.body.name);
     } else if (response.statusCode > 400) {
-      setMessageError(JSON.parse(error.message)["error"]);
+      setMessageError(response.body.error);
     }
     handleClose();
   }
@@ -373,6 +373,8 @@ const PutCar = () => {
                   value={cost}
                   className="w-100 shadow-lg  bg-white rounded"
                   onChange={e => setCost(e.target.value)}
+                  min="0"
+                  max="1000000"
                   name="cost"
                   type="number"
                   placeholder="Enter your cost..."
@@ -386,6 +388,8 @@ const PutCar = () => {
                 <input
                   required
                   value={carMileage}
+                  min="0"
+                  max="1000000"
                   className="w-100 shadow-lg  bg-white rounded"
                   onChange={e => setCarMileage(e.target.value)}
                   name="carMileage"
@@ -397,6 +401,8 @@ const PutCar = () => {
                 <label>Share percentage(%):</label>
                 <input
                   value={sharePercentage}
+                  min="0"
+                  max="100"
                   className="w-100 shadow-lg  bg-white rounded"
                   onChange={e => setSharePercentage(e.target.value)}
                   name="sharePercentage"

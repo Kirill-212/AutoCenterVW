@@ -18,15 +18,15 @@ export default function EnhancedTable(props) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
-      if (JSON.parse(error.message)["error"] == undefined) {
+      if (response.body.errors !== undefined) {
         let errorResult = "";
-        let errorsJson = JSON.parse(error.message)["errors"];
-        for (let key in errorsJson) {
+        let errorsJson = response.body.errors;
+        for (let key in response.body.errors) {
           errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
-        setMessageError(JSON.parse(error.message)["error"]);
+        setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
       setMessageError("Forbidden");
@@ -48,7 +48,7 @@ export default function EnhancedTable(props) {
         setList([...list, ...ListCars]);
       }
     } else if (response.statusCode > 400) {
-      setMessageError(JSON.parse(error.message)["error"]);
+     setMessageError(response.body.error);
     }
     setBlockFlag(false);
     setLoad(false);
@@ -58,15 +58,15 @@ export default function EnhancedTable(props) {
     if (response == undefined) {
       setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
-      if (JSON.parse(error.message)["error"] == undefined) {
+      if (response.body.errors !== undefined) {
         let errorResult = "";
-        let errorsJson = JSON.parse(error.message)["errors"];
-        for (let key in errorsJson) {
+        let errorsJson = response.body.errors;
+        for (let key in response.body.errors) {
           errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
-        setMessageError(JSON.parse(error.message)["error"]);
+        setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
       setMessageError("Forbidden");
@@ -85,7 +85,7 @@ export default function EnhancedTable(props) {
 
       setList(ListCars);
     } else if (response.statusCode > 400) {
-      setMessageError(JSON.parse(error.message)["error"]);
+     setMessageError(response.body.error);
     }
     setBlockFlag(false);
     setLoad(false);

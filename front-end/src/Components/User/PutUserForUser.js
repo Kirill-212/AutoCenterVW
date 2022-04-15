@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from "react";
 import Context from "../../context";
 import { UsersApi } from "../../api/UsersApi";
 import { Navigate } from "react-router-dom";
-import { getDate,validate_dateAge } from "../ViewLists/SupportFunction";
+import { getDate, validate_dateAge } from "../ViewLists/SupportFunction";
 import ImgService from "../../Services/ImgServices/ImgService";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import Backdrop from "@mui/material/Backdrop";
@@ -42,29 +42,33 @@ const PutUser = () => {
       return;
     }
     let url;
-    if (imgNew.length !== 0) {
-      if (!imgNew) {
-        setMessageError("Error:Wrong file type!");
-        handleClose();
-        return;
+    if (imgNew !== undefined) {
+      if (imgNew.length === 0) {
+        url = null;
+      } else {
+        if (!imgNew) {
+          setMessageError("Error:Wrong file type!");
+          handleClose();
+          return;
+        }
+        if (imgNew.type.split("/")[0] !== "image") {
+          setMessageError("Error:Wrong file type!");
+          handleClose();
+          return;
+        }
+        url = await ImgService.uploadImage(imgNew);
+        if (url == undefined) {
+          setMessageError("Error:upload img is not valid.");
+          handleClose();
+          return;
+        }
+        if (url.height !== 200 || url.width !== 200) {
+          setMessageError("Error:valid size 200x200:File name:" + imgNew.name);
+          handleClose();
+          return;
+        }
+        url = url.url;
       }
-      if (imgNew.type.split("/")[0] !== "image") {
-        setMessageError("Error:Wrong file type!");
-        handleClose();
-        return;
-      }
-      url = await ImgService.uploadImage(imgNew);
-      if (url == undefined) {
-        setMessageError("Error:upload img is not valid.");
-        handleClose();
-        return;
-      }
-      if (url.height !== 200 || url.width !== 200) {
-        setMessageError("Error:valid size 200x200:File name:" + imgNew.name);
-        handleClose();
-        return;
-      }
-      url = url.url;
     } else {
       url = null;
     }
@@ -98,15 +102,15 @@ const PutUser = () => {
     if (response == undefined) {
       setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
-      if (JSON.parse(error.message)["error"] == undefined) {
+      if (response.body.errors !== undefined) {
         let errorResult = "";
-        let errorsJson = JSON.parse(error.message)["errors"];
-        for (let key in errorsJson) {
-          errorResult +=  errorsJson[key] + " | ";
+        let errorsJson = response.body.errors;
+        for (let key in response.body.errors) {
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
-        setMessageError(JSON.parse(error.message)["error"]);
+        setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
       setMessageError("Forbidden");
@@ -115,7 +119,7 @@ const PutUser = () => {
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       setredirect(true);
     } else if (response.statusCode > 400) {
-      setMessageError(JSON.parse(error.message)["error"]);
+      setMessageError(response.body.error);
     }
     handleClose();
   }
@@ -140,25 +144,25 @@ const PutUser = () => {
     if (response == undefined) {
       setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
-      if (JSON.parse(error.message)["error"] == undefined) {
+      if (response.body.errors !== undefined) {
         let errorResult = "";
-        let errorsJson = JSON.parse(error.message)["errors"];
-        for (let key in errorsJson) {
-          errorResult +=  errorsJson[key] + " | ";
+        let errorsJson = response.body.errors;
+        for (let key in response.body.errors) {
+          errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
-        setMessageError(JSON.parse(error.message)["error"]);
+        setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
       setMessageError("Forbidden");
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
-      if(response.statusCode === 204){
+      if (response.statusCode === 204) {
         handleClose();
         setMessageError("Error: user with this email not found.");
-        return
+        return;
       }
       setFirstName(response.body.firstName);
       setLastName(response.body.lastName);
@@ -168,7 +172,7 @@ const PutUser = () => {
       setPhoneNumber(response.body.phoneNumber);
       setImg(response.body.urlPhoto);
     } else if (response.statusCode > 400) {
-      setMessageError(JSON.parse(error.message)["error"]);
+      setMessageError(response.body.error);
     }
     handleClose();
   }
@@ -236,7 +240,7 @@ const PutUser = () => {
                     type="text"
                     value={phoneNumber}
                     name="phoneNumber"
-                    placeholder="Example +375 (29) 769-95-06"
+                    placeholder="+111 (11) 111-11-11"
                     onChange={e => setPhoneNumber(e.target.value)}
                     required
                   />

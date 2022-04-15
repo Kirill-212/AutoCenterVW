@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import * as React from "react";
 
 export default function CustomizedAccordions(props) {
-   const[data,setData]=React.useState(props.data)
+  const [data, setData] = React.useState(props.data);
   const [expanded, setExpanded] = React.useState("panel1");
   const handleChange = panel => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
@@ -43,87 +43,130 @@ export default function CustomizedAccordions(props) {
         </div>
       </div>
       <div className="row ">
-        {data.map(r=>{
-            if(r.name===data[0].name)return(<Accordion
+        {data.map(r => {
+          if (r.name === data[0].name)
+            return (
+              <Accordion
                 expanded={expanded === "panel1"}
                 onChange={handleChange("panel1")}
               >
-                <AccordionSummary aria-controls='panel1d-content' id='panel1d-header'>
+                <AccordionSummary
+                  aria-controls="panel1d-content"
+                  id="panel1d-header"
+                >
                   <Typography>
-                      <div className="row">
-                          <div className="col">Name: {r.name}</div>
-   
+                    <div className="row">
+                      <div className="col">
+                        Name: {r.name}
                       </div>
-                    </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Typography>
-                    {r.equipments.map(element=>{
-                        return <div className="row d-flex flex-row justify-content-center">
-                            
-                                <div className="col">
-                                <i className="fa-solid fa-arrow-right"></i>
-                                Name:{element.name}
-                                   
-                                    </div>
-                                <div className="col"> <p>Value:{element.equipmentItem.value}</p></div>
-                                <div className="col"> <p>Cost(<i className="fa-solid fa-dollar-sign"></i>):{element.equipmentItem.cost}</p></div>
-                                <div className="col"></div>
-                                <div className="col"></div>
-                        </div>
-                    })}{(JSON.parse(props.roleName).roleName==="ADMIN"||JSON.parse(props.roleName).roleName==="EMPLOYEE")&&<div className="row"><div className="col"><button
-                    className="btn btn-primary-sm btn-sm mr-1"
-                    value={r.name}
-                    onClick={props.deleteCarEquipment}
-                    type="button"
-                  >
-                    <i className="fas fa-trash" />
-                  </button></div><div className="col"></div><div className="col"></div> </div>}
+                    </div>
                   </Typography>
-                </AccordionDetails>
-              </Accordion>)
-           return <Accordion
-            expanded={expanded === r.name}
-            onChange={handleChange(r.name)}
-          >
-            <AccordionSummary aria-controls={r.name+'d-content'} id={r.name+'d-header'}>
-            <Typography>
-                      <div className="row">
-                          <div className="col">Name: {r.name}</div>
-   
-                      </div>
-                    </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                   <Typography>
-                    {r.equipments.map(element=>{
-                        return <div className="row d-flex flex-row justify-content-center">
-                            
-                                <div className="col">
-                               <i className="fa-solid fa-arrow-right"></i>
-                                Name:{element.name}
-                                   
-                                    </div>
-                                <div className="col"> <p>Value:{element.equipmentItem.value}</p></div>
-                                <div className="col"> <p>Cost(<i className="fa-solid fa-dollar-sign"></i>):{element.equipmentItem.cost}</p></div>
-                                <div className="col"></div>
-                                <div className="col"></div>
+                    {r.equipments.map(element => {
+                      return (
+                        <div className="row d-flex flex-row justify-content-center">
+                          <div className="col">
+                            <i className="fa-solid fa-arrow-right" />
+                            Name:{element.name}
+                          </div>
+                          <div className="col">
+                            {" "}<p>Value:{element.equipmentItem.value}</p>
+                          </div>
+                          <div className="col">
+                            {" "}<p>
+                              Cost(<i className="fa-solid fa-dollar-sign" />):{element.equipmentItem.cost}
+                            </p>
+                          </div>
+                          <div className="col" />
+                          <div className="col" />
                         </div>
-                    })}{(JSON.parse(props.roleName).roleName==="ADMIN"||JSON.parse(props.roleName).roleName==="EMPLOYEE")&&<div className="row"><div className="col"><button
-                    className="btn btn-primary-sm btn-sm mr-1"
-                    value={r.name}
-                    onClick={props.deleteCarEquipment}
-                    type="button"
-                  >
-                    <i className="fas fa-trash" />
-                  </button></div><div className="col"></div><div className="col"></div> </div>}
+                      );
+                    })}
+                    {(JSON.parse(props.roleName).roleName === "ADMIN" ||
+                      JSON.parse(props.roleName).roleName === "SUPER_ADMIN" ||
+                      JSON.parse(props.roleName).roleName === "EMPLOYEE") &&
+                      <div className="row">
+                        <div className="col">
+                          <button
+                            className="btn btn-primary-sm btn-sm mr-1"
+                            value={r.name}
+                            onClick={props.deleteCarEquipment}
+                            type="button"
+                          >
+                            <i className="fas fa-trash" />
+                          </button>
+                        </div>
+                        <div className="col" />
+                        <div className="col" />{" "}
+                      </div>}
                   </Typography>
                 </AccordionDetails>
               </Accordion>
+            );
+          return (
+            <Accordion
+              expanded={expanded === r.name}
+              onChange={handleChange(r.name)}
+            >
+              <AccordionSummary
+                aria-controls={r.name + "d-content"}
+                id={r.name + "d-header"}
+              >
+                <Typography>
+                  <div className="row">
+                    <div className="col">
+                      Name: {r.name}
+                    </div>
+                  </div>
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography>
+                  {r.equipments.map(element => {
+                    return (
+                      <div className="row d-flex flex-row justify-content-center">
+                        <div className="col">
+                          <i className="fa-solid fa-arrow-right" />
+                          Name:{element.name}
+                        </div>
+                        <div className="col">
+                          {" "}<p>Value:{element.equipmentItem.value}</p>
+                        </div>
+                        <div className="col">
+                          {" "}<p>
+                            Cost(<i className="fa-solid fa-dollar-sign" />):{element.equipmentItem.cost}
+                          </p>
+                        </div>
+                        <div className="col" />
+                        <div className="col" />
+                      </div>
+                    );
+                  })}
+                  {(JSON.parse(props.roleName).roleName === "ADMIN" ||
+                    JSON.parse(props.roleName).roleName === "SUPER_ADMIN" ||
+                    JSON.parse(props.roleName).roleName === "EMPLOYEE") &&
+                    <div className="row">
+                      <div className="col">
+                        <button
+                          className="btn btn-primary-sm btn-sm mr-1"
+                          value={r.name}
+                          onClick={props.deleteCarEquipment}
+                          type="button"
+                        >
+                          <i className="fas fa-trash" />
+                        </button>
+                      </div>
+                      <div className="col" />
+                      <div className="col" />{" "}
+                    </div>}
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+          );
         })}
-     </div>
-      
-      
+      </div>
     </div>
   );
 }

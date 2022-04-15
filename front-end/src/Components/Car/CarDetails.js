@@ -31,17 +31,15 @@ const CarDetail = () => {
       handleClose();
       setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
-      if (JSON.parse(error.message)["error"] == undefined) {
+      if (response.body.errors !== undefined) {
         let errorResult = "";
-        let errorsJson = JSON.parse(error.message)["errors"];
-        for (let key in errorsJson) {
+        let errorsJson = response.body.errors;
+        for (let key in response.body.errors) {
           errorResult += errorsJson[key] + " | ";
         }
-        handleClose();
         setMessageError(errorResult);
       } else {
-        handleClose();
-        setMessageError(JSON.parse(error.message)["error"]);
+        setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
       handleClose();
@@ -64,7 +62,7 @@ const CarDetail = () => {
       );
     } else if (response.statusCode > 400) {
       handleClose();
-      setMessageError(JSON.parse(error.message)["error"]);
+      setMessageError(response.body.error);
     }
     handleClose();
   }
@@ -73,15 +71,15 @@ const CarDetail = () => {
     if (response == undefined) {
       setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
-      if (JSON.parse(error.message)["error"] == undefined) {
+      if (response.body.errors !== undefined) {
         let errorResult = "";
-        let errorsJson = JSON.parse(error.message)["errors"];
-        for (let key in errorsJson) {
+        let errorsJson = response.body.errors;
+        for (let key in response.body.errors) {
           errorResult += errorsJson[key] + " | ";
         }
         setMessageError(errorResult);
       } else {
-        setMessageError(JSON.parse(error.message)["error"]);
+        setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
       setMessageError("Forbidden");
@@ -92,7 +90,7 @@ const CarDetail = () => {
       setCarEquipment(response.body);
       setFlag(true);
     } else if (response.statusCode > 400) {
-      setMessageError(JSON.parse(error.message)["error"]);
+      setMessageError(response.body.error);
     }
     handleClose();
   }
