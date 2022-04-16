@@ -432,6 +432,7 @@ const PutClientCar = () => {
                   onChange={e => setCost(e.target.value)}
                   value={cost}
                   name="cost"
+                  min="1" max="1000000"
                   type="number"
                   placeholder="Enter your cost..."
                   required
@@ -443,6 +444,7 @@ const PutClientCar = () => {
                   className="w-100 shadow-lg  bg-white rounded"
                   onChange={e => setCarMileage(e.target.value)}
                   name="carMileage"
+                  min="1" max="1000000"
                   type="number"
                   value={carMileage}
                   placeholder="Enter your car mileage..."
@@ -457,6 +459,7 @@ const PutClientCar = () => {
                 onChange={e => setSharePercentage(e.target.value)}
                 name="sharePercentage"
                 value={sharePercentage}
+                min="0" max="100"
                 type="number"
                 placeholder="Enter your share percentage..."
               />

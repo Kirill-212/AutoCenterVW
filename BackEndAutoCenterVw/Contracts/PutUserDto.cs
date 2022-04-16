@@ -22,7 +22,7 @@ namespace Contracts
         [Required(ErrorMessage = "Error: Surname is required.")]
         [StringLength(50,
             MinimumLength = 3,
-            ErrorMessage = "Error: String length must be between 3 and 50 characters."
+            ErrorMessage = "Error: surname length must be between 3 and 50 characters."
             )]
         public string Surname { get; set; }
 

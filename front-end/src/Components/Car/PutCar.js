@@ -27,6 +27,7 @@ const PutCar = () => {
   const [flag, setFlag] = React.useState(false);
   const [imgsCar, setImgsCar] = React.useState([]);
   const fileInput = React.useRef(null);
+  const [flagGet, setFlagGet] = React.useState(false);
   let checkCarEquipment = "";
   const [open, setOpen] = React.useState(false);
 
@@ -114,7 +115,6 @@ const PutCar = () => {
         }
       });
       setCarEquipmentList(response.body);
-      setFlag(true);
     } else if (response.statusCode > 400) {
       setMessageError(response.body.error);
     }
@@ -233,7 +233,10 @@ const PutCar = () => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
+      console.log(response.body.isDeleted);
+      setFlagGet(response.body.isDeleted);
       setNameCarEquipment(response.body.name);
+      setFlag(true);
     } else if (response.statusCode > 400) {
       setMessageError(response.body.error);
     }
@@ -373,7 +376,7 @@ const PutCar = () => {
                   value={cost}
                   className="w-100 shadow-lg  bg-white rounded"
                   onChange={e => setCost(e.target.value)}
-                  min="0"
+                  min="1"
                   max="1000000"
                   name="cost"
                   type="number"
@@ -388,7 +391,7 @@ const PutCar = () => {
                 <input
                   required
                   value={carMileage}
-                  min="0"
+                  min="1"
                   max="1000000"
                   className="w-100 shadow-lg  bg-white rounded"
                   onChange={e => setCarMileage(e.target.value)}
@@ -420,6 +423,7 @@ const PutCar = () => {
                 onChange={e => setNameCarEquipment(e.target.value)}
                 required
               >
+                {flagGet && <option value="" />}
                 {flag &&
                   carEquipmentList.map(element => {
                     return (

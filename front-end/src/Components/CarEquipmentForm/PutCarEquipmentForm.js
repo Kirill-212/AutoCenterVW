@@ -157,6 +157,7 @@ const PutCarEquipmentForm = () => {
               <div>
                 <input
                   type="number"
+                  min="0" max="1000000"
                   value={imgs[i].cost}
                   onChange={e => Add(null, i, e.target.value)}
                   className="w-100 shadow-lg  bg-white rounded"
@@ -200,6 +201,7 @@ const PutCarEquipmentForm = () => {
               <div>
                 <input
                   type="number"
+                  min="0" max="1000000"
                   onChange={e => Add(null, i, e.target.value)}
                   className="w-100 shadow-lg  bg-white rounded"
                   required

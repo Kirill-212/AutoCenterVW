@@ -196,6 +196,8 @@ const PostCar = () => {
                   onChange={e => setCost(e.target.value)}
                   name="cost"
                   type="number"
+                  min="1"
+                  max="1000000"
                   placeholder="Enter your cost..."
                   required
                 />
@@ -228,6 +230,8 @@ const PostCar = () => {
                 onChange={e => setSharePercentage(e.target.value)}
                 name="sharePercentage"
                 type="number"
+                min="0"
+                max="100"
                 placeholder="Enter your share percentage..."
               />
             </div>
@@ -238,6 +242,8 @@ const PostCar = () => {
                 onChange={e => setCarMileage(e.target.value)}
                 name="carMileage"
                 type="number"
+                min="1"
+                max="1000000"
                 placeholder="Enter your car mileage..."
                 required
               />

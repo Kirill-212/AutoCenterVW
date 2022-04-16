@@ -208,6 +208,7 @@ const PostClientCar = () => {
                   className="w-100 shadow-lg  bg-white rounded"
                   onChange={e => setCost(e.target.value)}
                   name="cost"
+                  min="1" max="1000000"
                   type="number"
                   placeholder="Enter your cost..."
                   required
@@ -219,6 +220,7 @@ const PostClientCar = () => {
                   className="w-100 shadow-lg  bg-white rounded"
                   onChange={e => setCarMileage(e.target.value)}
                   name="carMileage"
+                  min="1" max="1000000"
                   type="number"
                   placeholder="Enter your car mileage..."
                   required
@@ -231,6 +233,7 @@ const PostClientCar = () => {
                 className="w-100 shadow-lg  bg-white rounded"
                 onChange={e => setSharePercentage(e.target.value)}
                 name="sharePercentage"
+                min="0" max="100"
                 type="number"
                 placeholder="Enter your share percentage..."
               />

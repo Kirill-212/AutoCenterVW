@@ -95,6 +95,7 @@ const PostCarEquipmentForm = () => {
             <div className="custom-file">
               <input
                 type="number"
+                min="0" max="1000000"
                 onChange={e => Add(null, i, e.target.value)}
                 className="w-100 shadow-lg  bg-white rounded"
                 required

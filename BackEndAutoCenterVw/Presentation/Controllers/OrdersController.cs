@@ -44,7 +44,7 @@ namespace Presentation.Controllers
             }
         }
 
-        [Authorize(Roles = "SUPER_ADMIN,ADMIN,EMPLOYEE")]
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpPut("cancel")]
         public async Task<ActionResult> UpdateStateForCancel([FromBody] UpdateStateOrderDto item)
         {

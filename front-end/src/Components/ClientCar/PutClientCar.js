@@ -39,6 +39,7 @@ const PutClientCar = () => {
   const [vinNew, setVinNew] = React.useState("");
   let checkCarEquipment = "";
   const [open, setOpen] = React.useState(false);
+  const [flagGet, setFlagGet] = React.useState(false);
 
   const handleClose = () => {
     setOpen(false);
@@ -160,7 +161,7 @@ const PutClientCar = () => {
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       setRedirect(true);
     } else if (response.statusCode > 400) {
-     setMessageError(response.body.error);
+      setMessageError(response.body.error);
     }
     handleClose();
   }
@@ -190,11 +191,9 @@ const PutClientCar = () => {
           checkCarEquipment = el.name;
         }
       });
-
       setCarEquipmentList(response.body);
-      setFlag(true);
     } else if (response.statusCode > 400) {
-     setMessageError(response.body.error);
+      setMessageError(response.body.error);
     }
     handleClose();
   }
@@ -240,7 +239,7 @@ const PutClientCar = () => {
       GetCarEquipment();
       GetUsersList();
     } else if (response.statusCode > 400) {
-     setMessageError(response.body.error);
+      setMessageError(response.body.error);
     }
     handleClose();
   }
@@ -264,9 +263,16 @@ const PutClientCar = () => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
+      if (response.statusCode === 204) {
+        handleClose();
+        setMessageError("Error: car equipment wth this name not found.");
+        return;
+      }
+      setFlagGet(response.body.isDeleted);
       setNameCarEquipment(response.body.name);
+      setFlag(true);
     } else if (response.statusCode > 400) {
-     setMessageError(response.body.error);
+      setMessageError(response.body.error);
     }
     handleClose();
   }
@@ -292,7 +298,7 @@ const PutClientCar = () => {
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       setUserList(response.body);
     } else if (response.statusCode > 400) {
-     setMessageError(response.body.error);
+      setMessageError(response.body.error);
     }
     handleClose();
   }
@@ -433,6 +439,8 @@ const PutClientCar = () => {
                   onChange={e => setCost(e.target.value)}
                   value={cost}
                   name="cost"
+                  min="1"
+                  max="1000000"
                   type="number"
                   placeholder="Enter your cost..."
                   required
@@ -444,6 +452,8 @@ const PutClientCar = () => {
                   className="w-100 shadow-lg  bg-white rounded"
                   onChange={e => setCarMileage(e.target.value)}
                   name="carMileage"
+                  min="1"
+                  max="1000000"
                   type="number"
                   value={carMileage}
                   placeholder="Enter your car mileage..."
@@ -458,6 +468,8 @@ const PutClientCar = () => {
                 onChange={e => setSharePercentage(e.target.value)}
                 name="sharePercentage"
                 value={sharePercentage}
+                min="0"
+                max="100"
                 type="number"
                 placeholder="Enter your share percentage..."
               />
