@@ -1,374 +1,437 @@
-import { React, useContext,useEffect } from "react";
+import { useContext } from "react";
+import * as React from "react";
 import Context from "../../context";
+import Box from "@mui/material/Box";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import Button from "@mui/material/Button";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
+import MenuIcon from "@mui/icons-material/Menu";
+import Typography from "@mui/material/Typography";
+import Collapse from "@mui/material/Collapse";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { styled, useTheme } from "@mui/material/styles";
+import IconButton from "@mui/material/IconButton";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  padding: theme.spacing(0, 1),
+  ...theme.mixins.toolbar,
+  justifyContent: "flex-end"
+}));
+
+function ListItemHeader(props) {
+  const { openItem, ...other } = props;
+  let icon = null;
+  if (openItem != null) {
+    icon = openItem ? <ExpandLess /> : <ExpandMore />;
+  }
+
+  return (
+    <ListItem button {...other}>
+      <ListItemText primary={props.text} />
+      {icon}
+    </ListItem>
+  );
+}
 
 function Header(props) {
   const { user } = useContext(Context);
+  const theme = useTheme();
+  const [state, setState] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [openTestrive, setOpenTestDrive] = React.useState(false);
+  const [openOrder, setOpenOrder] = React.useState(false);
+  const [openCar, setOpenCar] = React.useState(false);
+  const [openCarCenter, setOpenCarCenter] = React.useState(false);
+  const [openCarEquipmentForm, setOpenCarEquipmentForm] = React.useState(false);
+  const [openCarEquipment, setOpenCarEquipment] = React.useState(false);
+  const [openNews, setOpenNews] = React.useState(false);
+  const [openEmp, setOpenEmp] = React.useState(false);
+  const [openUser, setOpenUser] = React.useState(false);
+
+  const handleClick = (e, value, setValue) => {
+    setValue(!value);
+  };
   function ClearStorage() {
     localStorage.clear();
   }
-  console.log(user,props.user);
+
+  const UpdateState = open => event => {
+    event.stopPropagation();
+    if (
+      event &&
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+    setState(open);
+  };
 
   return (
-    <header role="banner">
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container-fluid justify-content-between">
-          <div className="d-flex">
-            <img
-              width={60}
-              height={60}
-              src="https://res.cloudinary.com/courseaspcore/image/upload/v1649405611/free-png.ru-8_zjx2k8.png"
-            />
-          </div>
-          <ul className="navbar-nav flex-row">
-            {user !== undefined &&
-              <>
-                 <li className="nav-item dropdown mt-1  ">
-                  <a
-                    className="nav-link dropdown-toggle hidden-arrow"
-                    href="#"
-                    id="navbarDropdownMenuLink"
-                    role="button"
-                    data-mdb-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <strong>Service</strong>
-                  </a>
-                  <ul
-                    className="dropdown-menu dropdown-menu-end"
-                    aria-labelledby="navbarDropdownMenuLink"
-                  >
-                  
-                   
-                    <li>
-                      <a className="dropdown-item" href="/service/user">
-                      List
-                      </a>
-                    </li>
-                    {
-                  JSON.parse(user).roleName === "SERVICE_EMPLOYEE" &&  <li>
-                      <a className="dropdown-item" href="/service/employee">
-                      List for employee
-                      </a>
-                    </li>}
-                  </ul>
-                </li>
-                  <li className="nav-item dropdown mt-1  ">
-                  <a
-                    className="nav-link dropdown-toggle hidden-arrow"
-                    href="#"
-                    id="navbarDropdownMenuLink"
-                    role="button"
-                    data-mdb-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <strong>Test drive</strong>
-                  </a>
-                  <ul
-                    className="dropdown-menu dropdown-menu-end"
-                    aria-labelledby="navbarDropdownMenuLink"
-                  >
-                  
-                   
-                    <li>
-                      <a className="dropdown-item" href="/testdrive/user">
-                      List
-                      </a>
-                    </li>
-                    {(JSON.parse(user).roleName === "ADMIN"||JSON.parse(user).roleName === "SUPER_ADMIN" ||
-                  JSON.parse(user).roleName === "EMPLOYEE") &&  <li>
-                      <a className="dropdown-item" href="/testdrive/employee">
-                      List for employee
-                      </a>
-                    </li>}
-                  </ul>
-                </li>
-                  <li className="nav-item dropdown mt-1  ">
-                  <a
-                    className="nav-link dropdown-toggle hidden-arrow"
-                    href="#"
-                    id="navbarDropdownMenuLink"
-                    role="button"
-                    data-mdb-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <strong>Order</strong>
-                  </a>
-                  <ul
-                    className="dropdown-menu dropdown-menu-end"
-                    aria-labelledby="navbarDropdownMenuLink"
-                  >
-                  
-                    <li>
-                      <a className="dropdown-item" href="/order/buyer">
-                        List for buyer
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="/order/user">
-                      List for owner
-                      </a>
-                    </li>
-                    {(JSON.parse(user).roleName === "ADMIN" ||JSON.parse(user).roleName === "SUPER_ADMIN"||
-                  JSON.parse(user).roleName === "EMPLOYEE") &&  <li>
-                      <a className="dropdown-item" href="/order/employee">
-                      List for employee
-                      </a>
-                    </li>}
-                  </ul>
-                </li>
-                <li className="nav-item dropdown mt-1  ">
-                  <a
-                    className="nav-link dropdown-toggle hidden-arrow"
-                    href="#"
-                    id="navbarDropdownMenuLink"
-                    role="button"
-                    data-mdb-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <strong>Car</strong>
-                  </a>
-                  <ul
-                    className="dropdown-menu dropdown-menu-end"
-                    aria-labelledby="navbarDropdownMenuLink"
-                  >
-                    <li>
-                      <a className="dropdown-item" href="/clientcar/post">
-                        Post
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="/clientcar/user">
-                        List
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="/car/list">
-                      List of cars to buy
-                      </a>
-                    </li>
-                    {(JSON.parse(user).roleName === "ADMIN" ||JSON.parse(user).roleName === "SUPER_ADMIN"||
-                  JSON.parse(user).roleName === "EMPLOYEE") &&  <li>
-                      <a className="dropdown-item" href="/clientcar">
-                      All List
-                      </a>
-                    </li>}
-                  </ul>
-                </li>
+    <div className=" bg-dark text-white ">
+      <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
+        {user !== undefined &&
+          <Button onClick={UpdateState(true)} className="text-white">
+            <MenuIcon />
+          </Button>}
+        {user !== undefined &&
+          <Typography sx={{ minWidth: 20 }}>
+            <a
+              className="nav-link d-sm-flex align-items-sm-center text-white"
+              href="/user/put/user"
+            >
+              <strong>
+                <i className="fa-solid fa-user" />
+              </strong>
+            </a>
+          </Typography>}
+        <Typography sx={{ minWidth: 20 }}>
+          <a
+            className="nav-link d-sm-flex align-items-sm-center text-white"
+            href="/home"
+          >
+            <i className="fa-solid fa-house" />
+          </a>
+        </Typography>
+        <Typography sx={{ minWidth: 20 }}>
+          <a
+            className="nav-link d-sm-flex align-items-sm-center text-white"
+            href="/login"
+          >
+            <i className="fa-solid fa-arrow-right-to-bracket" />
+          </a>
+        </Typography>
+        <Typography sx={{ minWidth: 20 }}>
+          <a
+            className="nav-link d-sm-flex align-items-sm-center text-white"
+            onClick={ClearStorage}
+            href="/login"
+          >
+            <i className="fa-solid fa-arrow-right-from-bracket" />
+          </a>
+        </Typography>
+        <Typography sx={{ minWidth: 20 }}>
+          <a
+            className="nav-link d-sm-flex align-items-sm-center text-white"
+            onClick={ClearStorage}
+            href="/"
+          >
+            <strong>Register</strong>
+          </a>
+        </Typography>
+      </Box>
+      <SwipeableDrawer  open={state}>
+        <DrawerHeader>
+          <IconButton onClick={UpdateState(false)}>
+            {theme.direction === "ltr"
+              ? <ChevronLeftIcon />
+              : <ChevronRightIcon />}
+          </IconButton>
+        </DrawerHeader>
+        <Box
+          sx={{ width: 260 }}
+          role="presentation"
+          className=" bg-dark text-white "
+        >
+          <ListItemHeader
+            openItem={open}
+            text="Car repairs"
+            onClick={e => handleClick(e, open, setOpen)}
+          />
+          <Collapse in={open} timeout="auto" unmountOnExit sx={{ mr: 2 }}>
+            <List disablePadding>
+              <a href="/service/user" className="text-reset">
+                <ListItem sx={{ ml: 1 }} button>
+                  <ListItemText primary={"List"} />
+                </ListItem>
+              </a>
+              {JSON.parse(user).roleName === "SERVICE_EMPLOYEE" &&
+                <a href="/service/employee" className="text-reset">
+                  <ListItem sx={{ ml: 1 }} button>
+                    <ListItemText primary={"List for employee"} />
+                  </ListItem>
+                </a>}
+            </List>
+          </Collapse>
+          <Divider />
 
-               {(JSON.parse(user).roleName === "ADMIN" ||JSON.parse(user).roleName === "SUPER_ADMIN"||
-                  JSON.parse(user).roleName === "EMPLOYEE") && <li className="nav-item dropdown mt-1  ">
-                  <a
-                    className="nav-link dropdown-toggle hidden-arrow"
-                    href="#"
-                    id="navbarDropdownMenuLink"
-                    role="button"
-                    data-mdb-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <strong>Auto Center Car</strong>
-                  </a>
-                  <ul
-                    className="dropdown-menu dropdown-menu-end"
-                    aria-labelledby="navbarDropdownMenuLink"
-                  >
-                    <li>
-                      <a className="dropdown-item" href="/car/post">
-                        Post
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="/car">
-                       List
-                      </a>
-                    </li>
-                  </ul>
-                </li>}
-                
+          <ListItemHeader
+            openItem={openTestrive}
+            text="Test drives"
+            onClick={e => handleClick(e, openTestrive, setOpenTestDrive)}
+          />
+          <Collapse
+            in={openTestrive}
+            timeout="auto"
+            unmountOnExit
+            sx={{ mr: 2 }}
+          >
+            <List disablePadding>
+              <a href="/testdrive/user" className="text-reset">
+                <ListItem sx={{ ml: 1 }} button>
+                  <ListItemText primary={"List"} />
+                </ListItem>
+              </a>
+              {(JSON.parse(user).roleName === "ADMIN" ||
+                JSON.parse(user).roleName === "SUPER_ADMIN" ||
+                JSON.parse(user).roleName === "EMPLOYEE") &&
+                <a href="/testdrive/employee" className="text-reset">
+                  <ListItem sx={{ ml: 1 }} button>
+                    <ListItemText primary={"List for employee"} />
+                  </ListItem>
+                </a>}
+            </List>
+          </Collapse>
+          <Divider />
 
-                {(JSON.parse(user).roleName === "ADMIN" ||JSON.parse(user).roleName === "SUPER_ADMIN"||
-                  JSON.parse(user).roleName === "EMPLOYEE") &&<li className="nav-item dropdown mt-1  ">
-                  <a
-                    className="nav-link dropdown-toggle hidden-arrow"
-                    href="#"
-                    id="navbarDropdownMenuLink"
-                    role="button"
-                    data-mdb-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <strong>Car equipment form</strong>
-                  </a>
-                  <ul
-                    className="dropdown-menu dropdown-menu-end"
-                    aria-labelledby="navbarDropdownMenuLink"
-                  >
-                    <li>
-                      <a className="dropdown-item" href="/carequipmentform">
-                       List
-                      </a>
-                    </li>
-                   <li>
-                      <a className="dropdown-item" href="/carequipmentform/post">
-                        Post
-                      </a>
-                    </li>
-                    
-                  </ul>
-                </li>}
+          <ListItemHeader
+            openItem={openOrder}
+            text="Orders"
+            onClick={e => handleClick(e, openOrder, setOpenOrder)}
+          />
+          <Collapse in={openOrder} timeout="auto" unmountOnExit sx={{ mr: 2 }}>
+            <List disablePadding>
+              <a href="/order/buyer" className="text-reset">
+                <ListItem sx={{ ml: 1 }} button>
+                  <ListItemText primary={"List for buyer"} />
+                </ListItem>
+              </a>
+              <a href="/order/user" className="text-reset">
+                <ListItem sx={{ ml: 1 }} button>
+                  <ListItemText primary={"List for owner"} />
+                </ListItem>
+              </a>
+              {(JSON.parse(user).roleName === "ADMIN" ||
+                JSON.parse(user).roleName === "SUPER_ADMIN" ||
+                JSON.parse(user).roleName === "EMPLOYEE") &&
+                <a href="/order/employee" className="text-reset">
+                  <ListItem sx={{ ml: 1 }} button>
+                    <ListItemText primary={"List for employee"} />
+                  </ListItem>
+                </a>}
+            </List>
+          </Collapse>
+          <Divider />
 
-                 <li className="nav-item dropdown mt-1  ">
-                  <a
-                    className="nav-link dropdown-toggle hidden-arrow"
-                    href="#"
-                    id="navbarDropdownMenuLink"
-                    role="button"
-                    data-mdb-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <strong>Car equipment</strong>
-                  </a>
-                  <ul
-                    className="dropdown-menu dropdown-menu-end"
-                    aria-labelledby="navbarDropdownMenuLink"
-                  >
-                    <li>
-                      <a className="dropdown-item" href="/carequipment">
-                        List
-                      </a>
-                    </li>
-                    {(JSON.parse(user).roleName === "ADMIN" ||JSON.parse(user).roleName === "SUPER_ADMIN"||
-                  JSON.parse(user).roleName === "EMPLOYEE") &&<li>
-                      <a className="dropdown-item" href="/carequipment/post">
-                        Post
-                      </a>
-                    </li>}
-                  </ul>
-                </li>
-                <li className="nav-item dropdown mt-1  ">
-                  <a
-                    className="nav-link dropdown-toggle hidden-arrow"
-                    href="#"
-                    id="navbarDropdownMenuLink"
-                    role="button"
-                    data-mdb-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <strong>New</strong>
-                  </a>
-                  <ul
-                    className="dropdown-menu dropdown-menu-end"
-                    aria-labelledby="navbarDropdownMenuLink"
-                  >
-                     {(JSON.parse(user).roleName === "ADMIN" ||JSON.parse(user).roleName === "SUPER_ADMIN"||
-                  JSON.parse(user).roleName === "EMPLOYEE") &&<li>
-                      <a className="dropdown-item" href="/new/post">
-                        Post
-                      </a>
-                    </li>}
-                    <li>
-                      <a className="dropdown-item" href="/new">
-                       List
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                {(JSON.parse(user).roleName === "ADMIN"||JSON.parse(user).roleName === "SUPER_ADMIN") &&
-                 <li className="nav-item dropdown mt-1  ">
-                  <a
-                    className="nav-link dropdown-toggle hidden-arrow"
-                    href="#"
-                    id="navbarDropdownMenuLink"
-                    role="button"
-                    data-mdb-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <strong>Employee</strong>
-                  </a>
-                  <ul
-                    className="dropdown-menu dropdown-menu-end"
-                    aria-labelledby="navbarDropdownMenuLink"
-                  >
-                    <li>
-                      <a className="dropdown-item" href="/employee">
-                        List
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="/employee/post">
-                        Post
-                      </a>
-                    </li>
-                  </ul>
-                </li>}
-                {(JSON.parse(user).roleName === "ADMIN" ||JSON.parse(user).roleName === "SUPER_ADMIN")&&
-                  <li className="nav-item dropdown mt-1  ">
-                    <a
-                      className="nav-link dropdown-toggle hidden-arrow"
-                      href="#"
-                      id="navbarDropdownMenuLink"
-                      role="button"
-                      data-mdb-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <strong>User</strong>
-                    </a>
-                    <ul
-                      className="dropdown-menu dropdown-menu-end"
-                      aria-labelledby="navbarDropdownMenuLink"
-                    >
-                      <li>
-                        <a className="dropdown-item" href="/user">
-                          List
-                        </a>
-                      </li>
-                    </ul>
-                  </li>}
-               
-              </>}
+          <ListItemHeader
+            openItem={openCar}
+            text="Cars"
+            onClick={e => handleClick(e, openCar, setOpenCar)}
+          />
+          <Collapse in={openCar} timeout="auto" unmountOnExit sx={{ mr: 2 }}>
+            <List disablePadding>
+              <a href="/clientcar/post" className="text-reset">
+                <ListItem sx={{ ml: 1 }} button>
+                  <ListItemText primary={"Post"} />
+                </ListItem>
+              </a>
+              <a href="/clientcar/user" className="text-reset">
+                <ListItem sx={{ ml: 1 }} button>
+                  <ListItemText primary={"List"} />
+                </ListItem>
+              </a>
+              <a href="/car/list" className="text-reset">
+                <ListItem sx={{ ml: 1 }} button>
+                  <ListItemText primary={"List of cars to buy"} />
+                </ListItem>
+              </a>
+              {(JSON.parse(user).roleName === "ADMIN" ||
+                JSON.parse(user).roleName === "SUPER_ADMIN" ||
+                JSON.parse(user).roleName === "EMPLOYEE") &&
+                <a href="/clientcar" className="text-reset">
+                  <ListItem sx={{ ml: 1 }} button>
+                    <ListItemText primary={"All List"} />
+                  </ListItem>
+                </a>}
+            </List>
+          </Collapse>
 
-              <li className="nav-item mt-1  ">
-                  <a
-                    className="nav-link d-sm-flex align-items-sm-center"
-                    onClick={ClearStorage}
-                    href="/"
-                  >
-                    <strong>Register</strong>
-                  </a>
-                </li>      
-            {user !== undefined &&
-              <li className="nav-item mt-2  ">
-                <a
-                  className="nav-link d-sm-flex align-items-sm-center"
-                  href="/user/put/user"
-                >
-                  <strong>
-                    <i className="fa-solid fa-user" />
-                  </strong>
+          <Divider />
+          {(JSON.parse(user).roleName === "ADMIN" ||
+            JSON.parse(user).roleName === "SUPER_ADMIN" ||
+            JSON.parse(user).roleName === "EMPLOYEE") &&
+            <ListItemHeader
+              openItem={openCarCenter}
+              text="Auto Center Cars"
+              onClick={e => handleClick(e, openCarCenter, setOpenCarCenter)}
+            />}
+          {(JSON.parse(user).roleName === "ADMIN" ||
+            JSON.parse(user).roleName === "SUPER_ADMIN" ||
+            JSON.parse(user).roleName === "EMPLOYEE") &&
+            <Collapse
+              in={openCarCenter}
+              timeout="auto"
+              unmountOnExit
+              sx={{ mr: 2 }}
+            >
+              <List disablePadding>
+                <a href="/car/post" className="text-reset">
+                  <ListItem sx={{ ml: 1 }} button>
+                    <ListItemText primary={"Post"} />
+                  </ListItem>
                 </a>
-              </li>}
-            <li className="nav-item mt-2  ">
-              <a className="nav-link d-sm-flex align-items-sm-center" href="/home">
-                <i className="fa-solid fa-house" />
+                <a href="/car" className="text-reset">
+                  <ListItem sx={{ ml: 1 }} button>
+                    <ListItemText primary={"List"} />
+                  </ListItem>
+                </a>
+              </List>
+            </Collapse>}
+          {(JSON.parse(user).roleName === "ADMIN" ||
+            JSON.parse(user).roleName === "SUPER_ADMIN" ||
+            JSON.parse(user).roleName === "EMPLOYEE") &&
+            <Divider />}
+
+          {(JSON.parse(user).roleName === "ADMIN" ||
+            JSON.parse(user).roleName === "SUPER_ADMIN" ||
+            JSON.parse(user).roleName === "EMPLOYEE") &&
+            <ListItemHeader
+              openItem={openCarEquipmentForm}
+              text="Car equipment form"
+              onClick={e =>
+                handleClick(e, openCarEquipmentForm, setOpenCarEquipmentForm)}
+            />}
+          {(JSON.parse(user).roleName === "ADMIN" ||
+            JSON.parse(user).roleName === "SUPER_ADMIN" ||
+            JSON.parse(user).roleName === "EMPLOYEE") &&
+            <Collapse
+              in={openCarEquipmentForm}
+              timeout="auto"
+              unmountOnExit
+              sx={{ mr: 2 }}
+            >
+              <List disablePadding>
+                <a href="/carequipmentform/post" className="text-reset">
+                  <ListItem sx={{ ml: 1 }} button>
+                    <ListItemText primary={"Post"} />
+                  </ListItem>
+                </a>
+                <a href="/carequipmentform" className="text-reset">
+                  <ListItem sx={{ ml: 1 }} button>
+                    <ListItemText primary={"List"} />
+                  </ListItem>
+                </a>
+              </List>
+            </Collapse>}
+          {(JSON.parse(user).roleName === "ADMIN" ||
+            JSON.parse(user).roleName === "SUPER_ADMIN" ||
+            JSON.parse(user).roleName === "EMPLOYEE") &&
+            <Divider />}
+
+          <ListItemHeader
+            openItem={openCarEquipmentForm}
+            text="Car equipments"
+            onClick={e => handleClick(e, openCarEquipment, setOpenCarEquipment)}
+          />
+
+          <Collapse
+            in={openCarEquipment}
+            timeout="auto"
+            unmountOnExit
+            sx={{ mr: 2 }}
+          >
+            <List disablePadding>
+              {(JSON.parse(user).roleName === "ADMIN" ||
+                JSON.parse(user).roleName === "SUPER_ADMIN" ||
+                JSON.parse(user).roleName === "EMPLOYEE") &&
+                <a href="/carequipment/post" className="text-reset">
+                  <ListItem sx={{ ml: 1 }} button>
+                    <ListItemText primary={"Post"} />
+                  </ListItem>
+                </a>}
+              <a href="/carequipment" className="text-reset">
+                <ListItem sx={{ ml: 1 }} button>
+                  <ListItemText primary={"List"} />
+                </ListItem>
               </a>
-            </li>
-            <li className="nav-item  mt-2 ">
-              <a
-                className="nav-link d-sm-flex align-items-sm-center"
-                onClick={ClearStorage}
-                href="/login"
-              >
-              <i className="fa-solid fa-arrow-right-from-bracket"></i>
+            </List>
+          </Collapse>
+          <Divider />
+
+          <ListItemHeader
+            openItem={openNews}
+            text="News"
+            onClick={e => handleClick(e, openNews, setOpenNews)}
+          />
+
+          <Collapse in={openNews} timeout="auto" unmountOnExit sx={{ mr: 2 }}>
+            <List disablePadding>
+              {(JSON.parse(user).roleName === "ADMIN" ||
+                JSON.parse(user).roleName === "SUPER_ADMIN" ||
+                JSON.parse(user).roleName === "EMPLOYEE") &&
+                <a href="/new/post" className="text-reset">
+                  <ListItem sx={{ ml: 1 }} button>
+                    <ListItemText primary={"Post"} />
+                  </ListItem>
+                </a>}
+              <a href="/new" className="text-reset">
+                <ListItem sx={{ ml: 1 }} button>
+                  <ListItemText primary={"List"} />
+                </ListItem>
               </a>
-            </li>
-            <li className="nav-item mt-2  ">
-              <a className="nav-link d-sm-flex align-items-sm-center" href="/login">
-              <i className="fa-solid fa-arrow-right-to-bracket"></i>
-              </a>
-            </li>
-          </ul>
-          
-        </div>
-      </nav>
-    </header>
+            </List>
+          </Collapse>
+          <Divider />
+
+          {(JSON.parse(user).roleName === "ADMIN" ||
+            JSON.parse(user).roleName === "SUPER_ADMIN") &&
+            <ListItemHeader
+              openItem={openEmp}
+              text="Employees"
+              onClick={e => handleClick(e, openEmp, setOpenEmp)}
+            />}
+          {(JSON.parse(user).roleName === "ADMIN" ||
+            JSON.parse(user).roleName === "SUPER_ADMIN") &&
+            <Collapse in={openEmp} timeout="auto" unmountOnExit sx={{ mr: 2 }}>
+              <List disablePadding>
+                <a href="/employee/post" className="text-reset">
+                  <ListItem sx={{ ml: 1 }} button>
+                    <ListItemText primary={"Post"} />
+                  </ListItem>
+                </a>
+                <a href="/employee" className="text-reset">
+                  <ListItem sx={{ ml: 1 }} button>
+                    <ListItemText primary={"List"} />
+                  </ListItem>
+                </a>
+              </List>
+            </Collapse>}
+          {(JSON.parse(user).roleName === "ADMIN" ||
+            JSON.parse(user).roleName === "SUPER_ADMIN") &&
+            <Divider />}
+
+          {(JSON.parse(user).roleName === "ADMIN" ||
+            JSON.parse(user).roleName === "SUPER_ADMIN") &&
+            <ListItemHeader
+              openItem={openUser}
+              text="Users"
+              onClick={e => handleClick(e, openUser, setOpenUser)}
+            />}
+          {(JSON.parse(user).roleName === "ADMIN" ||
+            JSON.parse(user).roleName === "SUPER_ADMIN") &&
+            <Collapse in={openUser} timeout="auto" unmountOnExit sx={{ mr: 2 }}>
+              <List disablePadding>
+                <a href="/user" className="text-reset">
+                  <ListItem sx={{ ml: 1 }} button>
+                    <ListItemText primary={"List"} />
+                  </ListItem>
+                </a>
+              </List>
+            </Collapse>}
+          {(JSON.parse(user).roleName === "ADMIN" ||
+            JSON.parse(user).roleName === "SUPER_ADMIN") &&
+            <Divider />}
+        </Box>
+      </SwipeableDrawer>
+    </div>
   );
 }
 export default Header;

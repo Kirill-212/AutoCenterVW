@@ -233,6 +233,11 @@ const PutCar = () => {
     } else if (response.statusCode == 401) {
       setMessageError("Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
+      if (response.statusCode === 204) {
+        handleClose();
+        setMessageError("Error: car equipment wth this name not found.");
+        return;
+      }
       console.log(response.body.isDeleted);
       setFlagGet(response.body.isDeleted);
       setNameCarEquipment(response.body.name);

@@ -258,6 +258,11 @@ namespace Services
             unitOfWork.AsyncRepositoryCar.Update(car);
             unitOfWork.AsyncRepositoryOrder.Update(order);
             await unitOfWork.CompleteAsync();
+            IEnumerable<Order> orders = await unitOfWork.AsyncRepositoryOrder.GetByVin(vin);
+            foreach (var i in orders)
+                i.State = State.CANCEL;
+            unitOfWork.AsyncRepositoryOrder.UpdateRange(orders);
+            await unitOfWork.CompleteAsync();
         }
     }
 }

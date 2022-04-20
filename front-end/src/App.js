@@ -43,6 +43,7 @@ import EmployeeServce from "./Components/Service/EmployeeService";
 import StartService from "./Components/Service/StartWorkService";
 import UserService from "./Components/Service/UserService";
 import PutUserForUser from "./Components/User/PutUserForUser";
+
 function App() {
   const [user, setUser] = React.useState(undefined);
 
@@ -104,15 +105,9 @@ function App() {
             <Route path="order/put" element={<PutOrder />} />
             <Route path="car/list" element={<AllCarForTestDriveOrder />} />
             <Route path="testdrive/post" element={<PostTestDrive />} />
-            <Route
-              path="testdrive/employee"
-              element={<EmployeeTestDrive />}
-            />
+            <Route path="testdrive/employee" element={<EmployeeTestDrive />} />
             <Route path="testdrive/user" element={<UserTestDrive />} />
-            <Route
-              path="clientcar/user"
-              element={<ClientCarListForUser />}
-            />
+            <Route path="clientcar/user" element={<ClientCarListForUser />} />
             <Route path="service/post" element={<PostService />} />
             <Route path="service/employee" element={<EmployeeServce />} />
             <Route path="service/start" element={<StartService />} />

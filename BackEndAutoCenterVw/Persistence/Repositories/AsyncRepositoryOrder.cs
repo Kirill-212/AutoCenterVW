@@ -42,6 +42,7 @@ namespace Persistence.Repositories
                     .Where(i => i.State != State.PAID)
                     .Where(i => i.State != State.CANCEL)
                     .Where(i => i.UserId == item.UserId)
+                    .AsNoTracking()
                     .FirstOrDefaultAsync();
         }
 
