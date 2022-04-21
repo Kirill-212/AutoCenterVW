@@ -11,27 +11,26 @@ export default function EnhancedTable(props) {
   const [totalPages, setTotalPages] = React.useState(0);
   const [blockFlag, setBlockFlag] = React.useState(false);
   const [load, setLoad] = React.useState(true);
-  const [MessageError, setMessageError] = React.useState("");
   const [flag, setFlag] = React.useState(true);
 
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
-      setMessageError("Error:server is not available");
+      props.setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult = "";
+        let errorResult =[];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult += errorsJson[key] + " | ";
+          errorResult.push( <>{errorsJson[key]} <br></br> </>);
         }
-        setMessageError(errorResult);
+        props.setMessageError(errorResult);
       } else {
-        setMessageError(response.body.error);
+        props.setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
-      setMessageError("Forbidden");
+      props.setMessageError("Error:Forbidden");
     } else if (response.statusCode == 401) {
-      setMessageError("Unauthorized");
+      props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       let rs = GetPagedCarDto.constructFromObject(response.body);
       setCurrentPages(rs.currentPage + 1);
@@ -48,7 +47,7 @@ export default function EnhancedTable(props) {
         setList([...list, ...ListCars]);
       }
     } else if (response.statusCode > 400) {
-     setMessageError(response.body.error);
+     props.setMessageError(response.body.error);
     }
     setBlockFlag(false);
     setLoad(false);
@@ -56,22 +55,22 @@ export default function EnhancedTable(props) {
 
   function CallbackRequestBlock(error, data, response) {
     if (response == undefined) {
-      setMessageError("Error:server is not available");
+      props.setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult = "";
+        let errorResult =[];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult += errorsJson[key] + " | ";
+          errorResult.push( <>{errorsJson[key]} <br></br> </>);
         }
-        setMessageError(errorResult);
+        props.setMessageError(errorResult);
       } else {
-        setMessageError(response.body.error);
+        props.setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
-      setMessageError("Forbidden");
+      props.setMessageError("Error:Forbidden");
     } else if (response.statusCode == 401) {
-      setMessageError("Unauthorized");
+      props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       let rs = GetPagedCarDto.constructFromObject(response.body);
       setCurrentPages(rs.currentPage + 1);
@@ -85,7 +84,7 @@ export default function EnhancedTable(props) {
 
       setList(ListCars);
     } else if (response.statusCode > 400) {
-     setMessageError(response.body.error);
+     props.setMessageError(response.body.error);
     }
     setBlockFlag(false);
     setLoad(false);
@@ -136,15 +135,9 @@ export default function EnhancedTable(props) {
     }
   };
 
-  let style = { width: "30rem" };
 
   return (
     <div className="container">
-      <div className="row align-items-center">
-        <p style={style} className="text-wrap  text-reset text-white">
-          {MessageError}
-        </p>
-      </div>
       <div className="row align-items-center d-flex flex-column">
         {list.map(e => {
           return (

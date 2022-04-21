@@ -1,60 +1,47 @@
 import * as React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import {
-  EnhancedTableHead,
-  getComparator,
-  stableSort,
-  getDate
-} from "../ViewLists/SupportFunction";
+import { DataGrid, GridToolbar } from "@material-ui/data-grid";
+import { getDate } from "../ViewLists/SupportFunction";
 
 export default function EnhancedTable(props) {
-  const [rows, setRows] = React.useState(props.rows);
-  const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-  const requestSearch = searchedVal => {
-    const filteredRows = rows.filter(row => {
-      return row.email.toLowerCase().includes(searchedVal.toLowerCase());
-    });
-    setRows(filteredRows);
-  };
-
-  const search = e => {
-    if (e.length === 0) {
-      setRows(props.rows);
-    } else {
-      requestSearch(e);
-    }
-  };
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-
+  const [pageSize, setPageSize] = React.useState(5);
+  const [rows, setRows] = React.useState(
+    props.rows.map(r => {
+      return {
+        id: r.email,
+        photo: r.urlPhoto,
+        firstName: r.firstName,
+        lastName: r.lastName,
+        dbay: getDate(r.dBay),
+        status: r.status,
+        email: r.email,
+        phoneNumber: r.phoneNumber,
+        roleName: r.roleName,
+        options: <></>
+      };
+    })
+  );
+  console.log(props.head);
+  console.log(rows);
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }} className="p-2">
-      <div className="row mt-2 ml-2">
+    <Paper
+      sx={{ width: "100%", height: 500, overflow: "hidden" }}
+      className="p-2"
+    >
+      <DataGrid
+        rows={rows}
+        columns={props.head}
+        disableSelectionOnClick
+        pageSize={pageSize}
+        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+        rowsPerPageOptions={[5, 10, 20]}
+        pagination
+        rowHeight={200}
+        components={{
+          Toolbar: GridToolbar,
+        }}
+      />
+      {/* <div className="row mt-2 ml-2">
         <div className="input-group rounded w-25">
           <input
             type="search"
@@ -189,7 +176,7 @@ export default function EnhancedTable(props) {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      </div>
+      </div> */}
     </Paper>
   );
 }

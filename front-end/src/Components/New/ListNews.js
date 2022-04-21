@@ -12,7 +12,6 @@ export default function EnhancedTable(props) {
   const [totalPages, setTotalPages] = React.useState(0);
   const [blockFlag, setBlockFlag] = React.useState(false);
   const [load, setLoad] = React.useState(true);
-  const [MessageError, setMessageError] = React.useState("");
   const [flag, setFlag] = React.useState(true);
 
   async function DeleteNew(e) {
@@ -25,48 +24,48 @@ export default function EnhancedTable(props) {
 
   function CallbackRequestDelete(error, data, response) {
     if (response == undefined) {
-      setMessageError("Error:server is not available");
+      props.setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult = "";
+        let errorResult =[];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult += errorsJson[key] + " | ";
+          errorResult.push( <>{errorsJson[key]} <br></br> </>);
         }
-        setMessageError(errorResult);
+        props.setMessageError(errorResult);
       } else {
-        setMessageError(response.body.error);
+        props.setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
-      setMessageError("Forbidden");
+      props.setMessageError("Error:Forbidden");
     } else if (response.statusCode == 401) {
-      setMessageError("Unauthorized");
+      props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       setBlockFlag(true);
     } else if (response.statusCode > 400) {
-      setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
     setBlockFlag(true);
   }
 
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
-      setMessageError("Error:server is not available");
+      props.setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult = "";
+        let errorResult =[];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult += errorsJson[key] + " | ";
+          errorResult.push( <>{errorsJson[key]} <br></br> </>);
         }
-        setMessageError(errorResult);
+        props.setMessageError(errorResult);
       } else {
-        setMessageError(response.body.error);
+        props.setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
-      setMessageError("Forbidden");
+      props.setMessageError("Error:Forbidden");
     } else if (response.statusCode == 401) {
-      setMessageError("Unauthorized");
+      props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       let rs = GetPagedNewDto.constructFromObject(response.body);
       setCurrentPages(rs.currentPage + 1);
@@ -84,7 +83,7 @@ export default function EnhancedTable(props) {
         setListNew([...listNew, ...newss]);
       }
     } else if (response.statusCode > 400) {
-      setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
     setBlockFlag(false);
     setLoad(false);
@@ -92,22 +91,22 @@ export default function EnhancedTable(props) {
 
   function CallbackRequestBlock(error, data, response) {
     if (response == undefined) {
-      setMessageError("Error:server is not available");
+      props.setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult = "";
+        let errorResult =[];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult += errorsJson[key] + " | ";
+          errorResult.push( <>{errorsJson[key]} <br></br> </>);
         }
-        setMessageError(errorResult);
+        props.setMessageError(errorResult);
       } else {
-        setMessageError(response.body.error);
+        props.setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
-      setMessageError("Forbidden");
+      props.setMessageError("Error:Forbidden");
     } else if (response.statusCode == 401) {
-      setMessageError("Unauthorized");
+      props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       let rs = GetPagedNewDto.constructFromObject(response.body);
       setCurrentPages(rs.currentPage + 1);
@@ -121,7 +120,7 @@ export default function EnhancedTable(props) {
 
       setListNew(newss);
     } else if (response.statusCode > 400) {
-      setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
     setBlockFlag(false);
     setLoad(false);
@@ -130,7 +129,7 @@ export default function EnhancedTable(props) {
   useEffect(
     () => {
       if (user === undefined) {
-        setMessageError("Unauthorized");
+        props.setMessageError("Error:Unauthorized");
       } else if (load && (flag || (!flag && currentPages <= totalPages))) {
         new NewApi().apiNewsPagedGet(
           GetJwtToken(),
@@ -173,14 +172,10 @@ export default function EnhancedTable(props) {
       setLoad(true);
     }
   };
-  let style = { width: "30rem" };
   let styleDescription = { width: "50rem" };
 
   return (
     <div className="container">
-      <p style={style} className="text-wrap  text-reset text-white">
-        {MessageError}
-      </p>
       {listNew.map(e => {
         let flag = true;
         return (

@@ -6,24 +6,13 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
 import { getDate } from "../ViewLists/SupportFunction";
 
 const UserListOrder = props => {
   const { user } = useContext(Context);
-  const [MessageError, setMessageError] = React.useState("");
   const [listTestDrive, setListTestDrive] = React.useState([]);
   const [viewList, setViewList] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
   const [empty, setEmpty] = React.useState(false);
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleToggle = () => {
-    setOpen(!open);
-  };
 
   const requestSearch = searchedVal => {
     const filteredRows = listTestDrive.filter(row => {
@@ -42,10 +31,10 @@ const UserListOrder = props => {
 
   async function GetTestDriveList() {
     setViewList(false);
-    handleToggle();
+    props.handleToggle();
     if (user === undefined) {
-      setMessageError("Unauthorized");
-      handleClose();
+      props.setMessageError("Error:Unauthorized");
+      props.handleClose();
       return;
     }
     new TestDrivesApi().apiTestdrivesUserGet(
@@ -57,25 +46,25 @@ const UserListOrder = props => {
 
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
-      setMessageError("Error:server is not available");
+      props.setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult = "";
+        let errorResult =[];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult += errorsJson[key] + " | ";
+          errorResult.push( <>{errorsJson[key]} <br></br> </>);
         }
-        setMessageError(errorResult);
+        props.setMessageError(errorResult);
       } else {
-        setMessageError(response.body.error);
+        props.setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
-      setMessageError("Forbidden");
+      props.setMessageError("Error:Forbidden");
     } else if (response.statusCode == 401) {
-      setMessageError("Unauthorized");
+      props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       if (response.body.length == 0) {
-        handleClose();
+        props.handleClose();
         setEmpty(true);
         return;
       }
@@ -83,18 +72,18 @@ const UserListOrder = props => {
       setListTestDrive(response.body);
       setViewList(true);
     } else if (response.statusCode > 400) {
-     setMessageError(response.body.error);
+     props.setMessageError(response.body.error);
     }
-    handleClose();
+    props.handleClose();
   }
 
   function UpdateState(value, e) {
     let valueTestDrive = JSON.parse(value);
     if (valueTestDrive.state === "CANCEL") {
-      handleToggle();
+      props.handleToggle();
       if (user === undefined) {
-        setMessageError("Unauthorized");
-        handleClose();
+        props.setMessageError("Error:Unauthorized");
+        props.handleClose();
         return;
       }
       new TestDrivesApi().apiTestdrivesCancelUserPut(
@@ -114,28 +103,28 @@ const UserListOrder = props => {
 
   function CallbackRequestUpdate(error, data, response) {
     if (response == undefined) {
-      setMessageError("Error:server is not available");
+      props.setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult = "";
+        let errorResult =[];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult += errorsJson[key] + " | ";
+          errorResult.push( <>{errorsJson[key]} <br></br> </>);
         }
-        setMessageError(errorResult);
+        props.setMessageError(errorResult);
       } else {
-        setMessageError(response.body.error);
+        props.setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
-      setMessageError("Forbidden");
+      props.setMessageError("Error:Forbidden");
     } else if (response.statusCode == 401) {
-      setMessageError("Unauthorized");
+      props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       GetTestDriveList();
     } else if (response.statusCode > 400) {
-     setMessageError(response.body.error);
+     props.setMessageError(response.body.error);
     }
-    handleClose();
+    props.handleClose();
   }
 
   function CheckState(value) {
@@ -152,22 +141,9 @@ const UserListOrder = props => {
     GetTestDriveList();
   }, []);
 
-  let style = { width: "30rem" };
-
   if (empty) return <div>No data</div>;
   return (
     <div className="container-md">
-      <div style={style} className=" row text-wrap  text-reset text-white">
-        <Backdrop
-          sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
-          open={open}
-          onClick={handleClose}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
-        {MessageError}
-      </div>
-
       <div className="row mt-5 pt-5 align-items-center">
         <div className="row mt-2  ">
           <div className="input-group rounded w-25">

@@ -4,32 +4,21 @@ import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import { GetUserDto } from "../../model/GetUserDto";
 import UserListView from "../../SetListView/UserListView";
 import UserItem from "./ListUsers";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
 import Context from "../../context";
 
-const User = () => {
+const User = (props) => {
   const { user } = useContext(Context);
-  const [MessageError, setMessageError] = React.useState("");
   const [listUsers, setListUsers] = React.useState([]);
   const [viewList, setViewList] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const handleToggle = () => {
-    setOpen(!open);
-  };
 
   async function GetUsersList() {
-    handleToggle();
+    props.handleToggle();
     setViewList(false);
     new UsersApi().apiUsersGet(GetJwtToken(), CallbackRequest);
   }
 
   async function DeleteUser(e) {
-    handleToggle();
+    props.handleToggle();
     new UsersApi().apiUsersDelete(
       GetJwtToken(),
       { email: e.currentTarget.value },
@@ -38,7 +27,7 @@ const User = () => {
   }
 
   async function UpdateStatusUser(e) {
-    handleToggle();
+    props.handleToggle();
     new UsersApi().apiUsersUpdateStatusPut(
       GetJwtToken(),
       { email: e.currentTarget.value },
@@ -48,48 +37,48 @@ const User = () => {
 
   function CallbackRequestDeleteOrUpdateStatus(error, data, response) {
     if (response == undefined) {
-      setMessageError("Error:server is not available");
+      props.setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult = "";
+        let errorResult =[];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult += errorsJson[key] + " | ";
+          errorResult.push( <>{errorsJson[key]} <br></br> </>);
         }
-        setMessageError(errorResult);
+        props.setMessageError(errorResult);
       } else {
-        setMessageError(response.body.error);
+        props.setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
-      setMessageError("Forbidden");
+      props.setMessageError("Error:Forbidden");
     } else if (response.statusCode == 401) {
-      setMessageError("Unauthorized");
+      props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       GetUsersList();
     } else if (response.statusCode > 400) {
-      setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
-    handleClose();
+    props.handleClose();
   }
 
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
-      setMessageError("Error:server is not available");
+      props.setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult = "";
+        let errorResult =[];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult += errorsJson[key] + " | ";
+          errorResult.push( <>{errorsJson[key]} <br></br> </>);
         }
-        setMessageError(errorResult);
+        props.setMessageError(errorResult);
       } else {
-        setMessageError(response.body.error);
+        props.setMessageError(response.body.error);
       }
     } else if (response.statusCode === 403) {
-      setMessageError("Forbidden");
+      props.setMessageError("Error:Forbidden");
     } else if (response.statusCode === 401) {
-      setMessageError("Unauthorized");
+      props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       setListUsers(
         data.map(e => {
@@ -98,31 +87,18 @@ const User = () => {
       );
       setViewList(true);
     } else if (response.statusCode > 400) {
-      setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
-    handleClose();
+    props.handleClose();
   }
 
   useEffect(() => {
     GetUsersList();
   }, []);
 
-  let style = { width: "30rem" };
 
   return (
     <div className="container">
-      <div className="row align-items-center">
-        <p style={style} className="text-wrap  text-reset text-white">
-          <Backdrop
-            sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
-            open={open}
-            onClick={handleClose}
-          >
-            <CircularProgress color="inherit" />
-          </Backdrop>
-          {MessageError}
-        </p>
-      </div>
       <div className="row align-items-center">
         <div className="col-12 mt-5 pt-5  align-items-center">
           {viewList &&

@@ -1,59 +1,75 @@
 export default function UserListView() {
   let columns = [
     {
-      label: "Photo",
-      id: "photo",
-      numeric: false,
-      disablePadding: true
-    },
-    {
-      label: "First name",
-      id: "firstName",
-      numeric: false,
-      disablePadding: false
-    },
-    {
-      label: "Last name",
-      id: "lastName",
-      numeric: false,
-      disablePadding: false
-    },
-    {
-      label: "Birthday",
-      id: "dbay",
-      numeric: false,
-      disablePadding: false
-    },
-    {
-      label: "Status",
-      id: "status",
-      numeric: false,
-      disablePadding: false
-    },
-    {
-      label: "Email",
-      id: "email",
-      numeric: false,
-      disablePadding: false
-    },
-    {
-      label: "Phone number",
-      id: "phoneNumber",
-      numeric: false,
-      disablePadding: false
-    },
-    {
-      label: "Role",
-      id: "roleName",
-      numeric: false,
-      disablePadding: false
-    },
-    {
-      label: "Options",
-      id: "options",
-      numeric: false,
+      headerName: "Photo",
+      field: "photo",
+      width: 200,
+      editable: false,
       sortable: false,
-      disablePadding: false
+      renderCell: params =>
+        <img
+          src={params.value}
+          className="rounded-circle"
+          width="200"
+          height="200"
+          alt="..."
+        />
+    },
+    {
+      headerName: "First name",
+      field: "firstName",
+      width: 150,
+      editable: false,
+      sortable: true
+    },
+    {
+      headerName: "Last name",
+      field: "lastName",
+      width: 150,
+      editable: false,
+      sortable: true
+    },
+    {
+      headerName: "Birthday",
+      field: "dbay",
+      width: 150,
+      editable: false,
+      sortable: true
+    },
+    {
+      headerName: "Status",
+      field: "status",
+      width: 150,
+      editable: false,
+      sortable: true
+    },
+    {
+      headerName: "Email",
+      field: "email",
+      width: 150,
+      editable: false,
+      sortable: true
+    },
+    {
+      headerName: "Phone number",
+      field: "phoneNumber",
+      width: 150,
+      editable: false,
+      sortable: true
+    },
+    {
+      headerName: "Role",
+      field: "roleName",
+      width: 150,
+      editable: false,
+      sortable: true
+    },
+    {
+      headerName: "Options",
+      field: "options",
+      width: 150,
+      editable: false,
+      sortable: false
     }
   ];
   return columns;

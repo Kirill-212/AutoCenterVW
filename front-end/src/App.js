@@ -4,7 +4,6 @@ import Context from "./context";
 import Authorization from "./Components/Auth/Authorization";
 import Header from "./Components/Header/Header";
 import Home from "./Components/Home";
-
 import Registration from "./Components/Auth/Registration";
 import User from "./Components/User/User";
 import PutUser from "./Components/User/PutUser";
@@ -43,10 +42,53 @@ import EmployeeServce from "./Components/Service/EmployeeService";
 import StartService from "./Components/Service/StartWorkService";
 import UserService from "./Components/Service/UserService";
 import PutUserForUser from "./Components/User/PutUserForUser";
+import Stack from "@mui/material/Stack";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 function App() {
   const [user, setUser] = React.useState(undefined);
+  const [open, setOpen] = React.useState(false);
+  const [messageError, setMessageError] = React.useState("");
+  const [openSpinner, setOpenSpinner] = React.useState(false);
 
+  const handleCloseToggle = () => {
+    setOpenSpinner(false);
+  };
+
+  const handleToggle = () => {
+    setOpenSpinner(!open);
+  };
+  const handleClick = errorMessage => {
+    setOpen(true);
+    setMessageError(errorMessage);
+  };
+
+  let style = { width: "30rem" };
+  function AlertMessageError(mes) {
+    return (
+      <Snackbar open={open} autoHideDuration={10000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+          <div class="text-wrap" style={style}>
+            {mes}
+          </div>
+        </Alert>
+      </Snackbar>
+    );
+  }
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setMessageError("");
+    setOpen(false);
+  };
   if (user === undefined) {
     if (localStorage.getItem("user")) setUser(localStorage.getItem("user"));
   }
@@ -62,60 +104,406 @@ function App() {
             <Route
               exact
               path="/login"
-              element={<Authorization set={setUserData} />}
+              element={
+                <Authorization
+                  set={setUserData}
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
             />
-            <Route path="/" element={<Registration />} />
+            <Route
+              path="/"
+              element={
+                <Registration
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
             <Route path="home" element={<Home />} />
-            <Route path="user" element={<User />} />
-            <Route path="user/put" element={<PutUser />} />
-            <Route path="user/put/user" element={<PutUserForUser />} />
-            <Route path="employee" element={<Employee />} />
-            <Route path="employee/post" element={<PostEmployee />} />
-            <Route path="employee/put" element={<PutEmployee />} />
-            <Route path="new" element={<New />} />
-            <Route path="new/post" element={<PostNew />} />
-            <Route path="new/put" element={<PutNew />} />
-            <Route path="car/post" element={<PostCar />} />
-            <Route path="car" element={<Car />} />
-            <Route path="car/put" element={<PutCar />} />
-            <Route path="car/info" element={<CarInfo />} />
-            <Route path="clientcar/post" element={<PostClientCar />} />
-            <Route path="clientcar" element={<ClientCar />} />
-            <Route path="clientcar/put" element={<PutClientCar />} />
+            <Route
+              path="user"
+              element={
+                <User
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="user/put"
+              element={
+                <PutUser
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="user/put/user"
+              element={
+                <PutUserForUser
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="employee"
+              element={
+                <Employee
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="employee/post"
+              element={
+                <PostEmployee
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="employee/put"
+              element={
+                <PutEmployee
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="new"
+              element={<New setMessageError={handleClick} />}
+              handleToggle={handleToggle}
+              handleClose={handleCloseToggle}
+            />
+            <Route
+              path="new/post"
+              element={
+                <PostNew
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="new/put"
+              element={
+                <PutNew
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="car/post"
+              element={
+                <PostCar
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="car"
+              element={
+                <Car
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="car/put"
+              element={
+                <PutCar
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="car/info"
+              element={
+                <CarInfo
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="clientcar/post"
+              element={
+                <PostClientCar
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="clientcar"
+              element={
+                <ClientCar
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="clientcar/put"
+              element={
+                <PutClientCar
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
             <Route
               path="clientcar/put/user"
-              element={<PutClientCarForUser />}
+              element={
+                <PutClientCarForUser
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
             />
-            <Route path="clientcar/info" element={<ClientCarInfo />} />
-            <Route path="carequipment/post" element={<PostCarEquipment />} />
-            <Route path="carequipment" element={<CarEquipment />} />
+            <Route
+              path="clientcar/info"
+              element={
+                <ClientCarInfo
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="carequipment/post"
+              element={
+                <PostCarEquipment
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="carequipment"
+              element={
+                <CarEquipment
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
             <Route
               path="carequipmentform/post"
-              element={<PostCarEquipmentForm />}
+              element={
+                <PostCarEquipmentForm
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
             />
             <Route
               path="carequipmentform/put"
-              element={<PutCarEquipmentForm />}
+              element={
+                <PutCarEquipmentForm
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
             />
-            <Route path="carequipmentform" element={<CarEquipmentForm />} />
-            <Route path="order/post" element={<PostOrder />} />
-            <Route path="order/employee" element={<EmployeeOrder />} />
-            <Route path="order/user" element={<UserOrder />} />
-            <Route path="order/buyer" element={<BuyerOrder />} />
-            <Route path="order/put" element={<PutOrder />} />
-            <Route path="car/list" element={<AllCarForTestDriveOrder />} />
-            <Route path="testdrive/post" element={<PostTestDrive />} />
-            <Route path="testdrive/employee" element={<EmployeeTestDrive />} />
-            <Route path="testdrive/user" element={<UserTestDrive />} />
-            <Route path="clientcar/user" element={<ClientCarListForUser />} />
-            <Route path="service/post" element={<PostService />} />
-            <Route path="service/employee" element={<EmployeeServce />} />
-            <Route path="service/start" element={<StartService />} />
-            <Route path="service/user" element={<UserService />} />
+            <Route
+              path="carequipmentform"
+              element={
+                <CarEquipmentForm
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="order/post"
+              element={
+                <PostOrder
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="order/employee"
+              element={
+                <EmployeeOrder
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="order/user"
+              element={
+                <UserOrder
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="order/buyer"
+              element={
+                <BuyerOrder
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="order/put"
+              element={
+                <PutOrder
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="car/list"
+              element={
+                <AllCarForTestDriveOrder
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="testdrive/post"
+              element={
+                <PostTestDrive
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="testdrive/employee"
+              element={
+                <EmployeeTestDrive
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="testdrive/user"
+              element={
+                <UserTestDrive
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="clientcar/user"
+              element={
+                <ClientCarListForUser
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="service/post"
+              element={
+                <PostService
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="service/employee"
+              element={
+                <EmployeeServce
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="service/start"
+              element={
+                <StartService
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
+            <Route
+              path="service/user"
+              element={
+                <UserService
+                  setMessageError={handleClick}
+                  handleToggle={handleToggle}
+                  handleClose={handleCloseToggle}
+                />
+              }
+            />
             <Route path="*" element={<h2>Resourse not found</h2>} />
           </Routes>
         </main>
       </Router>
+      <Stack spacing={3} sx={{ width: "100%" }}>
+        {AlertMessageError(messageError)}
+      </Stack>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
+        open={openSpinner}
+        onClick={handleCloseToggle}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Context.Provider>
   );
 }

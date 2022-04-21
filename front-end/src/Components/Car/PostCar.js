@@ -8,34 +8,21 @@ import {
 } from "../../ImportExportGenClient";
 import ImgService from "../../Services/ImgServices/ImgService";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
 import { validate_date } from "../ViewLists/SupportFunction";
-const PostCar = () => {
+const PostCar = (props) => {
   const [nameCarEquipment, setNameCarEquipment] = React.useState("");
   const [cost, setCost] = React.useState(0);
   const [vin, setVin] = React.useState("");
   const [dateOfRealeseCar, setDateOfRealeseCar] = React.useState("");
   const [carMileage, setCarMileage] = React.useState(0);
   const [sharePercentage, setSharePercentage] = React.useState(0);
-  const [MessageError, setMessageError] = React.useState("");
   const [redirect, setRedirect] = React.useState(false);
   const [carEquipmentList, setCarEquipmentList] = React.useState([]);
   const [flag, setFlag] = React.useState(false);
   const [imgs, setImgs] = React.useState([]);
-  const [open, setOpen] = React.useState(false);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleToggle = () => {
-    setOpen(!open);
-  };
 
   async function GetCarEquipment() {
-    handleToggle();
-    setMessageError("");
+    props.handleToggle();
     new CarEquipmentApi().apiCarequipmentsEquipmentGet(
       GetJwtToken(),
       CallbackRequest
@@ -44,63 +31,62 @@ const PostCar = () => {
 
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
-      setMessageError("Error:server is not available");
+      props.setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult = "";
+        let errorResult =[];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult += errorsJson[key] + " | ";
+          errorResult.push( <>{errorsJson[key]} <br></br> </>);
         }
-        setMessageError(errorResult);
+        props.setMessageError(errorResult);
       } else {
-        setMessageError(response.body.error);
+        props.setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
-      setMessageError("Forbidden");
+      props.setMessageError("Error:Forbidden");
     } else if (response.statusCode == 401) {
-      setMessageError("Unauthorized");
+      props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       setCarEquipmentList(response.body);
       setFlag(true);
     } else if (response.statusCode > 400) {
-      setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
-    handleClose();
+    props.handleClose();
   }
 
   async function submitCar(event) {
     event.preventDefault();
-    handleToggle();
-    setMessageError("");
+    props.handleToggle();
     console.log(dateOfRealeseCar);
     let date = validate_date(dateOfRealeseCar);
     if (date !== null) {
-      setMessageError(date);
-      handleClose();
+      props.setMessageError(date);
+      props.handleClose();
       return;
     }
     let urls = [];
     for (let i = 0; i < imgs.length; i++) {
       if (!imgs[i]) {
-        setMessageError("Error:Wrong file type!");
-        handleClose();
+        props.setMessageError("Error:Wrong file type!");
+        props.handleClose();
         return;
       }
       if (imgs[i].type.split("/")[0] !== "image") {
-        setMessageError("Error:Wrong file type!");
-        handleClose();
+        props.setMessageError("Error:Wrong file type!");
+        props.handleClose();
         return;
       }
       let url = await ImgService.uploadImage(imgs[i]);
       if (url == undefined) {
-        setMessageError("Error:upload img is not valid.");
-        handleClose();
+        props.setMessageError("Error:upload img is not valid.");
+        props.handleClose();
         return;
       }
       if (url.height !== 600 || url.width !== 800) {
-        setMessageError("Error:valid size 800x600:File name:" + imgs[i].name);
-        handleClose();
+        props.setMessageError("Error:valid size 800x600:File name:" + imgs[i].name);
+        props.handleClose();
         return;
       }
       urls.push(new ImgDto(url.url));
@@ -124,35 +110,33 @@ const PostCar = () => {
 
   function CallbackRequestPost(error, data, response) {
     if (response == undefined) {
-      setMessageError("Error:server is not available");
+      props.setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult = "";
+        let errorResult =[];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult += errorsJson[key] + " | ";
+          errorResult.push( <>{errorsJson[key]} <br></br> </>);
         }
-        setMessageError(errorResult);
+        props.setMessageError(errorResult);
       } else {
-        setMessageError(response.body.error);
+        props.setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
-      setMessageError("Forbidden");
+      props.setMessageError("Error:Forbidden");
     } else if (response.statusCode == 401) {
-      setMessageError("Unauthorized");
+      props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       setRedirect(true);
     } else if (response.statusCode > 400) {
-      setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
-    handleClose();
+    props.handleClose();
   }
 
   useEffect(() => {
     GetCarEquipment();
   }, []);
-
-  let style = { width: "25rem" };
 
   return (
     <div className="d-flex   justify-content-center w-40 align-items-center ">
@@ -277,20 +261,7 @@ const PostCar = () => {
             </div>
           </form>
         </div>
-
-        <div>
-          {redirect && <Navigate to={"/home"} />}
-          <div style={style} className="text-wrap  text-reset text-white">
-            <Backdrop
-              sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
-              open={open}
-              onClick={handleClose}
-            >
-              <CircularProgress color="inherit" />
-            </Backdrop>
-            {MessageError}
-          </div>
-        </div>
+        {redirect && <Navigate to={"/home"} />}
       </div>
     </div>
   );

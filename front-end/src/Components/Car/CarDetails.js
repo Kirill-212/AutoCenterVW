@@ -2,56 +2,43 @@ import React, { useEffect } from "react";
 import { CarsApi, CarEquipmentApi } from "../../ImportExportGenClient";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import { getDate } from "../ViewLists/SupportFunction";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
 
-const CarDetail = () => {
+const CarDetail = (props) => {
   const [flag, setFlag] = React.useState(false);
-  const [MessageError, setMessageError] = React.useState("");
   const [detailCar, setDetailCar] = React.useState({});
   const [carEquipment, setCarEquipment] = React.useState({});
-  const [open, setOpen] = React.useState(false);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleToggle = () => {
-    setOpen(!open);
-  };
 
   async function GetCarByVin(vin) {
-    handleToggle();
-    setMessageError("");
+    props.handleToggle();
     new CarsApi().apiCarsByVinGet(GetJwtToken(), { vin: vin }, CallbackRequest);
   }
 
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
-      handleClose();
-      setMessageError("Error:server is not available");
+      props.handleClose();
+      props.setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult = "";
+        let errorResult =[];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult += errorsJson[key] + " | ";
+          errorResult.push( <>{errorsJson[key]} <br></br> </>);
         }
-        setMessageError(errorResult);
+        props.setMessageError(errorResult);
       } else {
-        setMessageError(response.body.error);
+        props.setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
-      handleClose();
-      setMessageError("Forbidden");
+      props.handleClose();
+      props.setMessageError("Error:Forbidden");
     } else if (response.statusCode == 401) {
-      handleClose();
-      setMessageError("Unauthorized");
+      props.handleClose();
+      props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       setDetailCar(response.body);
       if (response.statusCode === 204) {
-        handleClose();
-        setMessageError("EMPTY");
+        props.handleClose();
+        props.setMessageError("Error:EMPTY");
         return;
       }
       setDetailCar(response.body);
@@ -61,38 +48,38 @@ const CarDetail = () => {
         CallbackRequestGetById
       );
     } else if (response.statusCode > 400) {
-      handleClose();
-      setMessageError(response.body.error);
+      props.handleClose();
+      props.setMessageError(response.body.error);
     }
-    handleClose();
+    props.handleClose();
   }
 
   function CallbackRequestGetById(error, data, response) {
     if (response == undefined) {
-      setMessageError("Error:server is not available");
+      props.setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult = "";
+        let errorResult =[];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult += errorsJson[key] + " | ";
+          errorResult.push( <>{errorsJson[key]} <br></br> </>);
         }
-        setMessageError(errorResult);
+        props.setMessageError(errorResult);
       } else {
-        setMessageError(response.body.error);
+        props.setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
-      setMessageError("Forbidden");
+      props.setMessageError("Error:Forbidden");
     } else if (response.statusCode == 401) {
-      setMessageError("Unauthorized");
+      props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       console.log(response)
       setCarEquipment(response.body);
       setFlag(true);
     } else if (response.statusCode > 400) {
-      setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
-    handleClose();
+    props.handleClose();
   }
 
   function ViewCarEquipment() {
@@ -170,19 +157,7 @@ const CarDetail = () => {
 
   return (
     <div>
-      <Backdrop
-        sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
-        open={open}
-        onClick={handleClose}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
       <div className="container-md w-50 bg-dark text-white">
-        <div className="row align-items-center">
-          <p className="text-reset text-white">
-            {MessageError}
-          </p>
-        </div>
         {detailCar !== null &&
           <div className="row mt-5 pt-5 align-items-center ">
             <div className="col" />

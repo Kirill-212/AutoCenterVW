@@ -5,9 +5,8 @@ import { Navigate } from "react-router-dom";
 import { getDate, validate_dateAge } from "../ViewLists/SupportFunction";
 import ImgService from "../../Services/ImgServices/ImgService";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
-const PutUser = () => {
+
+const PutUser = (props) => {
   const { user } = useContext(Context);
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
@@ -19,26 +18,15 @@ const PutUser = () => {
   const [img, setImg] = React.useState("");
   const [imgNew, setImgNew] = React.useState("");
   const [phoneNumber, setPhoneNumber] = React.useState("");
-  const [MessageError, setMessageError] = React.useState("");
   const [redirect, setredirect] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleToggle = () => {
-    setOpen(!open);
-  };
 
   async function submitUser(event) {
     event.preventDefault();
-    handleToggle();
-    setMessageError("");
+    props.handleToggle();
     let date = validate_dateAge(dBay);
     if (date !== null) {
-      setMessageError(date);
-      handleClose();
+      props.setMessageError(date);
+      props.handleClose();
       return;
     }
     let url;
@@ -47,24 +35,24 @@ const PutUser = () => {
         url = null;
       } else {
         if (!imgNew) {
-          setMessageError("Error:Wrong file type!");
-          handleClose();
+          props.setMessageError("Error:Wrong file type!");
+          props.handleClose();
           return;
         }
         if (imgNew.type.split("/")[0] !== "image") {
-          setMessageError("Error:Wrong file type!");
-          handleClose();
+          props.setMessageError("Error:Wrong file type!");
+          props.handleClose();
           return;
         }
         url = await ImgService.uploadImage(imgNew);
         if (url == undefined) {
-          setMessageError("Error:upload img is not valid.");
-          handleClose();
+          props.setMessageError("Error:upload img is not valid.");
+          props.handleClose();
           return;
         }
         if (url.height !== 200 || url.width !== 200) {
-          setMessageError("Error:valid size 200x200:File name:" + imgNew.name);
-          handleClose();
+          props.setMessageError("Error:valid size 200x200:File name:" + imgNew.name);
+          props.handleClose();
           return;
         }
         url = url.url;
@@ -73,8 +61,8 @@ const PutUser = () => {
       url = null;
     }
     if (user === undefined) {
-      setMessageError("Unauthorized");
-      handleClose();
+      props.setMessageError("Error:Unauthorized");
+      props.handleClose();
       return;
     }
     new UsersApi().apiUsersUserPut(
@@ -100,37 +88,37 @@ const PutUser = () => {
 
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
-      setMessageError("Error:server is not available");
+      props.setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult = "";
+        let errorResult =[];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult += errorsJson[key] + " | ";
+          errorResult.push( <>{errorsJson[key]} <br></br> </>);
         }
-        setMessageError(errorResult);
+        props.setMessageError(errorResult);
       } else {
-        setMessageError(response.body.error);
+        props.setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
-      setMessageError("Forbidden");
+      props.setMessageError("Error:Forbidden");
     } else if (response.statusCode == 401) {
-      setMessageError("Unauthorized");
+      props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       setredirect(true);
     } else if (response.statusCode > 400) {
-      setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
-    handleClose();
+    props.handleClose();
   }
 
   async function Get() {
     if (user === undefined) {
-      setMessageError("Unauthorized");
-      handleClose();
+      props.setMessageError("Error:Unauthorized");
+      props.handleClose();
       return;
     }
-    handleToggle();
+    props.handleToggle();
     new UsersApi().apiUsersByEmailGet(
       GetJwtToken(),
       {
@@ -142,26 +130,26 @@ const PutUser = () => {
 
   function CallbackRequestGet(error, data, response) {
     if (response == undefined) {
-      setMessageError("Error:server is not available");
+      props.setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult = "";
+        let errorResult =[];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult += errorsJson[key] + " | ";
+          errorResult.push( <>{errorsJson[key]} <br></br> </>);
         }
-        setMessageError(errorResult);
+        props.setMessageError(errorResult);
       } else {
-        setMessageError(response.body.error);
+        props.setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
-      setMessageError("Forbidden");
+      props.setMessageError("Error:Forbidden");
     } else if (response.statusCode == 401) {
-      setMessageError("Unauthorized");
+      props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       if (response.statusCode === 204) {
-        handleClose();
-        setMessageError("Error: user with this email not found.");
+        props.handleClose();
+        props.setMessageError("Error: user with this email not found.");
         return;
       }
       setFirstName(response.body.firstName);
@@ -172,16 +160,14 @@ const PutUser = () => {
       setPhoneNumber(response.body.phoneNumber);
       setImg(response.body.urlPhoto);
     } else if (response.statusCode > 400) {
-      setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
-    handleClose();
+    props.handleClose();
   }
 
   useEffect(() => {
     Get();
   }, []);
-
-  let style = { width: "30rem" };
 
   return (
     <div className="  d-flex   justify-content-center w-20  align-items-center ">
@@ -337,20 +323,7 @@ const PutUser = () => {
               </div>
             </form>
           </div>
-
-          <div>
             {redirect && <Navigate to={"/home"} />}
-            <div style={style} className="text-wrap  text-reset text-white">
-              <Backdrop
-                sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
-                open={open}
-                onClick={handleClose}
-              >
-                <CircularProgress color="inherit" />
-              </Backdrop>
-              {MessageError}
-            </div>
-          </div>
         </div>
       </div>
     </div>

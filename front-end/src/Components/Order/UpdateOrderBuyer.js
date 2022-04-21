@@ -3,14 +3,11 @@ import { Navigate } from "react-router-dom";
 import { OrdersApi } from "../../ImportExportGenClient";
 import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
 import { UpdateStateOrderForPaidDto } from "../../model/UpdateStateOrderForPaidDto";
 
-const UpdateOrderBuyer = () => {
+const UpdateOrderBuyer = (props) => {
   const { user } = useContext(Context);
   const [vin, setVin] = React.useState("");
-  const [MessageError, setMessageError] = React.useState("");
   const [redirect, setRedirect] = React.useState(false);
   const [totalCost, setTotalCost] = React.useState(0);
   const [cardOwnerName, setCardOwnerName] = React.useState("");
@@ -18,52 +15,42 @@ const UpdateOrderBuyer = () => {
   const [year, setYear] = React.useState(0);
   const [cvc, setCVC] = React.useState(0);
   const [cardNumber, setCardNumber] = React.useState("");
-  const [open, setOpen] = React.useState(false);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleToggle = () => {
-    setOpen(!open);
-  };
 
   async function submit(e) {
     e.preventDefault();
-    handleToggle();
-    setMessageError("");
+    props.handleToggle();
     if (cardNumber.length !== 16) {
-      setMessageError(
+      props.setMessageError(
         "Error: Card number is not valid.Valid is Visa Electron or Maestro"
       );
-      handleClose();
+      props.handleClose();
       return;
     } else if (cardOwnerName.length === 0) {
-      setMessageError("Error: Card owner is not valid value.");
-      handleClose();
+      props.setMessageError("Error: Card owner is not valid value.");
+      props.handleClose();
       return;
     } else if (month < 0 || month > 12) {
-      setMessageError("Error: Month is not valid value.");
-      handleClose();
+      props.setMessageError("Error: Month is not valid value.");
+      props.handleClose();
       return;
     } else if (year < new Date().getFullYear() % 100 || year > 100) {
-      setMessageError("Error: Year is not valid value.");
-      handleClose();
+      props.setMessageError("Error: Year is not valid value.");
+      props.handleClose();
       return;
     } else if (cvc.length !== 3) {
-      setMessageError("Error: CVC is not valid value.");
-      handleClose();
+      props.setMessageError("Error: CVC is not valid value.");
+      props.handleClose();
       return;
     }
     if(new Date().getMonth() + 1 > Number(month) &&
     year == new Date().getFullYear() % 100){
-      setMessageError("Error: month with year is not valid value.");
-      handleClose();
+      props.setMessageError("Error: month with year is not valid value.");
+      props.handleClose();
       return;
     }
     if (user === undefined) {
-      setMessageError("Unauthorized");
-      handleClose();
+      props.setMessageError("Error:Unauthorized");
+      props.handleClose();
       return;
     }
     new OrdersApi().apiOrdersPaidPut(
@@ -86,28 +73,28 @@ const UpdateOrderBuyer = () => {
 
   function Callback(error, data, response) {
     if (response == undefined) {
-      setMessageError("Error:server is not available");
+      props.setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult = "";
+        let errorResult =[];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult += errorsJson[key] + " | ";
+          errorResult.push( <>{errorsJson[key]} <br></br> </>);
         }
-        setMessageError(errorResult);
+        props.setMessageError(errorResult);
       } else {
-        setMessageError(response.body.error);
+        props.setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
-      setMessageError("Forbidden");
+      props.setMessageError("Error:Forbidden");
     } else if (response.statusCode == 401) {
-      setMessageError("Unauthorized");
+      props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       setRedirect(true);
     } else if (response.statusCode > 400) {
-     setMessageError(response.body.error);
+     props.setMessageError(response.body.error);
     }
-    handleClose();
+    props.handleClose();
   }
 
   useEffect(() => {
@@ -115,8 +102,6 @@ const UpdateOrderBuyer = () => {
     setVin(query.get("vin"));
     setTotalCost(query.get("totalCost"));
   }, []);
-
-  let style = { width: "20rem" };
 
   return (
     <div className="d-flex   justify-content-center  align-items-center ">
@@ -220,20 +205,7 @@ const UpdateOrderBuyer = () => {
             </div>
           </form>
         </div>
-
-        <div>
           {redirect && <Navigate to={"/home"} />}
-          <Backdrop
-            sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
-            open={open}
-            onClick={handleClose}
-          >
-            <CircularProgress color="inherit" />
-          </Backdrop>
-          <div style={style} className="text-wrap  text-reset text-white">
-            {MessageError}
-          </div>
-        </div>
       </div>
     </div>
   );

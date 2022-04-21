@@ -3,32 +3,19 @@ import { Navigate } from "react-router-dom";
 import { EmployeesApi } from "../../api/EmployeesApi";
 import { Role } from "../../model/Role";
 import { RolesApi } from "../../api/RolesApi";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 
-const PutEmployee = () => {
+const PutEmployee = (props) => {
   const [address, setAddress] = React.useState("");
   const [role, setRole] = React.useState("");
   const [email, setEmail] = React.useState("");
-  const [MessageError, setMessageError] = React.useState("");
   const [redirect, setRedirect] = React.useState(false);
   const [roleList, setRoleList] = React.useState([]);
   const [flag, setFlag] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleToggle = () => {
-    setOpen(!open);
-  };
 
   async function submitEmployee(event) {
     event.preventDefault();
-    handleToggle();
-    setMessageError("");
+    props.handleToggle();
     new EmployeesApi().apiEmployeesPut(
       GetJwtToken(),
       {
@@ -44,53 +31,53 @@ const PutEmployee = () => {
 
   function CallbackRequestPut(error, data, response) {
     if (response == undefined) {
-      setMessageError("Error:server is not available");
+      props.setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult = "";
+        let errorResult =[];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult += errorsJson[key] + " | ";
+          errorResult.push( <>{errorsJson[key]} <br></br> </>);
         }
-        setMessageError(errorResult);
+        props.setMessageError(errorResult);
       } else {
-        setMessageError(response.body.error);
+        props.setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
-      setMessageError("Forbidden");
+      props.setMessageError("Error:Forbidden");
     } else if (response.statusCode == 401) {
-      setMessageError("Unauthorized");
+      props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       setRedirect(true);
     } else if (response.statusCode > 400) {
-      setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
-    handleClose();
+    props.handleClose();
   }
 
   async function GetRoleList() {
-    handleToggle();
+    props.handleToggle();
     new RolesApi().apiRolesGetWithoutUser(GetJwtToken(), CallbackRequest);
   }
 
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
-      setMessageError("Error:server is not available");
+      props.setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult = "";
+        let errorResult =[];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult += errorsJson[key] + " | ";
+          errorResult.push( <>{errorsJson[key]} <br></br> </>);
         }
-        setMessageError(errorResult);
+        props.setMessageError(errorResult);
       } else {
-        setMessageError(response.body.error);
+        props.setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
-      setMessageError("Forbidden");
+      props.setMessageError("Error:Forbidden");
     } else if (response.statusCode == 401) {
-      setMessageError("Unauthorized");
+      props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       setRoleList(
         data.map(e => {
@@ -99,9 +86,9 @@ const PutEmployee = () => {
       );
       setFlag(true);
     } else if (response.statusCode > 400) {
-      setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
-    handleClose();
+    props.handleClose();
   }
 
   useEffect(() => {
@@ -112,7 +99,6 @@ const PutEmployee = () => {
     setRole(query.get("roleName"));
   }, []);
 
-  let style = { width: "30rem" };
 
   return (
     <div className="d-flex   justify-content-center w-40  align-items-center ">
@@ -184,20 +170,7 @@ const PutEmployee = () => {
             </div>
           </form>
         </div>
-
-        <div>
           {redirect && <Navigate to={"/home"} />}
-          <Backdrop
-            sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
-            open={open}
-            onClick={handleClose}
-          >
-            <CircularProgress color="inherit" />
-          </Backdrop>
-          <div style={style} className="text-wrap  text-reset text-white">
-            {MessageError}
-          </div>
-        </div>
       </div>
     </div>
   );

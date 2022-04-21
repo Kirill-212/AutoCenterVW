@@ -128,309 +128,321 @@ function Header(props) {
           </a>
         </Typography>
       </Box>
-      <SwipeableDrawer  open={state}>
-        <DrawerHeader>
-          <IconButton onClick={UpdateState(false)}>
-            {theme.direction === "ltr"
-              ? <ChevronLeftIcon />
-              : <ChevronRightIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <Box
-          sx={{ width: 260 }}
-          role="presentation"
-          className=" bg-dark text-white "
-        >
-          <ListItemHeader
-            openItem={open}
-            text="Car repairs"
-            onClick={e => handleClick(e, open, setOpen)}
-          />
-          <Collapse in={open} timeout="auto" unmountOnExit sx={{ mr: 2 }}>
-            <List disablePadding>
-              <a href="/service/user" className="text-reset">
-                <ListItem sx={{ ml: 1 }} button>
-                  <ListItemText primary={"List"} />
-                </ListItem>
-              </a>
-              {JSON.parse(user).roleName === "SERVICE_EMPLOYEE" &&
-                <a href="/service/employee" className="text-reset">
-                  <ListItem sx={{ ml: 1 }} button>
-                    <ListItemText primary={"List for employee"} />
-                  </ListItem>
-                </a>}
-            </List>
-          </Collapse>
-          <Divider />
-
-          <ListItemHeader
-            openItem={openTestrive}
-            text="Test drives"
-            onClick={e => handleClick(e, openTestrive, setOpenTestDrive)}
-          />
-          <Collapse
-            in={openTestrive}
-            timeout="auto"
-            unmountOnExit
-            sx={{ mr: 2 }}
-          >
-            <List disablePadding>
-              <a href="/testdrive/user" className="text-reset">
-                <ListItem sx={{ ml: 1 }} button>
-                  <ListItemText primary={"List"} />
-                </ListItem>
-              </a>
-              {(JSON.parse(user).roleName === "ADMIN" ||
-                JSON.parse(user).roleName === "SUPER_ADMIN" ||
-                JSON.parse(user).roleName === "EMPLOYEE") &&
-                <a href="/testdrive/employee" className="text-reset">
-                  <ListItem sx={{ ml: 1 }} button>
-                    <ListItemText primary={"List for employee"} />
-                  </ListItem>
-                </a>}
-            </List>
-          </Collapse>
-          <Divider />
-
-          <ListItemHeader
-            openItem={openOrder}
-            text="Orders"
-            onClick={e => handleClick(e, openOrder, setOpenOrder)}
-          />
-          <Collapse in={openOrder} timeout="auto" unmountOnExit sx={{ mr: 2 }}>
-            <List disablePadding>
-              <a href="/order/buyer" className="text-reset">
-                <ListItem sx={{ ml: 1 }} button>
-                  <ListItemText primary={"List for buyer"} />
-                </ListItem>
-              </a>
-              <a href="/order/user" className="text-reset">
-                <ListItem sx={{ ml: 1 }} button>
-                  <ListItemText primary={"List for owner"} />
-                </ListItem>
-              </a>
-              {(JSON.parse(user).roleName === "ADMIN" ||
-                JSON.parse(user).roleName === "SUPER_ADMIN" ||
-                JSON.parse(user).roleName === "EMPLOYEE") &&
-                <a href="/order/employee" className="text-reset">
-                  <ListItem sx={{ ml: 1 }} button>
-                    <ListItemText primary={"List for employee"} />
-                  </ListItem>
-                </a>}
-            </List>
-          </Collapse>
-          <Divider />
-
-          <ListItemHeader
-            openItem={openCar}
-            text="Cars"
-            onClick={e => handleClick(e, openCar, setOpenCar)}
-          />
-          <Collapse in={openCar} timeout="auto" unmountOnExit sx={{ mr: 2 }}>
-            <List disablePadding>
-              <a href="/clientcar/post" className="text-reset">
-                <ListItem sx={{ ml: 1 }} button>
-                  <ListItemText primary={"Post"} />
-                </ListItem>
-              </a>
-              <a href="/clientcar/user" className="text-reset">
-                <ListItem sx={{ ml: 1 }} button>
-                  <ListItemText primary={"List"} />
-                </ListItem>
-              </a>
-              <a href="/car/list" className="text-reset">
-                <ListItem sx={{ ml: 1 }} button>
-                  <ListItemText primary={"List of cars to buy"} />
-                </ListItem>
-              </a>
-              {(JSON.parse(user).roleName === "ADMIN" ||
-                JSON.parse(user).roleName === "SUPER_ADMIN" ||
-                JSON.parse(user).roleName === "EMPLOYEE") &&
-                <a href="/clientcar" className="text-reset">
-                  <ListItem sx={{ ml: 1 }} button>
-                    <ListItemText primary={"All List"} />
-                  </ListItem>
-                </a>}
-            </List>
-          </Collapse>
-
-          <Divider />
-          {(JSON.parse(user).roleName === "ADMIN" ||
-            JSON.parse(user).roleName === "SUPER_ADMIN" ||
-            JSON.parse(user).roleName === "EMPLOYEE") &&
+      {user !== undefined &&
+        <SwipeableDrawer open={state}>
+          <DrawerHeader className="bg-dark text-white ">
+            <IconButton onClick={UpdateState(false)}>
+              {theme.direction === "ltr"
+                ? <ChevronLeftIcon  className="text-white"/>
+                : <ChevronRightIcon  className="text-white"/>}
+            </IconButton>
+          </DrawerHeader>
+          <Box sx={{ width: 260 }} role="presentation" className="h-100 bg-dark text-white ">
             <ListItemHeader
-              openItem={openCarCenter}
-              text="Auto Center Cars"
-              onClick={e => handleClick(e, openCarCenter, setOpenCarCenter)}
-            />}
-          {(JSON.parse(user).roleName === "ADMIN" ||
-            JSON.parse(user).roleName === "SUPER_ADMIN" ||
-            JSON.parse(user).roleName === "EMPLOYEE") &&
+              openItem={open}
+              text="Car repairs"
+              onClick={e => handleClick(e, open, setOpen)}
+            />
+            <Collapse in={open} timeout="auto" unmountOnExit sx={{ mr: 2 }}>
+              <List disablePadding>
+                <a href="/service/user" className="text-reset">
+                  <ListItem sx={{ ml: 1 }} button>
+                    <ListItemText primary={"List"} />
+                  </ListItem>
+                </a>
+                {JSON.parse(user).roleName === "SERVICE_EMPLOYEE" &&
+                  <a href="/service/employee" className="text-reset">
+                    <ListItem sx={{ ml: 1 }} button>
+                      <ListItemText primary={"List for employee"} />
+                    </ListItem>
+                  </a>}
+              </List>
+            </Collapse>
+            <Divider />
+
+            <ListItemHeader
+              openItem={openTestrive}
+              text="Test drives"
+              onClick={e => handleClick(e, openTestrive, setOpenTestDrive)}
+            />
             <Collapse
-              in={openCarCenter}
+              in={openTestrive}
               timeout="auto"
               unmountOnExit
               sx={{ mr: 2 }}
             >
               <List disablePadding>
-                <a href="/car/post" className="text-reset">
-                  <ListItem sx={{ ml: 1 }} button>
-                    <ListItemText primary={"Post"} />
-                  </ListItem>
-                </a>
-                <a href="/car" className="text-reset">
+                <a href="/testdrive/user" className="text-reset">
                   <ListItem sx={{ ml: 1 }} button>
                     <ListItemText primary={"List"} />
                   </ListItem>
                 </a>
+                {(JSON.parse(user).roleName === "ADMIN" ||
+                  JSON.parse(user).roleName === "SUPER_ADMIN" ||
+                  JSON.parse(user).roleName === "EMPLOYEE") &&
+                  <a href="/testdrive/employee" className="text-reset">
+                    <ListItem sx={{ ml: 1 }} button>
+                      <ListItemText primary={"List for employee"} />
+                    </ListItem>
+                  </a>}
               </List>
-            </Collapse>}
-          {(JSON.parse(user).roleName === "ADMIN" ||
-            JSON.parse(user).roleName === "SUPER_ADMIN" ||
-            JSON.parse(user).roleName === "EMPLOYEE") &&
-            <Divider />}
+            </Collapse>
+            <Divider />
 
-          {(JSON.parse(user).roleName === "ADMIN" ||
-            JSON.parse(user).roleName === "SUPER_ADMIN" ||
-            JSON.parse(user).roleName === "EMPLOYEE") &&
+            <ListItemHeader
+              openItem={openOrder}
+              text="Orders"
+              onClick={e => handleClick(e, openOrder, setOpenOrder)}
+            />
+            <Collapse
+              in={openOrder}
+              timeout="auto"
+              unmountOnExit
+              sx={{ mr: 2 }}
+            >
+              <List disablePadding>
+                <a href="/order/buyer" className="text-reset">
+                  <ListItem sx={{ ml: 1 }} button>
+                    <ListItemText primary={"List for buyer"} />
+                  </ListItem>
+                </a>
+                <a href="/order/user" className="text-reset">
+                  <ListItem sx={{ ml: 1 }} button>
+                    <ListItemText primary={"List for owner"} />
+                  </ListItem>
+                </a>
+                {(JSON.parse(user).roleName === "ADMIN" ||
+                  JSON.parse(user).roleName === "SUPER_ADMIN" ||
+                  JSON.parse(user).roleName === "EMPLOYEE") &&
+                  <a href="/order/employee" className="text-reset">
+                    <ListItem sx={{ ml: 1 }} button>
+                      <ListItemText primary={"List for employee"} />
+                    </ListItem>
+                  </a>}
+              </List>
+            </Collapse>
+            <Divider />
+
+            <ListItemHeader
+              openItem={openCar}
+              text="Cars"
+              onClick={e => handleClick(e, openCar, setOpenCar)}
+            />
+            <Collapse in={openCar} timeout="auto" unmountOnExit sx={{ mr: 2 }}>
+              <List disablePadding>
+                <a href="/clientcar/post" className="text-reset">
+                  <ListItem sx={{ ml: 1 }} button>
+                    <ListItemText primary={"Post"} />
+                  </ListItem>
+                </a>
+                <a href="/clientcar/user" className="text-reset">
+                  <ListItem sx={{ ml: 1 }} button>
+                    <ListItemText primary={"List"} />
+                  </ListItem>
+                </a>
+                <a href="/car/list" className="text-reset">
+                  <ListItem sx={{ ml: 1 }} button>
+                    <ListItemText primary={"List of cars to buy"} />
+                  </ListItem>
+                </a>
+                {(JSON.parse(user).roleName === "ADMIN" ||
+                  JSON.parse(user).roleName === "SUPER_ADMIN" ||
+                  JSON.parse(user).roleName === "EMPLOYEE") &&
+                  <a href="/clientcar" className="text-reset">
+                    <ListItem sx={{ ml: 1 }} button>
+                      <ListItemText primary={"All List"} />
+                    </ListItem>
+                  </a>}
+              </List>
+            </Collapse>
+
+            <Divider />
+            {(JSON.parse(user).roleName === "ADMIN" ||
+              JSON.parse(user).roleName === "SUPER_ADMIN" ||
+              JSON.parse(user).roleName === "EMPLOYEE") &&
+              <ListItemHeader
+                openItem={openCarCenter}
+                text="Auto Center Cars"
+                onClick={e => handleClick(e, openCarCenter, setOpenCarCenter)}
+              />}
+            {(JSON.parse(user).roleName === "ADMIN" ||
+              JSON.parse(user).roleName === "SUPER_ADMIN" ||
+              JSON.parse(user).roleName === "EMPLOYEE") &&
+              <Collapse
+                in={openCarCenter}
+                timeout="auto"
+                unmountOnExit
+                sx={{ mr: 2 }}
+              >
+                <List disablePadding>
+                  <a href="/car/post" className="text-reset">
+                    <ListItem sx={{ ml: 1 }} button>
+                      <ListItemText primary={"Post"} />
+                    </ListItem>
+                  </a>
+                  <a href="/car" className="text-reset">
+                    <ListItem sx={{ ml: 1 }} button>
+                      <ListItemText primary={"List"} />
+                    </ListItem>
+                  </a>
+                </List>
+              </Collapse>}
+            {(JSON.parse(user).roleName === "ADMIN" ||
+              JSON.parse(user).roleName === "SUPER_ADMIN" ||
+              JSON.parse(user).roleName === "EMPLOYEE") &&
+              <Divider />}
+
+            {(JSON.parse(user).roleName === "ADMIN" ||
+              JSON.parse(user).roleName === "SUPER_ADMIN" ||
+              JSON.parse(user).roleName === "EMPLOYEE") &&
+              <ListItemHeader
+                openItem={openCarEquipmentForm}
+                text="Car equipment form"
+                onClick={e =>
+                  handleClick(e, openCarEquipmentForm, setOpenCarEquipmentForm)}
+              />}
+            {(JSON.parse(user).roleName === "ADMIN" ||
+              JSON.parse(user).roleName === "SUPER_ADMIN" ||
+              JSON.parse(user).roleName === "EMPLOYEE") &&
+              <Collapse
+                in={openCarEquipmentForm}
+                timeout="auto"
+                unmountOnExit
+                sx={{ mr: 2 }}
+              >
+                <List disablePadding>
+                  <a href="/carequipmentform/post" className="text-reset">
+                    <ListItem sx={{ ml: 1 }} button>
+                      <ListItemText primary={"Post"} />
+                    </ListItem>
+                  </a>
+                  <a href="/carequipmentform" className="text-reset">
+                    <ListItem sx={{ ml: 1 }} button>
+                      <ListItemText primary={"List"} />
+                    </ListItem>
+                  </a>
+                </List>
+              </Collapse>}
+            {(JSON.parse(user).roleName === "ADMIN" ||
+              JSON.parse(user).roleName === "SUPER_ADMIN" ||
+              JSON.parse(user).roleName === "EMPLOYEE") &&
+              <Divider />}
+
             <ListItemHeader
               openItem={openCarEquipmentForm}
-              text="Car equipment form"
+              text="Car equipments"
               onClick={e =>
-                handleClick(e, openCarEquipmentForm, setOpenCarEquipmentForm)}
-            />}
-          {(JSON.parse(user).roleName === "ADMIN" ||
-            JSON.parse(user).roleName === "SUPER_ADMIN" ||
-            JSON.parse(user).roleName === "EMPLOYEE") &&
+                handleClick(e, openCarEquipment, setOpenCarEquipment)}
+            />
             <Collapse
-              in={openCarEquipmentForm}
+              in={openCarEquipment}
               timeout="auto"
               unmountOnExit
               sx={{ mr: 2 }}
             >
               <List disablePadding>
-                <a href="/carequipmentform/post" className="text-reset">
-                  <ListItem sx={{ ml: 1 }} button>
-                    <ListItemText primary={"Post"} />
-                  </ListItem>
-                </a>
-                <a href="/carequipmentform" className="text-reset">
+                {(JSON.parse(user).roleName === "ADMIN" ||
+                  JSON.parse(user).roleName === "SUPER_ADMIN" ||
+                  JSON.parse(user).roleName === "EMPLOYEE") &&
+                  <a href="/carequipment/post" className="text-reset">
+                    <ListItem sx={{ ml: 1 }} button>
+                      <ListItemText primary={"Post"} />
+                    </ListItem>
+                  </a>}
+                <a href="/carequipment" className="text-reset">
                   <ListItem sx={{ ml: 1 }} button>
                     <ListItemText primary={"List"} />
                   </ListItem>
                 </a>
               </List>
-            </Collapse>}
-          {(JSON.parse(user).roleName === "ADMIN" ||
-            JSON.parse(user).roleName === "SUPER_ADMIN" ||
-            JSON.parse(user).roleName === "EMPLOYEE") &&
-            <Divider />}
+            </Collapse>
+            <Divider />
 
-          <ListItemHeader
-            openItem={openCarEquipmentForm}
-            text="Car equipments"
-            onClick={e => handleClick(e, openCarEquipment, setOpenCarEquipment)}
-          />
-
-          <Collapse
-            in={openCarEquipment}
-            timeout="auto"
-            unmountOnExit
-            sx={{ mr: 2 }}
-          >
-            <List disablePadding>
-              {(JSON.parse(user).roleName === "ADMIN" ||
-                JSON.parse(user).roleName === "SUPER_ADMIN" ||
-                JSON.parse(user).roleName === "EMPLOYEE") &&
-                <a href="/carequipment/post" className="text-reset">
-                  <ListItem sx={{ ml: 1 }} button>
-                    <ListItemText primary={"Post"} />
-                  </ListItem>
-                </a>}
-              <a href="/carequipment" className="text-reset">
-                <ListItem sx={{ ml: 1 }} button>
-                  <ListItemText primary={"List"} />
-                </ListItem>
-              </a>
-            </List>
-          </Collapse>
-          <Divider />
-
-          <ListItemHeader
-            openItem={openNews}
-            text="News"
-            onClick={e => handleClick(e, openNews, setOpenNews)}
-          />
-
-          <Collapse in={openNews} timeout="auto" unmountOnExit sx={{ mr: 2 }}>
-            <List disablePadding>
-              {(JSON.parse(user).roleName === "ADMIN" ||
-                JSON.parse(user).roleName === "SUPER_ADMIN" ||
-                JSON.parse(user).roleName === "EMPLOYEE") &&
-                <a href="/new/post" className="text-reset">
-                  <ListItem sx={{ ml: 1 }} button>
-                    <ListItemText primary={"Post"} />
-                  </ListItem>
-                </a>}
-              <a href="/new" className="text-reset">
-                <ListItem sx={{ ml: 1 }} button>
-                  <ListItemText primary={"List"} />
-                </ListItem>
-              </a>
-            </List>
-          </Collapse>
-          <Divider />
-
-          {(JSON.parse(user).roleName === "ADMIN" ||
-            JSON.parse(user).roleName === "SUPER_ADMIN") &&
             <ListItemHeader
-              openItem={openEmp}
-              text="Employees"
-              onClick={e => handleClick(e, openEmp, setOpenEmp)}
-            />}
-          {(JSON.parse(user).roleName === "ADMIN" ||
-            JSON.parse(user).roleName === "SUPER_ADMIN") &&
-            <Collapse in={openEmp} timeout="auto" unmountOnExit sx={{ mr: 2 }}>
-              <List disablePadding>
-                <a href="/employee/post" className="text-reset">
-                  <ListItem sx={{ ml: 1 }} button>
-                    <ListItemText primary={"Post"} />
-                  </ListItem>
-                </a>
-                <a href="/employee" className="text-reset">
-                  <ListItem sx={{ ml: 1 }} button>
-                    <ListItemText primary={"List"} />
-                  </ListItem>
-                </a>
-              </List>
-            </Collapse>}
-          {(JSON.parse(user).roleName === "ADMIN" ||
-            JSON.parse(user).roleName === "SUPER_ADMIN") &&
-            <Divider />}
+              openItem={openNews}
+              text="News"
+              onClick={e => handleClick(e, openNews, setOpenNews)}
+            />
 
-          {(JSON.parse(user).roleName === "ADMIN" ||
-            JSON.parse(user).roleName === "SUPER_ADMIN") &&
-            <ListItemHeader
-              openItem={openUser}
-              text="Users"
-              onClick={e => handleClick(e, openUser, setOpenUser)}
-            />}
-          {(JSON.parse(user).roleName === "ADMIN" ||
-            JSON.parse(user).roleName === "SUPER_ADMIN") &&
-            <Collapse in={openUser} timeout="auto" unmountOnExit sx={{ mr: 2 }}>
+            <Collapse in={openNews} timeout="auto" unmountOnExit sx={{ mr: 2 }}>
               <List disablePadding>
-                <a href="/user" className="text-reset">
+                {(JSON.parse(user).roleName === "ADMIN" ||
+                  JSON.parse(user).roleName === "SUPER_ADMIN" ||
+                  JSON.parse(user).roleName === "EMPLOYEE") &&
+                  <a href="/new/post" className="text-reset">
+                    <ListItem sx={{ ml: 1 }} button>
+                      <ListItemText primary={"Post"} />
+                    </ListItem>
+                  </a>}
+                <a href="/new" className="text-reset">
                   <ListItem sx={{ ml: 1 }} button>
                     <ListItemText primary={"List"} />
                   </ListItem>
                 </a>
               </List>
-            </Collapse>}
-          {(JSON.parse(user).roleName === "ADMIN" ||
-            JSON.parse(user).roleName === "SUPER_ADMIN") &&
-            <Divider />}
-        </Box>
-      </SwipeableDrawer>
+            </Collapse>
+            <Divider />
+
+            {(JSON.parse(user).roleName === "ADMIN" ||
+              JSON.parse(user).roleName === "SUPER_ADMIN") &&
+              <ListItemHeader
+                openItem={openEmp}
+                text="Employees"
+                onClick={e => handleClick(e, openEmp, setOpenEmp)}
+              />}
+            {(JSON.parse(user).roleName === "ADMIN" ||
+              JSON.parse(user).roleName === "SUPER_ADMIN") &&
+              <Collapse
+                in={openEmp}
+                timeout="auto"
+                unmountOnExit
+                sx={{ mr: 2 }}
+              >
+                <List disablePadding>
+                  <a href="/employee/post" className="text-reset">
+                    <ListItem sx={{ ml: 1 }} button>
+                      <ListItemText primary={"Post"} />
+                    </ListItem>
+                  </a>
+                  <a href="/employee" className="text-reset">
+                    <ListItem sx={{ ml: 1 }} button>
+                      <ListItemText primary={"List"} />
+                    </ListItem>
+                  </a>
+                </List>
+              </Collapse>}
+            {(JSON.parse(user).roleName === "ADMIN" ||
+              JSON.parse(user).roleName === "SUPER_ADMIN") &&
+              <Divider />}
+
+            {(JSON.parse(user).roleName === "ADMIN" ||
+              JSON.parse(user).roleName === "SUPER_ADMIN") &&
+              <ListItemHeader
+                openItem={openUser}
+                text="Users"
+                onClick={e => handleClick(e, openUser, setOpenUser)}
+              />}
+            {(JSON.parse(user).roleName === "ADMIN" ||
+              JSON.parse(user).roleName === "SUPER_ADMIN") &&
+              <Collapse
+                in={openUser}
+                timeout="auto"
+                unmountOnExit
+                sx={{ mr: 2 }}
+              >
+                <List disablePadding>
+                  <a href="/user" className="text-reset">
+                    <ListItem sx={{ ml: 1 }} button>
+                      <ListItemText primary={"List"} />
+                    </ListItem>
+                  </a>
+                </List>
+              </Collapse>}
+            {(JSON.parse(user).roleName === "ADMIN" ||
+              JSON.parse(user).roleName === "SUPER_ADMIN") &&
+              <Divider />}
+          </Box>
+        </SwipeableDrawer>}
     </div>
   );
 }

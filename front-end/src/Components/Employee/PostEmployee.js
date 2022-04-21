@@ -6,32 +6,19 @@ import { RolesApi } from "../../api/RolesApi";
 import { UsersApi } from "../../api/UsersApi";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import { GetUserDto } from "../../model/GetUserDto";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
 
-const PostEmployee = () => {
+const PostEmployee = (props) => {
   const [address, setAddress] = React.useState("");
   const [role, setRole] = React.useState("");
   const [email, setEmail] = React.useState("");
-  const [MessageError, setMessageError] = React.useState("");
   const [redirect, setRedirect] = React.useState(false);
   const [roleList, setRoleList] = React.useState([]);
   const [emailList, setEmailList] = React.useState([]);
   const [flag, setFlag] = React.useState(false);
-  const [open, setOpen] = React.useState(false);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleToggle = () => {
-    setOpen(!open);
-  };
 
   async function submitEmployee(event) {
     event.preventDefault();
-    handleToggle();
-    setMessageError("");
+    props.handleToggle();
     new EmployeesApi().apiEmployeesPost(
       GetJwtToken(),
       {
@@ -48,37 +35,37 @@ const PostEmployee = () => {
   function CallbackRequestPost(error, data, response) {
     console.log(error, data, response);
     if (response == undefined) {
-      setMessageError("Error:server is not available");
+      props.setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult = "";
+        let errorResult =[];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult += errorsJson[key] + " | ";
+          errorResult.push( <>{errorsJson[key]} <br></br> </>);
         }
-        setMessageError(errorResult);
+        props.setMessageError(errorResult);
       } else {
-        setMessageError(response.body.error);
+        props.setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
-      setMessageError("Forbidden");
+      props.setMessageError("Error:Forbidden");
     } else if (response.statusCode == 401) {
-      setMessageError("Unauthorized");
+      props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       setRedirect(true);
     } else if (response.statusCode > 400) {
-      setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
-    handleClose();
+    props.handleClose();
   }
 
   async function GetRoleList() {
-    handleToggle();
+    props.handleToggle();
     new RolesApi().apiRolesGetWithoutUser(GetJwtToken(), CallbackRequest);
   }
 
   async function GetUsersList() {
-    handleToggle();
+    props.handleToggle();
     new UsersApi().apiUsersNotAddedToEmployeeGet(
       GetJwtToken(),
       CallbackRequest
@@ -87,22 +74,22 @@ const PostEmployee = () => {
 
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
-      setMessageError("Error:server is not available");
+      props.setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult = "";
+        let errorResult =[];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult += errorsJson[key] + " | ";
+          errorResult.push( <>{errorsJson[key]} <br></br> </>);
         }
-        setMessageError(errorResult);
+        props.setMessageError(errorResult);
       } else {
-        setMessageError(response.body.error);
+        props.setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
-      setMessageError("Forbidden");
+      props.setMessageError("Error:Forbidden");
     } else if (response.statusCode == 401) {
-      setMessageError("Unauthorized");
+      props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       if (data[0] instanceof Role) {
         setRoleList(
@@ -119,12 +106,10 @@ const PostEmployee = () => {
         setFlag(true);
       }
     } else if (response.statusCode > 400) {
-      setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
-    handleClose();
+    props.handleClose();
   }
-
-  let style = { width: "30rem" };
 
   useEffect(() => {
     GetRoleList();
@@ -202,20 +187,7 @@ const PostEmployee = () => {
             </div>
           </form>
         </div>
-
-        <div>
           {redirect && <Navigate to={"/home"} />}
-          <Backdrop
-            sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
-            open={open}
-            onClick={handleClose}
-          >
-            <CircularProgress color="inherit" />
-          </Backdrop>
-          <div style={style} className="text-wrap  text-reset text-white">
-            {MessageError}
-          </div>
-        </div>
       </div>
     </div>
   );

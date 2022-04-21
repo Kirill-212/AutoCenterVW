@@ -8,29 +8,17 @@ import {
 } from "../../ImportExportGenClient";
 import ImgService from "../../Services/ImgServices/ImgService";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
 
-const PutNew = () => {
+const PutNew = (props) => {
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [titleNew, setTitleNew] = React.useState("");
-  const [MessageError, setMessageError] = React.useState("");
   const [redirect, setRedirect] = React.useState(false);
   const [news, setNews] = React.useState({});
   const fileInput = React.useRef(null);
-  const [open, setOpen] = React.useState(false);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleToggle = () => {
-    setOpen(!open);
-  };
 
   async function GetNew(title) {
-    handleToggle();
+    props.handleToggle();
     new NewApi().apiNewsByTitleGet(
       GetJwtToken(),
       { title: title },
@@ -40,57 +28,56 @@ const PutNew = () => {
 
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
-      setMessageError("Error:server is not available");
+      props.setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult = "";
+        let errorResult =[];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult += errorsJson[key] + " | ";
+          errorResult.push( <>{errorsJson[key]} <br></br> </>);
         }
-        setMessageError(errorResult);
+        props.setMessageError(errorResult);
       } else {
-        setMessageError(response.body.error);
+        props.setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
-      setMessageError("Forbidden");
+      props.setMessageError("Error:Forbidden");
     } else if (response.statusCode == 401) {
-      setMessageError("Unauthorized");
+      props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       if (response.statusCode === 204) {
-        handleClose();
-        setMessageError("Error: new with this title not found.");
+        props.handleClose();
+        props.setMessageError("Error: new with this title not found.");
         return;
       }
       setDescription(response.body.description);
       setNews(response.body.imgs);
     } else if (response.statusCode > 400) {
-      setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
-    handleClose();
+    props.handleClose();
   }
 
   async function submitNew(event) {
     event.preventDefault();
-    handleToggle();
-    setMessageError("");
+    props.handleToggle();
     let urls = [];
     for (let i = 0; i < news.length; i++) {
       if (news[i].name !== undefined) {
         let url = await ImgService.uploadImage(news[i]);
         if (url == undefined) {
-          setMessageError("Error:upload img is not valid.");
-          handleClose();
+          props.setMessageError("Error:upload img is not valid.");
+          props.handleClose();
           return;
         }
         if (url.height !== 700 || url.width !== 1000) {
-          setMessageError(
+          props.setMessageError(
             "Error:size is valid 1000x700:File name:" +
               news[i].name +
               "|Line" +
               i
           );
-          handleClose();
+          props.handleClose();
           return;
         }
         urls.push(new ImgDto(url.url));
@@ -116,48 +103,48 @@ const PutNew = () => {
 
   function CallbackRequestPut(error, data, response) {
     if (response == undefined) {
-      setMessageError("Error:server is not available");
+      props.setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult = "";
+        let errorResult =[];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult += errorsJson[key] + " | ";
+          errorResult.push( <>{errorsJson[key]} <br></br> </>);
         }
-        setMessageError(errorResult);
+        props.setMessageError(errorResult);
       } else {
-        setMessageError(response.body.error);
+        props.setMessageError(response.body.error);
       }
     } else if (response.statusCode == 403) {
-      setMessageError("Forbidden");
+      props.setMessageError("Error:Forbidden");
     } else if (response.statusCode == 401) {
-      setMessageError("Unauthorized");
+      props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       setRedirect(true);
     } else if (response.statusCode > 400) {
-      setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
-    handleClose();
+    props.handleClose();
   }
 
   async function AddImgs(value, i) {
     if (!value) {
-      setMessageError("Error:Wrong file type!Input number:" + i);
+      props.setMessageError("Error:Wrong file type!Input number:" + i);
       return;
     }
     if (value.type.split("/")[0] !== "image") {
-      setMessageError(
+      props.setMessageError(
         "Error:Wrong file type!File name:" + value.name + "|Line:" + i
       );
     } else {
       let url = await ImgService.uploadImage(value);
       if (url == undefined) {
-        setMessageError("Error:upload img is not valid.");
+        props.setMessageError("Error:upload img is not valid.");
 
         return;
       }
       if (url.height !== 700 || url.width !== 1000) {
-        setMessageError(
+        props.setMessageError(
           "Error:size is valid 1000x700:File name:" + value.name + "|Line" + i
         );
 
@@ -226,8 +213,6 @@ const PutNew = () => {
     GetNew(query.get("title"));
     setTitle(query.get("title"));
   }, []);
-
-  let style = { width: "30rem" };
 
   return (
     <div className="d-flex   justify-content-center align-items-center ">
@@ -302,20 +287,7 @@ const PutNew = () => {
             </div>
           </form>
         </div>
-
-        <div>
           {redirect && <Navigate to={"/home"} />}
-          <Backdrop
-            sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}
-            open={open}
-            onClick={handleClose}
-          >
-            <CircularProgress color="inherit" />
-          </Backdrop>
-          <div style={style} className="text-wrap  text-reset text-white">
-            {MessageError}
-          </div>
-        </div>
       </div>
     </div>
   );
