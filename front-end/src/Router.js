@@ -48,11 +48,21 @@ import MuiAlert from "@mui/material/Alert";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 
+let openCarRepairs = false;
+let openTestrive = false;
+let openOrder = false;
+let openCar = false;
+let openCarCenter = false;
+let openCarEquipmentForm = false;
+let openCarEquipment = false;
+let openNews = false;
+let openEmp = false;
+var openUser = false;
+
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-function App() {
-  const [user, setUser] = React.useState(undefined);
+function App(props) {
   const [open, setOpen] = React.useState(false);
   const [messageError, setMessageError] = React.useState("");
   const [openSpinner, setOpenSpinner] = React.useState(false);
@@ -68,6 +78,7 @@ function App() {
     setOpen(true);
     setMessageError(errorMessage);
   };
+
   let style = { width: "30rem" };
   function AlertMessageError(mes) {
     return (
@@ -88,15 +99,8 @@ function App() {
     setMessageError("");
     setOpen(false);
   };
-  if (user === undefined) {
-    if (localStorage.getItem("user")) setUser(localStorage.getItem("user"));
-  }
-  function setUserData(value) {
-    setUser(value);
-  }
   return (
-    <Context.Provider value={{ user, setUser }}>
-      <Header user={user} />
+    <>
       <Router>
         <main id="bgImg" role="main">
           <Routes>
@@ -105,7 +109,7 @@ function App() {
               path="/login"
               element={
                 <Authorization
-                  set={setUserData}
+                  set={props.setUserData}
                   setMessageError={handleClick}
                   handleToggle={handleToggle}
                   handleClose={handleCloseToggle}
@@ -503,7 +507,7 @@ function App() {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
-    </Context.Provider>
+</>
   );
 }
 

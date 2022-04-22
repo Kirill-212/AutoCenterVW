@@ -1,11 +1,14 @@
+import Tooltip from "@mui/material/Tooltip";
 export default function UserListView() {
   let columns = [
     {
       headerName: "Photo",
       field: "photo",
-      width: 200,
       editable: false,
       sortable: false,
+      filterable: false,
+      disableClickEventBubbling: true,
+      width: 220,
       renderCell: params =>
         <img
           src={params.value}
@@ -18,58 +21,123 @@ export default function UserListView() {
     {
       headerName: "First name",
       field: "firstName",
-      width: 150,
+      flex: 1,
+      minWidth: 200,
       editable: false,
       sortable: true
     },
     {
       headerName: "Last name",
       field: "lastName",
-      width: 150,
+      flex: 1,
+      minWidth: 200,
       editable: false,
       sortable: true
     },
     {
       headerName: "Birthday",
       field: "dbay",
-      width: 150,
+      type: "dateTime",
+      width: 130,
       editable: false,
       sortable: true
     },
     {
       headerName: "Status",
       field: "status",
-      width: 150,
+      minWidth: 119,
       editable: false,
       sortable: true
     },
     {
       headerName: "Email",
       field: "email",
-      width: 150,
+      minWidth: 200,
       editable: false,
-      sortable: true
+      sortable: true,
+      resizable: true
     },
     {
       headerName: "Phone number",
       field: "phoneNumber",
-      width: 150,
       editable: false,
+      width: 170,
       sortable: true
     },
     {
       headerName: "Role",
       field: "roleName",
-      width: 150,
       editable: false,
+      width: 120,
       sortable: true
     },
     {
       headerName: "Options",
       field: "options",
-      width: 150,
-      editable: false,
-      sortable: false
+      width: 180,
+      filterable: false,
+      type: "actions",
+      renderCell: params =>
+        <div className="d-grid gap-2 d-md-block">
+          {(JSON.parse(params.value.op.email).email !== params.value.r.email ||
+            params.value.r.roleName !== "SUPER_ADMIN") &&
+            <Tooltip
+              disableFocusListener
+              disableTouchListener
+              title="Delete user"
+              arrow
+            >
+              <button
+                color="purple"
+                size="sm"
+                className="btn btn-primary-sm btn-sm m-2"
+                value={params.value.r.email}
+                onClick={params.value.op.deleteUser}
+                showInMenu
+              >
+                <i className="fa-regular fa-trash-can" />
+              </button>
+            </Tooltip>}
+          {params.value.r.roleName === "USER" &&
+            params.value.r.status === "CREATED" &&
+            <Tooltip
+              disableFocusListener
+              disableTouchListener
+              title="Active user account"
+              arrow
+            >
+              <button
+                color="purple"
+                size="sm"
+                className="btn btn-primary-sm btn-sm m-2"
+                value={params.value.r.email}
+                onClick={params.value.op.updateStatusUser}
+              >
+                <i className="fa-solid fa-check" />
+              </button>
+            </Tooltip>}
+          {params.value.r.roleName !== "SUPER_ADMIN" &&
+            <Tooltip
+              disableFocusListener
+              disableTouchListener
+              title="Update user"
+              arrow
+            >
+              <a
+                size="sm"
+                className="text-reset btn btn-primary-sm btn-sm m-2"
+                href={`/user/put?firstName=${params.value.r.firstName}
+                          &lastName=${params.value.r.lastName}&surname=${params
+                  .value.r.surname}
+                          &email=${params.value.r.email}&phoneNumber=${params
+                  .value.r.phoneNumber}
+                          &dBay=${params.value.r.dBay}&urlPhoto=${params.value.r
+                  .urlPhoto}`}
+              >
+                <i className="fa-solid fa-screwdriver-wrench" />
+              </a>
+            </Tooltip>}
+        </div>
     }
   ];
   return columns;

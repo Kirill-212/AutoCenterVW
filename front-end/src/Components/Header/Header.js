@@ -62,7 +62,6 @@ function Header(props) {
   function ClearStorage() {
     localStorage.clear();
   }
-
   const UpdateState = open => event => {
     event.stopPropagation();
     if (
@@ -133,17 +132,21 @@ function Header(props) {
           <DrawerHeader className="bg-dark text-white ">
             <IconButton onClick={UpdateState(false)}>
               {theme.direction === "ltr"
-                ? <ChevronLeftIcon  className="text-white"/>
-                : <ChevronRightIcon  className="text-white"/>}
+                ? <ChevronLeftIcon className="text-white" />
+                : <ChevronRightIcon className="text-white" />}
             </IconButton>
           </DrawerHeader>
-          <Box sx={{ width: 260 }} role="presentation" className="h-100 bg-dark text-white ">
+          <Box
+            sx={{ width: 260 }}
+            role="presentation"
+            className="h-100 bg-dark text-white "
+          >
             <ListItemHeader
               openItem={open}
               text="Car repairs"
               onClick={e => handleClick(e, open, setOpen)}
             />
-            <Collapse in={open} timeout="auto" unmountOnExit sx={{ mr: 2 }}>
+            <Collapse in={open} timeout="auto" unmountOnExit sx={{ mr: 4 }}>
               <List disablePadding>
                 <a href="/service/user" className="text-reset">
                   <ListItem sx={{ ml: 1 }} button>

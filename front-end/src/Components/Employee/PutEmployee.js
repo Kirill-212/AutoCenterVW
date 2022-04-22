@@ -99,7 +99,6 @@ const PutEmployee = (props) => {
     setRole(query.get("roleName"));
   }, []);
 
-
   return (
     <div className="d-flex   justify-content-center w-40  align-items-center ">
       <div className=" p-4   bg-dark text-white h-100 ">

@@ -1,76 +1,47 @@
 import * as React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
+import { DataGrid, GridToolbar } from "@material-ui/data-grid";
 import Paper from "@mui/material/Paper";
-import {
-  EnhancedTableHead,
-  getComparator,
-  stableSort,
-  getDate
-} from "../ViewLists/SupportFunction";
+import { getDate } from "../ViewLists/SupportFunction";
 
 export default function EnhancedTable(props) {
-  const [rows, setRows] = React.useState(props.rows);
-  const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [pageSize, setPageSize] = React.useState(5);
+  const [rows, setRows] = React.useState(
+    props.rows.map(r => {
+      console.log(r);
+      return {
+        id: r.car.vin,
+        vin: r.car.vin,
+        registerNumber: r.registerNumber !== null ? r.registerNumber : "None",
+        dateOfRealeseCar: getDate(r.car.dateOfRealeseCar),
+        isActive: r.car.isActive === true ? "True" : "False",
+        cost: r.car.cost,
+        carMileage: r.car.carMileage,
+        sharePercentage:
+          r.car.actionCar !== null ? r.car.actionCar.sharePercentage : "None",
+        options: { r: r, op: props }
+      };
+    })
+  );
 
-  const requestSearch = searchedVal => {
-    const filteredRows = rows.filter(row => {
-      return row.car.vin.toLowerCase().includes(searchedVal.toLowerCase());
-    });
-    setRows(filteredRows);
-  };
-
-  const search = e => {
-    if (e.length === 0) {
-      setRows(props.rows);
-    } else {
-      requestSearch(e);
-    }
-  };
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }} className="p-2">
-      <div className="row mt-2 ml-2">
-        <div className="input-group rounded w-25">
-          <input
-            type="search"
-            className="form-control rounded"
-            placeholder="Search"
-            aria-label="Search"
-            aria-describedby="search-addon"
-            onChange={e => search(e.target.value)}
-          />
-          <span className="input-group-text border-0" id="search-addon">
-            <i className="fas fa-search" />
-          </span>
-        </div>
-      </div>
-      <div className="row pt-2">
-        <TableContainer sx={{ maxHeight: 550 }}>
+    <Paper
+      sx={{ width: "100%", height: 600, overflow: "hidden" }}
+      className="p-2"
+    >
+      <DataGrid
+        rows={rows}
+        className="text-center"
+        columns={props.head}
+        disableSelectionOnClick
+        pageSize={pageSize}
+        onPageSizeChange={newPageSize => setPageSize(newPageSize)}
+        rowsPerPageOptions={[5, 10, 20]}
+        pagination
+        components={{
+          Toolbar: GridToolbar
+        }}
+      />
+      {/* <TableContainer sx={{ maxHeight: 550 }}>
           <Table
             stickyHeader
             aria-label="sticky table"
@@ -184,7 +155,7 @@ export default function EnhancedTable(props) {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      </div>
+      </div> */}
     </Paper>
   );
 }

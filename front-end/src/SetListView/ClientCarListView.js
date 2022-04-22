@@ -1,52 +1,129 @@
+import Tooltip from "@mui/material/Tooltip";
 export default function CarListView() {
   let columns = [
     {
-      label: "Vin",
-      id: "vin",
-      numeric: false,
-      disablePadding: true
+      headerName: "Vin",
+      field: "vin",
+      editable: false,
+      sortable: true,
+      minWidth: 200
     },
     {
-      label: "Register number",
-      id: "registerNumber",
-      numeric: false,
-      disablePadding: true
+      headerName: "Register number",
+      field: "registerNumber",
+      editable: false,
+      sortable: true,
+      minWidth: 180
     },
     {
-      label: "Date of realese car",
-      id: "dateOfRealeseCar",
-      numeric: false,
-      disablePadding: true
+      headerName: "Date",
+      field: "dateOfRealeseCar",
+      description: "Date of realese car",
+      editable: false,
+      sortable: true,
+      type: "dateTime",
+      minWidth: 140
     },
     {
-      label: "Sell",
-      id: "isActive",
-      numeric: false,
-      disablePadding: true
+      headerName: "Sell",
+      field: "isActive",
+      minWidth: 120,
+      editable: false,
+      sortable: true
     },
     {
-      label: "Cost($)",
-      id: "cost",
+      headerName: "($)",
+      field: "cost",
       numeric: true,
       disablePadding: true
     },
     {
-      label: "Car mileage(km)",
-      id: "carMileage",
-      numeric: true,
-      disablePadding: true
+      headerName: "(km)",
+      field: "carMileage",
+      description: "Car mileage(km)",
+      type: "number",
+      flex: 1,
+      minWidth: 70,
+      editable: false,
+      sortable: true
     },
     {
-      label: "Share percentage(%)",
-      id: "sharePercentage",
-      numeric: true,
-      disablePadding: true
+      headerName: "(%)",
+      field: "sharePercentage",
+      description: "Сar discount percentage(%)",
+      flex: 1,
+      minWidth: 100,
+      editable: false,
+      sortable: true
     },
     {
-      label: "Options",
-      id: "options",
-      numeric: false,
-      disablePadding: true
+      headerName: "Options",
+      field: "options",
+      minWidth: 200,
+      type: "actions",
+      filterable: false,
+      renderCell: params =>
+        <div className="d-grid gap-2 d-md-block">
+          <Tooltip
+            disableFocusListener
+            disableTouchListener
+            title="Delete car"
+            arrow
+          >
+            <button
+              className="btn btn-primary-sm btn-sm mr-1"
+              value={params.value.r.car.vin}
+              onClick={params.value.op.deleteClientCar}
+              type="button"
+            >
+              <i className="fas fa-trash" />
+            </button>
+          </Tooltip>
+          <Tooltip
+            disableFocusListener
+            disableTouchListener
+            title="Update state sell car"
+            arrow
+          >
+            <button
+              className="btn btn-primary-sm btn-sm ml-1"
+              value={params.value.r.car.vin}
+              onClick={params.value.op.updateClientCar}
+              type="button"
+            >
+              <i className="fa-solid fa-sack-dollar" />
+            </button>
+          </Tooltip>
+          <Tooltip
+            disableFocusListener
+            disableTouchListener
+            title="Update car"
+            arrow
+          >
+            <a
+              className="btn btn-primary-sm btn-sm ml-1 text-reset"
+              href={`/clientcar/put?vin=${params.value.r.car.vin}&email=${params
+                .value.r.user.email}
+                          `}
+            >
+              <i className="fa fa-wrench" aria-hidden="true" />
+            </a>
+          </Tooltip>
+          <Tooltip
+            disableFocusListener
+            disableTouchListener
+            title="Delete car"
+            arrow
+          >
+            <a
+              className="btn btn-primary-sm btn-sm ml-1 text-reset "
+              href={`/clientcar/info?vin=${params.value.r.car.vin}
+                          `}
+            >
+              <i className="fa-solid fa-info" />
+            </a>
+          </Tooltip>
+        </div>
     }
   ];
   return columns;

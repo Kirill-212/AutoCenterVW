@@ -17,28 +17,27 @@ export default function EnhancedTable(props) {
         email: r.email,
         phoneNumber: r.phoneNumber,
         roleName: r.roleName,
-        options: <></>
+        options: { r: r, op: props }
       };
     })
   );
-  console.log(props.head);
-  console.log(rows);
   return (
     <Paper
-      sx={{ width: "100%", height: 500, overflow: "hidden" }}
+      sx={{ width: "100%", height: 600, overflow: "hidden" }}
       className="p-2"
     >
       <DataGrid
+        className="text-center"
         rows={rows}
         columns={props.head}
         disableSelectionOnClick
         pageSize={pageSize}
-        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+        onPageSizeChange={newPageSize => setPageSize(newPageSize)}
         rowsPerPageOptions={[5, 10, 20]}
         pagination
         rowHeight={200}
         components={{
-          Toolbar: GridToolbar,
+          Toolbar: GridToolbar
         }}
       />
       {/* <div className="row mt-2 ml-2">

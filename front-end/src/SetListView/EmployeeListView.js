@@ -1,70 +1,146 @@
+import Tooltip from "@mui/material/Tooltip";
 export default function EmployeeListView() {
   let columns = [
     {
-      label: "Photo",
-      id: "photo",
-      numeric: false,
-      disablePadding: true
+      headerName: "Photo",
+      field: "photo",
+      editable: false,
+      sortable: false,
+      filterable: false,
+      disableClickEventBubbling: true,
+      width: 220,
+      renderCell: params =>
+        <img
+          src={params.value}
+          className="rounded-circle"
+          width="200"
+          height="200"
+          alt="..."
+        />
     },
     {
-      label: "Start work date",
-      id: "startWorkDate",
-      numeric: false,
-      disablePadding: true
+      headerName: "Date",
+      field: "startWorkDate",
+      description: "Start work date",
+      type: "dateTime",
+      width: 108,
+      editable: false,
+      sortable: true
     },
     {
-      label: "Address",
-      id: "address",
-      numeric: false,
-      disablePadding: false
+      headerName: "Address",
+      field: "address",
+      editable: false,
+      flex: 1,
+      minWidth: 200,
+      sortable: true
     },
     {
-      label: "First name",
-      id: "firstName",
-      numeric: false,
-      disablePadding: false
+      headerName: "First name",
+      field: "firstName",
+      flex: 1,
+      minWidth: 200,
+      editable: false,
+      sortable: true
     },
     {
-      label: "Last name",
-      id: "lastName",
-      numeric: false,
-      disablePadding: false
+      headerName: "Last name",
+      field: "lastName",
+      flex: 1,
+      minWidth: 200,
+      editable: false,
+      sortable: true,
+      resizable: true
     },
     {
-      label: "Birthday",
-      id: "dbay",
-      numeric: false,
-      disablePadding: false
+      headerName: "Birthday",
+      field: "dbay",
+      type: "dateTime",
+      width: 130,
+      editable: false,
+      sortable: true
     },
     {
-      label: "Status",
-      id: "status",
-      numeric: false,
-      disablePadding: false
+      headerName: "Status",
+      field: "status",
+      minWidth: 119,
+      editable: false,
+      sortable: true
     },
     {
-      label: "Email",
-      id: "email",
-      numeric: false,
-      disablePadding: false
+      headerName: "Email",
+      field: "email",
+      minWidth: 200,
+      editable: false,
+      sortable: true,
+      resizable: true
     },
     {
-      label: "Phone number",
-      id: "phoneNumber",
-      numeric: false,
-      disablePadding: false
+      headerName: "Phone number",
+      field: "phoneNumber",
+      editable: false,
+      width: 170,
+      sortable: true
     },
     {
-      label: "Role",
-      id: "roleName",
-      numeric: false,
-      disablePadding: false
+      headerName: "Role",
+      field: "roleName",
+      editable: false,
+      width: 120,
+      sortable: true
     },
     {
-      label: "Options",
-      id: "options",
-      numeric: false,
-      disablePadding: false
+      headerName: "Options",
+      field: "options",
+      type: "actions",
+      filterable: false,
+      width: 150,
+      renderCell: params =>
+        <div className="d-grid gap-2 d-md-block">
+          {console.log(
+            params.value.r.getUserDto.roleName !== "SUPER_ADMIN",
+            JSON.parse(params.value.op.email).email !==
+              params.value.r.getUserDto.email
+          )}
+          {(params.value.r.getUserDto.roleName !== "SUPER_ADMIN" ||
+            JSON.parse(params.value.op.email).email !==
+              params.value.r.getUserDto.email) &&
+            <Tooltip
+              disableFocusListener
+              disableTouchListener
+              title="Delete employee"
+              arrow
+            >
+              <button
+                className="btn btn-primary-sm btn-sm m-2"
+                color="purple"
+                size="sm"
+                value={params.value.r.getUserDto.email}
+                onClick={params.value.op.deleteEmployee}
+              >
+                <i className="fas fa-trash" />
+              </button>
+            </Tooltip>}
+          {(params.value.r.getUserDto.roleName !== "SUPER_ADMIN" ||
+            JSON.parse(params.value.op.email).email !==
+              params.value.r.getUserDto.email) &&
+            <Tooltip
+              disableFocusListener
+              disableTouchListener
+              title="Update employee"
+              arrow
+            >
+              <a
+                className="text-reset btn btn-primary-sm btn-sm m-2"
+                href={`/employee/put?email=${params.value.r.getUserDto.email}
+                  &address=${params.value.r.address}&roleName=${params.value.r
+                  .getUserDto.roleName}
+                  `}
+              >
+                <i className="fa-solid fa-screwdriver-wrench" />
+              </a>
+            </Tooltip>}
+        </div>
     }
   ];
   return columns;
