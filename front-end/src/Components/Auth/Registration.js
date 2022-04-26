@@ -1,9 +1,9 @@
 import React from "react";
 import { UsersApi } from "../../api/UsersApi";
-import { Navigate } from "react-router-dom";
+import { Navigate,Link } from "react-router-dom";
 import ImgService from "../../Services/ImgServices/ImgService";
 import { validate_dateAge } from "../ViewLists/SupportFunction";
-
+import { getDate } from "../ViewLists/SupportFunction";
 function Registration(props) {
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
@@ -173,6 +173,7 @@ function Registration(props) {
                   className="shadow-lg  bg-white rounded ml-1 w-100"
                   type="date"
                   name="dBay"
+                  max={getDate(new Date((new Date()).getFullYear()-18,(new Date()).getMonth(),(new Date()).getDate()))}
                   onChange={e => setDBay(e.target.value)}
                   placeholder="Enter your birthday.."
                   required
@@ -232,9 +233,9 @@ function Registration(props) {
           </form>
           <div className="row ">
             <div className="col">
-              <a href="/login" className="text-reset text-white">
+              <Link to="/login" className="text-reset text-white">
                 Authorization
-              </a>
+              </Link>
             </div>
           </div>
             {redirectLogin && <Navigate to="/login" />}

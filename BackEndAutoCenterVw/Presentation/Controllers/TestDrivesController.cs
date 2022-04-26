@@ -4,6 +4,7 @@ using Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstractions;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -121,6 +122,13 @@ namespace Presentation.Controllers
         public async Task<IEnumerable<TestDrive>> GetForEmployee()
         {
             return await _serviceManager.AsyncServiceTestDrive.GetForEmployee();
+        }
+
+        [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
+        [HttpGet("vin/with/email")]
+        public async Task<IEnumerable<TestDrive>> GetByVinWithDate([FromQuery]string vin,DateTime date)
+        {
+            return await _serviceManager.AsyncServiceTestDrive.GetByVinWithDate(vin,date);
         }
     }
 }

@@ -52,6 +52,14 @@ namespace Services
             await unitOfWork.CompleteAsync();
         }
 
+        public async Task<IEnumerable<TestDrive>> GetByVinWithDate(string vin, DateTime time, CancellationToken cancellationToken = default)
+        {
+            Car car = await unitOfWork.AsyncRepositoryCar.GetByVin(vin);
+            if (car == null || car.IsActive == true || car.ClientCar != null)
+                throw new TestDriveCarError(vin);
+            return await unitOfWork.AsyncRepositoryTestDrive.GetByVinWithDate(vin, time);
+        }
+
         public async Task<IEnumerable<TestDrive>> GetForEmployee(
             CancellationToken cancellationToken = default
             )

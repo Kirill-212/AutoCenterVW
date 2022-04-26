@@ -9,10 +9,17 @@ import { getDate } from "../ViewLists/SupportFunction";
 
 const EmployeeListOrder = props => {
   const [listTestDrive, setListTestDrive] = React.useState([]);
+  const [list,setList] = React.useState([]);
+  const [vin,setVin]=React.useState("");
+  const [flagFilters,setFlagFilters]=React.useState(true)
   const [viewList, setViewList] = React.useState(false);
   const [empty, setEmpty] = React.useState(false);
+  const[email,setEmail]=React.useState("");
+  const [state,setState]=React.useState("");
+  const[date,setDate]=React.useState("");
+  const [time,setTime]=React.useState("");
+  const requestSearch = (searchedVal,data) => {
 
-  const requestSearch = searchedVal => {
     const filteredRows = listTestDrive.filter(row => {
       return row.car.vin.toLowerCase().includes(searchedVal.toLowerCase());
     });
@@ -21,9 +28,11 @@ const EmployeeListOrder = props => {
 
   const search = e => {
     if (e.length === 0) {
-      GetTestDriveList();
+      setVin("")
+     setListTestDrive(list);
     } else {
-      requestSearch(e);
+      setVin(e);
+      requestSearch(e,null);
     }
   };
 
@@ -61,6 +70,7 @@ const EmployeeListOrder = props => {
         return;
       }
       setEmpty(false);
+      setList(response.body)
       setListTestDrive(response.body);
       setViewList(true);
     } else if (response.statusCode > 400) {
@@ -138,6 +148,37 @@ const EmployeeListOrder = props => {
     }
   }
 
+  function ReturnStateByName(value) {
+    if (value === "PENDING") {
+      return 0;
+    } else if (value ===  "CONFIRM") {
+      return 1;
+    }
+  }
+  const Search =()=> {
+    let filteredRows = listTestDrive;
+    if(state.length!==0 ){
+      filteredRows = filteredRows.filter(row => {
+        console.log(row,ReturnStateByName(state))
+        if(row.stateTestDrive===ReturnStateByName(state))return row;
+
+      });
+    }if(email.length!==0){
+      filteredRows = filteredRows.filter(row => {
+        return row.user.email.toLowerCase().includes(email.toLowerCase());
+      });
+    }
+    
+    setListTestDrive(filteredRows);
+  };
+  function OpenFilters(){
+    setFlagFilters(!flagFilters)
+  }
+  function handleClickFilters(){
+    setEmail("")
+    setState("")
+    requestSearch(vin,list);
+  }
   useEffect(() => {
     GetTestDriveList();
   }, []);
@@ -147,12 +188,15 @@ const EmployeeListOrder = props => {
     <div className="container-md">
       <div className="row mt-5 pt-5 align-items-center">
         <div className="row mt-2  ">
-          <div className="input-group rounded w-25">
+         
+           <div className="col-3">
+          <div className="input-group rounded w-100">
             <input
               type="search"
               className="form-control rounded"
-              placeholder="Search"
+              placeholder="Search by vin"
               aria-label="Search"
+              value={vin}
               aria-describedby="search-addon"
               onChange={e => search(e.target.value)}
             />
@@ -160,6 +204,97 @@ const EmployeeListOrder = props => {
               <i className="fas fa-search" />
             </span>
           </div>
+          </div>
+                    <div className="col">
+                    <button
+                
+                    onClick={OpenFilters}
+                    className="btn btn-secondary btn-rounded"
+                  >
+                    More filters...
+                  </button>
+                  </div>
+
+
+                  <div className="row m-2 p-2 bg-white text-black"  hidden={flagFilters}>
+                    <div className="row">
+                        <div className="col"> 
+                        <div className="input-group rounded w-100">         
+                            <input
+                              type="search"
+                              className="form-control rounded"
+                              placeholder="Search by email user"
+                              aria-label="Search"
+                              aria-describedby="search-addon"
+                              onChange={e => setEmail(e.target.value)}
+                              value={email}
+                            />
+                            <span className="input-group-text border-0" id="search-addon">
+                              <i className="fas fa-search" />
+                            </span>
+                            </div>
+                            </div>
+
+                        <div className="col">
+                          <div className="form-group d-flex">
+                          <label className="w-25">State:</label>
+                          <select aria-label="Default select example" className=" form-select" value={state} onChange={e => setState(e.target.value)}>
+                          <option value="" selected>All</option>
+                          <option value="PENDING">PENDING</option>
+                          <option value="CONFIRM">CONFIRM</option>
+                            </select>
+                            </div>
+                            </div>
+
+                              <div className="col-2"> 
+                              <button
+                            onClick={handleClickFilters}
+                            className="btn btn-secondary btn-rounded"
+                          >
+                            Cancel filters
+                          </button>
+                          </div>
+                            <div className="col-2"> 
+                                <button
+                              onClick={Search}
+                              className="btn btn-secondary btn-rounded"
+                            >
+                              Search
+                            </button>
+                            </div>
+                   </div>
+                   <div className="row">
+                   <div className="col w-50">
+                          <div className="form-group d-flex">
+                          <label >Time:</label>
+                          <select aria-label="Default select example" className="ml-2 form-select" value={time} onChange={e => setTime(e.target.value)}>
+                          <option value="" selected>All</option>
+                          <option value="9">9</option>
+                          <option value="10">10</option>
+                          <option value="11">11</option>
+                          <option value="12">12</option>
+                          <option value="13">13</option>
+                          <option value="14">14</option>
+                          <option value="15">15</option>
+                          <option value="16">16</option>
+                          <option value="17">17</option>
+                            </select>
+                            </div>
+                            </div>
+                            <div className="col">
+                <label >Date start:</label>
+                <input
+                  className="ml-2 w-50 shadow-lg  bg-white rounded"
+                  onChange={e => setDate(e.target.value)}
+                  value={date}
+                  type="date"
+                  required
+                />
+              </div>
+                   </div>
+
+        </div>
+        
         </div>
         {viewList &&
           listTestDrive.map(r => {

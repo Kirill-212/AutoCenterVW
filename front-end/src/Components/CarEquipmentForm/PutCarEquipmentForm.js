@@ -6,7 +6,7 @@ import {
   PutValueCarEquipmentDto
 } from "../../ImportExportGenClient";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
-
+import Tooltip from "@mui/material/Tooltip";
 const PutCarEquipmentForm = (props) => {
   const [name, setName] = React.useState("");
   const [nameNew, setNameNew] = React.useState("");
@@ -141,6 +141,7 @@ const PutCarEquipmentForm = (props) => {
             <div className="col">
               <label>Cost($):</label>
               <div>
+                
                 <input
                   type="number"
                   min="0" max="1000000"
@@ -240,13 +241,19 @@ const PutCarEquipmentForm = (props) => {
             </div>
             <div className="form-group mb-2 ">
               <label>New name:</label>
+              <Tooltip
+              disableFocusListener
+              disableTouchListener
+              title="If you don't want to change name, leave the field blank...."
+              arrow
+            >
               <input
                 className="w-100 shadow-lg  bg-white rounded"
                 onChange={e => setNameNew(e.target.value)}
                 name="name"
                 type="text"
-                placeholder=" If you don't want to change name, leave the field blank...."
-              />
+                placeholder="If you don't want to change name, leave the field blank...."
+              /></Tooltip>
             </div>
             <div className="form-group mb-2 ">
               <label>Equipment items:</label>

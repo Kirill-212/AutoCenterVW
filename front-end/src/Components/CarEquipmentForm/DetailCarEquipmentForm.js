@@ -3,9 +3,11 @@ import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
+import { Link } from "react-router-dom";
 
 const DetailCarEquipmentForm = props => {
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = React.useState("panel1");
   const [row, setRow] = React.useState(props.data);
 
   const handleChange = panel => (event, isExpanded) => {
@@ -70,21 +72,35 @@ const DetailCarEquipmentForm = props => {
                   <Typography>
                     <div className="row d-grid gap-2 d-md-block">
                       <div className="col">
-                        <button
-                          className="btn btn-primary-sm btn-sm m-2 "
-                          value={r.name}
-                          onClick={props.deleteCarEquipmentForm}
-                          type="button"
+                        <Tooltip
+                          disableFocusListener
+                          disableTouchListener
+                          title="Delete car equipment form item"
+                          arrow
                         >
-                          <i className="fas fa-trash" />
-                        </button>
-                        <a
-                          className="btn btn-primary-sm btn-sm m-2 text-reset"
-                          href={`/carequipmentform/put?name=${r.name}
+                          <button
+                            className="btn btn-primary-sm btn-sm m-2 "
+                            value={r.name}
+                            onClick={props.deleteCarEquipmentForm}
+                            type="button"
+                          >
+                            <i className="fas fa-trash text-black" />
+                          </button>
+                        </Tooltip>
+                        <Tooltip
+                          disableFocusListener
+                          disableTouchListener
+                          title="Update car equipment form item"
+                          arrow
+                        >
+                          <Link
+                            className="btn btn-primary-sm btn-sm m-2 text-reset"
+                            to={`/carequipmentform/put?name=${r.name}
                           `}
-                        >
-                          <i className="fa-solid fa-screwdriver-wrench" />
-                        </a>
+                          >
+                            <i className="fa-solid fa-screwdriver-wrench text-black" />
+                          </Link>
+                        </Tooltip>
                       </div>
                     </div>
                     {r.equipmentItems.map(element => {
@@ -111,12 +127,12 @@ const DetailCarEquipmentForm = props => {
             );
           return (
             <Accordion
-              expanded={expanded === r.name}
-              onChange={handleChange(r.name)}
+              expanded={expanded === r.name.replaceAll(" ", "")}
+              onChange={handleChange(r.name.replaceAll(" ", ""))}
             >
               <AccordionSummary
-                aria-controls="panel1d-content"
-                id="panel1d-header"
+                aria-controls={r.name.replaceAll(" ", "") + "d-content"}
+                id={r.name.replaceAll(" ", "") + "d-header"}
               >
                 <Typography>
                   <div className="row">
@@ -132,21 +148,35 @@ const DetailCarEquipmentForm = props => {
                 <Typography>
                   <div className="row d-grid gap-2 d-md-block">
                     <div className="col">
-                      <button
-                        className="btn btn-primary-sm btn-sm m-2 "
-                        value={r.name}
-                        onClick={props.deleteCarEquipmentForm}
-                        type="button"
+                      <Tooltip
+                        disableFocusListener
+                        disableTouchListener
+                        title="Delete car equipment form item"
+                        arrow
                       >
-                        <i className="fas fa-trash" />
-                      </button>
-                      <a
-                        className="btn btn-primary-sm btn-sm m-2 text-reset"
-                        href={`/carequipmentform/put?name=${r.name}
+                        <button
+                          className="btn btn-primary-sm btn-sm m-2 "
+                          value={r.name}
+                          onClick={props.deleteCarEquipmentForm}
+                          type="button"
+                        >
+                          <i className="fas fa-trash text-black" />
+                        </button>
+                      </Tooltip>
+                      <Tooltip
+                        disableFocusListener
+                        disableTouchListener
+                        title="Update car equipment form item"
+                        arrow
+                      >
+                        <Link
+                          className="btn btn-primary-sm btn-sm m-2 text-reset"
+                          to={`/carequipmentform/put?name=${r.name}
                           `}
-                      >
-                        <i className="fa-solid fa-screwdriver-wrench" />
-                      </a>
+                        >
+                          <i className="fa-solid fa-screwdriver-wrench text-black" />
+                        </Link>
+                      </Tooltip>
                     </div>
                   </div>
                   {r.equipmentItems.map(element => {

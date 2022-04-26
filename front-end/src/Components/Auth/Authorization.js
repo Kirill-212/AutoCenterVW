@@ -1,6 +1,6 @@
 import React from "react";
 import { AuthApi } from "../../api/AuthApi";
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 
 const Authorization = props => {
   const [email, setEmail] = React.useState("");
@@ -104,9 +104,9 @@ const Authorization = props => {
             </div>
           </form>
           <div className="row">
-            <a href="/" value="User" className="text-reset text-white">
+            <Link to="/" value="User" className="text-reset text-white">
               Register
-            </a>
+            </Link>
           </div>
         </div>
           {redirect && <Navigate to={"/home"} />}

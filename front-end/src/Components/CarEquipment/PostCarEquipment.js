@@ -58,7 +58,7 @@ const PostCarEquipment = (props) => {
       returnButtons.push(
         <div className="form-check">
           <label>
-            Value: {input[j].value} Cost: {input[j].cost}
+            Value: {input[j].value} Cost(<i className="fa-solid fa-dollar-sign" />): {input[j].cost}
             <input
               className="form-check-input"
               type="radio"

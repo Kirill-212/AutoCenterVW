@@ -4,6 +4,8 @@ import { GetPagedNewDto } from "../../model/GetPagedNewDto";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import { getDate } from "../ViewLists/SupportFunction";
 import Context from "../../context";
+import Tooltip from "@mui/material/Tooltip";
+import { Link } from "react-router-dom";
 
 export default function EnhancedTable(props) {
   const { user } = useContext(Context);
@@ -173,51 +175,68 @@ export default function EnhancedTable(props) {
     }
   };
   let styleDescription = { width: "50rem" };
-
+let styleHeaderCard={padding: "4px 10px 1px 10px"}
   return (
     <div className="container">
       {listNew.map(e => {
         let flag = true;
         return (
           <div className="card mt-5 mb-5 text-white bg-black">
-            <div className="card-header">
-              <div className="row justify-content-center">
+            <div className="card-header" style={styleHeaderCard}>
+            <div className="row justify-content-center">
                 {(JSON.parse(user).roleName === "ADMIN" ||
                 JSON.parse(user).roleName === "SUPER_ADMIN"||
                   JSON.parse(user).roleName === "EMPLOYEE") &&
                   <div className="col ">
-                    <a
+                     <Tooltip
+              disableFocusListener
+              disableTouchListener
+              title="Update new"
+              arrow
+            >
+                    <Link
                       className="text-reset btn btn-primary-sm btn-sm mr-1"
-                      href={`/new/put?title=${e.title}`}
+                      to={`/new/put?title=${e.title}`}
                     >
                       <i className="fa-solid fa-screwdriver-wrench" />
-                    </a>
+                    </Link></Tooltip>
+                    <Tooltip
+              disableFocusListener
+              disableTouchListener
+              title="Delete new"
+              arrow
+            >
                     <button
-                      className="btn btn-primary-sm btn-sm mr-1"
+                     
                       color="purple"
                       size="sm"
+                      className="btn btn-primary-sm btn-sm mr-1 text-white"
                       value={e.title}
                       onClick={DeleteNew}
                     >
                       <i className="fa-solid fa-trash" />
-                    </button>
+                    </button></Tooltip>
                   </div>}
-                {(JSON.parse(user).roleName === "ADMIN" ||
-                  JSON.parse(user).roleName === "SUPER_ADMIN" ||
-                  JSON.parse(user).roleName === "EMPLOYEE") &&
-                  <div className="col " />}
+              </div>
+              <div className="row justify-content-center">
                 <div className="col text-center">
                   <h2>
                     {e.title}
                   </h2>
                 </div>
-
+              </div>
+              <div className="row justify-content-center">              
+                <div className="col text-left">
+                <p>
+                Author: {e.firstName} {e.lastName}
+                  </p>
+                </div>
                 <div className="col text-right">
                   Created {getDate(e.createdDate)}
                 </div>
               </div>
             </div>
-            <div className="card-body row ">
+            <div style={styleHeaderCard} className="card-body row ">
               <div className="col" />
               <div
                 id={"slider" + e.title.replaceAll(" ", "")}
@@ -283,15 +302,9 @@ export default function EnhancedTable(props) {
             </div>
             <div className="card-footer">
               <div className="row">
-                <div className="col">
-                  <p>
-                    Created: {e.firstName} {e.lastName}
-                  </p>
-                </div>
-                <div className="col" />
-                <div className="col text-reght">
+                <div className="col text-reght justify-content-right">
                   <p style={styleDescription} className="text-wrap  text-reset text-white">
-                    Description:
+                    Description: 
                     {e.description}
                   </p>
                 </div>

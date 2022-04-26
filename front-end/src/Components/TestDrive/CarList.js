@@ -4,6 +4,8 @@ import { GetPagedCarDto } from "../../model/GetPagedCarDto";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import { GetCarDto } from "../../model/GetCarDto";
 import { getDate } from "../ViewLists/SupportFunction";
+import Tooltip from "@mui/material/Tooltip";
+import { Link } from "react-router-dom";
 
 export default function EnhancedTable(props) {
   const [list, setList] = React.useState([]);
@@ -146,46 +148,76 @@ export default function EnhancedTable(props) {
                 <div className="row card-header">
                   {e.car.isActive === true &&
                     <div className="col-1">
-                      <a
+                      <Tooltip
+                                 disableFocusListener
+                                 disableTouchListener
+                                 title="Buy car"
+                                 arrow
+                                 className="mr-1"
+                               >
+                      <Link
                         className="btn btn-primary-sm btn-sm ml-1 text-reset "
-                        href={`/order/post?vin=${e.car
+                        to={`/order/post?vin=${e.car
                           .vin}&emailOwner=${e.user === undefined
                           ? null
                           : e.user.email}
                           `}
                       >
                         <i className="fa-solid fa-sack-dollar" />
-                      </a>
+                      </Link>
+                      </Tooltip>
                     </div>}
                   {e.car.isActive === false &&
                     <div className="col-1">
-                      <a
+                      <Tooltip
+                                 disableFocusListener
+                                 disableTouchListener
+                                 title="Test drive car"
+                                 arrow
+                                 className="mr-1"
+                               >
+                      <Link
                         className="btn btn-primary-sm btn-sm ml-1 text-reset "
-                        href={`/testdrive/post?vin=${e.car.vin}
+                        to={`/testdrive/post?vin=${e.car.vin}
                           `}
                       >
                         <i className="fa-solid fa-car" />
-                      </a>
+                      </Link>
+                      </Tooltip>
                     </div>}
                   {e.user === undefined &&
                     <div className="col-1">
-                      <a
+                      <Tooltip
+                                 disableFocusListener
+                                 disableTouchListener
+                                 title="Get more information about car"
+                                 arrow
+                                 className="mr-1"
+                               >
+                      <Link
                         className="btn btn-primary-sm btn-sm ml-1 text-reset "
-                        href={`/car/info?vin=${e.car.vin}
+                        to={`/car/info?vin=${e.car.vin}
                           `}
                       >
                         <i className="fa-solid fa-info" />
-                      </a>
+                      </Link></Tooltip>
                     </div>}
                   {e.user !== undefined &&
                     <div className="col-1">
-                      <a
+                      <Tooltip
+                                 disableFocusListener
+                                 disableTouchListener
+                                 title="Get more information about car"
+                                 arrow
+                                 className="mr-1"
+                               >
+                      <Link
                         className="btn btn-primary-sm btn-sm ml-1 text-reset "
-                        href={`/clientcar/info?vin=${e.car.vin}
+                       to={`/clientcar/info?vin=${e.car.vin}
                           `}
                       >
                         <i className="fa-solid fa-info" />
-                      </a>
+                      </Link></Tooltip>
                     </div>}
                 </div>
                 <div className="card-body row ">

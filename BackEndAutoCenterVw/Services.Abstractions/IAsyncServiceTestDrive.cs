@@ -19,7 +19,7 @@ namespace Services.Abstractions
             string email,
             CancellationToken cancellationToken = default
             );
-
+        Task<IEnumerable<T>> GetByVinWithDate(string vin, DateTime time, CancellationToken cancellationToken = default);
         Task<IEnumerable<T>> GetForEmployee(CancellationToken cancellationToken = default);
 
         Task UpdateStateForCancel(

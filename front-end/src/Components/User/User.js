@@ -98,7 +98,7 @@ const User = (props) => {
 
 
   return (
-    <div className="container">
+    <div className="container-md">
       <div className="row align-items-center">
         <div className="col-12 mt-5 pt-5  align-items-center">
           {viewList &&

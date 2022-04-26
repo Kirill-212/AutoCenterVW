@@ -139,7 +139,7 @@ const UpdateOrderBuyer = (props) => {
             </div>
             <div className="row mt-2">
               <div className="col">
-                <label>Car number:</label>
+                <label>Card number:</label>
                 <input
                   className="w-100 shadow-lg  bg-white rounded"
                   onChange={e => setCardNumber(e.target.value)}
@@ -157,6 +157,7 @@ const UpdateOrderBuyer = (props) => {
                   onChange={e => setMonth(e.target.value)}
                   type="number"
                   required
+                  min="1" max="12"
                   placeholder="MM"
                 />
               </div>
@@ -167,6 +168,7 @@ const UpdateOrderBuyer = (props) => {
                   onChange={e => setYear(e.target.value)}
                   type="number"
                   required
+                  min={new Date().getFullYear() % 100} max="100"
                   placeholder="YY"
                 />
               </div>
@@ -177,6 +179,7 @@ const UpdateOrderBuyer = (props) => {
                   onChange={e => setCVC(e.target.value)}
                   type="number"
                   required
+                  min="100" max="999"
                   placeholder="CVC"
                 />
               </div>

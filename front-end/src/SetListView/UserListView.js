@@ -1,4 +1,5 @@
 import Tooltip from "@mui/material/Tooltip";
+import { Link } from "react-router-dom";
 export default function UserListView() {
   let columns = [
     {
@@ -7,7 +8,6 @@ export default function UserListView() {
       editable: false,
       sortable: false,
       filterable: false,
-      disableClickEventBubbling: true,
       width: 220,
       renderCell: params =>
         <img
@@ -54,8 +54,7 @@ export default function UserListView() {
       field: "email",
       minWidth: 200,
       editable: false,
-      sortable: true,
-      resizable: true
+      sortable: true
     },
     {
       headerName: "Phone number",
@@ -93,7 +92,6 @@ export default function UserListView() {
                 className="btn btn-primary-sm btn-sm m-2"
                 value={params.value.r.email}
                 onClick={params.value.op.deleteUser}
-                showInMenu
               >
                 <i className="fa-regular fa-trash-can" />
               </button>
@@ -123,10 +121,10 @@ export default function UserListView() {
               title="Update user"
               arrow
             >
-              <a
+              <Link
                 size="sm"
                 className="text-reset btn btn-primary-sm btn-sm m-2"
-                href={`/user/put?firstName=${params.value.r.firstName}
+                to={`/user/put?firstName=${params.value.r.firstName}
                           &lastName=${params.value.r.lastName}&surname=${params
                   .value.r.surname}
                           &email=${params.value.r.email}&phoneNumber=${params
@@ -135,7 +133,7 @@ export default function UserListView() {
                   .urlPhoto}`}
               >
                 <i className="fa-solid fa-screwdriver-wrench" />
-              </a>
+              </Link>
             </Tooltip>}
         </div>
     }

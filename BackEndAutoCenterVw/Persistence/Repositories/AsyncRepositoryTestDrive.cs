@@ -1,6 +1,7 @@
 ﻿using Domain.Models;
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -45,6 +46,18 @@ namespace Persistence.Repositories
                 .Include(i => i.Car)
                     .AsNoTracking()
               .Where(i => i.Car.VIN == vin)
+               .Where(i => i.stateTestDrive != StateTestDrive.CANCEL)
+               .ToListAsync();
+        }
+
+        public async Task<IEnumerable<TestDrive>> GetByVinWithDate(string vin, DateTime time)
+        {
+            return await _dbContext.TestDrives
+                .Include(i => i.Car)
+                    .AsNoTracking()
+              .Where(i => i.Car.VIN == vin)
+              .Where(i=>i.DateStart == time)
+              .Where(i => i.stateTestDrive != StateTestDrive.CONFIRM)
                .Where(i => i.stateTestDrive != StateTestDrive.CANCEL)
                .ToListAsync();
         }

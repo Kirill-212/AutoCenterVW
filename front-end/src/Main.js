@@ -1,8 +1,6 @@
 import React from "react";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import Context from "./context";
+import { Route, Routes } from "react-router-dom";
 import Authorization from "./Components/Auth/Authorization";
-import Header from "./Components/Header/Header";
 import Home from "./Components/Home";
 import Registration from "./Components/Auth/Registration";
 import User from "./Components/User/User";
@@ -48,17 +46,6 @@ import MuiAlert from "@mui/material/Alert";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 
-let openCarRepairs = false;
-let openTestrive = false;
-let openOrder = false;
-let openCar = false;
-let openCarCenter = false;
-let openCarEquipmentForm = false;
-let openCarEquipment = false;
-let openNews = false;
-let openEmp = false;
-var openUser = false;
-
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -101,7 +88,6 @@ function App(props) {
   };
   return (
     <>
-      <Router>
         <main id="bgImg" role="main">
           <Routes>
             <Route
@@ -496,7 +482,7 @@ function App(props) {
             <Route path="*" element={<h2>Resourse not found</h2>} />
           </Routes>
         </main>
-      </Router>
+ 
       <Stack spacing={3} sx={{ width: "100%" }}>
         {AlertMessageError(messageError)}
       </Stack>

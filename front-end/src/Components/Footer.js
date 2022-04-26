@@ -1,5 +1,6 @@
 import React from "react";
 import "./Footer.css";
+import { Link } from "react-router-dom";
 function Footer() {
   return (
     <footer className="bg-dark text-center text-white" role="contentinfo">
@@ -52,9 +53,13 @@ function Footer() {
           >
             <i className="fab fa-github" />
           </a>
-          <a className="text-reset btn-floating m-1" href="/home" role="button">
+          <Link
+            className="text-reset btn-floating m-1"
+            to="/home"
+            role="button"
+          >
             <i className="fa-solid fa-house" />
-          </a>
+          </Link>
         </section>
       </div>
 

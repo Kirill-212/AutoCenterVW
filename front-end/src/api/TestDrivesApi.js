@@ -33,7 +33,39 @@ export class TestDrivesApi {
   constructor(apiClient) {
     this.apiClient = apiClient || ApiClient.instance;
   }
+  apiTestdrivesVinWithEmailGet(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = null;
 
+    let pathParams = {};
+    let queryParams = {
+      vin: opts["vin"],
+      date: opts["_date"]
+    };
+    let headerParams = jwt;
+
+    let formParams = {};
+
+    let authNames = [];
+    let contentTypes = [];
+    let accepts = ["text/plain", "application/json", "text/json"];
+    let returnType = [TestDrive];
+
+    return this.apiClient.callApi(
+      "/api/testdrives/vin/with/email",
+      "GET",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
   /**
      * Callback function to receive the result of the apiTestdrivesCancelPut operation.
      * @callback moduleapi/TestDrivesApi~apiTestdrivesCancelPutCallback

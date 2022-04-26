@@ -3,6 +3,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
+import Tooltip from "@mui/material/Tooltip";
 
 export default function CustomizedAccordions(props) {
   const [data, setData] = React.useState(props.data);
@@ -24,7 +25,9 @@ export default function CustomizedAccordions(props) {
       requestSearch(e);
     }
   };
-  if (props.data.length == 0) return <div>No data</div>;
+  if (props.data.length == 0) {
+    return <div />;
+  }
   return (
     <div>
       <div className="row mt-2  bg-white text-white">
@@ -72,10 +75,12 @@ export default function CustomizedAccordions(props) {
                             Name:{element.name}
                           </div>
                           <div className="col">
-                            {" "}<p>Value:{element.equipmentItem.value}</p>
+                            <p>
+                              Value:{element.equipmentItem.value}
+                            </p>
                           </div>
                           <div className="col">
-                            {" "}<p>
+                            <p>
                               Cost(<i className="fa-solid fa-dollar-sign" />):{element.equipmentItem.cost}
                             </p>
                           </div>
@@ -89,17 +94,24 @@ export default function CustomizedAccordions(props) {
                       JSON.parse(props.roleName).roleName === "EMPLOYEE") &&
                       <div className="row">
                         <div className="col">
-                          <button
-                            className="btn btn-primary-sm btn-sm mr-1"
-                            value={r.name}
-                            onClick={props.deleteCarEquipment}
-                            type="button"
+                          <Tooltip
+                            disableFocusListener
+                            disableTouchListener
+                            title="Delete car equipment"
+                            arrow
                           >
-                            <i className="fas fa-trash" />
-                          </button>
+                            <button
+                              className="btn btn-primary-sm btn-sm mr-1"
+                              value={r.name}
+                              onClick={props.deleteCarEquipment}
+                              type="button"
+                            >
+                              <i className="fas fa-trash text-black" />
+                            </button>
+                          </Tooltip>
                         </div>
                         <div className="col" />
-                        <div className="col" />{" "}
+                        <div className="col" />
                       </div>}
                   </Typography>
                 </AccordionDetails>
@@ -107,12 +119,12 @@ export default function CustomizedAccordions(props) {
             );
           return (
             <Accordion
-              expanded={expanded === r.name}
-              onChange={handleChange(r.name)}
+              expanded={expanded === r.name.replaceAll(' ','')}
+              onChange={handleChange(r.name.replaceAll(' ',''))}
             >
               <AccordionSummary
-                aria-controls={r.name + "d-content"}
-                id={r.name + "d-header"}
+                aria-controls={r.name.replaceAll(' ','') + "d-content"}
+                id={r.name.replaceAll(' ','') + "d-header"}
               >
                 <Typography>
                   <div className="row">
@@ -132,10 +144,12 @@ export default function CustomizedAccordions(props) {
                           Name:{element.name}
                         </div>
                         <div className="col">
-                          {" "}<p>Value:{element.equipmentItem.value}</p>
+                          <p>
+                            Value:{element.equipmentItem.value}
+                          </p>
                         </div>
                         <div className="col">
-                          {" "}<p>
+                          <p>
                             Cost(<i className="fa-solid fa-dollar-sign" />):{element.equipmentItem.cost}
                           </p>
                         </div>
@@ -149,17 +163,24 @@ export default function CustomizedAccordions(props) {
                     JSON.parse(props.roleName).roleName === "EMPLOYEE") &&
                     <div className="row">
                       <div className="col">
-                        <button
-                          className="btn btn-primary-sm btn-sm mr-1"
-                          value={r.name}
-                          onClick={props.deleteCarEquipment}
-                          type="button"
+                        <Tooltip
+                          disableFocusListener
+                          disableTouchListener
+                          title="Delete car equipment"
+                          arrow
                         >
-                          <i className="fas fa-trash" />
-                        </button>
+                          <button
+                            className="btn btn-primary-sm btn-sm mr-1"
+                            value={r.name}
+                            onClick={props.deleteCarEquipment}
+                            type="button"
+                          >
+                            <i className="fas fa-trash text-black" />
+                          </button>
+                        </Tooltip>
                       </div>
                       <div className="col" />
-                      <div className="col" />{" "}
+                      <div className="col" />
                     </div>}
                 </Typography>
               </AccordionDetails>

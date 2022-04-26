@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Domain.Repositories
@@ -17,5 +18,7 @@ namespace Domain.Repositories
         Task<IEnumerable<T>> GetByVin(string vin);
 
         Task<IEnumerable<T>> GetByEmail(string email);
+
+        Task<IEnumerable<T>> GetByVinWithDate(string vin,DateTime time);
     }
 }

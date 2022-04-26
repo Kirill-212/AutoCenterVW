@@ -6,24 +6,43 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import { getDate } from "../ViewLists/SupportFunction";
+import Tooltip from "@mui/material/Tooltip";
+import { Link } from "react-router-dom";
 
 const EmployeeListOrder = props => {
   const [listCars, setListCars] = React.useState([]);
   const [viewList, setViewList] = React.useState(false);
   const [empty, setEmpty] = React.useState(false);
-
-  const requestSearch = searchedVal => {
-    const filteredRows = listCars.filter(row => {
-      return row.car.vin.toLowerCase().includes(searchedVal.toLowerCase());
-    });
+  const [flagFilters,setFlagFilters]=React.useState(true)
+  const [listOrders,setListOrders] = React.useState([]);
+  const[emailBuyer,setEmailBuyer]=React.useState("");
+  const [state,setState]=React.useState("");
+  const [vin,setVin]=React.useState("");
+  const requestSearch = (searchedVal,data) => {
+    let filteredRows;
+    if(data!==null){
+      if(searchedVal.length==0){
+        filteredRows=data;
+      }
+      else{
+      filteredRows = data.filter(row => {
+        return row.car.vin.toLowerCase().includes(searchedVal.toLowerCase());
+      });}
+    }else{
+      filteredRows = listCars.filter(row => {
+        return row.car.vin.toLowerCase().includes(searchedVal.toLowerCase());
+      });
+    }
     setListCars(filteredRows);
   };
 
   const search = e => {
     if (e.length === 0) {
-      GetOrderList();
+      setVin("")
+      setListCars(listOrders);
     } else {
-      requestSearch(e);
+      setVin(e);
+      requestSearch(e,null);
     }
   };
 
@@ -59,6 +78,7 @@ const EmployeeListOrder = props => {
         return;
       }
       setEmpty(false);
+      setListOrders(response.body);
       setListCars(response.body);
       setViewList(true);
     } else if (response.statusCode > 400) {
@@ -135,7 +155,38 @@ const EmployeeListOrder = props => {
       return "PAID";
     }
   }
+  function ReturnStateByName(value) {
+    if (value === "PENDING") {
+      return 0;
+    } else if (value ===  "CONFIRM") {
+      return 1;
+    }
+  }
+  const Search =()=> {
+    let filteredRows = listCars;
+    if(state.length!==0 ){
+      filteredRows = filteredRows.filter(row => {
+        console.log(row,ReturnStateByName(state))
+        if(row.state===ReturnStateByName(state))return row;
 
+      });
+    }if(emailBuyer.length!==0){
+      filteredRows = filteredRows.filter(row => {
+        return row.user.email.toLowerCase().includes(emailBuyer.toLowerCase());
+      });
+    }
+    
+    setListCars(filteredRows);
+  };
+
+ function handleClickFilters(){
+    setEmailBuyer("")
+    setState("")
+    requestSearch(vin,listOrders);
+  }
+  function OpenFilters(){
+    setFlagFilters(!flagFilters)
+  }
   useEffect(() => {
     GetOrderList();
   }, []);
@@ -146,19 +197,79 @@ const EmployeeListOrder = props => {
     <div className="container-md">
       <div className="row mt-5 pt-5 align-items-center">
         <div className="row mt-2  ">
-          <div className="input-group rounded w-25">
+          <div className="row m-2">
+            <div className="col-3">
+          <div className="input-group rounded w-100">         
             <input
               type="search"
               className="form-control rounded"
-              placeholder="Search"
+              placeholder="Search by vin"
               aria-label="Search"
+              value={vin}
               aria-describedby="search-addon"
               onChange={e => search(e.target.value)}
             />
             <span className="input-group-text border-0" id="search-addon">
               <i className="fas fa-search" />
             </span>
-          </div>
+            </div>
+            </div>
+            <div className="col">
+          <button
+       
+          onClick={OpenFilters}
+          className="btn btn-secondary btn-rounded"
+        >
+          More filters...
+        </button>
+       </div>
+        <div className="row m-2 p-2 bg-white text-black"  hidden={flagFilters}>
+        <div className="col"> 
+        <div className="input-group rounded w-100">         
+            <input
+              type="search"
+              className="form-control rounded"
+              placeholder="Search by email buyer"
+              aria-label="Search"
+              aria-describedby="search-addon"
+              onChange={e => setEmailBuyer(e.target.value)}
+              value={emailBuyer}
+            />
+            <span className="input-group-text border-0" id="search-addon">
+              <i className="fas fa-search" />
+            </span>
+            </div>
+            </div>
+
+        <div className="col">
+          <div className="form-group d-flex">
+          <label className="w-25">State:</label>
+          <select aria-label="Default select example" className=" form-select" value={state} onChange={e => setState(e.target.value)}>
+          <option value="" selected>All</option>
+          <option value="PENDING">PENDING</option>
+          <option value="CONFIRM">CONFIRM</option>
+             </select>
+             </div>
+             </div>
+
+        <div className="col-2"> 
+        <button
+       onClick={handleClickFilters}
+       className="btn btn-secondary btn-rounded"
+     >
+      Cancel filters
+     </button>
+     </div>
+     <div className="col-2"> 
+        <button
+       onClick={Search}
+       className="btn btn-secondary btn-rounded"
+     >
+      Search
+     </button>
+     </div>
+        </div>
+        </div>
           {viewList &&
             listCars.map(r => {
               if (
@@ -307,10 +418,17 @@ const EmployeeListOrder = props => {
                               </div>
                             </div>
                             <div className="row ">
-                              <div className="col text-right">
+                              <div className="d-grid gap-2 d-md-block text-center">
                                 {CheckState(r.state) !== "CONFIRM" &&
+                                 <Tooltip
+                                 disableFocusListener
+                                 disableTouchListener
+                                 title="Confirm order"
+                                 arrow
+                                 className="mr-1"
+                               >
                                   <button
-                                    className="btn btn-primary-sm btn-sm ml-1"
+                                    className="btn btn-primary-sm btn-sm"
                                     onClick={e =>
                                       UpdateState(
                                         JSON.stringify({
@@ -324,9 +442,31 @@ const EmployeeListOrder = props => {
                                     type="button"
                                   >
                                     <i className="fa-regular fa-circle-check" />
-                                  </button>}
-                              </div>
-                              <div className="col">
+                                  </button></Tooltip>}
+                         
+                              <Tooltip
+                                  disableFocusListener
+                                  disableTouchListener
+                                  title="Get more information about car"
+                                  arrow
+                                  className="mr-1 ml-1"
+                                >
+                                  <Link
+                                    className="btn btn-primary-sm btn-sm text-reset "
+                                    to={`/car/info?vin=${r.car.vin}
+                            `}
+                                  >
+                                    <i className="fa-solid fa-info" />
+                                  </Link>
+                                </Tooltip>
+                                           
+                                   <Tooltip
+            disableFocusListener
+            disableTouchListener
+            title="Cancel order"
+            arrow
+            className="ml-1"
+          >
                                 <button
                                   className="btn btn-primary-sm btn-sm ml-1"
                                   onClick={e =>
@@ -343,7 +483,9 @@ const EmployeeListOrder = props => {
                                 >
                                   <i className="fa-solid fa-ban" />
                                 </button>
-                              </div>
+                                </Tooltip>
+                                      </div>
+
                             </div>
                           </div>
                         </div>
@@ -492,8 +634,55 @@ const EmployeeListOrder = props => {
                             </div>
                           </div>
                           <div className="row ">
-                            <div className="col text-right">
-                              {CheckState(r.state) !== "CONFIRM" &&
+                          <div className="d-grid gap-2 d-md-block text-center">
+                                {CheckState(r.state) !== "CONFIRM" &&
+                                 <Tooltip
+                                 disableFocusListener
+                                 disableTouchListener
+                                 title="Confirm order"
+                                 arrow
+                                 className="mr-1"
+                               >
+                                  <button
+                                    className="btn btn-primary-sm btn-sm"
+                                    onClick={e =>
+                                      UpdateState(
+                                        JSON.stringify({
+                                          vin: r.car.vin,
+                                          email: r.user.email,
+                                          totalCost: r.totalCost,
+                                          state: "CONFIRM"
+                                        }),
+                                        e
+                                      )}
+                                    type="button"
+                                  >
+                                    <i className="fa-regular fa-circle-check" />
+                                  </button></Tooltip>}
+                         
+                              <Tooltip
+                                  disableFocusListener
+                                  disableTouchListener
+                                  title="Get more information about car"
+                                  arrow
+                                  className="mr-1 ml-1"
+                                >
+                                  <Link
+                                    className="btn btn-primary-sm btn-sm text-reset "
+                                    to={`/car/info?vin=${r.car.vin}
+                            `}
+                                  >
+                                    <i className="fa-solid fa-info" />
+                                  </Link>
+                                </Tooltip>
+                                           
+                                   <Tooltip
+            disableFocusListener
+            disableTouchListener
+            title="Cancel order"
+            arrow
+            className="ml-1"
+          >
                                 <button
                                   className="btn btn-primary-sm btn-sm ml-1"
                                   onClick={e =>
@@ -502,33 +691,16 @@ const EmployeeListOrder = props => {
                                         vin: r.car.vin,
                                         email: r.user.email,
                                         totalCost: r.totalCost,
-                                        state: "CONFIRM"
+                                        state: "CANCEL"
                                       }),
                                       e
                                     )}
                                   type="button"
                                 >
-                                  <i className="fa-regular fa-circle-check" />
-                                </button>}
-                            </div>
-                            <div className="col">
-                              <button
-                                className="btn btn-primary-sm btn-sm ml-1"
-                                onClick={e =>
-                                  UpdateState(
-                                    JSON.stringify({
-                                      vin: r.car.vin,
-                                      email: r.user.email,
-                                      totalCost: r.totalCost,
-                                      state: "CANCEL"
-                                    }),
-                                    e
-                                  )}
-                                type="button"
-                              >
-                                <i className="fa-solid fa-ban" />
-                              </button>
-                            </div>
+                                  <i className="fa-solid fa-ban" />
+                                </button>
+                                </Tooltip>
+                                      </div>
                           </div>
                         </div>
                       </div>

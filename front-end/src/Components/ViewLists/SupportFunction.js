@@ -88,7 +88,7 @@ export function validate_date(date) {
 }
 
 export function validate_dateAge(date) {
-  if (new Date(date).getFullYear() < new Date().getFullYear() - 18) {
+  if (new Date(date).getFullYear() <= new Date().getFullYear() - 18) {
     return null;
   }
   return "Error: date is not correct";
@@ -109,6 +109,7 @@ export function validate_dateService(date) {
 }
 
 export function getDate(inputDate) {
+
   let date = new Date(inputDate);
   let day = date.getDate();
   let month = date.getMonth() + 1;

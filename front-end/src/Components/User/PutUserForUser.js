@@ -254,6 +254,7 @@ const PutUser = (props) => {
                     type="date"
                     name="dBay"
                     value={dBay}
+                    max={getDate(new Date((new Date()).getFullYear()-18,(new Date()).getMonth(),(new Date()).getDate()))}
                     onChange={e => setDBay(e.target.value)}
                     placeholder="Enter your birthday.."
                     required

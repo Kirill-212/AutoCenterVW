@@ -1,4 +1,5 @@
 import Tooltip from "@mui/material/Tooltip";
+import { Link } from "react-router-dom";
 export default function CarListView() {
   let columns = [
     {
@@ -100,14 +101,14 @@ export default function CarListView() {
             title="Update car"
             arrow
           >
-            <a
+            <Link
               className="btn btn-primary-sm btn-sm ml-1 text-reset"
-              href={`/clientcar/put?vin=${params.value.r.car.vin}&email=${params
+              to={`/clientcar/put?vin=${params.value.r.car.vin}&email=${params
                 .value.r.user.email}
                           `}
             >
               <i className="fa fa-wrench" aria-hidden="true" />
-            </a>
+            </Link>
           </Tooltip>
           <Tooltip
             disableFocusListener
@@ -115,13 +116,13 @@ export default function CarListView() {
             title="Delete car"
             arrow
           >
-            <a
+            <Link
               className="btn btn-primary-sm btn-sm ml-1 text-reset "
-              href={`/clientcar/info?vin=${params.value.r.car.vin}
+              to={`/clientcar/info?vin=${params.value.r.car.vin}
                           `}
             >
               <i className="fa-solid fa-info" />
-            </a>
+            </Link>
           </Tooltip>
         </div>
     }
