@@ -6,6 +6,8 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import { getDate } from "../ViewLists/SupportFunction";
+import Tooltip from "@mui/material/Tooltip";
+import { Link } from "react-router-dom";
 
 const EmployeeListOrder = props => {
   const [listTestDrive, setListTestDrive] = React.useState([]);
@@ -19,10 +21,22 @@ const EmployeeListOrder = props => {
   const[date,setDate]=React.useState("");
   const [time,setTime]=React.useState("");
   const requestSearch = (searchedVal,data) => {
-
-    const filteredRows = listTestDrive.filter(row => {
+    let filteredRows;
+    if(data!==null){
+      if(searchedVal.length==0){
+        filteredRows=data;
+      }
+      else{
+        filteredRows = data.filter(row => {
+            return row.car.vin.toLowerCase().includes(searchedVal.toLowerCase());
+      });
+    }
+    }else{
+       filteredRows = listTestDrive.filter(row => {
       return row.car.vin.toLowerCase().includes(searchedVal.toLowerCase());
     });
+    }
+    
     setListTestDrive(filteredRows);
   };
 
@@ -156,7 +170,14 @@ const EmployeeListOrder = props => {
     }
   }
   const Search =()=> {
-    let filteredRows = listTestDrive;
+    let filteredRows;
+    if (vin.length !== 0) {
+ filteredRows = listTestDrive.filter(row => {
+      return row.car.vin.toLowerCase().includes(vin.toLowerCase());
+    });}else{
+    filteredRows = list;
+    }
+
     if(state.length!==0 ){
       filteredRows = filteredRows.filter(row => {
         console.log(row,ReturnStateByName(state))
@@ -168,7 +189,16 @@ const EmployeeListOrder = props => {
         return row.user.email.toLowerCase().includes(email.toLowerCase());
       });
     }
-    
+    if(time.length!==0){
+      filteredRows = filteredRows.filter(row => {
+        return row.time.toLowerCase().includes(time.toLowerCase());
+      });
+    }
+    if(date.length!==0){
+      filteredRows = filteredRows.filter(row => {
+        return row.dateStart.toLowerCase().includes(date.toLowerCase());
+      });
+    }
     setListTestDrive(filteredRows);
   };
   function OpenFilters(){
@@ -177,6 +207,8 @@ const EmployeeListOrder = props => {
   function handleClickFilters(){
     setEmail("")
     setState("")
+    setTime("")
+    setDate("")
     requestSearch(vin,list);
   }
   useEffect(() => {
@@ -436,9 +468,16 @@ const EmployeeListOrder = props => {
                             </div>
                           </div>
                           <div className="row ">
-                            <div className="col text-right">
+                          <div className="d-grid gap-2 d-md-block text-center">
                               {CheckState(r.stateTestDrive) !== "CONFIRM" &&
-                                <button
+                              <Tooltip
+                              disableFocusListener
+                              disableTouchListener
+                              title="Confirm test drive"
+                              arrow
+                              className="mr-1 ml-1"
+                            >
+                             <button
                                   className="btn btn-primary-sm btn-sm ml-1"
                                   onClick={e =>
                                     UpdateState(
@@ -454,9 +493,29 @@ const EmployeeListOrder = props => {
                                   type="button"
                                 >
                                   <i className="fa-regular fa-circle-check" />
-                                </button>}
-                            </div>
-                            <div className="col">
+                                </button></Tooltip>}
+                                <Tooltip
+                                  disableFocusListener
+                                  disableTouchListener
+                                  title="Get more information about car"
+                                  arrow
+                                  className="mr-1 ml-1"
+                                >
+                                  <Link
+                                    className="btn btn-primary-sm btn-sm text-reset "
+                                    to={`/car/info?vin=${r.car.vin}
+                            `}
+                                  >
+                                    <i className="fa-solid fa-info" />
+                                  </Link>
+                               </Tooltip>
+                               <Tooltip
+                                  disableFocusListener
+                                  disableTouchListener
+                                  title="Cancel test drive"
+                                  arrow
+                                  className="mr-1 ml-1"
+                                >
                               <button
                                 className="btn btn-primary-sm btn-sm ml-1"
                                 onClick={e =>
@@ -474,6 +533,7 @@ const EmployeeListOrder = props => {
                               >
                                 <i className="fa-solid fa-ban" />
                               </button>
+                              </Tooltip>
                             </div>
                           </div>
                         </div>
@@ -621,8 +681,54 @@ const EmployeeListOrder = props => {
                           </div>
                         </div>
                         <div className="row ">
-                          <div className="col text-right">
-                            {CheckState(r.stateTestDrive) !== "CONFIRM" &&
+                        <div className="d-grid gap-2 d-md-block text-center">
+                              {CheckState(r.stateTestDrive) !== "CONFIRM" &&
+                              <Tooltip
+                              disableFocusListener
+                              disableTouchListener
+                              title="Confirm test drive"
+                              arrow
+                              className="mr-1 ml-1"
+                            >
+                             <button
+                                  className="btn btn-primary-sm btn-sm ml-1"
+                                  onClick={e =>
+                                    UpdateState(
+                                      JSON.stringify({
+                                        vin: r.car.vin,
+                                        email: r.user.email,
+                                        time: r.time,
+                                        dateStart: r.dateStart,
+                                        state: "CONFIRM"
+                                      }),
+                                      e
+                                    )}
+                                  type="button"
+                                >
+                                  <i className="fa-regular fa-circle-check" />
+                                </button></Tooltip>}
+                                <Tooltip
+                                  disableFocusListener
+                                  disableTouchListener
+                                  title="Get more information about car"
+                                  arrow
+                                  className="mr-1 ml-1"
+                                >
+                                  <Link
+                                    className="btn btn-primary-sm btn-sm text-reset "
+                                    to={`/car/info?vin=${r.car.vin}
+                            `}
+                                  >
+                                    <i className="fa-solid fa-info" />
+                                  </Link>
+                               </Tooltip>
+                               <Tooltip
+                                  disableFocusListener
+                                  disableTouchListener
+                                  title="Cancel test drive"
+                                  arrow
+                                  className="mr-1 ml-1"
+                                >
                               <button
                                 className="btn btn-primary-sm btn-sm ml-1"
                                 onClick={e =>
@@ -632,34 +738,16 @@ const EmployeeListOrder = props => {
                                       email: r.user.email,
                                       time: r.time,
                                       dateStart: r.dateStart,
-                                      state: "CONFIRM"
+                                      state: "CANCEL"
                                     }),
                                     e
                                   )}
                                 type="button"
                               >
-                                <i className="fa-regular fa-circle-check" />
-                              </button>}
-                          </div>
-                          <div className="col">
-                            <button
-                              className="btn btn-primary-sm btn-sm ml-1"
-                              onClick={e =>
-                                UpdateState(
-                                  JSON.stringify({
-                                    vin: r.car.vin,
-                                    email: r.user.email,
-                                    time: r.time,
-                                    dateStart: r.dateStart,
-                                    state: "CANCEL"
-                                  }),
-                                  e
-                                )}
-                              type="button"
-                            >
-                              <i className="fa-solid fa-ban" />
-                            </button>
-                          </div>
+                                <i className="fa-solid fa-ban" />
+                              </button>
+                              </Tooltip>
+                            </div>
                         </div>
                       </div>
                     </div>
