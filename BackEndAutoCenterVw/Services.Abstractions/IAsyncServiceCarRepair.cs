@@ -20,6 +20,10 @@ namespace Services.Abstractions
             CancellationToken cancellationToken = default
             );
 
+        Task<IEnumerable<T>> GetByEmailCarRepairs(string email,
+            CancellationToken cancellationToken = default
+            );
+
         Task<IEnumerable<T>> GetForUser(
             string email,
             CancellationToken cancellationToken = default

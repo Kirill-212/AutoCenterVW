@@ -34,7 +34,37 @@ export class CarRepairsApi {
   constructor(apiClient) {
     this.apiClient = apiClient || ApiClient.instance;
   }
+  apiCarrepairsAllByEmailGet(jwt, opts, callback) {
+    opts = opts || {};
+    let postBody = null;
 
+    let pathParams = {};
+    let queryParams = {
+      email: opts["email"]
+    };
+    let headerParams = jwt;
+    let formParams = {};
+
+    let authNames = [];
+    let contentTypes = [];
+    let accepts = ["text/plain", "application/json", "text/json"];
+    let returnType = [GetCarRepairDto];
+
+    return this.apiClient.callApi(
+      "/api/carrepairs/all/by/email",
+      "GET",
+      pathParams,
+      queryParams,
+      headerParams,
+      formParams,
+      postBody,
+      authNames,
+      contentTypes,
+      accepts,
+      returnType,
+      callback
+    );
+  }
   apiCarrepairsCancelUserPut(jwt, opts, callback) {
     opts = opts || {};
     let postBody = opts["body"];

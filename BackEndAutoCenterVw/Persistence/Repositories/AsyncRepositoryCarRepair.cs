@@ -46,6 +46,16 @@ namespace Persistence.Repositories
                .ToListAsync();
         }
 
+        public async Task<IEnumerable<CarRepair>> GetByEmailCarRepairs(string email)
+        {
+            return await _dbContext.CarRepairs
+                .Include(i => i.Employee.User)
+                .AsNoTracking()
+               .Where(i => i.Employee.User.Email == email)
+               .Where(i => i.StateCarRepair == StateCarRepair.STARTWORK)
+               .ToListAsync();
+        }
+
         public async Task<IEnumerable<CarRepair>> GetByVin(string vin)
         {
             return await _dbContext.CarRepairs

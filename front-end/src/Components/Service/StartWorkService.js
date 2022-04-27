@@ -7,6 +7,7 @@ import {
 import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import { validate_dateService } from "../ViewLists/SupportFunction";
+import { getDate } from "../ViewLists/SupportFunction";
 const PostService = (props) => {
   const { user } = useContext(Context);
   const [vin, setVin] = React.useState("");
@@ -74,6 +75,53 @@ const PostService = (props) => {
     props.handleClose();
   }
 
+  async function GetCarRepairs(event) {
+    if (user === undefined) {
+      props.setMessageError("Error:Unauthorized");
+      props.handleClose();
+      return;
+    }
+    new CarRepairsApi().apiCarrepairsStartWorkPut(
+      GetJwtToken(),
+      {
+        body: new UpdateStateCarRepairForStartWorkDto(
+          JSON.parse(user).email,
+          vin,
+          startWork,
+          endWork
+        )
+      },
+      CallbackRequest
+    );
+  }
+
+  function CallbackRequest(error, data, response) {
+    if (response == undefined) {
+      props.setMessageError("Error:server is not available");
+    } else if (response.statusCode == 400) {
+      if (response.body.errors !== undefined) {
+        let errorResult =[];
+        let errorsJson = response.body.errors;
+        for (let key in response.body.errors) {
+          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+        }
+        props.setMessageError(errorResult);
+      } else {
+        props.setMessageError(response.body.error);
+      }
+    } else if (response.statusCode == 403) {
+      props.setMessageError("Error:Forbidden");
+    } else if (response.statusCode == 401) {
+      props.setMessageError("Error:Unauthorized");
+    } else if (response.statusCode === 200 || response.statusCode === 204) {
+      setRedirect(true);
+    } else if (response.statusCode > 400) {
+     props.setMessageError(response.body.error);
+    }
+    props.handleClose();
+  }
+
+
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     setVin(query.get("vin"));
@@ -110,14 +158,17 @@ const PostService = (props) => {
                   type="date"
                   placeholder="Enter your date of start work..."
                   required
+                  min={getDate(new Date())}
                 />
               </div>
               <div className="col mb-2 ">
                 <label>End work:</label>
                 <input
+                lang="en"
                   className="w-100 shadow-lg  bg-white rounded"
                   onChange={e => setEndWork(e.target.value)}
                   type="date"
+                  min={getDate(startWork)}
                   placeholder="Enter your date of end work..."
                   required
                 />

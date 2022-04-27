@@ -166,5 +166,12 @@ namespace Presentation.Controllers
         {
             return _mapper.Map<List<GetCarRepairDto>>(await _serviceManager.AsyncServiceCarRepair.GetForEmployee(email));
         }
+
+        [Authorize(Roles = "SERVICE_EMPLOYEE")]
+        [HttpGet("all/by/email")]
+        public async Task<List<GetCarRepairDto>> GetForEmployeeByEmail([FromQuery] string email)
+        {
+            return _mapper.Map<List<GetCarRepairDto>>(await _serviceManager.AsyncServiceCarRepair.GetByEmailCarRepairs(email));
+        }
     }
 }

@@ -60,6 +60,11 @@ namespace Services
             await unitOfWork.CompleteAsync();
         }
 
+        public async Task<IEnumerable<CarRepair>> GetByEmailCarRepairs(string email, CancellationToken cancellationToken = default)
+        {
+            return await unitOfWork.AsyncRepositoryCarRepair.GetByEmailCarRepairs(email);
+        }
+
         public async Task<IEnumerable<CarRepair>> GetForEmployee(
             string email,
             CancellationToken cancellationToken = default
