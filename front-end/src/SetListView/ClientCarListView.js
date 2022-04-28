@@ -113,7 +113,7 @@ export default function CarListView() {
           <Tooltip
             disableFocusListener
             disableTouchListener
-            title="Delete car"
+            title="Get more information about car"
             arrow
           >
             <Link

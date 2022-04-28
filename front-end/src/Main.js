@@ -65,12 +65,12 @@ function App(props) {
     setOpen(true);
     setMessageError(errorMessage);
   };
-
-  let style = { width: "30rem" };
+let styleError={"background-color": "red"}
+  let style = { width: "30rem" ,color:"white"};
   function AlertMessageError(mes) {
     return (
       <Snackbar open={open} autoHideDuration={10000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: "100%",bgcolor: 'error.main'}} style={styleError}>
           <div class="text-wrap" style={style}>
             {mes}
           </div>

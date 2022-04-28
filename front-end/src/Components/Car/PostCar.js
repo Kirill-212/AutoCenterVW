@@ -9,6 +9,7 @@ import {
 import ImgService from "../../Services/ImgServices/ImgService";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import { validate_date } from "../ViewLists/SupportFunction";
+
 const PostCar = (props) => {
   const [nameCarEquipment, setNameCarEquipment] = React.useState("");
   const [cost, setCost] = React.useState(0);

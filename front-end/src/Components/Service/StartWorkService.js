@@ -7,14 +7,17 @@ import {
 import Context from "../../context";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import { validate_dateService } from "../ViewLists/SupportFunction";
-import { getDate } from "../ViewLists/SupportFunction";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 const PostService = (props) => {
   const { user } = useContext(Context);
   const [vin, setVin] = React.useState("");
-  const [startWork, setStartWork] = React.useState("");
-  const [endWork, setEndWork] = React.useState("");
+  const [startWork, setStartWork] = React.useState(new Date());
+  const [endWork, setEndWork] = React.useState(null);
   const [redirect, setRedirect] = React.useState(false);
-
+  const [viewCarRepairs,setViewCarRepairs]=React.useState(false);
+  const[carRepairs,setCarRepairs]=React.useState([])
   async function submitCar(event) {
     event.preventDefault();
     props.handleToggle();
@@ -81,21 +84,16 @@ const PostService = (props) => {
       props.handleClose();
       return;
     }
-    new CarRepairsApi().apiCarrepairsStartWorkPut(
+    new CarRepairsApi().apiCarrepairsAllByEmailGet(
       GetJwtToken(),
       {
-        body: new UpdateStateCarRepairForStartWorkDto(
-          JSON.parse(user).email,
-          vin,
-          startWork,
-          endWork
-        )
+        email:JSON.parse(user).email
       },
-      CallbackRequest
+      CallbackRequestGet
     );
   }
 
-  function CallbackRequest(error, data, response) {
+  function CallbackRequestGet(error, data, response) {
     if (response == undefined) {
       props.setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
@@ -114,7 +112,8 @@ const PostService = (props) => {
     } else if (response.statusCode == 401) {
       props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
-      setRedirect(true);
+      setCarRepairs(response.body)
+      setViewCarRepairs(true)
     } else if (response.statusCode > 400) {
      props.setMessageError(response.body.error);
     }
@@ -125,6 +124,7 @@ const PostService = (props) => {
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     setVin(query.get("vin"));
+    GetCarRepairs()
   }, []);
 
   return (
@@ -152,29 +152,40 @@ const PostService = (props) => {
             <div className="row">
               <div className="col mb-2 ">
                 <label>Start work:</label>
-                <input
-                  className="w-100 shadow-lg  bg-white rounded"
-                  onChange={e => setStartWork(e.target.value)}
-                  type="date"
-                  placeholder="Enter your date of start work..."
-                  required
-                  min={getDate(new Date())}
-                />
+                <DatePicker
+                 className="w-100 shadow-lg  bg-white rounded"
+                 filterDate={d => {
+                  return new Date() < d;
+                }}
+                placeholderText="Select Start work date..."
+                selected={startWork}
+                selectsStart
+                startDate={startWork}
+                endDate={endWork}
+                onChange={date => setStartWork(date)}
+                required
+     />
+                
               </div>
               <div className="col mb-2 ">
                 <label>End work:</label>
-                <input
-                lang="en"
-                  className="w-100 shadow-lg  bg-white rounded"
-                  onChange={e => setEndWork(e.target.value)}
-                  type="date"
-                  min={getDate(startWork)}
-                  placeholder="Enter your date of end work..."
-                  required
-                />
+                <DatePicker
+                 className="w-100 shadow-lg  bg-white rounded"
+                filterDate={d => {                
+                  return startWork < d;
+                }}
+                placeholderText="Select End work date.."
+                selected={endWork}
+                selectsEnd
+                startDate={startWork}
+                endDate={endWork}
+                minDate={startWork}
+                onChange={date => setEndWork(date)}
+                required
+     />
+               
               </div>
             </div>
-
             <div className="d-flex justify-content-center form-outline mb-3">
               <div className="flex-fill">
                 <button

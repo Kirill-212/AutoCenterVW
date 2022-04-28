@@ -5,8 +5,8 @@ import { getDate } from "../ViewLists/SupportFunction";
 
 const ClientCarDetail = (props) => {
   const [flag, setFlag] = React.useState(false);
-  const [detailCar, setDetailCar] = React.useState({});
-  const [detailUser, setDetailUser] = React.useState({});
+  const [detailCar, setDetailCar] = React.useState(null);
+  const [detailUser, setDetailUser] = React.useState(null);
   const [carEquipment, setCarEquipment] = React.useState({});
   const [registerNumber, setRegisterNumber] = React.useState("");
 
@@ -93,43 +93,53 @@ const ClientCarDetail = (props) => {
   function ViewCarEquipment() {
     let totalCost = detailCar.cost;
     let equipment = [];
+    
+    console.log(carEquipment,'eq');
     equipment.push(
-      <div className="row m-3">
-        <div className="col-2">
-          <i className="fa-solid fa-angle-right text white mr-2" />
+      <div className="row ">
+        <div className="row ">
+                  <div className="col-3">
+                <i className="fa-solid fa-angle-right text white mr-1" />
           Name car equipment
-        </div>
-        <div className="col-10 text-left text white">
-          {carEquipment.name}
-        </div>
-      </div>
+          </div>
+                <div className="col-1 mr-5">
+                    <p>
+          {carEquipment.name}</p></div>
+                </div>
+                </div>
     );
     carEquipment.equipments.forEach(el => {
-      totalCost += el.equipmentItem.cost;
+      let i=0;i++;
+       totalCost += el.equipmentItem.cost;
+     
       equipment.push(
-        <div className="row m-3">
-          <div className="col-2">
-            <i className="fa-solid fa-angle-right text white mr-2" />
+        
+        <div className="col-3  mb-3">
+
+          <div className="row ">
+          <div className="col-4">
+            <i className="fa-solid fa-angle-right text white mr-1" />
             Name
           </div>
-          <div className="col-10 text-left text white">
+          <div className="col-8  text-left text-white">
             {el.name}
           </div>
-          <div className="row m-3">
-            <div className="col-2">
-              <i className="fa-solid fa-angle-right text white mr-2" />
+        </div>
+          <div className="row ml-1">
+            <div className="col-4">         
               Value
             </div>
-            <div className="col-10 text-left text white">
+            <div className="col-8 text-left text-white">
               {el.equipmentItem.value}
             </div>
           </div>
-          <div className="row m-3">
-            <div className="col-2">
-              <i className="fa-solid fa-angle-right text white mr-2" />
-              Cost($)
+
+          <div className="row ml-1">
+            <div className="col-4">
+              
+              Cost(<i className="fa-solid fa-dollar-sign" />)
             </div>
-            <div className="col-10 text-left text white">
+            <div className="col-8 text-left text-white">
               {el.equipmentItem.cost}
             </div>
           </div>
@@ -142,15 +152,18 @@ const ClientCarDetail = (props) => {
         ? Number(totalCost * (100 - detailCar.actionCar.sharePercentage) / 100)
         : totalCost;
     equipment.push(
-      <div className="row m-3">
-        <div className="col-2">
-          <i className="fa-solid fa-angle-right text white mr-2" />
-          Total cost($)
-        </div>
-        <div className="col-10 text-left text white">
+      <div className="row">
+         <div className="row ">
+                  <div className="col-2">
+          <i className="fa-solid fa-angle-right text white mr-1" />
+          Total cost(<i className="fa-solid fa-dollar-sign" />)
+          </div>
+                <div className="col-1 mr-5">
+                    <p>
           {totalCost}
-        </div>
-      </div>
+          </p></div>
+                </div>
+                </div>
     );
     return equipment;
   }
@@ -163,39 +176,9 @@ const ClientCarDetail = (props) => {
   let fl = true;
   return (
     <div>
-      <div className="container-md w-50 bg-dark text-white">
+      <div className="container-md w-100 bg-dark text-white">
         {detailCar !== null &&
           <div className="row mt-5 pt-5 align-items-center ">
-            <div className="col" />
-            {flag &&
-              <div className="d-flex  row">
-                <h4 className="card-title text-center">
-                  Information about user
-                </h4>
-                <div className="row m-3 d-flex flex-row justify-content-center">
-                  <div className="col">
-                    <i className="fa-solid fa-angle-right text white mr-2 ml-4" />
-                    User Photo
-                    <img
-                      src={detailUser.urlPhoto}
-                      className="rounded-circle ml-5"
-                      width="200"
-                      height="200"
-                      alt="..."
-                    />
-                  </div>
-                  <div className="col align-self-end">
-                    <i className="fa-solid fa-angle-right text white mr-2" />
-                    <label className="mr-2"> First name</label>
-                    {detailUser.firstName}
-                    <i className="ml-2 fa-solid fa-angle-right text white mr-2" />
-                    <label className="mr-2"> Last name</label>
-                    {detailUser.lastName}
-                  </div>
-                </div>
-              </div>}
-            <div className="col" />
-
             <div
               id="slider"
               className="col carousel slide carousel-fade carousel-dark justify-content-center align-self-center p-5 w-100 "
@@ -257,79 +240,122 @@ const ClientCarDetail = (props) => {
                 <span className="visually-hidden">Next</span>
               </button>
             </div>
-            <div className="col" />
+            <div className="col" >
+            {flag &&
+              <div className="row">
+                <div className="col"> 
+                <h4 className="card-title text-left">
+                  Information about owner
+                </h4>
+                </div>
+
+                <div className="row  d-flex flex-row justify-content-left">
+                  <div className="col content-left">
+                     <img
+                      src={detailUser.urlPhoto}
+                      className="rounded-circle "
+                      width="200"
+                      height="200"
+                      alt="..."
+                    />
+                  </div>
+                  <div className="row ">
+                  <div className="col">
+                <i className="fa-solid fa-angle-right text white mr-1" />First name 
+                </div>
+                <div className="col"> <p>{detailUser.firstName}</p></div>
+                </div>
+                <div className="row ">
+                  <div className="col">
+                <i className="fa-solid fa-angle-right text white mr-1" />Last name 
+                </div>
+                <div className="col"> <p>{detailUser.lastName}</p></div>
+                </div>
+
+                <div className="row ">
+                  <div className="col">
+                <i className="fa-solid fa-angle-right text white mr-1" />Phone number 
+                </div>
+                <div className="col"> <p>{detailUser.phoneNumber}</p></div>
+                </div>
+                <div className="row ">
+                  <div className="col-3">
+                <i className="fa-solid fa-angle-right text white mr-1" />Email
+                </div>
+                <div className="col "> <p>{detailUser.email}</p></div>
+                </div>
+                </div>
+              </div>}
+            </div>
             {flag &&
               <div className="card-body row">
-                <h4 className="card-title text-center">
-                  Information about car
-                </h4>
-                <div className="row m-3">
-                  <div className="col-2">
-                    <i className="fa-solid fa-angle-right text white mr-2" />
-                    Register number
-                  </div>
-                  <div className="col-10 text-left text white">
-                    {registerNumber === null && "None"}
-                    {registerNumber !== null && registerNumber}
-                  </div>
+                <div className="row">
+                  <h4 className="card-title text-center">
+                    Information about car
+                  </h4>
                 </div>
                 <div className="row m-3">
-                  <div className="col-2">
-                    <i className="fa-solid fa-angle-right text white mr-2" />
-                    Vin
-                  </div>
-                  <div className="col-10 text-left text white">
-                    {detailCar.vin}
-                  </div>
+                  <div className="col">
+                        <div className="row ">
+                        <div className="col">
+                      <i className="fa-solid fa-angle-right text white mr-1" />
+                          Register number
+                          </div>
+                      <div className="col mr-5"> <p>
+                          {registerNumber === null && "None"}
+                          {registerNumber !== null && registerNumber}</p></div>
+                      </div>
+
+                <div className="row ">
+                  <div className="col">
+                <i className="fa-solid fa-angle-right text white mr-1" />Vin 
                 </div>
-                <div className="row m-3">
-                  <div className="col-2">
-                    <i className="fa-solid fa-angle-right text white mr-2" />
-                    Car mileage(km)
-                  </div>
-                  <div className="col-10 text-left text white">
-                    {detailCar.carMileage}
-                  </div>
+                <div className="col mr-5"> <p>{detailCar.vin}</p></div>
                 </div>
-                <div className="row m-3">
-                  <div className="col-2">
-                    <i className="fa-solid fa-angle-right text white mr-2" />
-                    Cost($)
-                  </div>
-                  <div className="col-10 text-left text white">
-                    {detailCar.cost}
-                  </div>
+                
+
+                
+              
+                <div className="row ">
+                  <div className="col">
+                     <i className="fa-solid fa-angle-right text white mr-1" />Car mileage(km)
+                     </div>
+                <div className="col mr-5">
+                    <p>{detailCar.carMileage}</p></div>
                 </div>
-                <div className="row m-3">
-                  <div className="col-2">
-                    <i className="fa-solid fa-angle-right text white mr-2" />
-                    Date of realese car
-                  </div>
-                  <div className="col-10 text-left text white">
-                    {getDate(detailCar.dateOfRealeseCar)}
-                  </div>
+
+
+                <div className="row ">
+                  <div className="col"><i className="fa-solid fa-angle-right text white mr-1" />Cost(<i className="fa-solid fa-dollar-sign" />)</div>
+                <div className="col mr-5"> 
+                     <p>{detailCar.cost}</p></div>
                 </div>
-                <div className="row m-3">
-                  <div className="col-2">
-                    <i className="fa-solid fa-angle-right text white mr-2" />
-                    For sale
-                  </div>
-                  <div className="col-10 text-left text white">
-                    {detailCar.isActive === true && "True"}
-                    {detailCar.isActive !== true && "False"}
-                  </div>
+               </div>
+
+
+
+               <div className="col">
+               <div className="row ">
+                  <div className="col"><i className="fa-solid fa-angle-right text white mr-1" /> Date of realese car</div>
+                <div className="col mr-5">
+                     <p>{getDate(detailCar.dateOfRealeseCar)}</p></div>
                 </div>
-                <div className="row m-3">
-                  <div className="col-2">
-                    <i className="fa-solid fa-angle-right text white mr-2" />
-                    Share percentage
-                  </div>
-                  <div className="col-10 text-left text white">
-                    {detailCar.actionCar !== null &&
+                
+                <div className="row ">
+                  <div className="col"><i className="fa-solid fa-angle-right text white mr-1" /> For saler</div>
+                <div className="col mr-5">
+                     <p>{detailCar.isActive === true && "True"}
+                    {detailCar.isActive !== true && "False"}</p></div>
+                </div>
+                <div className="row ">
+                  <div className="col"><i className="fa-solid fa-angle-right text white mr-1" /> Share percentage(%)</div>
+                <div className="col mr-5">
+                     <p>{detailCar.actionCar !== null &&
                       detailCar.actionCar.sharePercentage}
-                    {detailCar.actionCar === null && "None"}
-                  </div>
+                    {detailCar.actionCar === null && "None"}</p></div>
                 </div>
+               </div>
+               </div>
                 <h4 className="card-title text-center">
                   Information about equipment
                 </h4>
