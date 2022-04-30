@@ -5,7 +5,7 @@ namespace Contracts
 {
     public class GetPagedCarDto
     {
-        public PagedList<Car, GetCarDto> GetCarDto { get; set; }
+        public PagedListCar< GetCarDto> GetCarDto { get; set; }
 
         public int TotalCount { get; set; }
 

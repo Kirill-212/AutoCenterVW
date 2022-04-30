@@ -237,7 +237,9 @@ const CarDetail = (props) => {
               </button>
             </div>
             <div className="col " >
-             <div className="row"><div className="col"> <h4 className="card-title text-center">
+             <div className="row">
+               
+               <div className="col"> <h4 className="card-title text-center">
                   Information about car
                 </h4></div>
                 </div>

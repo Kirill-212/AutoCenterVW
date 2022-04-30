@@ -6,6 +6,8 @@ namespace Contracts
     {
         public Car Car {get; set;}
 
+        public decimal TotalCost { get; set;}
+
         public User User {get; set;}
     }
 }

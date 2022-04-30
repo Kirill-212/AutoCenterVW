@@ -5,6 +5,8 @@ import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import { GetCarDto } from "../../model/GetCarDto";
 import { getDate } from "../ViewLists/SupportFunction";
 import Context from "../../context";
+import Tooltip from "@mui/material/Tooltip";
+import { Link } from "react-router-dom";
 
 export default function EnhancedTable(props) {
   const { user } = useContext(Context);
@@ -75,7 +77,7 @@ export default function EnhancedTable(props) {
       let rs = GetPagedCarDto.constructFromObject(response.body);
       setCurrentPages(rs.currentPage + 1);
       setTotalPages(rs.totalPages);
-
+      console.log(response.body,'car')
       let ListCars = GetPagedCarDto.constructFromObject(
         response.body
       ).getCarDto.map(e => {
@@ -112,6 +114,7 @@ export default function EnhancedTable(props) {
     } else if (response.statusCode == 401) {
       props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
+      console.log(response.body,'car')
       let rs = GetPagedCarDto.constructFromObject(response.body);
       setCurrentPages(rs.currentPage + 1);
       setTotalPages(rs.totalPages);
@@ -178,101 +181,130 @@ export default function EnhancedTable(props) {
       setLoad(true);
     }
   };
+  let styleHeaderCard={padding: "4px 10px 1px 10px"}
   return (
     <div className="container ">
       <div className="row align-items-center d-flex flex-column">
         {list.map(e => {
           return (
-            <div className="col  w-50 text-center">
+            <div className="col  w-75 text-center">
               <div className="card mt-5 mb-5 text-white bg-black">
-                <div className="row card-header">
+                <div className="row card-header " style={styleHeaderCard}>
+                <div className="d-grid gap-2 d-md-block text-left">
                   {!e.car.isActive &&
-                    <div className="col-1">
-                      <a
+                   
+                       <Tooltip
+                                  disableFocusListener
+                                  disableTouchListener
+                                  title="Create car repair"
+                                  arrow
+                                  className="mr-1 ml-1"
+                                >
+                      <Link
                         className="btn btn-primary-sm btn-sm ml-1 text-reset "
-                        href={`/service/post?vin=${e.car.vin}
+                        to={`/service/post?vin=${e.car.vin}
                           `}
                       >
                         <i className="fa-solid fa-screwdriver-wrench" />
-                      </a>
-                    </div>}
-                  <div className="col-1">
+                      </Link></Tooltip>
+                    }
+                 
+                  <Tooltip
+                                  disableFocusListener
+                                  disableTouchListener
+                                  title="Delete car"
+                                  arrow
+                                  className="mr-1 ml-1"
+                                >
                     <button
                       className="btn btn-primary-sm btn-sm mr-1"
                       value={e.car.vin}
                       onClick={DeleteClientCar}
                       type="button"
                     >
-                      <i className="fas fa-trash" />
-                    </button>
-                  </div>
-                  <div className="col-1">
-                    <a
+                      <i className="fas fa-trash text-white" />
+                    </button></Tooltip>
+                 
+                  <Tooltip
+                                  disableFocusListener
+                                  disableTouchListener
+                                  title="Get more information about car"
+                                  arrow
+                                  className="mr-1 ml-1"
+                                >
+                    <Link
                       className="btn btn-primary-sm btn-sm ml-1 text-reset "
-                      href={`/clientcar/info?vin=${e.car.vin}
+                      to={`/clientcar/info?vin=${e.car.vin}
                           `}
                     >
                       <i className="fa-solid fa-info" />
-                    </a>
-                  </div>
-                  <div className="col-1">
-                    <a
+                    </Link></Tooltip>
+                  
+                  <Tooltip
+                                  disableFocusListener
+                                  disableTouchListener
+                                  title="Update car"
+                                  arrow
+                                  className="mr-1 ml-1"
+                                >
+                    <Link
                       className="btn btn-primary-sm btn-sm ml-1 text-reset"
-                      href={`/clientcar/put/user?vin=${e.car.vin}
+                      to={`/clientcar/put/user?vin=${e.car.vin}
                           `}
                     >
                       <i className="fa fa-wrench" aria-hidden="true" />
-                    </a>
-                  </div>
+                    </Link></Tooltip>
+                 </div>
                 </div>
                 <div className="card-body row ">
+                  <div className="col">
                   <img src={e.car.imgsCar[0].url} width={400} height={400} />
+               </div>
+                <div className="col">
+                <div className="row ">
+               
+               <div className="col"> <h4 className="card-title text-center">
+                  Information about car
+                </h4></div>
                 </div>
-                <div className="row card-footer">
-                  <div className="row d-flex flex-column">
-                    <div className="col text-center">
-                      <h4> Information about car </h4>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col text-right">Cell</div>
-                    <div className="col-1 text-center">
-                      <i className="fa-solid fa-arrow-right" />
-                    </div>
-                    <div className="col text-left">
-                      {e.car.isActive === true && "True"}
-                      {e.car.isActive !== true && "False"}
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col text-right">Car mileage(km)</div>
-                    <div className="col-1 text-center">
-                      <i className="fa-solid fa-arrow-right" />
-                    </div>
-                    <div className="col text-left">
-                      {e.car.carMileage}
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col text-right">
-                      Cost(<i className="fa-solid fa-dollar-sign" />)
-                    </div>
-                    <div className="col-1 text-center">
-                      <i className="fa-solid fa-arrow-right" />
-                    </div>
-                    <div className="col text-left">
-                      {e.car.cost}
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col text-right">Date of realese car</div>
-                    <div className="col-1 text-center">
-                      <i className="fa-solid fa-arrow-right" />
-                    </div>
-                    <div className="col text-left">
-                      {getDate(e.car.dateOfRealeseCar)}
-                    </div>
-                  </div>
+
+                 <div className="row text-left">
+                  <div className="col"><i className="fa-solid fa-angle-right text white mr-1" /> For saler</div>
+                <div className="col mr-5">
+                     <p>{e.car.isActive === true && "True"}
+                    {e.car.isActive !== true && "False"}</p></div>
+                </div>
+                <div className="row text-left">
+                  <div className="col">
+                     <i className="fa-solid fa-angle-right text white mr-1" />Car mileage(km)
+                     </div>
+                <div className="col mr-5">
+                    <p>{e.car.carMileage}</p></div>
+                </div>
+
+                  <div className="row text-left">
+                  <div className="col"><i className="fa-solid fa-angle-right text white mr-1" />Cost(<i className="fa-solid fa-dollar-sign" />)</div>
+                <div className="col mr-5"> 
+                     <p>{e.car.cost}</p></div>
+                </div>
+                <div className="row text-left">
+                  <div className="col"><i className="fa-solid fa-angle-right text white mr-1" /> Date of realese car</div>
+                <div className="col mr-5">
+                     <p>{getDate(e.car.dateOfRealeseCar)}</p></div>
+                </div>
+                <div className="row text-left">
+                  <div className="col"><i className="fa-solid fa-angle-right text white mr-1" />Total cost(<i className="fa-solid fa-dollar-sign" />)</div>
+                <div className="col mr-5">
+                     <p>{e.totalCost}</p>
+                     </div>
+                </div>
+                <div className="row text-left">
+                  <div className="col"><i className="fa-solid fa-angle-right text white mr-1" />VIN</div>
+                <div className="col mr-5">
+                     <p>{e.car.vin}</p>
+                     </div>
+                </div>
+                </div>
                 </div>
               </div>
             </div>

@@ -15,14 +15,14 @@ using System.Threading.Tasks;
 namespace Services
 {
     internal sealed class AsyncServiceCar :
-        IAsyncServiceCar<Car, ImgCar,GetCarDto>
+        IAsyncServiceCar<Car, ImgCar, GetCarDto>
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IAsyncRepositoryCarEquipment<CarEquipment> asyncRepositoryCarEquipment;
         public AsyncServiceCar(
            IUnitOfWork unitOfWork,
             IAsyncRepositoryCarEquipment<CarEquipment> asyncRepositoryCarEquipment
-            
+
             )
         {
             this.asyncRepositoryCarEquipment = asyncRepositoryCarEquipment;
@@ -77,13 +77,30 @@ namespace Services
             return await unitOfWork.AsyncRepositoryCar.Get();
         }
 
-        public PagedList<Car, GetCarDto> GetAllPaged(PagedParameters item, IMapper mapper)
+        public PagedListCar<GetCarDto> GetAllPaged(PagedParameters item, IMapper mapper)
         {
-            return PagedList<Car, GetCarDto>.ToPagedList(unitOfWork.AsyncRepositoryCar.GetPaged().OrderBy(on => on.Id),
+            IQueryable<Car> items = unitOfWork.AsyncRepositoryCar.GetPaged().OrderBy(on => on.Id);
+            List<Car> cars = items.Skip((item.PageNumber - 1) * item.PageSize).Take(item.PageSize).ToList();
+            List<GetCarDto> carsDto =new();
+            foreach (Car i in cars)
+            {
+                CarEquipment carEquipment = asyncRepositoryCarEquipment.GetById(i.IdCarEquipment);
+                decimal totalCost = i.Cost + carEquipment.Equipments.Select(i => i.EquipmentItem.Cost).Sum();
+                if (i.ActionCar != null) totalCost =
+                        (decimal)(Convert.ToDouble(totalCost) *
+                        (100 - (double)i.ActionCar.SharePercentage) / 100.0);
+                carsDto.Add(new GetCarDto()
+                {
+                    Car = i,
+                    TotalCost = totalCost,
+                    User = i.ClientCar?.User,
+                });
+            };
+            return PagedListCar<GetCarDto>.ToPagedList(items.Count(), carsDto,
         item.PageNumber,
-        item.PageSize, mapper);
+        item.PageSize);
         }
-       
+
         public async Task<Car> GetById(int id, CancellationToken cancellationToken = default)
         {
             return await unitOfWork.AsyncRepositoryCar.GetById(id);
@@ -99,11 +116,29 @@ namespace Services
             return await unitOfWork.AsyncRepositoryCar.GetCarActive();
         }
 
-        public PagedList<Car, GetCarDto> GetByEmailPaged(PagedParameters item, string email, IMapper mapper)
+        public PagedListCar<GetCarDto> GetByEmailPaged(PagedParameters item, string email, IMapper mapper)
         {
-            return PagedList<Car, GetCarDto>.ToPagedList(unitOfWork.AsyncRepositoryCar.GetByEmailPaged(email).OrderBy(on => on.Id),
+            IQueryable<Car> carItems = unitOfWork.AsyncRepositoryCar.GetByEmailPaged(email).OrderBy(on => on.Id)
+                ;
+            List<Car> cars = carItems.Skip((item.PageNumber - 1) * item.PageSize).Take(item.PageSize).ToList();
+            List<GetCarDto> carsDto = new();
+            foreach (Car i in cars)
+            {
+                CarEquipment carEquipment = asyncRepositoryCarEquipment.GetById(i.IdCarEquipment);
+                decimal totalCost = i.Cost + carEquipment.Equipments.Select(i => i.EquipmentItem.Cost).Sum();
+                if (i.ActionCar != null) totalCost =
+                        (decimal)(Convert.ToDouble(totalCost) *
+                        (100 - (double)i.ActionCar.SharePercentage) / 100.0);
+                carsDto.Add(new GetCarDto()
+                {
+                    Car = i,
+                    TotalCost = totalCost,
+                    User = i.ClientCar.User
+                });
+            };
+            return PagedListCar<GetCarDto>.ToPagedList(carItems.Count(), carsDto,
         item.PageNumber,
-        item.PageSize, mapper);
+        item.PageSize);
         }
 
 
@@ -128,7 +163,7 @@ namespace Services
                 throw new CarVinFound(vin, "not found");
             car.IsDeleted = true;
             unitOfWork.AsyncRepositoryCar.Update(car);
-            IEnumerable<TestDrive> testDrives =await unitOfWork.AsyncRepositoryTestDrive.GetByVin(vin);
+            IEnumerable<TestDrive> testDrives = await unitOfWork.AsyncRepositoryTestDrive.GetByVin(vin);
             foreach (var i in testDrives)
                 i.stateTestDrive = StateTestDrive.CANCEL;
             IEnumerable<CarRepair> carRepairs = await unitOfWork.AsyncRepositoryCarRepair.GetByVin(vin);
@@ -139,7 +174,7 @@ namespace Services
                 i.State = State.CANCEL;
             unitOfWork.AsyncRepositoryOrder.UpdateRange(order);
             unitOfWork.AsyncRepositoryTestDrive.UpdateRange(testDrives);
-             unitOfWork.AsyncRepositoryCarRepair.UpdateRange(carRepairs);
+            unitOfWork.AsyncRepositoryCarRepair.UpdateRange(carRepairs);
             unitOfWork.AsyncRepositoryCar.Update(car);
             await unitOfWork.CompleteAsync();
         }
