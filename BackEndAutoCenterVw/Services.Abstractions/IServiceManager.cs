@@ -1,4 +1,5 @@
 ﻿using Contracts;
+using Domain.FilterHelper;
 using Domain.Models;
 
 namespace Services.Abstractions
@@ -13,7 +14,7 @@ namespace Services.Abstractions
 
         IAsyncServiceNew<New, Img, GetNewDto> AsyncServiceNew { get; }
 
-        IAsyncServiceCar<Car, ImgCar, GetCarDto> AsyncServiceCar { get; }
+        IAsyncServiceCar<Car, ImgCar, GetCarDto,FilterCarEmail> AsyncServiceCar { get; }
 
         IAsyncServiceClientCar<ClientCar> AsyncServiceClientCar { get; }
 

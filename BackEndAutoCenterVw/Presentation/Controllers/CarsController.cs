@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Contracts;
+using Domain.FilterHelper;
 using Domain.Models;
 using Domain.Pagination;
 using Microsoft.AspNetCore.Authorization;
@@ -51,9 +52,10 @@ namespace Presentation.Controllers
 
         [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("/email/paged")]
-        public GetPagedCarDto GetCarsPagedByEmail([FromQuery] PagedParameters pagedParameters, string email)
+        public GetPagedCarDto GetCarsPagedByEmail([FromQuery] PagedParameters pagedParameters, string email, [FromQuery] FilterCarEmail filter
+            )
         {
-            var pageds = _serviceManager.AsyncServiceCar.GetByEmailPaged(pagedParameters, email, _mapper);
+            var pageds = _serviceManager.AsyncServiceCar.GetByEmailPaged(pagedParameters, email,filter, _mapper);
             GetPagedCarDto getPagedNewDto = new()
             {
                 GetCarDto = pageds,

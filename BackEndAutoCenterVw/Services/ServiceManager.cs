@@ -1,4 +1,5 @@
 ﻿using Contracts;
+using Domain.FilterHelper;
 using Domain.HttpClent;
 using Domain.MailSettings;
 using Domain.Models;
@@ -20,7 +21,7 @@ namespace Services
 
         private readonly Lazy<IAsyncServiceNew<New, Img, GetNewDto>> _lazyAsyncServiceNew;
 
-        private readonly Lazy<IAsyncServiceCar<Car, ImgCar, GetCarDto>> _lazyAsyncServiceCar;
+        private readonly Lazy<IAsyncServiceCar<Car, ImgCar, GetCarDto, FilterCarEmail>> _lazyAsyncServiceCar;
 
         private readonly Lazy<IAsyncServiceClientCar<ClientCar>> _lazyAsyncServiceClientCar;
 
@@ -54,7 +55,7 @@ namespace Services
             _lazyAsyncServiceNew = new Lazy<IAsyncServiceNew<New, Img, GetNewDto>>(
                () => new AsyncServiceNew(unitOfWork)
                );
-            _lazyAsyncServiceCar = new Lazy<IAsyncServiceCar<Car, ImgCar, GetCarDto>>(
+            _lazyAsyncServiceCar = new Lazy<IAsyncServiceCar<Car, ImgCar, GetCarDto, FilterCarEmail>>(
                 () => new AsyncServiceCar(unitOfWork, carEquipment)
                 );
             _lazyAsyncServiceClientCar = new Lazy<IAsyncServiceClientCar<ClientCar>>(
@@ -85,7 +86,7 @@ namespace Services
 
         public IAsyncServiceNew<New, Img, GetNewDto> AsyncServiceNew => _lazyAsyncServiceNew.Value;
 
-        public IAsyncServiceCar<Car, ImgCar, GetCarDto> AsyncServiceCar => _lazyAsyncServiceCar.Value;
+        public IAsyncServiceCar<Car, ImgCar, GetCarDto, FilterCarEmail> AsyncServiceCar => _lazyAsyncServiceCar.Value;
 
         public IAsyncServiceClientCar<ClientCar> AsyncServiceClientCar =>
             _lazyAsyncServiceClientCar.Value;

@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using Domain.Pagination;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Services.Abstractions
 {
-    public interface IAsyncServiceCar<T, K,C>
+    public interface IAsyncServiceCar<T, K,C,D>
     {
         Task Create(
             T item,
@@ -48,6 +49,10 @@ namespace Services.Abstractions
         Task<IEnumerable<T>> GetCarActive();
 
         PagedListCar< C> GetAllPaged(PagedParameters item, IMapper mapper);
-        PagedListCar< C> GetByEmailPaged(PagedParameters item, string email, IMapper mapper);
+        PagedListCar< C> GetByEmailPaged(PagedParameters item, string email, D filterCarEmail, IMapper mapper);
+
+        List<C> FilteringData(List<C> data,
+            D filter
+            );
     }
 }

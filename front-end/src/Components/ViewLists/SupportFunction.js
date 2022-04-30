@@ -5,7 +5,6 @@ import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { visuallyHidden } from "@mui/utils";
 import PropTypes from "prop-types";
-
 export function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -120,3 +119,91 @@ export function getDate(inputDate) {
 
   return year + "-" + month + "-" + day;
 }
+
+
+export function Sort(data,op){
+  let sortData=data;
+  console.log(data,'data')
+  switch(op){
+    case '0':
+      sortData=sortData.sort(sortASCPrice)
+    break;
+    case '1':
+      sortData=sortData.sort(sortDESCPrice)  
+    break;
+    case '2':
+      sortData=sortData.sort(sortASCDateOfRealese)  
+    break;
+    case '3':
+      sortData=sortData.sort(sortDESCateOfRealese)    
+    break;
+    break;
+    case '4':
+      sortData=sortData.sort(sortASCCarMileage)  
+    break;
+    case '5':
+      sortData=sortData.sort(sortDESCCarMileage)    
+    break;
+   
+  }
+ return sortData;
+}
+
+function sortASCPrice(a, b) {
+  if (a.totalCost > b.totalCost) {
+  return 1;
+  } else if (b.totalCost > a.totalCost) {
+  return -1;
+  } else {
+  return 0;
+  }
+  }
+
+  function sortASCCarMileage(a, b) {
+    if (a.car.carMileage >b.car.carMileage) {
+    return 1;
+    } else if (b.car.carMileage > a.car.carMileage) {
+    return -1;
+    } else {
+    return 0;
+    }
+    }
+
+    function sortDESCCarMileage(a, b) {
+      if (a.car.carMileage > b.car.carMileage) {
+      return -1;
+      } else if (b.car.carMileage > a.car.carMileage) {
+      return 1;
+      } else {
+      return 0;
+      }
+      }
+
+  function sortASCDateOfRealese(a, b) {
+    if (getDate(a.car.dateOfRealeseCar) >getDate(b.car.dateOfRealeseCar)) {
+    return 1;
+    } else if (getDate(b.car.dateOfRealeseCar) > getDate(a.car.dateOfRealeseCar)) {
+    return -1;
+    } else {
+    return 0;
+    }
+    }
+
+    function sortDESCPrice(a, b) {
+      if (a.totalCost > b.totalCost) {
+      return -1;
+      } else if (b.totalCost > a.totalCost) {
+      return 1;
+      } else {
+      return 0;
+      }
+      }
+      function sortDESCateOfRealese(a, b) {
+        if (getDate(a.car.dateOfRealeseCar) > getDate(b.car.dateOfRealeseCar)) {
+        return -1;
+        } else if (getDate(b.car.dateOfRealeseCar) > getDate(a.car.dateOfRealeseCar)) {
+        return 1;
+        } else {
+        return 0;
+        }
+        }

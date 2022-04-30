@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Contracts;
 using Domain.Exceptions;
+using Domain.FilterHelper;
 using Domain.Models;
 using Domain.Models.CarEquipment;
 using Domain.Pagination;
@@ -15,7 +16,7 @@ using System.Threading.Tasks;
 namespace Services
 {
     internal sealed class AsyncServiceCar :
-        IAsyncServiceCar<Car, ImgCar, GetCarDto>
+        IAsyncServiceCar<Car, ImgCar, GetCarDto, FilterCarEmail>
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IAsyncRepositoryCarEquipment<CarEquipment> asyncRepositoryCarEquipment;
@@ -81,7 +82,7 @@ namespace Services
         {
             IQueryable<Car> items = unitOfWork.AsyncRepositoryCar.GetPaged().OrderBy(on => on.Id);
             List<Car> cars = items.Skip((item.PageNumber - 1) * item.PageSize).Take(item.PageSize).ToList();
-            List<GetCarDto> carsDto =new();
+            List<GetCarDto> carsDto = new();
             foreach (Car i in cars)
             {
                 CarEquipment carEquipment = asyncRepositoryCarEquipment.GetById(i.IdCarEquipment);
@@ -116,13 +117,11 @@ namespace Services
             return await unitOfWork.AsyncRepositoryCar.GetCarActive();
         }
 
-        public PagedListCar<GetCarDto> GetByEmailPaged(PagedParameters item, string email, IMapper mapper)
+        public PagedListCar<GetCarDto> GetByEmailPaged(PagedParameters item, string email,FilterCarEmail filter, IMapper mapper)
         {
-            IQueryable<Car> carItems = unitOfWork.AsyncRepositoryCar.GetByEmailPaged(email).OrderBy(on => on.Id)
-                ;
-            List<Car> cars = carItems.Skip((item.PageNumber - 1) * item.PageSize).Take(item.PageSize).ToList();
+            IQueryable<Car> carItems = unitOfWork.AsyncRepositoryCar.GetByEmailPaged(email).OrderBy(on => on.Id);
             List<GetCarDto> carsDto = new();
-            foreach (Car i in cars)
+            foreach (Car i in carItems)
             {
                 CarEquipment carEquipment = asyncRepositoryCarEquipment.GetById(i.IdCarEquipment);
                 decimal totalCost = i.Cost + carEquipment.Equipments.Select(i => i.EquipmentItem.Cost).Sum();
@@ -136,12 +135,12 @@ namespace Services
                     User = i.ClientCar.User
                 });
             };
+            carsDto= FilteringData(carsDto,filter);
+            carsDto = carsDto.Skip((item.PageNumber - 1) * item.PageSize).Take(item.PageSize).ToList();
             return PagedListCar<GetCarDto>.ToPagedList(carItems.Count(), carsDto,
         item.PageNumber,
         item.PageSize);
         }
-
-
 
         public async Task<IEnumerable<Car>> GetCarForUser(CancellationToken cancellationToken = default)
         {
@@ -326,5 +325,74 @@ namespace Services
             unitOfWork.AsyncRepositoryCar.Update(car);
             await unitOfWork.CompleteAsync();
         }
+
+        public List<GetCarDto> FilteringData(List<GetCarDto> data, FilterCarEmail filter)
+        {
+            if (!String.IsNullOrEmpty(filter.Vin))
+            {
+                data = data.Where(i => i.Car.VIN.Contains(filter.Vin)).ToList();
+            }
+            if (filter.DateOfRealeseCarFrom != null && filter.DateOfRealeseCarBefore != null)
+            {
+                data = data
+                    .Where(i =>
+                    i.Car.DateOfRealeseCar < filter.DateOfRealeseCarBefore
+                    &&
+                    i.Car.DateOfRealeseCar > filter.DateOfRealeseCarFrom)
+                    .ToList();
+            }
+           else if (filter.DateOfRealeseCarFrom == null && filter.DateOfRealeseCarBefore != null)
+            {
+                data = data
+                    .Where(i =>
+                    i.Car.DateOfRealeseCar < filter.DateOfRealeseCarBefore).ToList();
+            }
+            else if (filter.DateOfRealeseCarFrom != null && filter.DateOfRealeseCarBefore == null)
+            {
+                data = data
+                    .Where(i =>
+                    i.Car.DateOfRealeseCar > filter.DateOfRealeseCarFrom).ToList();
+            }
+            if (filter.TotalCostFrom != null && filter.TotalCostBefore != null)
+            {
+                data = data
+                    .Where(i => i.TotalCost > filter.TotalCostFrom && i.TotalCost < filter.TotalCostBefore)
+                    .ToList();
+            }
+            else if (filter.TotalCostBefore != null && filter.TotalCostFrom == null)
+            {
+                data = data.Where(i => i.TotalCost < filter.TotalCostBefore).ToList();
+            }
+            else if (filter.TotalCostFrom != null && filter.TotalCostBefore == null)
+            {
+                data = data.Where(i => i.TotalCost > filter.TotalCostFrom).ToList();
+            }
+
+            if (filter.CarMileageFrom != null && filter.CarMileageBefore != null)
+            {
+                data = data
+                    .Where(i => i.Car.CarMileage > filter.CarMileageFrom && i.Car.CarMileage < filter.CarMileageBefore)
+                    .ToList();
+            }
+            else if (filter.CarMileageBefore != null && filter.CarMileageFrom == null)
+            {
+                data = data.Where(i => i.Car.CarMileage < filter.CarMileageBefore).ToList();
+            }
+            else if (filter.CarMileageFrom != null && filter.CarMileageBefore == null)
+            {
+                data = data.Where(i => i.Car.CarMileage > filter.CarMileageFrom).ToList();
+            }
+            if (filter.Cell==StateCell.SELL)
+            {
+                data = data.Where(i => i.Car.IsActive ==true).ToList();
+            }
+            else if (filter.Cell == StateCell.NOT_SELL)
+            {
+                data = data.Where(i => i.Car.IsActive == false).ToList();
+            }
+
+            return data;
+        }
+
     }
 }

@@ -3,10 +3,11 @@ import { CarsApi } from "../../ImportExportGenClient";
 import { GetPagedCarDto } from "../../model/GetPagedCarDto";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import { GetCarDto } from "../../model/GetCarDto";
-import { getDate } from "../ViewLists/SupportFunction";
+import { getDate,Sort } from "../ViewLists/SupportFunction";
 import Context from "../../context";
 import Tooltip from "@mui/material/Tooltip";
 import { Link } from "react-router-dom";
+import { Search } from "@mui/icons-material";
 
 export default function EnhancedTable(props) {
   const { user } = useContext(Context);
@@ -16,7 +17,16 @@ export default function EnhancedTable(props) {
   const [blockFlag, setBlockFlag] = React.useState(false);
   const [load, setLoad] = React.useState(true);
   const [flag, setFlag] = React.useState(true);
-
+  const [vin,setVin]=React.useState("");
+  const [priceFrom,setPriceFrom]=React.useState("");
+  const [priceBefore,setPriceBefore]=React.useState("");
+  const [dateOfRealeseCarFrom,setDateOfRealeseCarFrom]=React.useState("");
+  const [dateOfRealeseCarBefore,setDateOfRealeseCarBefore]=React.useState("");
+  const [carMileageFrom,setCarMileageFrom]=React.useState("");
+  const [carMileageBefore,setCarMileageBefore]=React.useState("");
+  const [cell,setCell]=React.useState(0);
+  const[sort,setSort]=React.useState("")
+  const [flagFilters,setFlagFilters]=React.useState(true)
   async function DeleteClientCar(e) {
     if (user === undefined) {
       props.setMessageError("Error:Unauthorized");
@@ -84,10 +94,10 @@ export default function EnhancedTable(props) {
         return GetCarDto.constructFromObject(e);
       });
       if (list.length == 0) {
-        setList(ListCars);
+        setList(Sort(ListCars,sort));
       } else {
         if (blockFlag) setList(ListCars);
-        setList([...list, ...ListCars]);
+        setList(Sort([...list, ...ListCars],sort));
       }
     } else if (response.statusCode > 400) {
      props.setMessageError(response.body.error);
@@ -125,7 +135,7 @@ export default function EnhancedTable(props) {
         return GetCarDto.constructFromObject(e);
       });
 
-      setList(ListCars);
+      setList(Sort(ListCars,sort));
     } else if (response.statusCode > 400) {
      props.setMessageError(response.body.error);
     }
@@ -141,9 +151,17 @@ export default function EnhancedTable(props) {
         new CarsApi().emailPagedGet(
           GetJwtToken(),
           {
-            pageNumber: currentPages,
+            pageNumber: 1,
             pageSize: 3,
-            email: JSON.parse(user).email
+            email: JSON.parse(user).email,
+            Vin:vin.length===0?null:vin,
+            TotalCostFrom:priceFrom.length===0?null:priceFrom,
+            TotalCostBefore:priceBefore.length===0?null:priceBefore,
+            DateOfRealeseCarFrom:dateOfRealeseCarFrom.length===0?null:getDate(dateOfRealeseCarFrom),
+            DateOfRealeseCarBefore:dateOfRealeseCarBefore.length===0?null:getDate(dateOfRealeseCarBefore),
+            CarMileageFrom:carMileageFrom.length===0?null:carMileageFrom,
+            CarMileageBefore:carMileageBefore.length===0?null:carMileageBefore,
+            Cell:cell
           },
           CallbackRequest
         );
@@ -154,7 +172,15 @@ export default function EnhancedTable(props) {
           {
             pageNumber: 1,
             pageSize: 3,
-            email: JSON.parse(user).email
+            email: JSON.parse(user).email,
+            Vin:vin.length===0?null:vin,
+            TotalCostFrom:priceFrom.length===0?null:priceFrom,
+            TotalCostBefore:priceBefore.length===0?null:priceBefore,
+            DateOfRealeseCarFrom:dateOfRealeseCarFrom.length===0?null:getDate(dateOfRealeseCarFrom),
+            DateOfRealeseCarBefore:dateOfRealeseCarBefore.length===0?null:getDate(dateOfRealeseCarBefore),
+            CarMileageFrom:carMileageFrom.length===0?null:carMileageFrom,
+            CarMileageBefore:carMileageBefore.length===0?null:carMileageBefore,
+            Cell:cell
           },
           CallbackRequestBlock
         );
@@ -182,8 +208,160 @@ export default function EnhancedTable(props) {
     }
   };
   let styleHeaderCard={padding: "4px 10px 1px 10px"}
+
+  function OpenFilters(){
+    setFlagFilters(!flagFilters)
+  }
+  function Search(){
+    setBlockFlag(!blockFlag);
+  }
+  function CancelSearch(){
+    setSort("")
+    setVin("")
+    setPriceBefore(""
+    )
+    setCell(0);
+    setCarMileageBefore("")
+    setCarMileageFrom("")
+    setPriceFrom("")
+    setDateOfRealeseCarBefore("")
+    setDateOfRealeseCarFrom("")
+    setBlockFlag(!blockFlag);
+  }
   return (
     <div className="container ">
+
+<div className="row-1">
+                    <button
+                
+                    onClick={OpenFilters}
+                    className="btn btn-secondary btn-rounded"
+                  >
+                    Filters...
+                  </button>
+                  </div>
+                  <div className="row m-2 p-2 bg-black text-white"  hidden={flagFilters}>
+                  <div className="row">
+                    
+                    <div className="input-group rounded col">
+                      <input
+                        type="search"
+                        className="form-control rounded"
+                        placeholder="Search by vin"
+                        aria-label="Search"
+                        value={vin}
+                        aria-describedby="search-addon"
+                        onChange={e => setVin(e.target.value)}
+                      />
+                      <span className="input-group-text border-0" id="search-addon">
+                        <i className="fas fa-search" />
+                      </span>
+                    </div>
+                    <div className="rounded col">
+                      <label>Sort:</label>
+                      <select className="form-select" value={sort} onChange={e => setSort(e.target.value)} aria-label="Default select example">
+                      <option selected value=""></option>
+                        <option value="0">Price Asc</option>
+                        <option value="1">Price Desc</option>
+                        <option value="2">date of realese Asc</option>
+                        <option value="3">date of realese Desc</option>
+                        <option value="4">Car mileage Asc</option>
+                        <option value="5">Car mileage Desc</option>
+                      </select>
+                    </div>
+                    <div className="rounded col">
+                      <label>Cell:</label>
+                      <select className="form-select" value={cell} onChange={e => setCell(e.target.value)} aria-label="Default select example">
+                      <option selected value={0}>All</option>
+                        <option value={1}>Cell</option>
+                        <option value={2}>not cell</option>
+                      </select>
+                    </div>
+                    <div className="rounded col">
+                    <button
+                     className="btn btn-secondary btn-rounded m-2"
+                      onClick={Search}
+                      type="button"
+                    >
+                      Search
+                    </button>
+                    <button
+                     className="btn btn-secondary btn-rounded m-2"
+                      onClick={CancelSearch}
+                      type="button"
+                    >
+                      Cancel filters
+                    </button>
+                    </div>
+                  </div>
+                       <div className="row">
+                         
+                         <div className="col mb-2 ">
+                            <label>Cost from(<i className="fa-solid fa-dollar-sign" />):</label>
+                            <input
+                              className="w-100 shadow-lg  bg-white rounded"
+                              onChange={e => setPriceFrom(e.target.value)}
+                              value={priceFrom}
+                              type="number"
+                              min="0"
+                              max="1000000"
+                            />
+                          </div>
+                          <div className="col mb-2 ">
+                <label>Cost before(<i className="fa-solid fa-dollar-sign" />):</label>
+                <input
+                  className="w-100 shadow-lg  bg-white rounded"
+                  value={priceBefore}
+                  onChange={e => setPriceBefore(e.target.value)}
+                  type="number"
+                  min="0"
+                  max="1000000"
+                />
+              </div>
+              </div>
+              <div className="row">
+              <div className="col mb-2 ">
+                <label>Car mileage From(km):</label>
+                <input
+                  className="w-100 shadow-lg  bg-white rounded"
+                  value={carMileageFrom}
+                  onChange={e => setCarMileageFrom(e.target.value)}
+                  type="number"
+                  min="0"
+                  max="1000000"
+                />
+              </div>
+             <div className="col mb-2 ">
+                <label>Car mileage Before(km):</label>
+                <input
+                  className="w-100 shadow-lg  bg-white rounded"
+                  onChange={e => setCarMileageBefore(e.target.value)}
+                  value={carMileageBefore}
+                  type="number"
+                  min="0"
+                  max="1000000"
+                />
+              </div></div> 
+                       <div className="row"><div className="col mb-2 ">
+                      <label>Date of realese car from:</label>
+                      <input
+                      value={dateOfRealeseCarFrom}
+                        className="w-100 shadow-lg  bg-white rounded"
+                        onChange={e => setDateOfRealeseCarFrom(e.target.value)}
+                        type="date"
+                        
+                      />
+              </div><div className="col mb-2 ">
+                <label>Date of realese car before:</label>
+                <input
+                value={dateOfRealeseCarBefore}
+                  className="w-100 shadow-lg  bg-white rounded"
+                  onChange={e => setDateOfRealeseCarBefore(e.target.value)}
+                  type="date"
+                  max={new Date()}
+                />
+              </div></div>
+                   </div>
       <div className="row align-items-center d-flex flex-column">
         {list.map(e => {
           return (
@@ -265,7 +443,8 @@ export default function EnhancedTable(props) {
                
                <div className="col"> <h4 className="card-title text-center">
                   Information about car
-                </h4></div>
+                </h4>
+                </div>
                 </div>
 
                  <div className="row text-left">

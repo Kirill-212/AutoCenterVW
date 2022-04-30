@@ -493,7 +493,15 @@ export class CarsApi {
     let queryParams = {
       PageNumber: opts["pageNumber"],
       PageSize: opts["pageSize"],
-      email: opts["email"]
+      email: opts["email"],
+      Vin: opts["Vin"],
+      TotalCostFrom: opts["TotalCostFrom"],
+      TotalCostBefore: opts["TotalCostBefore"],
+      DateOfRealeseCarFrom: opts["DateOfRealeseCarFrom"],
+      DateOfRealeseCarBefore: opts["DateOfRealeseCarBefore"],
+      CarMileageFrom:opts["CarMileageFrom"],
+      CarMileageBefore:opts['CarMileageBefore'],
+      Cell:opts['Cell']
     };
     let headerParams = jwt;
     let formParams = {};

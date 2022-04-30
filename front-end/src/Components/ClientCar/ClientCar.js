@@ -124,6 +124,7 @@ const ClientCars = (props) => {
             <ListClientCars
               head={ClientCarListView()}
               rows={listClientCars}
+              setMessageError={props.setMessageError}
               updateClientCar={UpdateClientCar}
               deleteClientCar={DeleteClientCar}
             />}

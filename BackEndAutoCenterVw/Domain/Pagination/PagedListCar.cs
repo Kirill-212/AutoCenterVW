@@ -28,9 +28,6 @@ namespace Domain.Pagination
 
 		public static PagedListCar<V> ToPagedList(int count ,List<V> items, int pageNumber, int pageSize)
 		{
-			//var count = source.Count();
-			//var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-
 			return new PagedListCar<V>(items, count, pageNumber, pageSize);
 		}
 	}
