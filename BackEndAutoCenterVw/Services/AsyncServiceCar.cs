@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace Services
 {
     internal sealed class AsyncServiceCar :
-        IAsyncServiceCar<Car, ImgCar, GetCarDto, FilterCarEmail>
+        IAsyncServiceCar<Car, ImgCar, GetCarDto, FilterCarEmail,FilterCar>
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IAsyncRepositoryCarEquipment<CarEquipment> asyncRepositoryCarEquipment;
@@ -78,12 +78,11 @@ namespace Services
             return await unitOfWork.AsyncRepositoryCar.Get();
         }
 
-        public PagedListCar<GetCarDto> GetAllPaged(PagedParameters item, IMapper mapper)
+        public PagedListCar<GetCarDto> GetAllPaged(PagedParameters item, FilterCar filterAllCar, IMapper mapper)
         {
             IQueryable<Car> items = unitOfWork.AsyncRepositoryCar.GetPaged().OrderBy(on => on.Id);
-            List<Car> cars = items.Skip((item.PageNumber - 1) * item.PageSize).Take(item.PageSize).ToList();
             List<GetCarDto> carsDto = new();
-            foreach (Car i in cars)
+            foreach (Car i in items)
             {
                 CarEquipment carEquipment = asyncRepositoryCarEquipment.GetById(i.IdCarEquipment);
                 decimal totalCost = i.Cost + carEquipment.Equipments.Select(i => i.EquipmentItem.Cost).Sum();
@@ -97,6 +96,8 @@ namespace Services
                     User = i.ClientCar?.User,
                 });
             };
+            carsDto = FilteringCar(carsDto, filterAllCar);
+            carsDto = carsDto.Skip((item.PageNumber - 1) * item.PageSize).Take(item.PageSize).ToList();
             return PagedListCar<GetCarDto>.ToPagedList(items.Count(), carsDto,
         item.PageNumber,
         item.PageSize);
@@ -135,7 +136,7 @@ namespace Services
                     User = i.ClientCar.User
                 });
             };
-            carsDto= FilteringData(carsDto,filter);
+            carsDto= FilteringClientCar(carsDto,filter);
             carsDto = carsDto.Skip((item.PageNumber - 1) * item.PageSize).Take(item.PageSize).ToList();
             return PagedListCar<GetCarDto>.ToPagedList(carItems.Count(), carsDto,
         item.PageNumber,
@@ -326,7 +327,7 @@ namespace Services
             await unitOfWork.CompleteAsync();
         }
 
-        public List<GetCarDto> FilteringData(List<GetCarDto> data, FilterCarEmail filter)
+        public List<GetCarDto> FilteringClientCar(List<GetCarDto> data, FilterCarEmail filter)
         {
             if (!String.IsNullOrEmpty(filter.Vin))
             {
@@ -394,5 +395,21 @@ namespace Services
             return data;
         }
 
+        public List<GetCarDto> FilteringCar(List<GetCarDto> data, FilterCar filter)
+        {
+            data = FilteringClientCar(data, filter);
+
+            if (filter.FilterAllCar == CarFilter.ClientCar)
+            {
+                data = data.Where(i => i.Car.ClientCar != null).ToList();
+            }
+            else
+            if (filter.FilterAllCar == CarFilter.CarAutoCenter)
+            {
+                data = data.Where(i => i.Car.ClientCar == null).ToList();
+            }
+
+            return data;
+        }
     }
 }

@@ -7,7 +7,6 @@ import { getDate,Sort } from "../ViewLists/SupportFunction";
 import Context from "../../context";
 import Tooltip from "@mui/material/Tooltip";
 import { Link } from "react-router-dom";
-import { Search } from "@mui/icons-material";
 
 export default function EnhancedTable(props) {
   const { user } = useContext(Context);
@@ -96,7 +95,7 @@ export default function EnhancedTable(props) {
       if (list.length == 0) {
         setList(Sort(ListCars,sort));
       } else {
-        if (blockFlag) setList(ListCars);
+        if (blockFlag) 
         setList(Sort([...list, ...ListCars],sort));
       }
     } else if (response.statusCode > 400) {
@@ -151,17 +150,17 @@ export default function EnhancedTable(props) {
         new CarsApi().emailPagedGet(
           GetJwtToken(),
           {
-            pageNumber: 1,
+            pageNumber: currentPages,
             pageSize: 3,
             email: JSON.parse(user).email,
-            Vin:vin.length===0?null:vin,
-            TotalCostFrom:priceFrom.length===0?null:priceFrom,
-            TotalCostBefore:priceBefore.length===0?null:priceBefore,
-            DateOfRealeseCarFrom:dateOfRealeseCarFrom.length===0?null:getDate(dateOfRealeseCarFrom),
-            DateOfRealeseCarBefore:dateOfRealeseCarBefore.length===0?null:getDate(dateOfRealeseCarBefore),
-            CarMileageFrom:carMileageFrom.length===0?null:carMileageFrom,
-            CarMileageBefore:carMileageBefore.length===0?null:carMileageBefore,
-            Cell:cell
+            filterCarEmailVin:vin.length===0?null:vin,
+            filterCarEmailTotalCostFrom:priceFrom.length===0?null:priceFrom,
+            filterCarEmailTotalCostBefore:priceBefore.length===0?null:priceBefore,
+            filterCarEmailDateOfRealeseCarFrom:dateOfRealeseCarFrom.length===0?null:getDate(dateOfRealeseCarFrom),
+            filterCarEmailDateOfRealeseCarBefore:dateOfRealeseCarBefore.length===0?null:getDate(dateOfRealeseCarBefore),
+            filterCarEmailCarMileageFrom:carMileageFrom.length===0?null:carMileageFrom,
+            filterCarEmailCarMileageBefore:carMileageBefore.length===0?null:carMileageBefore,
+            filterCarEmailCell:cell
           },
           CallbackRequest
         );
@@ -173,14 +172,14 @@ export default function EnhancedTable(props) {
             pageNumber: 1,
             pageSize: 3,
             email: JSON.parse(user).email,
-            Vin:vin.length===0?null:vin,
-            TotalCostFrom:priceFrom.length===0?null:priceFrom,
-            TotalCostBefore:priceBefore.length===0?null:priceBefore,
-            DateOfRealeseCarFrom:dateOfRealeseCarFrom.length===0?null:getDate(dateOfRealeseCarFrom),
-            DateOfRealeseCarBefore:dateOfRealeseCarBefore.length===0?null:getDate(dateOfRealeseCarBefore),
-            CarMileageFrom:carMileageFrom.length===0?null:carMileageFrom,
-            CarMileageBefore:carMileageBefore.length===0?null:carMileageBefore,
-            Cell:cell
+            filterCarEmailVin:vin.length===0?null:vin,
+            filterCarEmailTotalCostFrom:priceFrom.length===0?null:priceFrom,
+            filterCarEmailTotalCostBefore:priceBefore.length===0?null:priceBefore,
+            filterCarEmailDateOfRealeseCarFrom:dateOfRealeseCarFrom.length===0?null:getDate(dateOfRealeseCarFrom),
+            filterCarEmailDateOfRealeseCarBefore:dateOfRealeseCarBefore.length===0?null:getDate(dateOfRealeseCarBefore),
+            filterCarEmailCarMileageFrom:carMileageFrom.length===0?null:carMileageFrom,
+            filterCarEmailCarMileageBefore:carMileageBefore.length===0?null:carMileageBefore,
+            filterCarEmailCell:cell
           },
           CallbackRequestBlock
         );

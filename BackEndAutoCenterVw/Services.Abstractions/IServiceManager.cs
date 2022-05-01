@@ -14,7 +14,7 @@ namespace Services.Abstractions
 
         IAsyncServiceNew<New, Img, GetNewDto> AsyncServiceNew { get; }
 
-        IAsyncServiceCar<Car, ImgCar, GetCarDto,FilterCarEmail> AsyncServiceCar { get; }
+        IAsyncServiceCar<Car, ImgCar, GetCarDto,FilterCarEmail,FilterCar> AsyncServiceCar { get; }
 
         IAsyncServiceClientCar<ClientCar> AsyncServiceClientCar { get; }
 

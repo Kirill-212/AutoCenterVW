@@ -3,6 +3,7 @@ using Contracts;
 using Domain.FilterHelper;
 using Domain.Models;
 using Domain.Pagination;
+using Domain.PaginationFilterParams;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Abstractions;
@@ -52,10 +53,10 @@ namespace Presentation.Controllers
 
         [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("/email/paged")]
-        public GetPagedCarDto GetCarsPagedByEmail([FromQuery] PagedParameters pagedParameters, string email, [FromQuery] FilterCarEmail filter
+        public GetPagedCarDto GetCarsPagedByEmail([FromQuery] GetCarsByEmailParams byEmailParams, string email 
             )
         {
-            var pageds = _serviceManager.AsyncServiceCar.GetByEmailPaged(pagedParameters, email,filter, _mapper);
+            var pageds = _serviceManager.AsyncServiceCar.GetByEmailPaged(byEmailParams, email,byEmailParams.FilterCarEmail, _mapper);
             GetPagedCarDto getPagedNewDto = new()
             {
                 GetCarDto = pageds,
@@ -78,9 +79,9 @@ namespace Presentation.Controllers
 
         [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet("paged")]
-        public GetPagedCarDto GetCarsPaged([FromQuery] PagedParameters pagedParameters)
+        public GetPagedCarDto GetCarsPaged([FromQuery] GetCarsParams param)
         {
-            var pageds = _serviceManager.AsyncServiceCar.GetAllPaged(pagedParameters, _mapper);
+            var pageds = _serviceManager.AsyncServiceCar.GetAllPaged(param,param.FilterCar, _mapper);
             GetPagedCarDto getPagedNewDto = new()
             {
                 GetCarDto = pageds,
@@ -94,22 +95,6 @@ namespace Presentation.Controllers
             return getPagedNewDto;
         }
 
-        [HttpGet("email/paged")]
-        public GetPagedCarDto GetCarsPaged([FromQuery] PagedParameters pagedParameters, string email)
-        {
-            var pageds = _serviceManager.AsyncServiceCar.GetAllPaged(pagedParameters, _mapper);
-            GetPagedCarDto getPagedNewDto = new()
-            {
-                GetCarDto = pageds,
-                TotalCount = pageds.TotalCount,
-                PageSize = pageds.PageSize,
-                CurrentPage = pageds.CurrentPage,
-                TotalPages = pageds.TotalPages,
-                HasNext = pageds.HasNext,
-                HasPrevious = pageds.HasPrevious
-            };
-            return getPagedNewDto;
-        }
 
         [Authorize(Roles = "SUPER_ADMIN,ADMIN,USER,EMPLOYEE,SERVICE_EMPLOYEE")]
         [HttpGet]

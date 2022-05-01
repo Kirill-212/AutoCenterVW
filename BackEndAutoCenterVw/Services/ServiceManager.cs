@@ -21,7 +21,7 @@ namespace Services
 
         private readonly Lazy<IAsyncServiceNew<New, Img, GetNewDto>> _lazyAsyncServiceNew;
 
-        private readonly Lazy<IAsyncServiceCar<Car, ImgCar, GetCarDto, FilterCarEmail>> _lazyAsyncServiceCar;
+        private readonly Lazy<IAsyncServiceCar<Car, ImgCar, GetCarDto, FilterCarEmail,FilterCar>> _lazyAsyncServiceCar;
 
         private readonly Lazy<IAsyncServiceClientCar<ClientCar>> _lazyAsyncServiceClientCar;
 
@@ -55,7 +55,7 @@ namespace Services
             _lazyAsyncServiceNew = new Lazy<IAsyncServiceNew<New, Img, GetNewDto>>(
                () => new AsyncServiceNew(unitOfWork)
                );
-            _lazyAsyncServiceCar = new Lazy<IAsyncServiceCar<Car, ImgCar, GetCarDto, FilterCarEmail>>(
+            _lazyAsyncServiceCar = new Lazy<IAsyncServiceCar<Car, ImgCar, GetCarDto, FilterCarEmail,FilterCar>>(
                 () => new AsyncServiceCar(unitOfWork, carEquipment)
                 );
             _lazyAsyncServiceClientCar = new Lazy<IAsyncServiceClientCar<ClientCar>>(
@@ -86,7 +86,7 @@ namespace Services
 
         public IAsyncServiceNew<New, Img, GetNewDto> AsyncServiceNew => _lazyAsyncServiceNew.Value;
 
-        public IAsyncServiceCar<Car, ImgCar, GetCarDto, FilterCarEmail> AsyncServiceCar => _lazyAsyncServiceCar.Value;
+        public IAsyncServiceCar<Car, ImgCar, GetCarDto, FilterCarEmail,FilterCar> AsyncServiceCar => _lazyAsyncServiceCar.Value;
 
         public IAsyncServiceClientCar<ClientCar> AsyncServiceClientCar =>
             _lazyAsyncServiceClientCar.Value;

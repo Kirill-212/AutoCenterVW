@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Services.Abstractions
 {
-    public interface IAsyncServiceCar<T, K,C,D>
+    public interface IAsyncServiceCar<T, K,C,D,Q>
     {
         Task Create(
             T item,
@@ -48,11 +48,15 @@ namespace Services.Abstractions
 
         Task<IEnumerable<T>> GetCarActive();
 
-        PagedListCar< C> GetAllPaged(PagedParameters item, IMapper mapper);
+        PagedListCar< C> GetAllPaged(PagedParameters item,Q filterAllCar, IMapper mapper);
         PagedListCar< C> GetByEmailPaged(PagedParameters item, string email, D filterCarEmail, IMapper mapper);
 
-        List<C> FilteringData(List<C> data,
+        List<C> FilteringClientCar(List<C> data,
             D filter
+            );
+
+        List<C> FilteringCar(List<C> data,
+            Q filter
             );
     }
 }

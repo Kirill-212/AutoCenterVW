@@ -42,6 +42,16 @@ export class CarsApi {
 
     let pathParams = {};
     let queryParams = {
+      "FilterCar.FilterAllCar": opts["filterCarFilterAllCar"],
+      "FilterCar.Vin": opts["filterCarVin"],
+      "FilterCar.TotalCostFrom": opts["filterCarTotalCostFrom"],
+      "FilterCar.TotalCostBefore": opts["filterCarTotalCostBefore"],
+      "FilterCar.CarMileageFrom": opts["filterCarCarMileageFrom"],
+      "FilterCar.CarMileageBefore": opts["filterCarCarMileageBefore"],
+      "FilterCar.Cell": opts["filterCarCell"],
+      "FilterCar.DateOfRealeseCarFrom": opts["filterCarDateOfRealeseCarFrom"],
+      "FilterCar.DateOfRealeseCarBefore":
+        opts["filterCarDateOfRealeseCarBefore"],
       PageNumber: opts["pageNumber"],
       PageSize: opts["pageSize"]
     };
@@ -68,7 +78,6 @@ export class CarsApi {
       callback
     );
   }
-
   activeGet(jwt, callback) {
     let postBody = null;
 
@@ -491,17 +500,19 @@ export class CarsApi {
 
     let pathParams = {};
     let queryParams = {
+      "FilterCarEmail.Vin": opts["filterCarEmailVin"],
+      "FilterCarEmail.TotalCostFrom": opts["filterCarEmailTotalCostFrom"],
+      "FilterCarEmail.TotalCostBefore": opts["filterCarEmailTotalCostBefore"],
+      "FilterCarEmail.CarMileageFrom": opts["filterCarEmailCarMileageFrom"],
+      "FilterCarEmail.CarMileageBefore": opts["filterCarEmailCarMileageBefore"],
+      "FilterCarEmail.Cell": opts["filterCarEmailCell"],
+      "FilterCarEmail.DateOfRealeseCarFrom":
+        opts["filterCarEmailDateOfRealeseCarFrom"],
+      "FilterCarEmail.DateOfRealeseCarBefore":
+        opts["filterCarEmailDateOfRealeseCarBefore"],
       PageNumber: opts["pageNumber"],
       PageSize: opts["pageSize"],
-      email: opts["email"],
-      Vin: opts["Vin"],
-      TotalCostFrom: opts["TotalCostFrom"],
-      TotalCostBefore: opts["TotalCostBefore"],
-      DateOfRealeseCarFrom: opts["DateOfRealeseCarFrom"],
-      DateOfRealeseCarBefore: opts["DateOfRealeseCarBefore"],
-      CarMileageFrom:opts["CarMileageFrom"],
-      CarMileageBefore:opts['CarMileageBefore'],
-      Cell:opts['Cell']
+      email: opts["email"]
     };
     let headerParams = jwt;
     let formParams = {};
