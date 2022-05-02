@@ -26,13 +26,13 @@ export default function EnhancedTable(props) {
 
   function CallbackRequestDelete(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -52,13 +52,13 @@ export default function EnhancedTable(props) {
 
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -72,7 +72,6 @@ export default function EnhancedTable(props) {
       let rs = GetPagedNewDto.constructFromObject(response.body);
       setCurrentPages(rs.currentPage + 1);
       setTotalPages(rs.totalPages);
-
       let newss = GetPagedNewDto.constructFromObject(
         response.body
       ).getNewDto.map(e => {
@@ -93,13 +92,13 @@ export default function EnhancedTable(props) {
 
   function CallbackRequestBlock(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -113,13 +112,11 @@ export default function EnhancedTable(props) {
       let rs = GetPagedNewDto.constructFromObject(response.body);
       setCurrentPages(rs.currentPage + 1);
       setTotalPages(rs.totalPages);
-
       let newss = GetPagedNewDto.constructFromObject(
         response.body
       ).getNewDto.map(e => {
         return GetNewDto.constructFromObject(e);
       });
-
       setListNew(newss);
     } else if (response.statusCode > 400) {
       props.setMessageError(response.body.error);
@@ -159,8 +156,7 @@ export default function EnhancedTable(props) {
 
   useEffect(() => {
     document.addEventListener("scroll", ScrollHandler);
-
-    return function() {
+    return function () {
       document.removeEventListener("scroll", ScrollHandler);
     };
   }, []);
@@ -168,14 +164,16 @@ export default function EnhancedTable(props) {
   const ScrollHandler = e => {
     if (
       e.target.documentElement.scrollHeight -
-        (window.pageYOffset + window.innerHeight) <
+      (window.pageYOffset + window.innerHeight) <
       100
     ) {
       setLoad(true);
     }
   };
+
   let styleDescription = { width: "50rem" };
-let styleHeaderCard={padding: "4px 10px 1px 10px"}
+  let styleHeaderCard = { padding: "4px 10px 1px 10px" }
+
   return (
     <div className="container">
       {listNew.map(e => {
@@ -183,39 +181,38 @@ let styleHeaderCard={padding: "4px 10px 1px 10px"}
         return (
           <div className="card mt-5 mb-5 text-white bg-black">
             <div className="card-header" style={styleHeaderCard}>
-            <div className="row justify-content-center">
+              <div className="row justify-content-center">
                 {(JSON.parse(user).roleName === "ADMIN" ||
-                JSON.parse(user).roleName === "SUPER_ADMIN"||
+                  JSON.parse(user).roleName === "SUPER_ADMIN" ||
                   JSON.parse(user).roleName === "EMPLOYEE") &&
                   <div className="col ">
-                     <Tooltip
-              disableFocusListener
-              disableTouchListener
-              title="Update new"
-              arrow
-            >
-                    <Link
-                      className="text-reset btn btn-primary-sm btn-sm mr-1"
-                      to={`/new/put?title=${e.title}`}
-                    >
-                      <i className="fa-solid fa-screwdriver-wrench" />
-                    </Link></Tooltip>
                     <Tooltip
-              disableFocusListener
-              disableTouchListener
-              title="Delete new"
-              arrow
-            >
-                    <button
-                     
-                      color="purple"
-                      size="sm"
-                      className="btn btn-primary-sm btn-sm mr-1 text-white"
-                      value={e.title}
-                      onClick={DeleteNew}
+                      disableFocusListener
+                      disableTouchListener
+                      title="Update new"
+                      arrow
                     >
-                      <i className="fa-solid fa-trash" />
-                    </button></Tooltip>
+                      <Link
+                        className="text-reset btn btn-primary-sm btn-sm mr-1"
+                        to={`/new/put?title=${e.title}`}
+                      >
+                        <i className="fa-solid fa-screwdriver-wrench" />
+                      </Link></Tooltip>
+                    <Tooltip
+                      disableFocusListener
+                      disableTouchListener
+                      title="Delete new"
+                      arrow
+                    >
+                      <button
+                        color="purple"
+                        size="sm"
+                        className="btn btn-primary-sm btn-sm mr-1 text-white"
+                        value={e.title}
+                        onClick={DeleteNew}
+                      >
+                        <i className="fa-solid fa-trash" />
+                      </button></Tooltip>
                   </div>}
               </div>
               <div className="row justify-content-center">
@@ -225,10 +222,10 @@ let styleHeaderCard={padding: "4px 10px 1px 10px"}
                   </h2>
                 </div>
               </div>
-              <div className="row justify-content-center">              
+              <div className="row justify-content-center">
                 <div className="col text-left">
-                <p>
-                Author: {e.firstName} {e.lastName}
+                  <p>
+                    Author: {e.firstName} {e.lastName}
                   </p>
                 </div>
                 <div className="col text-right">
@@ -304,7 +301,7 @@ let styleHeaderCard={padding: "4px 10px 1px 10px"}
               <div className="row">
                 <div className="col text-reght justify-content-right">
                   <p style={styleDescription} className="text-wrap  text-reset text-white">
-                    Description: 
+                    Description:
                     {e.description}
                   </p>
                 </div>

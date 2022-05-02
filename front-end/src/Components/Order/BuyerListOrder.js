@@ -15,25 +15,25 @@ const BuyerListOrder = props => {
   const [listCars, setListCars] = React.useState([]);
   const [viewList, setViewList] = React.useState(false);
   const [empty, setEmpty] = React.useState(false);
-  const [flagFilters,setFlagFilters]=React.useState(true)
-  const [listOrders,setListOrders] = React.useState([]);
-  const[emailOwner,setEmailOwner]=React.useState("");
-  const [state,setState]=React.useState("");
-  const [vin,setVin]=React.useState("");
+  const [flagFilters, setFlagFilters] = React.useState(true)
+  const [listOrders, setListOrders] = React.useState([]);
+  const [emailOwner, setEmailOwner] = React.useState("");
+  const [state, setState] = React.useState("");
+  const [vin, setVin] = React.useState("");
   const [flag, setFlag] = React.useState("2");
 
-  const requestSearch = (searchedVal,data) => {
+  const requestSearch = (searchedVal, data) => {
     let filteredRows;
-    if(data!==null){
-      if(searchedVal.length===0){
-        filteredRows=data;
+    if (data !== null) {
+      if (searchedVal.length === 0) {
+        filteredRows = data;
       }
-      else{
-      filteredRows = data.filter(row => {
-        return row.order.car.vin.toLowerCase().includes(searchedVal.toLowerCase());
-      });
-    }
-    }else{
+      else {
+        filteredRows = data.filter(row => {
+          return row.order.car.vin.toLowerCase().includes(searchedVal.toLowerCase());
+        });
+      }
+    } else {
       filteredRows = listOrders.filter(row => {
         return row.order.car.vin.toLowerCase().includes(searchedVal.toLowerCase());
       });
@@ -47,10 +47,10 @@ const BuyerListOrder = props => {
       setListCars(listOrders);
     } else {
       setVin(e);
-      requestSearch(e,null);
+      requestSearch(e, null);
     }
   };
- function SetValueChangeRegisterNumber(event) {
+  function SetValueChangeRegisterNumber(event) {
     setFlag(event.target.value);
   }
 
@@ -71,13 +71,13 @@ const BuyerListOrder = props => {
 
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -98,7 +98,7 @@ const BuyerListOrder = props => {
       setListCars(response.body);
       setViewList(true);
     } else if (response.statusCode > 400) {
-     props.setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
     props.handleClose();
   }
@@ -128,13 +128,13 @@ const BuyerListOrder = props => {
 
   function CallbackRequestUpdate(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -147,7 +147,7 @@ const BuyerListOrder = props => {
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       GetOrderList();
     } else if (response.statusCode > 400) {
-     props.setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
     props.handleClose();
   }
@@ -167,49 +167,46 @@ const BuyerListOrder = props => {
   function ReturnStateByName(value) {
     if (value === "PENDING") {
       return 0;
-    } else if (value ===  "CONFIRM") {
+    } else if (value === "CONFIRM") {
       return 1;
     }
   }
 
-  const Search =()=> {  
-    let filteredRows = listCars; 
-    if(state.length!==0 ){
+  const Search = () => {
+    let filteredRows = listCars;
+    if (state.length !== 0) {
       filteredRows = filteredRows.filter(row => {
-        console.log(row,ReturnStateByName(state))
-        if(row.order.state===ReturnStateByName(state))return row;
-
+        if (row.order.state === ReturnStateByName(state)) return row;
       });
     }
-    if( flag === '1'){
+    if (flag === '1') {
       filteredRows = filteredRows.filter(row => {
-        console.log(row)
-        if(row.clientCar!==null)return true;
+        if (row.clientCar !== null) return true;
       });
-    }else if(flag==='0'){
+    } else if (flag === '0') {
       filteredRows = filteredRows.filter(row => {
-        console.log(row)
-        if(row.clientCar===null)return true;
+        if (row.clientCar === null) return true;
       });
     }
-    if(emailOwner.length!==0){
+    if (emailOwner.length !== 0) {
       filteredRows = filteredRows.filter(row => {
-       
-        if(row.clientCar===null)return false;
+        if (row.clientCar === null) return false;
         return row.clientCar.user.email.toLowerCase().includes(emailOwner.toLowerCase());
       });
-    }  
+    }
     setListCars(filteredRows);
   };
 
- function handleClickFilters(){
+  function handleClickFilters() {
     setEmailOwner("")
     setState("")
-    requestSearch(vin,listOrders);
+    requestSearch(vin, listOrders);
   }
-  function OpenFilters(){
+
+  function OpenFilters() {
     setFlagFilters(!flagFilters)
   }
+
   useEffect(() => {
     GetOrderList();
   }, []);
@@ -219,113 +216,109 @@ const BuyerListOrder = props => {
   return (
     <div className="container-md">
       <div className="row mt-5 pt-5 align-items-center ">
-      <div className="row m-2">
-            <div className="col-3">
-          <div className="input-group rounded w-100">         
-            <input
-              type="search"
-              className="form-control rounded"
-              placeholder="Search by vin"
-              aria-label="Search"
-              value={vin}
-              aria-describedby="search-addon"
-              onChange={e => search(e.target.value)}
-            />
-            <span className="input-group-text border-0" id="search-addon">
-              <i className="fas fa-search" />
-            </span>
+        <div className="row mt-2 mb-1">
+          <div className="col-3">
+            <div className="input-group rounded w-100">
+              <input
+                type="search"
+                className="form-control rounded"
+                placeholder="Search by vin"
+                aria-label="Search"
+                value={vin}
+                aria-describedby="search-addon"
+                onChange={e => search(e.target.value)}
+              />
+              <span className="input-group-text border-0" id="search-addon">
+                <i className="fas fa-search" />
+              </span>
             </div>
-            </div>
-            <div className="col">
-          <button
-       
-          onClick={OpenFilters}
-          className="btn btn-secondary btn-rounded"
-        >
-          More filters...
-        </button>
-       </div>
-        <div className="row m-2 p-2 bg-white text-black"  hidden={flagFilters}>
-          <div className="row">
-                <div className="col"> 
-                                                                <div className="input-group rounded w-100">         
-                                                                    <input
-                                                                      type="search"
-                                                                      className="form-control rounded"
-                                                                      placeholder="Search by email owner"
-                                                                      aria-label="Search"
-                                                                      aria-describedby="search-addon"
-                                                                      onChange={e => setEmailOwner(e.target.value)}
-                                                                      value={emailOwner}
-                                                                    />
-                                                                    <span className="input-group-text border-0" id="search-addon">
-                                                                      <i className="fas fa-search" />
-                                                                    </span>
-                                                                </div>
-              </div>
-                                          <div className="col">
-                                                          <div className="form-group d-flex">
-                                                          <label className="w-25">State:</label>
-                                                          <select aria-label="Default select example" className=" form-select" value={state} onChange={e => setState(e.target.value)}>
-                                                          <option value="" selected>All</option>
-                                                          <option value="PENDING">PENDING</option>
-                                                          <option value="CONFIRM">CONFIRM</option>
-                                                            </select>
-                                                            </div>
-                                        </div>
-
-        <div className="col-2"> 
-                <button
-              onClick={handleClickFilters}
+          </div>
+          <div className="col">
+            <button
+              onClick={OpenFilters}
               className="btn btn-secondary btn-rounded"
             >
-              Cancel filters
+              More filters...
             </button>
+          </div>   
+          <div className="row m-2 p-2 bg-white text-black" hidden={flagFilters}>
+            <div className="row">
+              <div className="col-5">
+                <div className="input-group rounded w-100">
+                  <input
+                    type="search"
+                    className="form-control rounded"
+                    placeholder="Search by email owner"
+                    aria-label="Search"
+                    aria-describedby="search-addon"
+                    onChange={e => setEmailOwner(e.target.value)}
+                    value={emailOwner}
+                  />
+                  <span className="input-group-text border-0" id="search-addon">
+                    <i className="fas fa-search" />
+                  </span>
+                </div>
+              </div>
+              <div className="col-2">
+                <button
+                  onClick={handleClickFilters}
+                  className="btn btn-secondary btn-rounded"
+                >
+                  Cancel filters
+                </button>
+              </div>
+              <div className="col-2">
+                <button
+                  onClick={Search}
+                  className="btn btn-secondary btn-rounded"
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+            <div className="row mt-1">  
+            <div className="col-3 form-group d-flex">
+                  <label className="w-25">State:</label>
+                  <select aria-label="Default select example" className=" form-select" value={state} onChange={e => setState(e.target.value)}>
+                    <option value="" selected>All</option>
+                    <option value="PENDING">PENDING</option>
+                    <option value="CONFIRM">CONFIRM</option>
+                  </select>
+              </div>
+              <div className="col form-group d-flex">
+            <label>Does this car have an owner?</label>
+              <div className="form-check m-1">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="flexRadioDefault1"
+                  checked={flag == "1" ? true : false}
+                  onChange={e => SetValueChangeRegisterNumber(e)}
+                  value="1"
+                />             
+                <label className="form-check-label" for="flexRadioDefault1">
+                  True
+                </label>
+              </div>
+              <div className="form-check m-1">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="flexRadioDefault"
+                  id="flexRadioDefault2"
+                  checked={flag == "0" ? true : false}
+                  onChange={e => SetValueChangeRegisterNumber(e)}
+                  value="0"
+                />
+                <label className="form-check-label" for="flexRadioDefault2">
+                  False
+                </label>
+              </div>
+              </div>
+          </div>
         </div>
-     <div className="col-2"> 
-            <button
-          onClick={Search}
-          className="btn btn-secondary btn-rounded"
-        >
-          Search
-        </button>
-         </div>
-         </div>
-         <div className="row ">  <label>Does this car have an owner?</label>
-                                  <div className="form-check">
-                                    <input
-                                      className="form-check-input"
-                                      type="radio"
-                                      name="flexRadioDefault"
-                                      id="flexRadioDefault1"
-                                      checked={flag == "1" ? true : false}
-                                      onChange={e => SetValueChangeRegisterNumber(e)}
-                                      value="1"
-                                    />
-                                    <label className="form-check-label" for="flexRadioDefault1">
-                                      True
-                                    </label>
-                                  </div>
-                                  <div className="form-check">
-                                    <input
-                                      className="form-check-input"
-                                      type="radio"
-                                      name="flexRadioDefault"
-                                      id="flexRadioDefault2"
-                                      checked={flag == "0" ? true : false}
-                                      onChange={e => SetValueChangeRegisterNumber(e)}
-                                      value="0"
-                                    />
-                                    <label className="form-check-label" for="flexRadioDefault2">
-                                      False
-                                    </label>
-                                  </div>
-                                
-             </div>
- </div>
- </div>
-         
-      
+        </div>
         {viewList &&
           listCars.map(r => {
             if (
@@ -503,77 +496,77 @@ const BuyerListOrder = props => {
                             </div>
                           </div>
                           <div className="row ">
-                          <div className="d-grid gap-2 d-md-block text-center">
+                            <div className="d-grid gap-2 d-md-block text-center">
                               {CheckState(r.order.state) === "CONFIRM" &&
-                                                               <Tooltip
-                                                               disableFocusListener
-                                                               disableTouchListener
-                                                               title="Buy car"
-                                                               arrow
-                                                               className="mr-1"
-                                                             >
-                                <Link
-                                  className="btn btn-primary-sm btn-sm ml-1 text-reset "
-                                  to={`/order/put?vin=${r.order.car.vin}
-                                  &totalCost=${r.order.totalCost}
-                                  &changeRegisterNumber=${r.order
-                                    .changeRegisterNumber}
-                              `}
-                                >
-                                  <i className="fa-solid fa-sack-dollar" />
-                                </Link></Tooltip>}
-                                {r.clientCar===null&& <Tooltip
+                                <Tooltip
                                   disableFocusListener
                                   disableTouchListener
-                                  title="Get more information about car"
+                                  title="Buy car"
                                   arrow
-                                  className="mr-1 ml-1"
+                                  className="mr-1"
                                 >
                                   <Link
-                                    className="btn btn-primary-sm btn-sm text-reset "
-                                    to={`/car/info?vin=${r.order.car.vin}
-                            `}
+                                    className="btn btn-primary-sm btn-sm ml-1 text-reset "
+                                    to={`/order/put?vin=${r.order.car.vin}
+                                  &totalCost=${r.order.totalCost}
+                                  &changeRegisterNumber=${r.order
+                                        .changeRegisterNumber}
+                              `}
                                   >
-                                    <i className="fa-solid fa-info" />
-                                  </Link>
-                                </Tooltip>}
-                                {r.clientCar!==null&& <Tooltip
-                                 disableFocusListener
-                                 disableTouchListener
-                                 title="Get more information about car"
-                                 arrow
-                                 className="mr-1"
-                               >
+                                    <i className="fa-solid fa-sack-dollar" />
+                                  </Link></Tooltip>}
+                              {r.clientCar === null && <Tooltip
+                                disableFocusListener
+                                disableTouchListener
+                                title="Get more information about car"
+                                arrow
+                                className="mr-1 ml-1"
+                              >
                                 <Link
-                                className="btn btn-primary-sm btn-sm ml-1 text-reset "
-                                to={`/clientcar/info?vin=${r.order.car.vin}
+                                  className="btn btn-primary-sm btn-sm text-reset "
+                                  to={`/car/info?vin=${r.order.car.vin}
+                            `}
+                                >
+                                  <i className="fa-solid fa-info" />
+                                </Link>
+                              </Tooltip>}
+                              {r.clientCar !== null && <Tooltip
+                                disableFocusListener
+                                disableTouchListener
+                                title="Get more information about car"
+                                arrow
+                                className="mr-1"
+                              >
+                                <Link
+                                  className="btn btn-primary-sm btn-sm ml-1 text-reset "
+                                  to={`/clientcar/info?vin=${r.order.car.vin}
                                     `}
+                                >
+                                  <i className="fa-solid fa-info" />
+                                </Link>
+                              </Tooltip>}
+                              <Tooltip
+                                disableFocusListener
+                                disableTouchListener
+                                title="Cancel order"
+                                arrow
+                                className="mr-1"
                               >
-                                <i className="fa-solid fa-info" />
-                              </Link>
-                    </Tooltip>}
-                                <Tooltip
-                                 disableFocusListener
-                                 disableTouchListener
-                                 title="Cancel order"
-                                 arrow
-                                 className="mr-1"
-                               >
-                              <button
-                                className="btn btn-primary-sm btn-sm ml-1"
-                                onClick={e =>
-                                  UpdateState(
-                                    JSON.stringify({
-                                      vin: r.order.car.vin,
-                                      totalCost: r.order.totalCost,
-                                      state: "CANCEL"
-                                    }),
-                                    e
-                                  )}
-                                type="button"
-                              >
-                                <i className="fa-solid fa-ban" />
-                              </button>
+                                <button
+                                  className="btn btn-primary-sm btn-sm ml-1"
+                                  onClick={e =>
+                                    UpdateState(
+                                      JSON.stringify({
+                                        vin: r.order.car.vin,
+                                        totalCost: r.order.totalCost,
+                                        state: "CANCEL"
+                                      }),
+                                      e
+                                    )}
+                                  type="button"
+                                >
+                                  <i className="fa-solid fa-ban" />
+                                </button>
                               </Tooltip>
                             </div>
                           </div>
@@ -762,61 +755,61 @@ const BuyerListOrder = props => {
                         </div>
                         <div className="row ">
                           <div className="d-grid gap-2 d-md-block text-center">
-                              {CheckState(r.order.state) === "CONFIRM" &&
-                                                               <Tooltip
-                                                               disableFocusListener
-                                                               disableTouchListener
-                                                               title="Buy car"
-                                                               arrow
-                                                               className="mr-1"
-                                                             >
+                            {CheckState(r.order.state) === "CONFIRM" &&
+                              <Tooltip
+                                disableFocusListener
+                                disableTouchListener
+                                title="Buy car"
+                                arrow
+                                className="mr-1"
+                              >
                                 <Link
                                   className="btn btn-primary-sm btn-sm ml-1 text-reset "
                                   to={`/order/put?vin=${r.order.car.vin}
                                   &totalCost=${r.order.totalCost}
                                   &changeRegisterNumber=${r.order
-                                    .changeRegisterNumber}
+                                      .changeRegisterNumber}
                               `}
                                 >
                                   <i className="fa-solid fa-sack-dollar" />
                                 </Link></Tooltip>}
-                                {r.clientCar===null&& <Tooltip
-                                  disableFocusListener
-                                  disableTouchListener
-                                  title="Get more information about car"
-                                  arrow
-                                  className="mr-1 ml-1"
-                                >
-                                  <Link
-                                    className="btn btn-primary-sm btn-sm text-reset "
-                                    to={`/car/info?vin=${r.order.car.vin}
+                            {r.clientCar === null && <Tooltip
+                              disableFocusListener
+                              disableTouchListener
+                              title="Get more information about car"
+                              arrow
+                              className="mr-1 ml-1"
+                            >
+                              <Link
+                                className="btn btn-primary-sm btn-sm text-reset "
+                                to={`/car/info?vin=${r.order.car.vin}
                             `}
-                                  >
-                                    <i className="fa-solid fa-info" />
-                                  </Link>
-                                </Tooltip>}
-                                {r.clientCar!==null&& <Tooltip
-                                 disableFocusListener
-                                 disableTouchListener
-                                 title="Get more information about car"
-                                 arrow
-                                 className="mr-1"
-                               >
-                                <Link
+                              >
+                                <i className="fa-solid fa-info" />
+                              </Link>
+                            </Tooltip>}
+                            {r.clientCar !== null && <Tooltip
+                              disableFocusListener
+                              disableTouchListener
+                              title="Get more information about car"
+                              arrow
+                              className="mr-1"
+                            >
+                              <Link
                                 className="btn btn-primary-sm btn-sm ml-1 text-reset "
                                 to={`/clientcar/info?vin=${r.order.car.vin}
                                     `}
                               >
                                 <i className="fa-solid fa-info" />
                               </Link>
-                    </Tooltip>}
-                                <Tooltip
-                                 disableFocusListener
-                                 disableTouchListener
-                                 title="Cancel order"
-                                 arrow
-                                 className="mr-1"
-                               >
+                            </Tooltip>}
+                            <Tooltip
+                              disableFocusListener
+                              disableTouchListener
+                              title="Cancel order"
+                              arrow
+                              className="mr-1"
+                            >
                               <button
                                 className="btn btn-primary-sm btn-sm ml-1"
                                 onClick={e =>
@@ -832,8 +825,8 @@ const BuyerListOrder = props => {
                               >
                                 <i className="fa-solid fa-ban" />
                               </button>
-                              </Tooltip>
-                            </div>
+                            </Tooltip>
+                          </div>
                         </div>
                       </div>
                     </div>

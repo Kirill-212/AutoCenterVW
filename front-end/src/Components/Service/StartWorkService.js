@@ -16,8 +16,9 @@ const PostService = (props) => {
   const [startWork, setStartWork] = React.useState(new Date());
   const [endWork, setEndWork] = React.useState(null);
   const [redirect, setRedirect] = React.useState(false);
-  const [viewCarRepairs,setViewCarRepairs]=React.useState(false);
-  const[carRepairs,setCarRepairs]=React.useState([])
+  const [viewCarRepairs, setViewCarRepairs] = React.useState(false);
+  const [carRepairs, setCarRepairs] = React.useState([])
+
   async function submitCar(event) {
     event.preventDefault();
     props.handleToggle();
@@ -54,13 +55,13 @@ const PostService = (props) => {
 
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -73,7 +74,7 @@ const PostService = (props) => {
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       setRedirect(true);
     } else if (response.statusCode > 400) {
-     props.setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
     props.handleClose();
   }
@@ -87,7 +88,7 @@ const PostService = (props) => {
     new CarRepairsApi().apiCarrepairsAllByEmailGet(
       GetJwtToken(),
       {
-        email:JSON.parse(user).email
+        email: JSON.parse(user).email
       },
       CallbackRequestGet
     );
@@ -95,13 +96,13 @@ const PostService = (props) => {
 
   function CallbackRequestGet(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -115,11 +116,10 @@ const PostService = (props) => {
       setCarRepairs(response.body)
       setViewCarRepairs(true)
     } else if (response.statusCode > 400) {
-     props.setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
     props.handleClose();
   }
-
 
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
@@ -153,37 +153,35 @@ const PostService = (props) => {
               <div className="col mb-2 ">
                 <label>Start work:</label>
                 <DatePicker
-                 className="w-100 shadow-lg  bg-white rounded"
-                 filterDate={d => {
-                  return new Date() < d;
-                }}
-                placeholderText="Select Start work date..."
-                selected={startWork}
-                selectsStart
-                startDate={startWork}
-                endDate={endWork}
-                onChange={date => setStartWork(date)}
-                required
-     />
-                
+                  className="w-100 shadow-lg  bg-white rounded"
+                  filterDate={d => {
+                    return new Date() < d;
+                  }}
+                  placeholderText="Select Start work date..."
+                  selected={startWork}
+                  selectsStart
+                  startDate={startWork}
+                  endDate={endWork}
+                  onChange={date => setStartWork(date)}
+                  required
+                />
               </div>
               <div className="col mb-2 ">
                 <label>End work:</label>
                 <DatePicker
-                 className="w-100 shadow-lg  bg-white rounded"
-                filterDate={d => {                
-                  return startWork < d;
-                }}
-                placeholderText="Select End work date.."
-                selected={endWork}
-                selectsEnd
-                startDate={startWork}
-                endDate={endWork}
-                minDate={startWork}
-                onChange={date => setEndWork(date)}
-                required
-     />
-               
+                  className="w-100 shadow-lg  bg-white rounded"
+                  filterDate={d => {
+                    return startWork < d;
+                  }}
+                  placeholderText="Select End work date.."
+                  selected={endWork}
+                  selectsEnd
+                  startDate={startWork}
+                  endDate={endWork}
+                  minDate={startWork}
+                  onChange={date => setEndWork(date)}
+                  required
+                />
               </div>
             </div>
             <div className="d-flex justify-content-center form-outline mb-3">
@@ -198,7 +196,7 @@ const PostService = (props) => {
             </div>
           </form>
         </div>
-          {redirect && <Navigate to={"/home"} />}
+        {redirect && <Navigate to={"/service/employee"} />}
       </div>
     </div>
   );

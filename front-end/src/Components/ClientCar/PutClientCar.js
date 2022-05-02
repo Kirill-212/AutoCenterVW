@@ -52,15 +52,15 @@ const PutClientCar = (props) => {
         let url = await ImgService.uploadImage(imgsCar[i]);
         if (url == undefined) {
           props.handleClose();
-          props.setMessageError("Error:upload img is not valid.");
+          props.setMessageError("Error:Upload img is not valid.");
           return;
         }
         if (url.height !== 600 || url.width !== 800) {
           props.setMessageError(
-            "Error:valid size 800x600:File name:" +
-              imgsCar[i].name +
-              "|Line" +
-              i
+            "Error:Valid size 800x600:File name:" +
+            imgsCar[i].name +
+            "|Line" +
+            i
           );
           props.handleClose();
           return;
@@ -128,13 +128,13 @@ const PutClientCar = (props) => {
 
   function CallbackRequestPut(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -154,13 +154,13 @@ const PutClientCar = (props) => {
 
   function CallbackRequestGet(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -186,13 +186,13 @@ const PutClientCar = (props) => {
 
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -232,13 +232,13 @@ const PutClientCar = (props) => {
 
   function CallbackRequestGetById(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -251,7 +251,7 @@ const PutClientCar = (props) => {
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       if (response.statusCode === 204) {
         props.handleClose();
-        props.setMessageError("Error: car equipment wth this name not found.");
+        props.setMessageError("Error:Car equipment with this name not found.");
         return;
       }
       setFlagGet(response.body.isDeleted);
@@ -265,13 +265,13 @@ const PutClientCar = (props) => {
 
   function CallbackRequestUserList(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -301,15 +301,13 @@ const PutClientCar = (props) => {
     } else {
       let url = await ImgService.uploadImage(value);
       if (url == undefined) {
-        props.setMessageError("Error:upload img is not valid.");
-
+        props.setMessageError("Error:Upload img is not valid.");
         return;
       }
       if (url.height !== 600 || url.width !== 800) {
         props.setMessageError(
-          "Error:size is valid 800x600:File name:" + value.name + "|Line" + i
+          "Error:Valid size 800x600:File name:" + value.name + "|Line" + i
         );
-
         return;
       }
       imgsCar[i] = new ImgDto(url.url);
@@ -378,7 +376,6 @@ const PutClientCar = (props) => {
   function SetValueChangeRegisterNumber(event) {
     setChangeRegiterNumber(event.target.value);
   }
-
 
   return (
     <div className="d-flex   justify-content-center w-40  align-items-center ">
@@ -597,7 +594,7 @@ const PutClientCar = (props) => {
             </div>
           </form>
         </div>
-          {redirect && <Navigate to={"/home"} />}
+        {redirect && <Navigate to={"/clientcar"} />}
       </div>
     </div>
   );

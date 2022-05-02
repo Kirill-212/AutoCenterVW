@@ -34,12 +34,12 @@ const PostNew = (props) => {
       }
       let url = await ImgService.uploadImage(imgs[i]);
       if (url == undefined) {
-        props.setMessageError("Error:upload img is not valid.");
+        props.setMessageError("Error:Upload img is not valid.");
         props.handleClose();
         return;
       }
       if (url.height !== 700 || url.width !== 1000) {
-        props.setMessageError("Error:valid size 1000x700:File name:" + imgs[i].name);
+        props.setMessageError("Error:Valid size 1000x700:File name:" + imgs[i].name);
         props.handleClose();
         return;
       }
@@ -68,10 +68,10 @@ const PostNew = (props) => {
       props.setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -150,7 +150,7 @@ const PostNew = (props) => {
             </div>
           </form>
         </div>
-          {redirect && <Navigate to={"/home"} />}
+        {redirect && <Navigate to={"/new"} />}
       </div>
     </div>
   );

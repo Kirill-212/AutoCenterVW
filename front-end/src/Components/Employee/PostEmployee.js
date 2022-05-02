@@ -33,9 +33,8 @@ const PostEmployee = (props) => {
   }
 
   function CallbackRequestPost(error, data, response) {
-    console.log(error, data, response);
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
         let errorResult =[];
@@ -74,7 +73,7 @@ const PostEmployee = (props) => {
 
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
         let errorResult =[];
@@ -187,7 +186,7 @@ const PostEmployee = (props) => {
             </div>
           </form>
         </div>
-          {redirect && <Navigate to={"/home"} />}
+          {redirect && <Navigate to={"/employee"} />}
       </div>
     </div>
   );

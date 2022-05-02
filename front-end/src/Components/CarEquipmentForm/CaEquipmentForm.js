@@ -28,7 +28,7 @@ const CarEquipmentForm = (props) => {
 
   function CallbackRequestDelete(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
         let errorResult =[];
@@ -54,7 +54,7 @@ const CarEquipmentForm = (props) => {
 
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
         let errorResult =[];

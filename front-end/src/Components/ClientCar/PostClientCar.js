@@ -36,13 +36,13 @@ const PostClientCar = (props) => {
 
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -56,7 +56,7 @@ const PostClientCar = (props) => {
       setCarEquipmentList(response.body);
       setFlag(true);
     } else if (response.statusCode > 400) {
-     props.setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
     props.handleClose();
   }
@@ -84,12 +84,12 @@ const PostClientCar = (props) => {
       }
       let url = await ImgService.uploadImage(imgs[i]);
       if (url == undefined) {
-        props.setMessageError("Error:upload img is not valid.");
+        props.setMessageError("Error:Upload img is not valid.");
         props.handleClose();
         return;
       }
       if (url.height !== 600 || url.width !== 800) {
-        props.setMessageError("Error:valid size 800x600:File name:" + imgs[i].name);
+        props.setMessageError("Error:Valid size 800x600:File name:" + imgs[i].name);
         props.handleClose();
         return;
       }
@@ -123,13 +123,13 @@ const PostClientCar = (props) => {
 
   function CallbackRequestPost(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -142,7 +142,7 @@ const PostClientCar = (props) => {
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       setRedirect(true);
     } else if (response.statusCode > 400) {
-     props.setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
     props.handleClose();
   }
@@ -285,7 +285,7 @@ const PostClientCar = (props) => {
             </div>
           </form>
         </div>
-          {redirect && <Navigate to={"/home"} />}
+        {redirect && <Navigate to={"/clientcar/user"} />}
       </div>
     </div>
   );

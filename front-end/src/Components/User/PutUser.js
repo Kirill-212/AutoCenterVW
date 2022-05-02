@@ -44,12 +44,12 @@ const PutUser = (props) => {
         }
         url = await ImgService.uploadImage(imgNew);
         if (url == undefined) {
-          props.setMessageError("Error:upload img is not valid.");
+          props.setMessageError("Error:Upload img is not valid.");
           props.handleClose();
           return;
         }
         if (url.height !== 200 || url.width !== 200) {
-          props.setMessageError("Error:valid size 200x200:File name:" + imgNew.name);
+          props.setMessageError("Error:Valid size 200x200:File name:" + imgNew.name);
           props.handleClose();
           return;
         }
@@ -80,7 +80,7 @@ const PutUser = (props) => {
 
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
         let errorResult =[];
@@ -117,7 +117,7 @@ const PutUser = (props) => {
 
   function CallbackRequestGet(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
         let errorResult =[];
@@ -136,7 +136,7 @@ const PutUser = (props) => {
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       if (response.statusCode === 204) {
         props.handleClose();
-        props.setMessageError("Error: user with this email not found.");
+        props.setMessageError("Error:User with this email not found.");
         return;
       }
       setFirstName(response.body.firstName);
@@ -310,7 +310,7 @@ const PutUser = (props) => {
               </div>
             </form>
           </div>
-            {redirect && <Navigate to={"/home"} />}
+            {redirect && <Navigate to={"/user"} />}
         </div>
       </div>
     </div>

@@ -16,32 +16,32 @@ import { Link } from "react-router-dom";
 const EmployeeListService = props => {
   const { user } = useContext(Context);
   const [listService, setListService] = React.useState([]);
-  const [list,setList] = React.useState([]);
-  const [vin,setVin]=React.useState("");
-  const [flagFilters,setFlagFilters]=React.useState(true)
+  const [list, setList] = React.useState([]);
+  const [vin, setVin] = React.useState("");
+  const [flagFilters, setFlagFilters] = React.useState(true)
   const [viewList, setViewList] = React.useState(false);
   const [empty, setEmpty] = React.useState(false);
-  const[email,setEmail]=React.useState("");
-  const [state,setState]=React.useState("");
-  const[dateStart,setDateStart]=React.useState("");
-  const[dateEnd,setDateEnd]=React.useState("");
-  const requestSearch = (searchedVal,data) => {
+  const [email, setEmail] = React.useState("");
+  const [state, setState] = React.useState("");
+  const [dateStart, setDateStart] = React.useState("");
+  const [dateEnd, setDateEnd] = React.useState("");
+
+  const requestSearch = (searchedVal, data) => {
     let filteredRows;
-    if(data!==null){
-      if(searchedVal.length==0){
-        filteredRows=data;
+    if (data !== null) {
+      if (searchedVal.length == 0) {
+        filteredRows = data;
       }
-      else{
+      else {
         filteredRows = data.filter(row => {
-            return row.car.vin.toLowerCase().includes(searchedVal.toLowerCase());
+          return row.car.vin.toLowerCase().includes(searchedVal.toLowerCase());
+        });
+      }
+    } else {
+      filteredRows = listService.filter(row => {
+        return row.car.vin.toLowerCase().includes(searchedVal.toLowerCase());
       });
     }
-    }else{
-       filteredRows =listService.filter(row => {
-      return row.car.vin.toLowerCase().includes(searchedVal.toLowerCase());
-    });
-    }
-    
     setListService(filteredRows);
   };
 
@@ -51,10 +51,9 @@ const EmployeeListService = props => {
       setListService(list);
     } else {
       setVin(e);
-      requestSearch(e,null);
+      requestSearch(e, null);
     }
   };
-
 
   async function GetServiceList() {
     setViewList(false);
@@ -73,13 +72,13 @@ const EmployeeListService = props => {
 
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -100,7 +99,7 @@ const EmployeeListService = props => {
       setListService(response.body);
       setViewList(true);
     } else if (response.statusCode > 400) {
-     props.setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
     props.handleClose();
   }
@@ -146,13 +145,13 @@ const EmployeeListService = props => {
 
   function CallbackRequestUpdate(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -165,7 +164,7 @@ const EmployeeListService = props => {
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       GetServiceList();
     } else if (response.statusCode > 400) {
-     props.setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
     props.handleClose();
   }
@@ -182,13 +181,13 @@ const EmployeeListService = props => {
 
   function CallbackRequestSendNotify(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -200,7 +199,7 @@ const EmployeeListService = props => {
       props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
     } else if (response.statusCode > 400) {
-     props.setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
     props.handleClose();
   }
@@ -224,138 +223,131 @@ const EmployeeListService = props => {
   function ReturnStateByName(value) {
     if (value === "PENDING") {
       return 0;
-    } else if (value ===  "STARTWORK") {
+    } else if (value === "STARTWORK") {
       return 1;
     }
   }
-  
-  const Search =()=> {
+
+  const Search = () => {
     let filteredRows;
     if (vin.length !== 0) {
- filteredRows = list.filter(row => {
-      return row.car.vin.toLowerCase().includes(vin.toLowerCase());
-    });}else{
-    filteredRows = list;
-    }
-
-    if(state.length!==0 ){
-      filteredRows = filteredRows.filter(row => {
-        console.log(row,ReturnStateByName(state))
-        if(row.carRepair.stateCarRepair===ReturnStateByName(state))return row;
-
+      filteredRows = list.filter(row => {
+        return row.car.vin.toLowerCase().includes(vin.toLowerCase());
       });
-    }if(email.length!==0){
+    } else {
+      filteredRows = list;
+    }
+    if (state.length !== 0) {
+      filteredRows = filteredRows.filter(row => {
+        if (row.carRepair.stateCarRepair === ReturnStateByName(state)) return row;
+      });
+    } if (email.length !== 0) {
       filteredRows = filteredRows.filter(row => {
         return row.emp.email.toLowerCase().includes(email.toLowerCase());
       });
     }
-    if(dateEnd.length!==0){
+    if (dateEnd.length !== 0) {
       filteredRows = filteredRows.filter(row => {
-        console.log(getDate(row.carRepair.endWork)===getDate(dateEnd),getDate(dateEnd),getDate(row.carRepair.endWork))
-        if(getDate(row.carRepair.endWork)===getDate(dateEnd))return true
+        if (getDate(row.carRepair.endWork) === getDate(dateEnd)) return true
       });
     }
-    if(dateStart.length!==0){
+    if (dateStart.length !== 0) {
       filteredRows = filteredRows.filter(row => {
-        if(getDate(row.carRepair.startWork)===getDate(dateStart))return true
+        if (getDate(row.carRepair.startWork) === getDate(dateStart)) return true
       });
     }
     setListService(filteredRows);
   };
-  function OpenFilters(){
+
+  function OpenFilters() {
     setFlagFilters(!flagFilters)
   }
-  function handleClickFilters(){
+
+  function handleClickFilters() {
     setEmail("")
     setState("")
     setDateEnd("")
     setDateStart("")
-    requestSearch(vin,list);
+    requestSearch(vin, list);
   }
-
 
   if (empty) return <div>No data</div>;
 
   return (
     <div className="container-md">
       <div className="row mt-5 pt-5 align-items-center">
-        <div className="row mt-2  ">
-        <div className="col-3">
-          <div className="input-group rounded w-100">
-            <input
-              type="search"
-              className="form-control rounded"
-              placeholder="Search by vin"
-              aria-label="Search"
-              value={vin}
-              aria-describedby="search-addon"
-              onChange={e => search(e.target.value)}
-            />
-            <span className="input-group-text border-0" id="search-addon">
-              <i className="fas fa-search" />
-            </span>
+        <div className="row mt-2 mb-1 ">
+          <div className="col-3">
+            <div className="input-group rounded w-100">
+              <input
+                type="search"
+                className="form-control rounded"
+                placeholder="Search by vin"
+                aria-label="Search"
+                value={vin}
+                aria-describedby="search-addon"
+                onChange={e => search(e.target.value)}
+              />
+              <span className="input-group-text border-0" id="search-addon">
+                <i className="fas fa-search" />
+              </span>
+            </div>
           </div>
+          <div className="col">
+            <button
+              onClick={OpenFilters}
+              className="btn btn-secondary btn-rounded"
+            >
+              More filters...
+            </button>
           </div>
-                    <div className="col">
-                    <button
-                
-                    onClick={OpenFilters}
-                    className="btn btn-secondary btn-rounded"
-                  >
-                    More filters...
-                  </button>
-                  </div>
-
-
-                  <div className="row m-2 p-2 bg-white text-black"  hidden={flagFilters}>
-                    <div className="row">
-                        <div className="col"> 
-                        <div className="input-group rounded w-100">         
-                            <input
-                              type="search"
-                              className="form-control rounded"
-                              placeholder="Search by email employee"
-                              aria-label="Search"
-                              aria-describedby="search-addon"
-                              onChange={e => setEmail(e.target.value)}
-                              value={email}
-                            />
-                            <span className="input-group-text border-0" id="search-addon">
-                              <i className="fas fa-search" />
-                            </span>
-                            </div>
-                            </div>
-
-                        <div className="col">
-                          <div className="form-group d-flex">
-                          <label className="w-25">State:</label>
-                          <select aria-label="Default select example" className=" form-select" value={state} onChange={e => setState(e.target.value)}>
-                          <option value="" selected>All</option>
-                          <option value="PENDING">PENDING</option>
-                          <option value="STARTWORK">START WORK</option>
-                            </select>
-                            </div>
-                            </div>
-
-                              <div className="col-2"> 
-                              <button
-                            onClick={handleClickFilters}
-                            className="btn btn-secondary btn-rounded"
-                          >
-                            Cancel filters
-                          </button>
-                          </div>
-                            <div className="col-2"> 
-                                <button
-                              onClick={Search}
-                              className="btn btn-secondary btn-rounded"
-                            >
-                              Search
-                            </button>
-                            </div>
-                   </div>
-                   <div className="row">
-                   <div className="col">
+          <div className="row m-2 p-2 bg-white text-black" hidden={flagFilters}>
+            <div className="row">
+              <div className="col-5">
+                <div className="input-group rounded w-100">
+                  <input
+                    type="search"
+                    className="form-control rounded"
+                    placeholder="Search by email employee"
+                    aria-label="Search"
+                    aria-describedby="search-addon"
+                    onChange={e => setEmail(e.target.value)}
+                    value={email}
+                  />
+                  <span className="input-group-text border-0" id="search-addon">
+                    <i className="fas fa-search" />
+                  </span>
+                </div>
+              </div>
+              <div className="col-2">
+                <button
+                  onClick={handleClickFilters}
+                  className="btn btn-secondary btn-rounded"
+                >
+                  Cancel filters
+                </button>
+              </div>
+              <div className="col-2">
+                <button
+                  onClick={Search}
+                  className="btn btn-secondary btn-rounded"
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+            <div className="row">
+            <div className="col">
+                <div className="form-group d-flex">
+                  <label className="w-25">State:</label>
+                  <select aria-label="Default select example" className=" form-select" value={state} onChange={e => setState(e.target.value)}>
+                    <option value="" selected>All</option>
+                    <option value="PENDING">PENDING</option>
+                    <option value="STARTWORK">START WORK</option>
+                  </select>
+                </div>
+              </div>
+              <div className="col">
                 <label >Date end work:</label>
                 <input
                   className="ml-2 w-50 shadow-lg  bg-white rounded"
@@ -365,7 +357,7 @@ const EmployeeListService = props => {
                   required
                 />
               </div>
-                            <div className="col">
+              <div className="col">
                 <label >Date start work:</label>
                 <input
                   className="ml-2 w-50 shadow-lg  bg-white rounded"
@@ -375,18 +367,12 @@ const EmployeeListService = props => {
                   required
                 />
               </div>
-                   </div>
+            </div>
 
-        </div>
+          </div>
         </div>
         {viewList &&
           listService.map(r => {
-            console.log(
-              "r",
-              getDate(r.carRepair.endWork),
-              getDate(new Date()),
-              getDate(r.carRepair.endWork) === getDate(new Date())
-            );
             if (
               r.carUser.email === listService[0].carUser.email &&
               r.car.vin === listService[0].car.vin
@@ -535,108 +521,108 @@ const EmployeeListService = props => {
                             </div>
                           </div>
                           <div className="row d-grid gap-2 d-md-block">
-                          <div className="d-grid gap-2 d-md-block text-center">
-                          <Tooltip
-                              disableFocusListener
-                              disableTouchListener
-                              title="Get more information about car"
-                              arrow
-                              className="mr-1 ml-1"
-                            >
-                              <Link
-                                className="btn btn-primary-sm btn-sm m-2 text-reset "
-                               to={`/clientcar/info?vin=${r.car.vin}
-                          `}
-                              >
-                                <i className="fa-solid fa-info" />
-                              </Link>
-                           </Tooltip>
-                           <Tooltip
-                              disableFocusListener
-                              disableTouchListener
-                              title="Cancel car repair"
-                              arrow
-                              className="mr-1 ml-1"
-                            >
-                              <button
-                                className="btn btn-primary-sm btn-sm m-2"
-                                onClick={e =>
-                                  UpdateState(
-                                    JSON.stringify({
-                                      vin: r.car.vin,
-                                      state: "CANCEL"
-                                    }),
-                                    e
-                                  )}
-                                type="button"
-                              >
-                                <i className="fa-solid fa-ban" />
-                              </button>
-                            </Tooltip>
-                            {CheckState(r.carRepair.stateCarRepair) ===
-                              "PENDING" &&
+                            <div className="d-grid gap-2 d-md-block text-center">
                               <Tooltip
-                              disableFocusListener
-                              disableTouchListener
-                              title="Start car repair"
-                              arrow
-                              className="mr-1 ml-1"
-                            >
+                                disableFocusListener
+                                disableTouchListener
+                                title="Get more information about car"
+                                arrow
+                                className="mr-1 ml-1"
+                              >
                                 <Link
                                   className="btn btn-primary-sm btn-sm m-2 text-reset "
-                                 to={`/service/start?vin=${r.car.vin}
-                        `}
+                                  to={`/clientcar/info?vin=${r.car.vin}
+                          `}
                                 >
-                                  <i className="fa-solid fa-flag-checkered" />
-                                </Link></Tooltip>
-                             }
-
-                            {getDate(r.carRepair.endWork) ===
-                              getDate(new Date()) &&
-                              <>
-                               <Tooltip
-                              disableFocusListener
-                              disableTouchListener
-                              title="End work car repair"
-                              arrow
-                              className="mr-1 ml-1"
-                            >
+                                  <i className="fa-solid fa-info" />
+                                </Link>
+                              </Tooltip>
+                              <Tooltip
+                                disableFocusListener
+                                disableTouchListener
+                                title="Cancel car repair"
+                                arrow
+                                className="mr-1 ml-1"
+                              >
                                 <button
                                   className="btn btn-primary-sm btn-sm m-2"
                                   onClick={e =>
                                     UpdateState(
                                       JSON.stringify({
                                         vin: r.car.vin,
-                                        state: "ENDWORK"
+                                        state: "CANCEL"
                                       }),
                                       e
                                     )}
                                   type="button"
                                 >
-                                  <i className="fa-solid fa-money-bill-1" />
-                                </button></Tooltip>
+                                  <i className="fa-solid fa-ban" />
+                                </button>
+                              </Tooltip>
+                              {CheckState(r.carRepair.stateCarRepair) ===
+                                "PENDING" &&
                                 <Tooltip
-                              disableFocusListener
-                              disableTouchListener
-                              title="Send notify"
-                              arrow
-                              className="mr-1 ml-1"
-                            >
-                                <button
-                                  className="btn btn-primary-sm btn-sm m-2"
-                                  onClick={e =>
-                                    SendNotify(
-                                      JSON.stringify({
-                                        email: r.carUser.email
-                                      }),
-                                      e
-                                    )}
-                                  type="button"
+                                  disableFocusListener
+                                  disableTouchListener
+                                  title="Start car repair"
+                                  arrow
+                                  className="mr-1 ml-1"
                                 >
-                                  <i className="fa-solid fa-bell" />
-                                </button></Tooltip>
-                              </>}
-                              </div>
+                                  <Link
+                                    className="btn btn-primary-sm btn-sm m-2 text-reset "
+                                    to={`/service/start?vin=${r.car.vin}
+                        `}
+                                  >
+                                    <i className="fa-solid fa-flag-checkered" />
+                                  </Link></Tooltip>
+                              }
+
+                              {getDate(r.carRepair.endWork) ===
+                                getDate(new Date()) &&
+                                <>
+                                  <Tooltip
+                                    disableFocusListener
+                                    disableTouchListener
+                                    title="End work car repair"
+                                    arrow
+                                    className="mr-1 ml-1"
+                                  >
+                                    <button
+                                      className="btn btn-primary-sm btn-sm m-2"
+                                      onClick={e =>
+                                        UpdateState(
+                                          JSON.stringify({
+                                            vin: r.car.vin,
+                                            state: "ENDWORK"
+                                          }),
+                                          e
+                                        )}
+                                      type="button"
+                                    >
+                                      <i className="fa-solid fa-money-bill-1" />
+                                    </button></Tooltip>
+                                  <Tooltip
+                                    disableFocusListener
+                                    disableTouchListener
+                                    title="Send notify"
+                                    arrow
+                                    className="mr-1 ml-1"
+                                  >
+                                    <button
+                                      className="btn btn-primary-sm btn-sm m-2"
+                                      onClick={e =>
+                                        SendNotify(
+                                          JSON.stringify({
+                                            email: r.carUser.email
+                                          }),
+                                          e
+                                        )}
+                                      type="button"
+                                    >
+                                      <i className="fa-solid fa-bell" />
+                                    </button></Tooltip>
+                                </>}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -786,8 +772,8 @@ const EmployeeListService = props => {
                           </div>
                         </div>
                         <div className="row ">
-                        <div className="d-grid gap-2 d-md-block text-center">
-                          <Tooltip
+                          <div className="d-grid gap-2 d-md-block text-center">
+                            <Tooltip
                               disableFocusListener
                               disableTouchListener
                               title="Get more information about car"
@@ -796,13 +782,13 @@ const EmployeeListService = props => {
                             >
                               <Link
                                 className="btn btn-primary-sm btn-sm m-2 text-reset "
-                               to={`/clientcar/info?vin=${r.car.vin}
+                                to={`/clientcar/info?vin=${r.car.vin}
                           `}
                               >
                                 <i className="fa-solid fa-info" />
                               </Link>
-                           </Tooltip>
-                           <Tooltip
+                            </Tooltip>
+                            <Tooltip
                               disableFocusListener
                               disableTouchListener
                               title="Cancel car repair"
@@ -827,67 +813,67 @@ const EmployeeListService = props => {
                             {CheckState(r.carRepair.stateCarRepair) ===
                               "PENDING" &&
                               <Tooltip
-                              disableFocusListener
-                              disableTouchListener
-                              title="Start car repair"
-                              arrow
-                              className="mr-1 ml-1"
-                            >
+                                disableFocusListener
+                                disableTouchListener
+                                title="Start car repair"
+                                arrow
+                                className="mr-1 ml-1"
+                              >
                                 <Link
                                   className="btn btn-primary-sm btn-sm m-2 text-reset "
-                                 to={`/service/start?vin=${r.car.vin}
+                                  to={`/service/start?vin=${r.car.vin}
                         `}
                                 >
                                   <i className="fa-solid fa-flag-checkered" />
                                 </Link></Tooltip>
-                             }
+                            }
 
                             {getDate(r.carRepair.endWork) ===
                               getDate(new Date()) &&
                               <>
-                               <Tooltip
-                              disableFocusListener
-                              disableTouchListener
-                              title="End work car repair"
-                              arrow
-                              className="mr-1 ml-1"
-                            >
-                                <button
-                                  className="btn btn-primary-sm btn-sm m-2"
-                                  onClick={e =>
-                                    UpdateState(
-                                      JSON.stringify({
-                                        vin: r.car.vin,
-                                        state: "ENDWORK"
-                                      }),
-                                      e
-                                    )}
-                                  type="button"
-                                >
-                                  <i className="fa-solid fa-money-bill-1" />
-                                </button></Tooltip>
                                 <Tooltip
-                              disableFocusListener
-                              disableTouchListener
-                              title="Send notify"
-                              arrow
-                              className="mr-1 ml-1"
-                            >
-                                <button
-                                  className="btn btn-primary-sm btn-sm m-2"
-                                  onClick={e =>
-                                    SendNotify(
-                                      JSON.stringify({
-                                        email: r.carUser.email
-                                      }),
-                                      e
-                                    )}
-                                  type="button"
+                                  disableFocusListener
+                                  disableTouchListener
+                                  title="End work car repair"
+                                  arrow
+                                  className="mr-1 ml-1"
                                 >
-                                  <i className="fa-solid fa-bell" />
-                                </button></Tooltip>
+                                  <button
+                                    className="btn btn-primary-sm btn-sm m-2"
+                                    onClick={e =>
+                                      UpdateState(
+                                        JSON.stringify({
+                                          vin: r.car.vin,
+                                          state: "ENDWORK"
+                                        }),
+                                        e
+                                      )}
+                                    type="button"
+                                  >
+                                    <i className="fa-solid fa-money-bill-1" />
+                                  </button></Tooltip>
+                                <Tooltip
+                                  disableFocusListener
+                                  disableTouchListener
+                                  title="Send notify"
+                                  arrow
+                                  className="mr-1 ml-1"
+                                >
+                                  <button
+                                    className="btn btn-primary-sm btn-sm m-2"
+                                    onClick={e =>
+                                      SendNotify(
+                                        JSON.stringify({
+                                          email: r.carUser.email
+                                        }),
+                                        e
+                                      )}
+                                    type="button"
+                                  >
+                                    <i className="fa-solid fa-bell" />
+                                  </button></Tooltip>
                               </>}
-                              </div>
+                          </div>
                         </div>
                       </div>
                     </div>

@@ -40,13 +40,13 @@ const PostService = (props) => {
   }
   function CallbackRequestPost(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -59,7 +59,7 @@ const PostService = (props) => {
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       setRedirect(true);
     } else if (response.statusCode > 400) {
-     props.setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
     props.handleClose();
   }
@@ -71,13 +71,13 @@ const PostService = (props) => {
 
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -91,7 +91,7 @@ const PostService = (props) => {
       setEmpList(response.body);
       setFlag(true);
     } else if (response.statusCode > 400) {
-     props.setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
     props.handleClose();
   }
@@ -157,12 +157,10 @@ const PostService = (props) => {
                 id="exampleFormControlTextarea1"
                 rows="3"
               />
-
               <small id="passwordHelpInline" className="text-muted">
                 Description length must be between 3 and 100 characters.
               </small>
             </div>
-
             <div className="d-flex justify-content-center form-outline mb-3">
               <div className="flex-fill">
                 <button
@@ -175,7 +173,7 @@ const PostService = (props) => {
             </div>
           </form>
         </div>
-          {redirect && <Navigate to={"/home"} />}
+        {redirect && <Navigate to={"/service/user"} />}
       </div>
     </div>
   );

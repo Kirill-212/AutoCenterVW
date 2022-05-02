@@ -28,13 +28,13 @@ const PutNew = (props) => {
 
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -47,7 +47,7 @@ const PutNew = (props) => {
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       if (response.statusCode === 204) {
         props.handleClose();
-        props.setMessageError("Error: new with this title not found.");
+        props.setMessageError("Error:New with this title not found.");
         return;
       }
       setDescription(response.body.description);
@@ -66,16 +66,16 @@ const PutNew = (props) => {
       if (news[i].name !== undefined) {
         let url = await ImgService.uploadImage(news[i]);
         if (url == undefined) {
-          props.setMessageError("Error:upload img is not valid.");
+          props.setMessageError("Error:Upload img is not valid.");
           props.handleClose();
           return;
         }
         if (url.height !== 700 || url.width !== 1000) {
           props.setMessageError(
-            "Error:size is valid 1000x700:File name:" +
-              news[i].name +
-              "|Line" +
-              i
+            "Error:Valid size 1000x700:File name:" +
+            news[i].name +
+            "|Line" +
+            i
           );
           props.handleClose();
           return;
@@ -103,13 +103,13 @@ const PutNew = (props) => {
 
   function CallbackRequestPut(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -139,15 +139,13 @@ const PutNew = (props) => {
     } else {
       let url = await ImgService.uploadImage(value);
       if (url == undefined) {
-        props.setMessageError("Error:upload img is not valid.");
-
+        props.setMessageError("Error:Upload img is not valid.");
         return;
       }
       if (url.height !== 700 || url.width !== 1000) {
         props.setMessageError(
-          "Error:size is valid 1000x700:File name:" + value.name + "|Line" + i
+          "Error:Valid size 1000x700:File name:" + value.name + "|Line" + i
         );
-
         return;
       }
       news[i] = new ImgDto(url.url);
@@ -160,7 +158,6 @@ const PutNew = (props) => {
 
   function renderInput() {
     let imgs = news;
-
     let rows = [];
     for (let i = 0; i < imgs.length; i++) {
       rows.push(
@@ -287,7 +284,7 @@ const PutNew = (props) => {
             </div>
           </form>
         </div>
-          {redirect && <Navigate to={"/home"} />}
+        {redirect && <Navigate to={"/new"} />}
       </div>
     </div>
   );

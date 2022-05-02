@@ -12,7 +12,6 @@ const ClientCarDetail = (props) => {
 
   async function GetCarByVin(vin) {
     props.handleToggle();
-
     new ClientCarsApi().apiClientcarsVinGet(
       GetJwtToken(),
       { vin: vin },
@@ -23,14 +22,14 @@ const ClientCarDetail = (props) => {
   function CallbackRequest(error, data, response) {
     setDetailCar(null);
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
       props.handleClose();
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -59,19 +58,19 @@ const ClientCarDetail = (props) => {
       );
     } else if (response.statusCode > 400) {
       props.handleClose();
-     props.setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
   }
 
   function CallbackRequestGetById(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -85,7 +84,7 @@ const ClientCarDetail = (props) => {
       setCarEquipment(response.body);
       setFlag(true);
     } else if (response.statusCode > 400) {
-     props.setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
     props.handleClose();
   }
@@ -93,50 +92,43 @@ const ClientCarDetail = (props) => {
   function ViewCarEquipment() {
     let totalCost = detailCar.cost;
     let equipment = [];
-    
-    console.log(carEquipment,'eq');
     equipment.push(
       <div className="row ">
         <div className="row ">
-                  <div className="col-3">
-                <i className="fa-solid fa-angle-right text white mr-1" />
-          Name car equipment
+          <div className="col-3">
+            <i className="fa-solid fa-angle-right text white mr-1" />
+            Name car equipment
           </div>
-                <div className="col-1 mr-5">
-                    <p>
-          {carEquipment.name}</p></div>
-                </div>
-                </div>
+          <div className="col-1 mr-5">
+            <p>
+              {carEquipment.name}</p></div>
+        </div>
+      </div>
     );
     carEquipment.equipments.forEach(el => {
-      let i=0;i++;
-       totalCost += el.equipmentItem.cost;
-     
+      let i = 0; i++;
+      totalCost += el.equipmentItem.cost;
       equipment.push(
-        
         <div className="col-3  mb-3">
-
           <div className="row ">
-          <div className="col-4">
-            <i className="fa-solid fa-angle-right text white mr-1" />
-            Name
+            <div className="col-4">
+              <i className="fa-solid fa-angle-right text white mr-1" />
+              Name
+            </div>
+            <div className="col-8  text-left text-white">
+              {el.name}
+            </div>
           </div>
-          <div className="col-8  text-left text-white">
-            {el.name}
-          </div>
-        </div>
           <div className="row ml-1">
-            <div className="col-4">         
+            <div className="col-4">
               Value
             </div>
             <div className="col-8 text-left text-white">
               {el.equipmentItem.value}
             </div>
           </div>
-
           <div className="row ml-1">
             <div className="col-4">
-              
               Cost(<i className="fa-solid fa-dollar-sign" />)
             </div>
             <div className="col-8 text-left text-white">
@@ -146,24 +138,23 @@ const ClientCarDetail = (props) => {
         </div>
       );
     });
-
     totalCost =
       detailCar.actionCar != null
         ? Number(totalCost * (100 - detailCar.actionCar.sharePercentage) / 100)
         : totalCost;
     equipment.push(
       <div className="row">
-         <div className="row ">
-                  <div className="col-2">
-          <i className="fa-solid fa-angle-right text white mr-1" />
-          Total cost(<i className="fa-solid fa-dollar-sign" />)
+        <div className="row ">
+          <div className="col-2">
+            <i className="fa-solid fa-angle-right text white mr-1" />
+            Total cost(<i className="fa-solid fa-dollar-sign" />)
           </div>
-                <div className="col-1 mr-5">
-                    <p>
-          {totalCost}
-          </p></div>
-                </div>
-                </div>
+          <div className="col-1 mr-5">
+            <p>
+              {totalCost}
+            </p></div>
+        </div>
+      </div>
     );
     return equipment;
   }
@@ -172,7 +163,7 @@ const ClientCarDetail = (props) => {
     const query = new URLSearchParams(window.location.search);
     GetCarByVin(query.get("vin"));
   }, []);
-
+  
   let fl = true;
   return (
     <div>
@@ -241,51 +232,49 @@ const ClientCarDetail = (props) => {
               </button>
             </div>
             <div className="col" >
-            {flag &&
-              <div className="row">
-                <div className="col"> 
-                <h4 className="card-title text-left">
-                  Information about owner
-                </h4>
-                </div>
-
-                <div className="row  d-flex flex-row justify-content-left">
-                  <div className="col content-left">
-                     <img
-                      src={detailUser.urlPhoto}
-                      className="rounded-circle "
-                      width="200"
-                      height="200"
-                      alt="..."
-                    />
+              {flag &&
+                <div className="row">
+                  <div className="col">
+                    <h4 className="card-title text-left">
+                      Information about owner
+                    </h4>
                   </div>
-                  <div className="row ">
-                  <div className="col">
-                <i className="fa-solid fa-angle-right text white mr-1" />First name 
-                </div>
-                <div className="col"> <p>{detailUser.firstName}</p></div>
-                </div>
-                <div className="row ">
-                  <div className="col">
-                <i className="fa-solid fa-angle-right text white mr-1" />Last name 
-                </div>
-                <div className="col"> <p>{detailUser.lastName}</p></div>
-                </div>
-
-                <div className="row ">
-                  <div className="col">
-                <i className="fa-solid fa-angle-right text white mr-1" />Phone number 
-                </div>
-                <div className="col"> <p>{detailUser.phoneNumber}</p></div>
-                </div>
-                <div className="row ">
-                  <div className="col-3">
-                <i className="fa-solid fa-angle-right text white mr-1" />Email
-                </div>
-                <div className="col "> <p>{detailUser.email}</p></div>
-                </div>
-                </div>
-              </div>}
+                  <div className="row  d-flex flex-row justify-content-left">
+                    <div className="col content-left">
+                      <img
+                        src={detailUser.urlPhoto}
+                        className="rounded-circle "
+                        width="200"
+                        height="200"
+                        alt="..."
+                      />
+                    </div>
+                    <div className="row ">
+                      <div className="col">
+                        <i className="fa-solid fa-angle-right text white mr-1" />First name
+                      </div>
+                      <div className="col"> <p>{detailUser.firstName}</p></div>
+                    </div>
+                    <div className="row ">
+                      <div className="col">
+                        <i className="fa-solid fa-angle-right text white mr-1" />Last name
+                      </div>
+                      <div className="col"> <p>{detailUser.lastName}</p></div>
+                    </div>
+                    <div className="row ">
+                      <div className="col">
+                        <i className="fa-solid fa-angle-right text white mr-1" />Phone number
+                      </div>
+                      <div className="col"> <p>{detailUser.phoneNumber}</p></div>
+                    </div>
+                    <div className="row ">
+                      <div className="col-3">
+                        <i className="fa-solid fa-angle-right text white mr-1" />Email
+                      </div>
+                      <div className="col "> <p>{detailUser.email}</p></div>
+                    </div>
+                  </div>
+                </div>}
             </div>
             {flag &&
               <div className="card-body row">
@@ -296,66 +285,56 @@ const ClientCarDetail = (props) => {
                 </div>
                 <div className="row m-3">
                   <div className="col">
-                        <div className="row ">
-                        <div className="col">
-                      <i className="fa-solid fa-angle-right text white mr-1" />
-                          Register number
-                          </div>
-                      <div className="col mr-5"> <p>
-                          {registerNumber === null && "None"}
-                          {registerNumber !== null && registerNumber}</p></div>
+                    <div className="row ">
+                      <div className="col">
+                        <i className="fa-solid fa-angle-right text white mr-1" />
+                        Register number
                       </div>
-
-                <div className="row ">
+                      <div className="col mr-5"> <p>
+                        {registerNumber === null && "None"}
+                        {registerNumber !== null && registerNumber}</p></div>
+                    </div>
+                    <div className="row ">
+                      <div className="col">
+                        <i className="fa-solid fa-angle-right text white mr-1" />Vin
+                      </div>
+                      <div className="col mr-5"> <p>{detailCar.vin}</p></div>
+                    </div>
+                    <div className="row ">
+                      <div className="col">
+                        <i className="fa-solid fa-angle-right text white mr-1" />Car mileage(km)
+                      </div>
+                      <div className="col mr-5">
+                        <p>{detailCar.carMileage}</p></div>
+                    </div>
+                    <div className="row ">
+                      <div className="col"><i className="fa-solid fa-angle-right text white mr-1" />Cost(<i className="fa-solid fa-dollar-sign" />)</div>
+                      <div className="col mr-5">
+                        <p>{detailCar.cost}</p></div>
+                    </div>
+                  </div>
                   <div className="col">
-                <i className="fa-solid fa-angle-right text white mr-1" />Vin 
-                </div>
-                <div className="col mr-5"> <p>{detailCar.vin}</p></div>
-                </div>
-                
+                    <div className="row ">
+                      <div className="col"><i className="fa-solid fa-angle-right text white mr-1" /> Date of realese car</div>
+                      <div className="col mr-5">
+                        <p>{getDate(detailCar.dateOfRealeseCar)}</p></div>
+                    </div>
 
-                
-              
-                <div className="row ">
-                  <div className="col">
-                     <i className="fa-solid fa-angle-right text white mr-1" />Car mileage(km)
-                     </div>
-                <div className="col mr-5">
-                    <p>{detailCar.carMileage}</p></div>
+                    <div className="row ">
+                      <div className="col"><i className="fa-solid fa-angle-right text white mr-1" /> For saler</div>
+                      <div className="col mr-5">
+                        <p>{detailCar.isActive === true && "True"}
+                          {detailCar.isActive !== true && "False"}</p></div>
+                    </div>
+                    <div className="row ">
+                      <div className="col"><i className="fa-solid fa-angle-right text white mr-1" /> Share percentage(%)</div>
+                      <div className="col mr-5">
+                        <p>{detailCar.actionCar !== null &&
+                          detailCar.actionCar.sharePercentage}
+                          {detailCar.actionCar === null && "None"}</p></div>
+                    </div>
+                  </div>
                 </div>
-
-
-                <div className="row ">
-                  <div className="col"><i className="fa-solid fa-angle-right text white mr-1" />Cost(<i className="fa-solid fa-dollar-sign" />)</div>
-                <div className="col mr-5"> 
-                     <p>{detailCar.cost}</p></div>
-                </div>
-               </div>
-
-
-
-               <div className="col">
-               <div className="row ">
-                  <div className="col"><i className="fa-solid fa-angle-right text white mr-1" /> Date of realese car</div>
-                <div className="col mr-5">
-                     <p>{getDate(detailCar.dateOfRealeseCar)}</p></div>
-                </div>
-                
-                <div className="row ">
-                  <div className="col"><i className="fa-solid fa-angle-right text white mr-1" /> For saler</div>
-                <div className="col mr-5">
-                     <p>{detailCar.isActive === true && "True"}
-                    {detailCar.isActive !== true && "False"}</p></div>
-                </div>
-                <div className="row ">
-                  <div className="col"><i className="fa-solid fa-angle-right text white mr-1" /> Share percentage(%)</div>
-                <div className="col mr-5">
-                     <p>{detailCar.actionCar !== null &&
-                      detailCar.actionCar.sharePercentage}
-                    {detailCar.actionCar === null && "None"}</p></div>
-                </div>
-               </div>
-               </div>
                 <h4 className="card-title text-center">
                   Information about equipment
                 </h4>

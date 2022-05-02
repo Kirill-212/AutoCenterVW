@@ -13,42 +13,43 @@ import { Link } from "react-router-dom";
 const UserListOrder = props => {
   const { user } = useContext(Context);
   const [listTestDrive, setListTestDrive] = React.useState([]);
-  const [list,setList] = React.useState([]);
-  const [vin,setVin]=React.useState("");
-  const [flagFilters,setFlagFilters]=React.useState(true)
+  const [list, setList] = React.useState([]);
+  const [vin, setVin] = React.useState("");
+  const [flagFilters, setFlagFilters] = React.useState(true)
   const [viewList, setViewList] = React.useState(false);
   const [empty, setEmpty] = React.useState(false);
-  const[email,setEmail]=React.useState("");
-  const [state,setState]=React.useState("");
-  const[date,setDate]=React.useState("");
-  const [time,setTime]=React.useState("");
-  const requestSearch = (searchedVal,data) => {
+  const [email, setEmail] = React.useState("");
+  const [state, setState] = React.useState("");
+  const [date, setDate] = React.useState("");
+  const [time, setTime] = React.useState("");
+
+  const requestSearch = (searchedVal, data) => {
     let filteredRows;
-    if(data!==null){
-      if(searchedVal.length==0){
-        filteredRows=data;
+    if (data !== null) {
+      if (searchedVal.length == 0) {
+        filteredRows = data;
       }
-      else{
+      else {
         filteredRows = data.filter(row => {
-            return row.car.vin.toLowerCase().includes(searchedVal.toLowerCase());
+          return row.car.vin.toLowerCase().includes(searchedVal.toLowerCase());
+        });
+      }
+    } else {
+      filteredRows = listTestDrive.filter(row => {
+        return row.car.vin.toLowerCase().includes(searchedVal.toLowerCase());
       });
     }
-    }else{
-       filteredRows = listTestDrive.filter(row => {
-      return row.car.vin.toLowerCase().includes(searchedVal.toLowerCase());
-    });
-    }
-    
+
     setListTestDrive(filteredRows);
   };
 
   const search = e => {
     if (e.length === 0) {
       setVin("")
-     setListTestDrive(list);
+      setListTestDrive(list);
     } else {
       setVin(e);
-      requestSearch(e,null);
+      requestSearch(e, null);
     }
   };
 
@@ -69,13 +70,13 @@ const UserListOrder = props => {
 
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -96,7 +97,7 @@ const UserListOrder = props => {
       setListTestDrive(response.body);
       setViewList(true);
     } else if (response.statusCode > 400) {
-     props.setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
     props.handleClose();
   }
@@ -127,13 +128,13 @@ const UserListOrder = props => {
 
   function CallbackRequestUpdate(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -146,7 +147,7 @@ const UserListOrder = props => {
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       GetTestDriveList();
     } else if (response.statusCode > 400) {
-     props.setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
     props.handleClose();
   }
@@ -164,51 +165,52 @@ const UserListOrder = props => {
   function ReturnStateByName(value) {
     if (value === "PENDING") {
       return 0;
-    } else if (value ===  "CONFIRM") {
+    } else if (value === "CONFIRM") {
       return 1;
     }
   }
-  const Search =()=> {
+
+  const Search = () => {
     let filteredRows;
     if (vin.length !== 0) {
- filteredRows = listTestDrive.filter(row => {
-      return row.car.vin.toLowerCase().includes(vin.toLowerCase());
-    });}else{
-    filteredRows = list;
-    }
-
-    if(state.length!==0 ){
-      filteredRows = filteredRows.filter(row => {
-        console.log(row,ReturnStateByName(state))
-        if(row.stateTestDrive===ReturnStateByName(state))return row;
-
+      filteredRows = listTestDrive.filter(row => {
+        return row.car.vin.toLowerCase().includes(vin.toLowerCase());
       });
-    }if(email.length!==0){
+    } else {
+      filteredRows = list;
+    }
+    if (state.length !== 0) {
+      filteredRows = filteredRows.filter(row => {
+        if (row.stateTestDrive === ReturnStateByName(state)) return row;
+      });
+    } if (email.length !== 0) {
       filteredRows = filteredRows.filter(row => {
         return row.user.email.toLowerCase().includes(email.toLowerCase());
       });
     }
-    if(time.length!==0){
+    if (time.length !== 0) {
       filteredRows = filteredRows.filter(row => {
         return row.time.toLowerCase().includes(time.toLowerCase());
       });
     }
-    if(date.length!==0){
+    if (date.length !== 0) {
       filteredRows = filteredRows.filter(row => {
         return row.dateStart.toLowerCase().includes(date.toLowerCase());
       });
     }
     setListTestDrive(filteredRows);
   };
-  function OpenFilters(){
+
+  function OpenFilters() {
     setFlagFilters(!flagFilters)
   }
-  function handleClickFilters(){
+
+  function handleClickFilters() {
     setEmail("")
     setState("")
     setTime("")
     setDate("")
-    requestSearch(vin,list);
+    requestSearch(vin, list);
   }
 
   useEffect(() => {
@@ -219,100 +221,76 @@ const UserListOrder = props => {
   return (
     <div className="container-md">
       <div className="row mt-5 pt-5 align-items-center">
-        <div className="row mt-2  ">
-        <div className="col-3">
-          <div className="input-group rounded w-100">
-            <input
-              type="search"
-              className="form-control rounded"
-              placeholder="Search by vin"
-              aria-label="Search"
-              value={vin}
-              aria-describedby="search-addon"
-              onChange={e => search(e.target.value)}
-            />
-            <span className="input-group-text border-0" id="search-addon">
-              <i className="fas fa-search" />
-            </span>
+        <div className="row mt-2  mb-1">
+          <div className="col-3">
+            <div className="input-group rounded w-100">
+              <input
+                type="search"
+                className="form-control rounded"
+                placeholder="Search by vin"
+                aria-label="Search"
+                value={vin}
+                aria-describedby="search-addon"
+                onChange={e => search(e.target.value)}
+              />
+              <span className="input-group-text border-0" id="search-addon">
+                <i className="fas fa-search" />
+              </span>
+            </div>
           </div>
+          <div className="col">
+            <button
+              onClick={OpenFilters}
+              className="btn btn-secondary btn-rounded"
+            >
+              More filters...
+            </button>
           </div>
-                    <div className="col">
-                    <button
-                
-                    onClick={OpenFilters}
-                    className="btn btn-secondary btn-rounded"
-                  >
-                    More filters...
-                  </button>
-                  </div>
-
-
-                  <div className="row m-2 p-2 bg-white text-black"  hidden={flagFilters}>
-                    <div className="row">
-                        <div className="col"> 
-                        <div className="input-group rounded w-100">         
-                            <input
-                              type="search"
-                              className="form-control rounded"
-                              placeholder="Search by email user"
-                              aria-label="Search"
-                              aria-describedby="search-addon"
-                              onChange={e => setEmail(e.target.value)}
-                              value={email}
-                            />
-                            <span className="input-group-text border-0" id="search-addon">
-                              <i className="fas fa-search" />
-                            </span>
-                            </div>
-                            </div>
-
-                        <div className="col">
-                          <div className="form-group d-flex">
-                          <label className="w-25">State:</label>
-                          <select aria-label="Default select example" className=" form-select" value={state} onChange={e => setState(e.target.value)}>
-                          <option value="" selected>All</option>
-                          <option value="PENDING">PENDING</option>
-                          <option value="CONFIRM">CONFIRM</option>
-                            </select>
-                            </div>
-                            </div>
-
-                              <div className="col-2"> 
-                              <button
-                            onClick={handleClickFilters}
-                            className="btn btn-secondary btn-rounded"
-                          >
-                            Cancel filters
-                          </button>
-                          </div>
-                            <div className="col-2"> 
-                                <button
-                              onClick={Search}
-                              className="btn btn-secondary btn-rounded"
-                            >
-                              Search
-                            </button>
-                            </div>
-                   </div>
-                   <div className="row">
-                   <div className="col w-50">
-                          <div className="form-group d-flex">
-                          <label >Time:</label>
-                          <select aria-label="Default select example" className="ml-2 form-select" value={time} onChange={e => setTime(e.target.value)}>
-                          <option value="" selected>All</option>
-                          <option value="9">9</option>
-                          <option value="10">10</option>
-                          <option value="11">11</option>
-                          <option value="12">12</option>
-                          <option value="13">13</option>
-                          <option value="14">14</option>
-                          <option value="15">15</option>
-                          <option value="16">16</option>
-                          <option value="17">17</option>
-                            </select>
-                            </div>
-                            </div>
-                            <div className="col">
+          <div className="row m-2 p-2 bg-white text-black" hidden={flagFilters}>
+            <div className="row">
+              <div className="col-5">
+                <div className="input-group rounded w-100">
+                  <input
+                    type="search"
+                    className="form-control rounded"
+                    placeholder="Search by email user"
+                    aria-label="Search"
+                    aria-describedby="search-addon"
+                    onChange={e => setEmail(e.target.value)}
+                    value={email}
+                  />
+                  <span className="input-group-text border-0" id="search-addon">
+                    <i className="fas fa-search" />
+                  </span>
+                </div>
+              </div>
+              <div className="col-2">
+                <button
+                  onClick={handleClickFilters}
+                  className="btn btn-secondary btn-rounded"
+                >
+                  Cancel filters
+                </button>
+              </div>
+              <div className="col-2">
+                <button
+                  onClick={Search}
+                  className="btn btn-secondary btn-rounded"
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+            <div className="row mt-1">
+              <div className="col form-group d-flex">
+                <label className="mr-1">State:</label>
+                <select aria-label="Default select example" className=" form-select" value={state} onChange={e => setState(e.target.value)}>
+                  <option value="" selected>All</option>
+                  <option value="PENDING">PENDING</option>
+                  <option value="CONFIRM">CONFIRM</option>
+                </select>
+              </div>
+              <div className="col form-group d-flex">
                 <label >Date start:</label>
                 <input
                   className="ml-2 w-50 shadow-lg  bg-white rounded"
@@ -322,13 +300,26 @@ const UserListOrder = props => {
                   required
                 />
               </div>
-                   </div>
-
-        </div>
+              <div className="col form-group d-flex">
+                <label >Time:</label>
+                <select aria-label="Default select example" className="ml-2 form-select" value={time} onChange={e => setTime(e.target.value)}>
+                  <option value="" selected>All</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option value="13">13</option>
+                  <option value="14">14</option>
+                  <option value="15">15</option>
+                  <option value="16">16</option>
+                  <option value="17">17</option>
+                </select>
+              </div>
+            </div>
+          </div>
         </div>
         {viewList &&
           listTestDrive.map(r => {
-            console.log("r", r);
             if (
               r.user.email === listTestDrive[0].user.email &&
               r.car.vin === listTestDrive[0].car.vin &&
@@ -415,23 +406,21 @@ const UserListOrder = props => {
                               {getDate(r.car.dateOfRealeseCar)}
                             </div>
                           </div>
-                        
-                            <div className="row d-flex flex-column">
-                              <div className="col text-center">
-                                <h4>Options </h4>
-                              </div>
+                          <div className="row d-flex flex-column">
+                            <div className="col text-center">
+                              <h4>Options </h4>
                             </div>
-                         
-                            <div className="row ">
+                          </div>
+                          <div className="row ">
                             <div className="d-grid gap-2 d-md-block text-center">
                               {CheckState(r.stateTestDrive) === "PENDING" &&
-                           <Tooltip
-                           disableFocusListener
-                           disableTouchListener
-                           title="Cancel test drive"
-                           arrow
-                           className="mr-1 ml-1"
-                         ><button
+                                <Tooltip
+                                  disableFocusListener
+                                  disableTouchListener
+                                  title="Cancel test drive"
+                                  arrow
+                                  className="mr-1 ml-1"
+                                ><button
                                   className="btn btn-primary-sm btn-sm ml-1"
                                   onClick={e =>
                                     UpdateState(
@@ -445,24 +434,24 @@ const UserListOrder = props => {
                                     )}
                                   type="button"
                                 >
-                                  <i className="fa-solid fa-ban" />
-                                </button></Tooltip>}
-                                <Tooltip
-                                  disableFocusListener
-                                  disableTouchListener
-                                  title="Get more information about car"
-                                  arrow
-                                >
-                                  <Link
-                                    className="btn btn-primary-sm btn-sm text-reset "
-                                    to={`/car/info?vin=${r.car.vin}
+                                    <i className="fa-solid fa-ban" />
+                                  </button></Tooltip>}
+                              <Tooltip
+                                disableFocusListener
+                                disableTouchListener
+                                title="Get more information about car"
+                                arrow
+                              >
+                                <Link
+                                  className="btn btn-primary-sm btn-sm text-reset "
+                                  to={`/car/info?vin=${r.car.vin}
                             `}
-                                  >
-                                    <i className="fa-solid fa-info" />
-                                  </Link>
-                               </Tooltip>
-                             </div>
+                                >
+                                  <i className="fa-solid fa-info" />
+                                </Link>
+                              </Tooltip>
                             </div>
+                          </div>
                         </div>
                       </div>
                     </Typography>
@@ -556,55 +545,55 @@ const UserListOrder = props => {
                             {getDate(r.car.dateOfRealeseCar)}
                           </div>
                         </div>
-                      
-                          <div className="row d-flex flex-column">
-                            <div className="col text-center">
-                              <h4>Options </h4>
-                            </div>
+
+                        <div className="row d-flex flex-column">
+                          <div className="col text-center">
+                            <h4>Options </h4>
                           </div>
-                       
-                          <div className="row ">
+                        </div>
+
+                        <div className="row ">
                           <div className="d-grid gap-2 d-md-block text-center">
-                              {CheckState(r.stateTestDrive) === "PENDING" &&
-                           <Tooltip
-                           disableFocusListener
-                           disableTouchListener
-                           title="Cancel test drive"
-                           arrow
-                           className="mr-1 ml-1"
-                         ><button
-                                  className="btn btn-primary-sm btn-sm ml-1"
-                                  onClick={e =>
-                                    UpdateState(
-                                      JSON.stringify({
-                                        vin: r.car.vin,
-                                        time: r.time,
-                                        dateStart: r.dateStart,
-                                        state: "CANCEL"
-                                      }),
-                                      e
-                                    )}
-                                  type="button"
-                                >
+                            {CheckState(r.stateTestDrive) === "PENDING" &&
+                              <Tooltip
+                                disableFocusListener
+                                disableTouchListener
+                                title="Cancel test drive"
+                                arrow
+                                className="mr-1 ml-1"
+                              ><button
+                                className="btn btn-primary-sm btn-sm ml-1"
+                                onClick={e =>
+                                  UpdateState(
+                                    JSON.stringify({
+                                      vin: r.car.vin,
+                                      time: r.time,
+                                      dateStart: r.dateStart,
+                                      state: "CANCEL"
+                                    }),
+                                    e
+                                  )}
+                                type="button"
+                              >
                                   <i className="fa-solid fa-ban" />
                                 </button></Tooltip>}
-                                <Tooltip
-                                  disableFocusListener
-                                  disableTouchListener
-                                  title="Get more information about car"
-                                  arrow
-                                 
-                                >
-                                  <Link
-                                    className="btn btn-primary-sm btn-sm text-reset "
-                                    to={`/car/info?vin=${r.car.vin}
+                            <Tooltip
+                              disableFocusListener
+                              disableTouchListener
+                              title="Get more information about car"
+                              arrow
+
+                            >
+                              <Link
+                                className="btn btn-primary-sm btn-sm text-reset "
+                                to={`/car/info?vin=${r.car.vin}
                             `}
-                                  >
-                                    <i className="fa-solid fa-info" />
-                                  </Link>
-                               </Tooltip>
-                             </div>
+                              >
+                                <i className="fa-solid fa-info" />
+                              </Link>
+                            </Tooltip>
                           </div>
+                        </div>
                       </div>
                     </div>
                   </Typography>

@@ -21,30 +21,30 @@ const UpdateOrderBuyer = (props) => {
     props.handleToggle();
     if (cardNumber.length !== 16) {
       props.setMessageError(
-        "Error: Card number is not valid.Valid is Visa Electron or Maestro"
+        "Error:Card number is not valid.Valid is Visa Electron or Maestro"
       );
       props.handleClose();
       return;
     } else if (cardOwnerName.length === 0) {
-      props.setMessageError("Error: Card owner is not valid value.");
+      props.setMessageError("Error:Card owner is not valid value.");
       props.handleClose();
       return;
     } else if (month < 0 || month > 12) {
-      props.setMessageError("Error: Month is not valid value.");
+      props.setMessageError("Error:Month is not valid value.");
       props.handleClose();
       return;
     } else if (year < new Date().getFullYear() % 100 || year > 100) {
-      props.setMessageError("Error: Year is not valid value.");
+      props.setMessageError("Error:Year is not valid value.");
       props.handleClose();
       return;
     } else if (cvc.length !== 3) {
-      props.setMessageError("Error: CVC is not valid value.");
+      props.setMessageError("Error:CVC is not valid value.");
       props.handleClose();
       return;
     }
-    if(new Date().getMonth() + 1 > Number(month) &&
-    year == new Date().getFullYear() % 100){
-      props.setMessageError("Error: month with year is not valid value.");
+    if (new Date().getMonth() + 1 > Number(month) &&
+      year == new Date().getFullYear() % 100) {
+      props.setMessageError("Error:Month with year is not valid value.");
       props.handleClose();
       return;
     }
@@ -76,10 +76,10 @@ const UpdateOrderBuyer = (props) => {
       props.setMessageError("Error:server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -92,7 +92,7 @@ const UpdateOrderBuyer = (props) => {
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       setRedirect(true);
     } else if (response.statusCode > 400) {
-     props.setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
     props.handleClose();
   }
@@ -208,7 +208,7 @@ const UpdateOrderBuyer = (props) => {
             </div>
           </form>
         </div>
-          {redirect && <Navigate to={"/home"} />}
+        {redirect && <Navigate to={"/clientcar/user"} />}
       </div>
     </div>
   );

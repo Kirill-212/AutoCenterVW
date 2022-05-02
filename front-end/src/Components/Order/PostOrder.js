@@ -9,7 +9,6 @@ const PostOrder = (props) => {
   const [vin, setVin] = React.useState("");
   const [emailOwner, setEmailOwner] = React.useState("");
   const [redirect, setRedirect] = React.useState(false);
-
   const [flag, setFlag] = React.useState("0");
 
   async function submit(e) {
@@ -36,13 +35,13 @@ const PostOrder = (props) => {
 
   function CallbackRequestDeleteOrUpdate(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
-        let errorResult =[];
+        let errorResult = [];
         let errorsJson = response.body.errors;
         for (let key in response.body.errors) {
-          errorResult.push( <>{errorsJson[key]} <br></br> </>);
+          errorResult.push(<>{errorsJson[key]} <br></br> </>);
         }
         props.setMessageError(errorResult);
       } else {
@@ -55,7 +54,7 @@ const PostOrder = (props) => {
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       setRedirect(true);
     } else if (response.statusCode > 400) {
-     props.setMessageError(response.body.error);
+      props.setMessageError(response.body.error);
     }
     props.handleClose();
   }
@@ -63,7 +62,7 @@ const PostOrder = (props) => {
   function SetValueChangeRegisterNumber(event) {
     setFlag(event.target.value);
   }
-  
+
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     setVin(query.get("vin"));
@@ -123,7 +122,6 @@ const PostOrder = (props) => {
                 </label>
               </div>
             </div>
-
             <div className="d-flex justify-content-center form-outline mt-3 mb-3">
               <div className="flex-fill">
                 <button
@@ -136,7 +134,7 @@ const PostOrder = (props) => {
             </div>
           </form>
         </div>
-          {redirect && <Navigate to={"/home"} />}
+        {redirect && <Navigate to={"/order/buyer"} />}
       </div>
     </div>
   );

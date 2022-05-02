@@ -7,7 +7,6 @@ export default function EnhancedTable(props) {
   const [pageSize, setPageSize] = React.useState(5);
   const [rows, setRows] = React.useState(
     props.rows.map(r => {
-      console.log(r);
       return {
         id: r.car.vin,
         vin: r.car.vin,
