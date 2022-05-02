@@ -28,7 +28,9 @@ const DetailCarEquipmentForm = props => {
       requestSearch(e);
     }
   };
+
   if (props.data.length == 0) return <div>No data</div>;
+  
   return (
     <div>
       <div className="row mt-2 bg-white text-white">

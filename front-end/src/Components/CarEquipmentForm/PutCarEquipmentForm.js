@@ -7,6 +7,7 @@ import {
 } from "../../ImportExportGenClient";
 import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import Tooltip from "@mui/material/Tooltip";
+
 const PutCarEquipmentForm = (props) => {
   const [name, setName] = React.useState("");
   const [nameNew, setNameNew] = React.useState("");
@@ -35,7 +36,7 @@ const PutCarEquipmentForm = (props) => {
 
   function CallbackRequestPut(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
         let errorResult =[];
@@ -70,7 +71,7 @@ const PutCarEquipmentForm = (props) => {
 
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
         let errorResult =[];
@@ -89,7 +90,7 @@ const PutCarEquipmentForm = (props) => {
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       if (response.statusCode === 204) {
         props.handleClose();
-        props.setMessageError("Error: user with this email not found.");
+        props.setMessageError("Error:User with this email not found.");
         return;
       }
       setLength(response.body.equipmentItems.length);
@@ -153,7 +154,6 @@ const PutCarEquipmentForm = (props) => {
                 />
               </div>
             </div>
-
             <div className="form-check col mt-5">
               <input
                 className="form-check-input"
@@ -209,7 +209,6 @@ const PutCarEquipmentForm = (props) => {
     } else if (cost !== null) {
       carEquipment[i].cost = cost;
     }
-    console.log(carEquipment);
   }
 
   useEffect(() => {
@@ -279,7 +278,7 @@ const PutCarEquipmentForm = (props) => {
               </div>
             </div>
           </form>
-            {redirect && <Navigate to={"/home"} />}
+            {redirect && <Navigate to={"/carequipmentform"} />}
         </div>
       </div>
     </div>

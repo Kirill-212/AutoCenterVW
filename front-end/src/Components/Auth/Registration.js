@@ -46,12 +46,12 @@ function Registration(props) {
     }
     let url = await ImgService.uploadImage(img);
     if (url == undefined) {
-      props.setMessageError("Error:upload img is not valid.");
+      props.setMessageError("Error:Upload img is not valid.");
       props.handleClose();
       return;
     }
     if (url.height !== 200 || url.width !== 200) {
-      props.setMessageError("Error:valid size  200x200:File name:" + img.name);
+      props.setMessageError("Error:Valid size  200x200:File name:" + img.name);
       props.handleClose();
       return;
     }
@@ -74,7 +74,7 @@ function Registration(props) {
 
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
         let errorResult =[];

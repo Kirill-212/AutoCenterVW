@@ -31,7 +31,7 @@ const PostCarEquipmentForm = (props) => {
 
   function CallbackRequestPost(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
         let errorResult =[];
@@ -102,9 +102,7 @@ const PostCarEquipmentForm = (props) => {
     } else if (cost !== null) {
       carEquipment[i].cost = cost;
     }
-    console.log(carEquipment);
   }
-
 
   return (
     <div className="d-flex   justify-content-center w-40 align-items-center ">
@@ -127,7 +125,6 @@ const PostCarEquipmentForm = (props) => {
                 required
               />
             </div>
-
             <div className="form-group mb-2 ">
               <label>Equipment items:</label>
               {carEquipment !== undefined && renderInput(carEquipment)}
@@ -153,7 +150,7 @@ const PostCarEquipmentForm = (props) => {
             </div>
           </form>
         </div>
-        {redirect && <Navigate to={"/home"} />}
+        {redirect && <Navigate to={"/carequipmentform"} />}
       </div>
     </div>
   );

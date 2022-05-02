@@ -26,7 +26,7 @@ const PostCarEquipment = (props) => {
 
   function CallbackRequest(error, data, response) {
     if (response == undefined) {
-      props.setMessageError("Error:server is not available");
+      props.setMessageError("Error:Server is not available");
     } else if (response.statusCode == 400) {
       if (response.body.errors !== undefined) {
         let errorResult =[];
@@ -53,7 +53,6 @@ const PostCarEquipment = (props) => {
 
   function RenderRadioButton(input, name, nameEquipment) {
     let returnButtons = [];
-
     for (let j in input) {
       returnButtons.push(
         <div className="form-check">
@@ -188,7 +187,6 @@ const PostCarEquipment = (props) => {
                 required
               />
             </div>
-
             <div className="form-group mb-2 ">
               <label>Car equipment:</label>
               {flag && RenderCarEquipment()}
@@ -205,7 +203,7 @@ const PostCarEquipment = (props) => {
             </div>
           </form>
         </div>
-        {redirect && <Navigate to={"/home"} />}
+        {redirect && <Navigate to={"/carequipment"} />}
       </div>
     </div>
   );

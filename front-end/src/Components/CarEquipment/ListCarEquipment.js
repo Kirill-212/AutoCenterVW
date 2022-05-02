@@ -7,10 +7,12 @@ import Tooltip from "@mui/material/Tooltip";
 
 export default function CustomizedAccordions(props) {
   const [data, setData] = React.useState(props.data);
+
   const [expanded, setExpanded] = React.useState("panel1");
   const handleChange = panel => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
+
   const requestSearch = searchedVal => {
     const filteredRows = data.filter(row => {
       return row.name.toLowerCase().includes(searchedVal.toLowerCase());
@@ -25,9 +27,11 @@ export default function CustomizedAccordions(props) {
       requestSearch(e);
     }
   };
+
   if (props.data.length == 0) {
     return <div />;
   }
+  
   return (
     <div>
       <div className="row mt-2  bg-white text-white">

@@ -60,7 +60,6 @@ const PostCar = (props) => {
   async function submitCar(event) {
     event.preventDefault();
     props.handleToggle();
-    console.log(dateOfRealeseCar);
     let date = validate_date(dateOfRealeseCar);
     if (date !== null) {
       props.setMessageError(date);
@@ -81,12 +80,12 @@ const PostCar = (props) => {
       }
       let url = await ImgService.uploadImage(imgs[i]);
       if (url == undefined) {
-        props.setMessageError("Error:upload img is not valid.");
+        props.setMessageError("Error:Upload img is not valid.");
         props.handleClose();
         return;
       }
       if (url.height !== 600 || url.width !== 800) {
-        props.setMessageError("Error:valid size 800x600:File name:" + imgs[i].name);
+        props.setMessageError("Error:Valid size 800x600:File name:" + imgs[i].name);
         props.handleClose();
         return;
       }
@@ -262,7 +261,7 @@ const PostCar = (props) => {
             </div>
           </form>
         </div>
-        {redirect && <Navigate to={"/home"} />}
+        {redirect && <Navigate to={"/car"} />}
       </div>
     </div>
   );

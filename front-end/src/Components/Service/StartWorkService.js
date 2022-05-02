@@ -9,16 +9,17 @@ import GetJwtToken from "../../Services/Jwt/GetJwtToken";
 import { validate_dateService } from "../ViewLists/SupportFunction";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { getDate } from "../ViewLists/SupportFunction";
 
 const PostService = (props) => {
   const { user } = useContext(Context);
   const [vin, setVin] = React.useState("");
-  const [startWork, setStartWork] = React.useState(new Date());
+  const [startWork, setStartWork] = React.useState("");
   const [endWork, setEndWork] = React.useState(null);
   const [redirect, setRedirect] = React.useState(false);
   const [viewCarRepairs, setViewCarRepairs] = React.useState(false);
   const [carRepairs, setCarRepairs] = React.useState([])
-
+const [dateStart,setDateStart]=React.useState("");
   async function submitCar(event) {
     event.preventDefault();
     props.handleToggle();
@@ -114,13 +115,27 @@ const PostService = (props) => {
       props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       setCarRepairs(response.body)
+      let date=new Date();
+      response.body.forEach(el=>{
+        if(getDate(date)<getDate(el.carRepair.endWork)){
+          date=new Date(getDate(el.carRepair.endWork));
+        }
+        
+      })
+      date.setDate(date.getDate()+1)
+      if(date.getDay() == 0){
+        date.setDate(date.getDate()+1)
+      }else if(date.getDay() == 6){
+        date.setDate(date.getDate()+2)
+      }
+      setDateStart((new Date(date)).setDate((new Date(date)).getDate()-1))
+      setStartWork(date);
       setViewCarRepairs(true)
     } else if (response.statusCode > 400) {
       props.setMessageError(response.body.error);
     }
     props.handleClose();
   }
-
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     setVin(query.get("vin"));
@@ -155,7 +170,8 @@ const PostService = (props) => {
                 <DatePicker
                   className="w-100 shadow-lg  bg-white rounded"
                   filterDate={d => {
-                    return new Date() < d;
+                   
+                   return dateStart<d;             
                   }}
                   placeholderText="Select Start work date..."
                   selected={startWork}
@@ -171,14 +187,13 @@ const PostService = (props) => {
                 <DatePicker
                   className="w-100 shadow-lg  bg-white rounded"
                   filterDate={d => {
-                    return startWork < d;
+                    return startWork <= d;
                   }}
                   placeholderText="Select End work date.."
                   selected={endWork}
                   selectsEnd
                   startDate={startWork}
                   endDate={endWork}
-                  minDate={startWork}
                   onChange={date => setEndWork(date)}
                   required
                 />

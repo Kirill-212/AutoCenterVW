@@ -61,6 +61,9 @@ export default function EnhancedTable(props) {
           setList(Sort([...list, ...ListCars], sort));
         }
       }
+      if(ListCars.length===0){
+        props.setMesInfo('Car list is empty')
+      }
     } else if (response.statusCode > 400) {
       props.setMessageError(response.body.error);
     }
@@ -95,8 +98,10 @@ export default function EnhancedTable(props) {
       ).getCarDto.map(e => {
         return GetCarDto.constructFromObject(e);
       });
-
       setList(Sort(ListCars, sort));
+      if(ListCars.length===0){
+        props.setMesInfo('Car list is empty')
+      }
     } else if (response.statusCode > 400) {
       props.setMessageError(response.body.error);
     }
@@ -195,14 +200,14 @@ export default function EnhancedTable(props) {
   return (
     <div className="container-md">
       <div className="row mt-5 pt-5 align-items-center">
-        <div className="row-1">
+       {list.length!==0&& <div className="row-1">
           <button
             onClick={OpenFilters}
             className="btn btn-secondary btn-rounded"
           >
             Filters...
           </button>
-        </div>
+        </div>}
         <div className="row mt-1 pt-2 bg-black text-white" hidden={flagFilters}>
           <div className="row">
             <div className="input-group rounded col">

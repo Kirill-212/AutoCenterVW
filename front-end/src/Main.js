@@ -51,8 +51,10 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 function App(props) {
   const [open, setOpen] = React.useState(false);
+  const [openInfo,setOpenInfo]=React.useState(false);
   const [messageError, setMessageError] = React.useState("");
   const [openSpinner, setOpenSpinner] = React.useState(false);
+const [mesInfo,setMesInfo]=React.useState("");
 
   const handleCloseToggle = () => {
     setOpenSpinner(false);
@@ -62,10 +64,18 @@ function App(props) {
     setOpenSpinner(!open);
   };
   const handleClick = errorMessage => {
+    setOpenInfo(false);
     setOpen(true);
+    
     setMessageError(errorMessage);
   };
+  const handleClickInfo = Message => {
+    setOpen(false);
+    setOpenInfo(true);
+    setMesInfo(Message);
+  };
 let styleError={"background-color": "red"}
+let styleInfo={"background-color": "blue"}
   let style = { width: "30rem" ,color:"white"};
   function AlertMessageError(mes) {
     return (
@@ -79,6 +89,26 @@ let styleError={"background-color": "red"}
     );
   }
 
+  function AlertMessageEmpty(mes) {
+    return (
+      <Snackbar open={openInfo} autoHideDuration={10000} onClose={handleCloseInfo}>
+        <Alert onClose={handleCloseInfo} severity="info" sx={{ width: "100%",bgcolor: 'error.main'}} style={styleInfo}>
+          <div class="text-wrap" style={style}>
+          {mes}
+          </div>
+        </Alert>
+      </Snackbar>
+    );
+  }
+
+  const handleCloseInfo = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setMesInfo("");
+    setOpenInfo(false);
+  };
+
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -86,6 +116,7 @@ let styleError={"background-color": "red"}
     setMessageError("");
     setOpen(false);
   };
+
   return (
     <>
         <main id="bgImg" role="main">
@@ -396,6 +427,7 @@ let styleError={"background-color": "red"}
                   setMessageError={handleClick}
                   handleToggle={handleToggle}
                   handleClose={handleCloseToggle}
+                  setMesInfo={handleClickInfo}
                 />
               }
             />
@@ -436,6 +468,7 @@ let styleError={"background-color": "red"}
                   setMessageError={handleClick}
                   handleToggle={handleToggle}
                   handleClose={handleCloseToggle}
+                  setMesInfo={handleClickInfo}
                 />
               }
             />
@@ -482,9 +515,12 @@ let styleError={"background-color": "red"}
             <Route path="*" element={<h2>Resourse not found</h2>} />
           </Routes>
         </main>
- 
+       
       <Stack spacing={3} sx={{ width: "100%" }}>
         {AlertMessageError(messageError)}
+      </Stack>
+      <Stack spacing={3} sx={{ width: "100%" }}>
+      { AlertMessageEmpty(mesInfo)}
       </Stack>
       <Backdrop
         sx={{ color: "#fff", zIndex: theme => theme.zIndex.drawer + 1 }}

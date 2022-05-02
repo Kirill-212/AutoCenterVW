@@ -53,7 +53,7 @@ const PutCar = (props) => {
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       if (response.statusCode === 204) {
         props.handleClose();
-        props.setMessageError("Error: car with this vin not found.");
+        props.setMessageError("Error:Car with this vin not found.");
         return;
       }
       setVin(response.body.vin);
@@ -130,13 +130,13 @@ const PutCar = (props) => {
       if (imgsCar[i].name !== undefined) {
         let url = await ImgService.uploadImage(imgsCar[i]);
         if (url == undefined) {
-          props.setMessageError("Error:upload img is not valid.");
+          props.setMessageError("Error:Upload img is not valid.");
           props.handleClose();
           return;
         }
         if (url.height !== 600 || url.width !== 800) {
           props.setMessageError(
-            "Error:valid size 800x600:File name:" +
+            "Error:Valid size 800x600:File name:" +
               imgsCar[i].name +
               "|Line" +
               i
@@ -220,10 +220,9 @@ const PutCar = (props) => {
     } else if (response.statusCode === 200 || response.statusCode === 204) {
       if (response.statusCode === 204) {
         props.handleClose();
-        props.setMessageError("Error: car equipment wth this name not found.");
+        props.setMessageError("Error:Car equipment with this name not found.");
         return;
       }
-      console.log(response.body.isDeleted);
       setFlagGet(response.body.isDeleted);
       setNameCarEquipment(response.body.name);
       setFlag(true);
@@ -245,15 +244,13 @@ const PutCar = (props) => {
     } else {
       let url = await ImgService.uploadImage(value);
       if (url == undefined) {
-        props.setMessageError("Error:upload img is not valid.");
-
+        props.setMessageError("Error:Upload img is not valid.");
         return;
       }
       if (url.height !== 600 || url.width !== 800) {
         props.setMessageError(
-          "Error:size is valid 800x600:File name:" + value.name + "|Line" + i
+          "Error:Valid size 800x600:File name:" + value.name + "|Line" + i
         );
-
         return;
       }
       imgsCar[i] = new ImgDto(url.url);
@@ -450,7 +447,7 @@ const PutCar = (props) => {
             </div>
           </form>
         </div>
-        {redirect && <Navigate to={"/home"} />}
+        {redirect && <Navigate to={"/car"} />}
       </div>
     </div>
   );

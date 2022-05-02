@@ -98,6 +98,9 @@ export default function EnhancedTable(props) {
         if (blockFlag)
           setList(Sort([...list, ...ListCars], sort));
       }
+      if(ListCars.length===0){
+        props.setMesInfo('You do not have car')
+      }
     } else if (response.statusCode > 400) {
       props.setMessageError(response.body.error);
     }
@@ -132,6 +135,9 @@ export default function EnhancedTable(props) {
         return GetCarDto.constructFromObject(e);
       });
       setList(Sort(ListCars, sort));
+      if(ListCars.length===0){
+        props.setMesInfo('You do not have car')
+      }
     } else if (response.statusCode > 400) {
       props.setMessageError(response.body.error);
     }
@@ -225,17 +231,16 @@ export default function EnhancedTable(props) {
     setDateOfRealeseCarFrom("")
     setBlockFlag(!blockFlag);
   }
-
   return (
     <div className="container ">
-      <div className="row-1">
-        <button
+       {user!==undefined&&list.length!==0 && <div className="row-1">
+     <button
           onClick={OpenFilters}
           className="btn btn-secondary btn-rounded"
         >
           Filters...
         </button>
-      </div>
+      </div>}
       <div className="row mt-1 pt-2 bg-black text-white" hidden={flagFilters}>
         <div className="row">
           <div className="input-group rounded col">

@@ -20,6 +20,7 @@ export default function EnhancedTable(props) {
       };
     })
   );
+  
   return (
     <Paper
       sx={{ width: "100%", height: 600, overflow: "hidden" }}

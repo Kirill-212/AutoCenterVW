@@ -16,6 +16,7 @@ import ListItemText from "@mui/material/ListItemText";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import { Link } from "react-router-dom";
+
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -23,8 +24,10 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
   justifyContent: "flex-end"
 }));
+
 let style = { padding: "0px 2px 0 5px" };
 let styleListItem = { padding: "0px 2px 0 10px" };
+
 function ListItemHeader(props) {
   const { openItem, ...other } = props;
   let icon = null;
@@ -108,10 +111,16 @@ function Header(props) {
             <strong>Register</strong>
           </Link>
         </Typography>
+        <Typography sx={{ minWidth: 20 }}>
+        <i class="fa-solid fa-phone"></i> +375 (11) 111-11-11
+        </Typography>
+        <Typography sx={{ minWidth: 20 }} className="ml-1">
+        <i class="fa-solid fa-envelope"></i> xxxx@gmail.com
+        </Typography>
       </Box>
       {user !== undefined &&
-        <SwipeableDrawer open={state}>
-          <DrawerHeader className="bg-dark text-white ">
+        <SwipeableDrawer open={state} className="h-100">
+          <DrawerHeader className="bg-dark text-white" sx={{ height: 50 }}>
             <IconButton style={style} onClick={UpdateState(false)}>
               {theme.direction === "ltr"
                 ? <ChevronLeftIcon className="text-white" />
@@ -149,7 +158,6 @@ function Header(props) {
               </List>
             </Collapse>
             <Divider />
-
             <ListItemHeader
               openItem={props.openTestrive}
               text="Test drives"
@@ -183,7 +191,6 @@ function Header(props) {
               </List>
             </Collapse>
             <Divider />
-
             <ListItemHeader
               openItem={props.openOrder}
               text="Orders"
@@ -218,7 +225,6 @@ function Header(props) {
               </List>
             </Collapse>
             <Divider />
-
             <ListItemHeader
               openItem={props.openCar}
               text="Cars"
@@ -257,7 +263,6 @@ function Header(props) {
                   </Link>}
               </List>
             </Collapse>
-
             <Divider />
             {(JSON.parse(user).roleName === "ADMIN" ||
               JSON.parse(user).roleName === "SUPER_ADMIN" ||
@@ -298,7 +303,6 @@ function Header(props) {
               JSON.parse(user).roleName === "SUPER_ADMIN" ||
               JSON.parse(user).roleName === "EMPLOYEE") &&
               <Divider />}
-
             {(JSON.parse(user).roleName === "ADMIN" ||
               JSON.parse(user).roleName === "SUPER_ADMIN" ||
               JSON.parse(user).roleName === "EMPLOYEE") &&
@@ -372,14 +376,12 @@ function Header(props) {
               </List>
             </Collapse>
             <Divider />
-
             <ListItemHeader
               openItem={props.openNews}
               text="News"
               onClick={e =>
                 props.handleClick(e, props.openNews, props.setOpenNews)}
             />
-
             <Collapse
               in={props.openNews}
               timeout="auto"
@@ -403,7 +405,7 @@ function Header(props) {
               </List>
             </Collapse>
             <Divider />
-
+    <div className=" bg-dark text-white " >
             {(JSON.parse(user).roleName === "ADMIN" ||
               JSON.parse(user).roleName === "SUPER_ADMIN") &&
               <ListItemHeader
@@ -436,24 +438,24 @@ function Header(props) {
             {(JSON.parse(user).roleName === "ADMIN" ||
               JSON.parse(user).roleName === "SUPER_ADMIN") &&
               <Divider />}
-
             {(JSON.parse(user).roleName === "ADMIN" ||
               JSON.parse(user).roleName === "SUPER_ADMIN") &&
               <ListItemHeader
+              className="bg-dark text-white"
                 openItem={props.openUser}
                 text="Users"
                 onClick={e =>
                   props.handleClick(e, props.openUser, props.setOpenUser)}
-              />}
+              />}      
             {(JSON.parse(user).roleName === "ADMIN" ||
               JSON.parse(user).roleName === "SUPER_ADMIN") &&
               <Collapse
                 in={props.openUser}
                 timeout="auto"
                 unmountOnExit
-                className="ml-2"
+                className="ml-2  bg-dark text-white"
               >
-                <List disablePadding>
+                <List disablePadding   >
                   <Link to="/user" className="text-reset">
                     <ListItem button style={styleListItem}>
                       <ListItemText primary={"List"} />
@@ -464,6 +466,7 @@ function Header(props) {
             {(JSON.parse(user).roleName === "ADMIN" ||
               JSON.parse(user).roleName === "SUPER_ADMIN") &&
               <Divider />}
+              </div>
           </Box>
         </SwipeableDrawer>}
     </div>

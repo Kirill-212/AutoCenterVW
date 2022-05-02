@@ -10,7 +10,6 @@ const CarDetail = (props) => {
 
   async function GetCarByVin(vin) {
     props.handleToggle();
-    console.log('vin',vin)
     new CarsApi().apiCarsByVinGet(GetJwtToken(), { vin: vin }, CallbackRequest);
   }
 
@@ -36,7 +35,6 @@ const CarDetail = (props) => {
       props.handleClose();
       props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
-      console.log(response.body)
       setDetailCar(response.body);
       if (response.statusCode === 204) {
         props.handleClose();
@@ -74,7 +72,6 @@ const CarDetail = (props) => {
     } else if (response.statusCode == 401) {
       props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
-      console.log(response)
       setCarEquipment(response.body);
       setFlag(true);
     } else if (response.statusCode > 400) {
@@ -86,8 +83,6 @@ const CarDetail = (props) => {
   function ViewCarEquipment() {
     let totalCost = detailCar.cost;
     let equipment = [];
-    
-    console.log(carEquipment,'eq');
     equipment.push(
       <div className="row ">
         <div className="row ">
@@ -104,11 +99,8 @@ const CarDetail = (props) => {
     carEquipment.equipments.forEach(el => {
       let i=0;i++;
        totalCost += el.equipmentItem.cost;
-     
       equipment.push(
-        
         <div className="col-3  mb-3">
-
           <div className="row ">
           <div className="col-4">
             <i className="fa-solid fa-angle-right text white mr-1" />
@@ -126,10 +118,8 @@ const CarDetail = (props) => {
               {el.equipmentItem.value}
             </div>
           </div>
-
           <div className="row ml-1">
             <div className="col-4">
-              
               Cost(<i className="fa-solid fa-dollar-sign" />)
             </div>
             <div className="col-8 text-left text-white">
@@ -139,7 +129,6 @@ const CarDetail = (props) => {
         </div>
       );
     });
-
     totalCost =
       detailCar.actionCar != null
         ? Number(totalCost * (100 - detailCar.actionCar.sharePercentage) / 100)
@@ -162,7 +151,6 @@ const CarDetail = (props) => {
   }
 
   useEffect(() => {
-    console.log('xyu')
     const query = new URLSearchParams(window.location.search);
     GetCarByVin(query.get("vin"));
   }, []);
@@ -173,8 +161,7 @@ const CarDetail = (props) => {
     <div>
       <div className="container-md w-100 bg-dark text-white">
         {detailCar !== null &&
-          <div className="row mt-5 pt-5 align-items-center ">
-           
+          <div className="row mt-5 pt-5 align-items-center "> 
             <div
               id="slider"
               className="col carousel slide carousel-fade carousel-dark justify-content-center align-self-center p-5 w-100 "
@@ -237,21 +224,17 @@ const CarDetail = (props) => {
               </button>
             </div>
             <div className="col " >
-             <div className="row">
-               
+             <div className="row">       
                <div className="col"> <h4 className="card-title text-center">
                   Information about car
                 </h4></div>
                 </div>
-
                 <div className="row ">
                   <div className="col">
                 <i className="fa-solid fa-angle-right text white mr-1" />Vin 
                 </div>
                 <div className="col mr-5"> <p>{detailCar.vin}</p></div>
                 </div>
-
-
                 <div className="row ">
                   <div className="col">
                      <i className="fa-solid fa-angle-right text white mr-1" />Car mileage(km)
@@ -259,29 +242,22 @@ const CarDetail = (props) => {
                 <div className="col mr-5">
                     <p>{detailCar.carMileage}</p></div>
                 </div>
-
-
                 <div className="row ">
                   <div className="col"><i className="fa-solid fa-angle-right text white mr-1" />Cost(<i className="fa-solid fa-dollar-sign" />)</div>
                 <div className="col mr-5"> 
                      <p>{detailCar.cost}</p></div>
                 </div>
-
-
                 <div className="row ">
                   <div className="col"><i className="fa-solid fa-angle-right text white mr-1" /> Date of realese car</div>
                 <div className="col mr-5">
                      <p>{getDate(detailCar.dateOfRealeseCar)}</p></div>
                 </div>
-
                 <div className="row ">
                   <div className="col"><i className="fa-solid fa-angle-right text white mr-1" /> For saler</div>
                 <div className="col mr-5">
                      <p>{detailCar.isActive === true && "True"}
                     {detailCar.isActive !== true && "False"}</p></div>
                 </div>
-
-
                     <div className="row ">
                   <div className="col"><i className="fa-solid fa-angle-right text white mr-1" /> Share percentage(%)</div>
                 <div className="col mr-5">

@@ -104,7 +104,6 @@ const Cars = (props) => {
     } else if (response.statusCode == 401) {
       props.setMessageError("Error:Unauthorized");
     } else if (response.statusCode === 200 || response.statusCode === 204) {
-      console.log(data,response)
       setListCars(
         data.map(e => {
           return Car.constructFromObject(e);
