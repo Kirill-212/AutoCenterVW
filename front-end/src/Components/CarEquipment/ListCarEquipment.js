@@ -29,6 +29,7 @@ export default function CustomizedAccordions(props) {
   };
 
   if (props.data.length == 0) {
+    props.setMesInfo('Car equipment not found')
     return <div />;
   }
   

@@ -91,6 +91,7 @@ const CarEquipmentForm = (props) => {
           <DisplayDataCarEquipmentForm
             data={listCarEquipmentForm}
             deleteCarEquipmentForm={DeleteCarEquipmentForm}
+            setMesInfo={props.setMesInfo}
           />}
       </div>
     </div>

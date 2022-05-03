@@ -220,7 +220,11 @@ const EmployeeListService = props => {
     GetServiceList();
   }, []);
 
-  if (empty) return <div>No data</div>;
+  if (empty){ 
+    props.setMesInfo("You do not have car repairs")
+    return (
+  <div>
+  </div>)}
   return (
     <div className="container-md">
       <div className="row mt-5 pt-5 align-items-center">

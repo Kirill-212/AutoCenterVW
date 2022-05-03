@@ -29,7 +29,10 @@ const DetailCarEquipmentForm = props => {
     }
   };
 
-  if (props.data.length == 0) return <div>No data</div>;
+  if (props.data.length == 0) {
+    props.setMesInfo('Car equipment form item not found')
+    return (<div></div>)
+  }
   
   return (
     <div>

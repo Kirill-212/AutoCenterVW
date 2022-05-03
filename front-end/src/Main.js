@@ -337,6 +337,7 @@ let styleInfo={"background-color": "blue"}
                   setMessageError={handleClick}
                   handleToggle={handleToggle}
                   handleClose={handleCloseToggle}
+                  setMesInfo={handleClickInfo}
                 />
               }
             />
@@ -367,6 +368,7 @@ let styleInfo={"background-color": "blue"}
                   setMessageError={handleClick}
                   handleToggle={handleToggle}
                   handleClose={handleCloseToggle}
+                  setMesInfo={handleClickInfo}
                 />
               }
             />
@@ -387,6 +389,7 @@ let styleInfo={"background-color": "blue"}
                   setMessageError={handleClick}
                   handleToggle={handleToggle}
                   handleClose={handleCloseToggle}
+                  setMesInfo={handleClickInfo}
                 />
               }
             />
@@ -397,6 +400,7 @@ let styleInfo={"background-color": "blue"}
                   setMessageError={handleClick}
                   handleToggle={handleToggle}
                   handleClose={handleCloseToggle}
+                  setMesInfo={handleClickInfo}
                 />
               }
             />
@@ -407,6 +411,7 @@ let styleInfo={"background-color": "blue"}
                   setMessageError={handleClick}
                   handleToggle={handleToggle}
                   handleClose={handleCloseToggle}
+                  setMesInfo={handleClickInfo}
                 />
               }
             />
@@ -448,6 +453,7 @@ let styleInfo={"background-color": "blue"}
                   setMessageError={handleClick}
                   handleToggle={handleToggle}
                   handleClose={handleCloseToggle}
+                  setMesInfo={handleClickInfo}
                 />
               }
             />
@@ -458,6 +464,7 @@ let styleInfo={"background-color": "blue"}
                   setMessageError={handleClick}
                   handleToggle={handleToggle}
                   handleClose={handleCloseToggle}
+                  setMesInfo={handleClickInfo}
                 />
               }
             />
@@ -489,6 +496,7 @@ let styleInfo={"background-color": "blue"}
                   setMessageError={handleClick}
                   handleToggle={handleToggle}
                   handleClose={handleCloseToggle}
+                  setMesInfo={handleClickInfo}
                 />
               }
             />
@@ -509,6 +517,7 @@ let styleInfo={"background-color": "blue"}
                   setMessageError={handleClick}
                   handleToggle={handleToggle}
                   handleClose={handleCloseToggle}
+                  setMesInfo={handleClickInfo}
                 />
               }
             />

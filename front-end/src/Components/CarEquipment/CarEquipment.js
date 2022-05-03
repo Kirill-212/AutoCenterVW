@@ -93,6 +93,7 @@ const CarEquipments = (props) => {
             data={listCarEquipments}
             roleName={user}
             deleteCarEquipment={DeleteCarEquipments}
+            setMesInfo={props.setMesInfo}
           />}
       </div>
     </div>

@@ -271,7 +271,11 @@ const EmployeeListService = props => {
     requestSearch(vin, list);
   }
 
-  if (empty) return <div>No data</div>;
+  if (empty){ 
+    props.setMesInfo("You do not have car repairs")
+    return (
+  <div>
+  </div>)}
 
   return (
     <div className="container-md">

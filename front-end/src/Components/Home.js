@@ -1,13 +1,104 @@
 import React from "react";
 import Footer from "./Footer";
+
 function Home() {
+ 
   return (
-    <div className="d-flex justify-content-between  flex-column bg-dark text-white ">
-      <div className=" container marketing ">
+    <div className="d-flex justify-content-between   flex-column text-white">
+      <div className=" container marketing bg-dark pl-5 pr-5">
+        <div
+          id="carouselExampleCaptions"
+          className="carousel slide mt-5"
+          data-mdb-ride="carousel"
+        >
+          <div className="carousel-indicators">
+            <button
+              type="button"
+              data-mdb-target="#carouselExampleCaptions"
+              data-mdb-slide-to="0"
+              className="active"
+              aria-current="true"
+              aria-label="Slide 1"
+            />
+            <button
+              type="button"
+              data-mdb-target="#carouselExampleCaptions"
+              data-mdb-slide-to="1"
+              aria-label="Slide 2"
+            />
+            <button
+              type="button"
+              data-mdb-target="#carouselExampleCaptions"
+              data-mdb-slide-to="2"
+              aria-label="Slide 3"
+            />
+          </div>
+          <div className="carousel-inner">
+            <div className="carousel-item active">
+              <img
+                src="https://res.cloudinary.com/courseaspcore/image/upload/v1651574976/pexels-kam-pratt-5354464_twbbzu.jpg"
+
+                className="d-block w-100 h-50"
+                alt="..."
+              />
+              <div className="carousel-caption d-none d-md-block">
+                <h5>vw golf 7 gti</h5>
+                <p>
+                Volkswagen has unveiled the new Golf GTI at the Geneva Motor Show. The Volkswagen GTI is equipped with a 220 hp TSI turbocharged petrol engine. The Golf GTI will be available for the first time in a GTI Performance version, with maximum power increased to 230 hp. Both cars have an impressive torque of 350 Nm. The model is available in three color options: Black (black), Tornado Red (red) and Pure White (white).
+                </p>
+              </div>
+            </div>
+            <div className="carousel-item">
+              <img
+                src="https://res.cloudinary.com/courseaspcore/image/upload/v1651574976/pexels-nihat-ka%C5%9F%C4%B1k%C3%A7%C4%B1-6647720_ktitee.jpg"
+                className="d-block w-100 h-50"
+                alt="..."
+              />
+              <div className="carousel-caption d-none d-md-block">
+                <h5>vw beetle</h5>
+                <p>
+                passenger car produced by the German company Volkswagen from 1946 to 2003. It is the most massive car in history produced without revising the basic design. A total of 21,529,464 vehicles were manufactured. One of the best selling cars.
+                </p>
+              </div>
+            </div>
+            <div className="carousel-item">
+              <img
+                src="https://res.cloudinary.com/courseaspcore/image/upload/v1651574977/pexels-oskar-hoke-7559337_i4zz7h.jpg"
+                className="d-block w-100 h-50"
+                alt="..."
+              />
+              <div className="carousel-caption d-none d-md-block">
+              <h5>vw golf 7 r</h5>
+                <p>
+                Volkswagen Golf R (Volkswagen Golf R) - 3 or 5-door hatchback class "C" with permanent all-wheel drive. Sports version of the seventh generation of the Volkswagen Golf. The car premiered at the Los Angeles Auto Show in November 2016.
+                </p>
+              </div>
+            </div>
+          </div>
+          <button
+            className="carousel-control-prev"
+            type="button"
+            data-mdb-target="#carouselExampleCaptions"
+            data-mdb-slide="prev"
+          >
+            <span className="carousel-control-prev-icon" aria-hidden="true" />
+            <span className="visually-hidden">Previous</span>
+          </button>
+          <button
+            className="carousel-control-next"
+            type="button"
+            data-mdb-target="#carouselExampleCaptions"
+            data-mdb-slide="next"
+          >
+            <span className="carousel-control-next-icon" aria-hidden="true" />
+            <span className="visually-hidden">Next</span>
+          </button>
+        </div>
+        <hr className="featurette-divider" />
         <div className="row">
           <div className="col-lg-4">
             <img
-              src="https://res.cloudinary.com/courseaspcore/image/upload/v1649621875/pngegg_4_meireb.png"
+              src="https://res.cloudinary.com/courseaspcore/image/upload/v1651573870/pngegg_7_vykeuo.png"
               width={200}
               height={200}
             />
@@ -88,7 +179,7 @@ function Home() {
             <img
               width={500}
               height={500}
-              src="https://res.cloudinary.com/courseaspcore/image/upload/v1649454002/pngegg_2_qpef96.png"
+              src="https://res.cloudinary.com/courseaspcore/image/upload/v1651578790/pngegg_8_lkc3hv.png"
             />
           </div>
         </div>
@@ -114,10 +205,8 @@ function Home() {
             />
           </div>
         </div>
-
         <hr className="featurette-divider" />
       </div>
-
       <Footer />
     </div>
   );

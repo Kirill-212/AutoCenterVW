@@ -211,7 +211,11 @@ const BuyerListOrder = props => {
     GetOrderList();
   }, []);
 
-  if (empty) return <div>No data</div>;
+  if (empty){ 
+    props.setMesInfo("You do not have ordres")
+    return (
+  <div>
+  </div>)}
 
   return (
     <div className="container-md">

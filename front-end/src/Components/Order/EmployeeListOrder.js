@@ -193,7 +193,11 @@ const EmployeeListOrder = props => {
     GetOrderList();
   }, []);
 
-  if (empty) return <div>No data</div>;
+  if (empty){ 
+    props.setMesInfo("You do not have orders")
+    return (
+  <div>
+  </div>)}
 
   return (
     <div className="container-md">
