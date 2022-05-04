@@ -34,7 +34,7 @@ export class ApiClient {
          * @type {String}
          * @default https://localhost:44308
          */
-    this.basePath = "https://localhost:44308".replace(/\/+$/, "");
+    this.basePath = "https://backendautocentervw.azurewebsites.net".replace(/\/+$/, "");
 
     /**
          * The authentication methods to be included for all API calls.
